@@ -7,20 +7,31 @@ builds, fixtures, and probes; they do not automatically verify the final build.
 
 ## Latest build checkpoint
 
-Current candidate `9ee2c6f5` has a preliminary two-pair streaming frame-cadence
-gain against C4. Both pairs pass all correctness checks. Streaming main-thread
-utilization is mixed. Six-pair confirmation, the 20% task-time target and the
-final original-baseline matrix remain open. Details and complete paired values
-appear below and in [the evidence](evidence/scroll-position-batching-two-pair-1x.json).
+The complete C4-to-batching confirmation passes all twelve samples and verifies
+21,600 ordered updates. It does not confirm the large preliminary gain.
+Streaming main-thread work is flat; p95 frame gaps are mixed. The store-scoped
+batching experiment is removed, while independent detach cancellation remains.
+The 20% task-time target and original-baseline final matrix remain open. See
+[all seventy comparison rows](evidence/rejected-scroll-position-batching-six-pair-1x.json).
 
-The first six-pair confirmation was interrupted after a host restart, with eight
-of twelve samples complete. Its full report and four pending attempts remain
-unchanged; the summary rejects it. Saved-fixture replay now passes 14 unit tests,
-strict lint and both-build full-dataset rehearsals, with 120 ordered updates.
-The isolated E2E type audit matches all 15 baseline errors and adds none. The
-source report and snapshot remain byte-identical, and the new worker is removed.
-A fresh complete six-pair comparison is next. These checks establish harness
-recovery, not a new speed gain. See [the recovery evidence](evidence/fixture-replay-recovery.json).
+The current `9e20f26b` assets keep per-transcript persistence and add guarded
+frame cancellation. Four failures first reproduce stale or duplicate saves;
+all 159 related unit tests then pass. Strict lint, full web types, the production
+build, 35 desktop checks and 17 phone checks pass. Four captures are inspected.
+Reading remains fixed at zero movement, and real PageDown stays within one pixel
+after further growth. This is a correctness fix with no speed claim. Next:
+fresh quiet-stream attribution on the frozen build. See
+[the correction evidence](evidence/transcript-frame-cancellation.json).
+
+Saved-fixture replay passes 14 unit tests, strict lint and both-build full-dataset
+rehearsals, then completes the fresh six-pair confirmation. The earlier
+interrupted series keeps its four pending attempts and remains excluded. The
+isolated E2E type audit matches all 15 baseline errors and adds none. After a
+later host restart interrupts the archive copy, the complete source report and
+Playwright attachment match byte-for-byte. Re-archiving and the full integrity
+audit pass; the original summary reproduces exactly. See
+[replay recovery](evidence/fixture-replay-recovery.json) and
+[the complete confirmation](evidence/rejected-scroll-position-batching-six-pair-1x.json).
 
 The earlier complete package comparison remains valid for its own `44cf53e7`
 build:
@@ -63,24 +74,26 @@ are removed, with exact C4 source and asset restoration. All paired values,
 the patch and rejected build remain preserved. See
 [the rejected experiment](evidence/rejected-transcript-row-references-1x.json).
 
-Further attribution maps 3.59 of 7.84 seconds in sampled store-notification
-stacks to scroll-position persistence. Same-store deferred captures now share
-one publication per frame. Synchronous boundary saves, store isolation,
-reading controls and the generic panel restore remain in place.
+The scroll-position profile motivated a store-scoped publication experiment.
+Its first two pairs passed 7,200 ordered updates and suggested a large frame-gap
+improvement, with mixed main-thread work. Its 187 unit tests, 35 desktop checks,
+17 phone checks, lint, web types and production build passed. Those results
+remain preserved as [preliminary evidence](evidence/scroll-position-batching-two-pair-1x.json).
 
-Two full-density alternating pairs on assets `9ee2c6f5` pass all four samples
-and verify 7,200 ordered updates. Streaming frame-gap p95 falls from 150 ms
-to 66.7 ms and 100 ms; maximum streaming gaps also fall in both pairs.
-Main-thread work per second improves 2.89% in one pair and regresses 2.80%
-in the other. The 20% task-time target remains unmet. Stream observation
-durations vary, so lower per-window script totals do not establish a uniform
-script-rate gain. Idle maximum gaps are mixed.
+The complete six-pair confirmation on the same `9ee2c6f5` assets passes all
+twelve samples and verifies 21,600 ordered updates. Streaming main-thread work
+per second is 0.17% higher by median paired change, with four regressions and
+two improvements. Streaming p95 gaps are 5.53% lower, with three improvements,
+two flat pairs and one regression. Script and renderer CPU time are mixed;
+style and layout durations regress in four pairs. Reduced-motion idle work is
+mixed, and its maximum gap regresses in four pairs. Cold readiness is mixed.
 
-All 187 related unit tests, 35 desktop checks, 17 phone checks, strict lint,
-full web types and production build pass. Four captures are inspected.
-The change is retained for its preliminary frame-cadence result, with a
-six-pair confirmation next. The original-baseline final matrix remains open.
-See [the complete evidence](evidence/scroll-position-batching-two-pair-1x.json).
+The large preliminary gain is not confirmed, and the 20% target remains unmet.
+Remove the shared-store queue and bulk action. Preserve its exact build and
+patch. Keep the separate unfinished-placement cancellation invariant under
+per-producer persistence, then resume attribution. The original-baseline final
+matrix remains open. See
+[every paired measure and the integrity audit](evidence/rejected-scroll-position-batching-six-pair-1x.json).
 
 The current correctness candidate (`c4a426d2`) also restores following when
 native upward movement occurs before its wheel handler and the reader later

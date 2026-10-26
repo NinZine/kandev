@@ -953,28 +953,31 @@ are removed, with exact C4 source and asset restoration. All paired values,
 the patch and rejected build remain preserved. See
 [the rejected experiment](evidence/rejected-transcript-row-references-1x.json).
 
-Further attribution maps 3.59 of 7.84 seconds in sampled store-notification
-stacks to scroll-position persistence. Same-store deferred captures now share
-one publication per frame. Synchronous boundary saves, store isolation,
-reading controls and the generic panel restore remain in place.
+The scroll-position profile motivated a store-scoped publication experiment.
+Its first two pairs passed 7,200 ordered updates and suggested a large frame-gap
+improvement, with mixed main-thread work. Its 187 unit tests, 35 desktop checks,
+17 phone checks, lint, web types and production build passed. Those results
+remain preserved as [preliminary evidence](evidence/scroll-position-batching-two-pair-1x.json).
 
-Two full-density alternating pairs on assets `9ee2c6f5` pass all four samples
-and verify 7,200 ordered updates. Streaming frame-gap p95 falls from 150 ms
-to 66.7 ms and 100 ms; maximum streaming gaps also fall in both pairs.
-Main-thread work per second improves 2.89% in one pair and regresses 2.80%
-in the other. The 20% task-time target remains unmet. Stream observation
-durations vary, so lower per-window script totals do not establish a uniform
-script-rate gain. Idle maximum gaps are mixed.
+The complete six-pair confirmation on the same `9ee2c6f5` assets passes all
+twelve samples and verifies 21,600 ordered updates. Streaming main-thread work
+per second is 0.17% higher by median paired change, with four regressions and
+two improvements. Streaming p95 gaps are 5.53% lower, with three improvements,
+two flat pairs and one regression. Script and renderer CPU time are mixed;
+style and layout durations regress in four pairs. Reduced-motion idle work is
+mixed, and its maximum gap regresses in four pairs. Cold readiness is mixed.
 
-All 187 related unit tests, 35 desktop checks, 17 phone checks, strict lint,
-full web types and production build pass. Four captures are inspected.
-The change is retained for its preliminary frame-cadence result, with a
-six-pair confirmation next. The original-baseline final matrix remains open.
-See [the complete evidence](evidence/scroll-position-batching-two-pair-1x.json).
+The large preliminary gain is not confirmed, and the 20% target remains unmet.
+Remove the shared-store queue and bulk action. Preserve its exact build and
+patch. Keep the separate unfinished-placement cancellation invariant under
+per-producer persistence, then resume attribution. The original-baseline final
+matrix remains open. See
+[every paired measure and the integrity audit](evidence/rejected-scroll-position-batching-six-pair-1x.json).
 
 ## Candidate experiment: store-scoped scroll-position saves
 
-Status: retained after two preliminary pairs; six-pair confirmation is pending.
+Status: rejected after complete six-pair confirmation. The preserved preliminary
+result does not establish the final gain.
 The C4 profile maps
 3,592 ms of its 7,837 ms of sampled store-notification work to
 `setTranscriptScrollTop`. These are overlapping profiler samples, not action
@@ -1000,19 +1003,19 @@ The rejected all-session message batching experiment remains excluded.
 Use tests to prove the publication bound, synchronous flush, isolation,
 cancellation, late callbacks, session replacement and real hide/show behavior.
 Then use the existing full-density native-v2 comparison on frozen builds.
-The owning transcript design now records the per-store queue and its producer
-cleanup boundaries. The existing storage contract and generic restore remain.
+The owning transcript design returns to per-producer persistence and retains
+the unfinished-placement cancellation boundary. The generic restore remains.
 
 Validation: 187 unit tests, 35 desktop checks, 17 phone checks, strict lint,
 full web types and production build pass. Two preliminary native-v2 pairs
 verify 7,200 ordered updates. Streaming frame-gap p95 improves in both pairs,
-while main-thread utilization is mixed. Next: six alternating confirmation
-pairs with the same full density and frozen builds. See
+while main-thread utilization is mixed. The later six-pair series rejects the
+performance experiment. Preserve both results separately. See
 [the evidence](evidence/scroll-position-batching-two-pair-1x.json).
 
 ## Recovery after the confirmation host restart
 
-Status: replay recovery verified; fresh reference confirmation pending.
+Status: replay recovery verified; fresh reference confirmation complete.
 The host restarted after eight completed samples in the
 six-pair confirmation. Its original report retains all twelve planned attempts,
 including four pending attempts. The summary guard rejects it. The original
@@ -1039,5 +1042,33 @@ visible sessions and 120 verified ordered updates across the short rehearsal.
 The current isolated E2E dependency graph has the same 15 errors as HEAD and no
 new errors. The source report, snapshot, production files, assets, helpers,
 lockfiles and packaged fixtures remain unchanged; the new worker is removed.
-Next: start a fresh six-pair reference report with full 60-second windows.
+The fresh six-pair reference report completes all full 60-second windows.
 See [the recovery evidence](evidence/fixture-replay-recovery.json).
+
+
+## Confirmation decision and independent detach cancellation
+
+The complete six-pair confirmation passes all twelve attempts and verifies
+21,600 ordered updates. Main-thread work per second is flat. Streaming p95
+frame gaps improve in three pairs, remain flat in two and regress in one.
+The primary target is unmet, and the preliminary gain is not confirmed.
+Remove store-scoped publication batching and its bulk state action. Preserve
+its exact build, patch and all seventy comparison rows as rejected evidence.
+
+Keep the independent initial-placement detach invariant: an unfinished placement
+must not persist a pending position after its producer detaches. Retain the
+native regression and prove it fails after restoring per-producer persistence.
+Add cancellation to the existing frame coalescer. A cancelled or flushed callback
+must not publish again or consume a replacement frame. Confirmed placements and
+outgoing-session saves must still flush synchronously. Run related units, scoped
+lint, web types, production build, and native desktop/phone checks before delivery.
+This correctness fix has no performance acceptance claim. Continue attribution
+only after the source and assets are frozen again.
+
+Validation complete: four RED failures reproduce stale or duplicate saves, then
+159 related unit tests pass. Strict lint, full web types, production build, all
+35 desktop checks and 17 phone checks pass on assets `9e20f26b`. Four captures
+are inspected. Reader movement remains zero; real PageDown stays within one
+pixel after further growth. The independent fix changes only two production
+files and their tests relative to C4. Next: fresh quiet-stream attribution.
+See [the correction evidence](evidence/transcript-frame-cancellation.json).

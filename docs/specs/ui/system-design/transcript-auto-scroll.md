@@ -107,29 +107,23 @@ scroll state or change the existing per-session disabled-position storage.
 
 ## Scroll-position persistence
 
-Native transcript scroll events defer persistence by one animation frame. The
-frame queue belongs to the app store. Captures from that store share one
-`setTranscriptScrollTops` publication, while each session keeps its existing
-storage key. Different stores have independent queues. Captures read the
-current visible position or the transcript's existing frozen or remembered
-position when the frame runs. When two producers capture the same session,
-the final producer's value wins.
+Each native transcript producer defers its scroll-position capture by one
+animation frame. The capture uses the current visible position or its existing
+frozen or remembered position, then calls the synchronous
+`setTranscriptScrollTop` action with the existing per-session storage key.
+Producers keep independent frame queues.
 
-Each mounted producer owns one pending entry. Cancellation removes only that
-entry. A late cancelled callback cannot consume a new entry or delete a newer
-store queue. A capture failure preserves healthy peers and reports the error.
-An empty queue releases its frame and store entry.
+Cancelling or flushing a queue invalidates its scheduled callback. A late
+callback cannot capture a detached position, consume a replacement frame or
+repeat a synchronous flush. Cancellation drops the pending capture without
+publishing. A later schedule can create a new frame normally.
 
-Initial placement and explicit boundaries keep the synchronous
-`setTranscriptScrollTop` action. Detaching a confirmed placement synchronously
-flushes that producer's current position, including an unscheduled final
-capture, without dropping its peers. Detaching an unconfirmed initial placement
-for the same session cancels its pending capture. Session replacement retains
-the outgoing session's existing final-capture rule.
-
-The queue changes persistence publication only. Message delivery, permissions,
-turn completion, reader intent, native following, and the generic panel offset
-restore retain their current owners and timing.
+Detaching a confirmed placement synchronously flushes its current position,
+including an unscheduled final capture. Detaching an unfinished initial
+placement for the same session cancels its pending capture. Session replacement
+retains the outgoing session's existing final-capture rule. Message delivery,
+permissions, turn completion, reader intent, native following and the generic
+panel offset restore retain their current owners and timing.
 
 ## Environment-change rebuild lifecycle
 

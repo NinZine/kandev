@@ -475,13 +475,9 @@ export const createUISlice: StateCreator<UISlice, [["zustand/immer", never]], []
       setStoredAutoScrollEnabled(sessionId, enabled);
     }),
   setTranscriptScrollTop: (sessionId, scrollTop) =>
-    get().setTranscriptScrollTops([{ sessionId, scrollTop }]),
-  setTranscriptScrollTops: (positions) =>
     set((draft) => {
-      for (const { sessionId, scrollTop } of positions) {
-        draft.transcriptAutoScroll.scrollTopBySessionId[sessionId] = scrollTop;
-        setStoredAutoScrollTop(sessionId, scrollTop);
-      }
+      draft.transcriptAutoScroll.scrollTopBySessionId[sessionId] = scrollTop;
+      setStoredAutoScrollTop(sessionId, scrollTop);
     }),
   setReviewPRSelection: (taskId, selectedKey) =>
     set((draft) => {

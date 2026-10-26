@@ -99,11 +99,6 @@ vi.mock("@/components/state-provider", () => ({
   useAppStoreApi: () => ({
     getState: () => ({
       setTranscriptScrollTop: transcriptScrollTopWrites,
-      setTranscriptScrollTops: (positions: readonly { sessionId: string; scrollTop: number }[]) => {
-        for (const { sessionId, scrollTop } of positions) {
-          transcriptScrollTopWrites(sessionId, scrollTop);
-        }
-      },
       transcriptAutoScroll: {
         scrollTopBySessionId: Object.fromEntries(transcriptScrollTopBySessionId),
       },

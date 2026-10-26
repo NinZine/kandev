@@ -405,7 +405,6 @@ export type AppState = KanbanSlice & {
   setTranscriptAutoScrollEnabled: UIA["setTranscriptAutoScrollEnabled"];
   setDirectoryBrowserShowHidden: UIA["setDirectoryBrowserShowHidden"];
   setTranscriptScrollTop: UIA["setTranscriptScrollTop"];
-  setTranscriptScrollTops: UIA["setTranscriptScrollTops"];
   setReviewPRSelection: UIA["setReviewPRSelection"];
   setActiveDocument: (sessionId: string, doc: UISliceTypes.ActiveDocument | null) => void;
   setSystemHealth: (response: SystemHealthResponse) => void;

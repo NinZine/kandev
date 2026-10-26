@@ -1,0 +1,294 @@
+{
+  "recordedAt": "2026-10-26T23:52:03.703536+00:00",
+  "status": "Correctness fix verified. No speed gain claimed.",
+  "sourceParent": "fbe0125d70074782972e1f40123198e210c9fa7c",
+  "assetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+  "problem": "A pending save from an unfinished initial placement can run after detach and persist an unconfirmed offset. A late callback after a synchronous flush can capture twice.",
+  "behavior": "Keep one frame queue per transcript producer. Cancel unfinished same-session placement on detach. Cancellation and flush invalidate prior callbacks without consuming a replacement frame. Confirmed and outgoing-session positions still flush synchronously.",
+  "batchingDecision": "Store-scoped publication batching and the bulk state action are removed after complete confirmation fails to establish a reliable gain. Its build, patch and all seventy paired rows remain preserved.",
+  "differencesFromC4": {
+    "paths": [
+      "apps/web/components/task/chat/message-list-native-scroll.ts",
+      "apps/web/components/task/chat/message-list-native.test.tsx",
+      "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+      "apps/web/components/task/chat/transcript-auto-scroll.ts"
+    ],
+    "productionFiles": 2,
+    "testFiles": 2,
+    "patch": {
+      "path": "frame-cancel-c4-diff.patch",
+      "sha256": "aa8d654c24cee85f41053b98f8030d8f7f9223f257bfb36a1d55c460f2d1ff71"
+    }
+  },
+  "tdd": {
+    "red": {
+      "recordedAt": "2026-10-26T23:35:45.587865+00:00",
+      "handle": 48251,
+      "exitCode": 1,
+      "passed": 145,
+      "failed": 4,
+      "log": "frame-cancel-red.log",
+      "sourceDirectory": "frame-cancel-red-source",
+      "observedFailure": "An unconfirmed detached transcript saves offset 275. A late flushed callback repeats the save. Cancellation is absent from the existing coalescer."
+    },
+    "redLog": {
+      "path": "frame-cancel-red.log",
+      "sha256": "666abcaaba32a299df39c898e4d1f4763a03cb7ab302743cbfedc6db865cbe63"
+    },
+    "green": {
+      "handle": 39228,
+      "exitCode": 0,
+      "files": 5,
+      "passed": 159,
+      "log": {
+        "path": "frame-cancel-green.log",
+        "sha256": "6445a7a5abac7f30855c0e3ffd00223ef02d4c87666b970473ba5ec8271b49bb"
+      }
+    }
+  },
+  "checks": [
+    {
+      "check": "green",
+      "handle": 39228,
+      "exitCode": 0,
+      "passed": 159,
+      "log": "frame-cancel-green.log",
+      "logSha256": "6445a7a5abac7f30855c0e3ffd00223ef02d4c87666b970473ba5ec8271b49bb"
+    },
+    {
+      "check": "lint",
+      "handle": 42216,
+      "exitCode": 0,
+      "passed": null,
+      "log": "frame-cancel-lint.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "types",
+      "handle": 60778,
+      "exitCode": 0,
+      "passed": null,
+      "log": "frame-cancel-types.log",
+      "logSha256": "369ea74c64e1df20db8b8a6bcf59b9433ca7a9303c5057308182163b3818b5a6"
+    },
+    {
+      "check": "doc-index",
+      "handle": 36423,
+      "exitCode": 0,
+      "passed": null,
+      "log": "frame-cancel-doc-index.log",
+      "logSha256": "de3dbebb4a4c2568943a10235dbe25d955115a22fab384c4de045ecd1c79d2bc"
+    },
+    {
+      "check": "spec-lint",
+      "handle": 36423,
+      "exitCode": 0,
+      "passed": null,
+      "log": "frame-cancel-spec-lint.log",
+      "logSha256": "24ae7e9cee590624a3fb10ce2efa3e6675afbc288672128ed7c19611efecadce"
+    }
+  ],
+  "build": {
+    "recordedAt": "2026-10-26T23:39:43.814Z",
+    "root": "/tmp/kandev-perf-delivery-5936a872",
+    "sourceParent": "fbe0125d70074782972e1f40123198e210c9fa7c",
+    "source": "Per-producer persistence with guarded cancellation. Store-scoped batching removed.",
+    "assetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+    "assetFiles": 1253,
+    "gzipSiblingsVerified": 552,
+    "sourceFiles": [
+      {
+        "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "sha256": "6ce2652db1e4bd74f2a6dc4473e0239155af8816cce3436f6073fbaeb5650b3c"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+        "sha256": "47c9921c4772617fc3fff728a97086c8ee53d8ffd811c40daea4c9b70fe968b0"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+        "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+        "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+      },
+      {
+        "path": "apps/web/lib/state/app-state-types.ts",
+        "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+        "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/types.ts",
+        "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+        "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+      }
+    ],
+    "deletedSourceFiles": [
+      "apps/web/components/task/chat/transcript-scroll-persistence.test.ts",
+      "apps/web/components/task/chat/transcript-scroll-persistence.ts"
+    ],
+    "checks": [
+      {
+        "check": "green",
+        "handle": 39228,
+        "exitCode": 0,
+        "passed": 159,
+        "log": "frame-cancel-green.log",
+        "logSha256": "6445a7a5abac7f30855c0e3ffd00223ef02d4c87666b970473ba5ec8271b49bb"
+      },
+      {
+        "check": "lint",
+        "handle": 42216,
+        "exitCode": 0,
+        "passed": null,
+        "log": "frame-cancel-lint.log",
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "check": "types",
+        "handle": 60778,
+        "exitCode": 0,
+        "passed": null,
+        "log": "frame-cancel-types.log",
+        "logSha256": "369ea74c64e1df20db8b8a6bcf59b9433ca7a9303c5057308182163b3818b5a6"
+      },
+      {
+        "check": "doc-index",
+        "handle": 36423,
+        "exitCode": 0,
+        "passed": null,
+        "log": "frame-cancel-doc-index.log",
+        "logSha256": "de3dbebb4a4c2568943a10235dbe25d955115a22fab384c4de045ecd1c79d2bc"
+      },
+      {
+        "check": "spec-lint",
+        "handle": 36423,
+        "exitCode": 0,
+        "passed": null,
+        "log": "frame-cancel-spec-lint.log",
+        "logSha256": "24ae7e9cee590624a3fb10ce2efa3e6675afbc288672128ed7c19611efecadce"
+      }
+    ],
+    "build": {
+      "handle": 96174,
+      "exitCode": 0
+    },
+    "rejectedBuildPreservedAndVerified": true,
+    "rejectedAssetsSha256": "9ee2c6f56e71f44c954ac3bbdceef93829c445c53cd99cb4ac17c10a910f6d21",
+    "speedGain": "Unmeasured. Correctness fix; full streaming task-time target remains open."
+  },
+  "desktop": {
+    "recordedAt": "2026-10-26T23:48:07.878775+00:00",
+    "name": "frame-cancel-desktop",
+    "project": "chromium",
+    "handle": 18127,
+    "exitCode": 0,
+    "expectedChecks": 35,
+    "passed": 35,
+    "lastRun": {
+      "status": "passed",
+      "failedTests": []
+    },
+    "log": {
+      "path": "frame-cancel-desktop-logs/kandev-run.e2e.bmOKmJmn.log",
+      "sha256": "58760f084f62b7d112ded6bdaba181f4fc70e41db2842792c2000168f12fd0da"
+    },
+    "artifacts": "frame-cancel-desktop-results",
+    "ledgers": [
+      {
+        "path": "frame-cancel-desktop-results/chat-native-upward-intent--d10b1-sition-through-later-growth-chromium/queued-upward-reading.json",
+        "before": {
+          "top": 2096,
+          "height": 2580
+        },
+        "heldTop": 1936,
+        "heldHeight": 2636,
+        "final": {
+          "top": 1936,
+          "height": 2691
+        },
+        "maximumAbsoluteMovementPx": 0,
+        "sampleCount": 24
+      }
+    ],
+    "readingReturnLedgers": [
+      {
+        "path": "frame-cancel-desktop-results/chat-native-upward-intent--c061a--precedes-its-wheel-handler-chromium/native-reading-return.json",
+        "heldMaximumMovementPx": 0,
+        "realPageDownReachedGapPx": 0,
+        "gapAfterFurtherGrowthPx": 1,
+        "samplesAfterReturn": 24
+      }
+    ],
+    "fixtureRoots": [
+      "/tmp/kandev-e2e-0-j3wO5g"
+    ],
+    "fixtureRootsRemoved": true,
+    "assetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa"
+  },
+  "phone": {
+    "recordedAt": "2026-10-26T23:51:32.076321+00:00",
+    "name": "frame-cancel-phone",
+    "project": "mobile-chrome",
+    "handle": 67866,
+    "exitCode": 0,
+    "expectedChecks": 17,
+    "passed": 17,
+    "lastRun": {
+      "status": "passed",
+      "failedTests": []
+    },
+    "log": {
+      "path": "frame-cancel-phone-logs/kandev-run.e2e.UQazZdQv.log",
+      "sha256": "fff850e193344a97de0abe3d5acb1270f2d5b1fa5a91b0a5b06019106641789f"
+    },
+    "artifacts": "frame-cancel-phone-results",
+    "ledgers": [],
+    "readingReturnLedgers": [],
+    "fixtureRoots": [
+      "/tmp/kandev-e2e-0-ZLNOMS"
+    ],
+    "fixtureRootsRemoved": true,
+    "assetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa"
+  },
+  "visualChecks": {
+    "recordedAt": "2026-10-26T23:52:03.619446+00:00",
+    "assetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+    "captures": [
+      {
+        "path": "frame-cancel-desktop-results/layout-saved-layout-arrang-3c514-s-and-preserves-both-drafts-chromium/restored-3-columns.png",
+        "sha256": "84ff8497142fa46e29fe447d6970f4b91058ffc3f389787e78c56694fc96ff84",
+        "review": "Viewed. File, chat, Changes and terminal panels retain their saved arrangement; the draft and tested controls are visible."
+      },
+      {
+        "path": "frame-cancel-desktop-results/task-threads-composer-disc-22cd1-d-answers-usable-in-Columns-chromium/question-wheel-columns.png",
+        "sha256": "79e67928c25843adc12ebed4f8c99972a00c87c3ac30ae769af6a8cca80b87b3",
+        "review": "Viewed. Neighboring chats, required-question choices and composer controls remain visible in Columns."
+      },
+      {
+        "path": "frame-cancel-phone-results/task-mobile-threads-compos-3bf33-ough-single-chat-navigation-mobile-chrome/phone-visible-composer-short-height.png",
+        "sha256": "00e722527b49f3771e059a571b609fb99ed7ff8dfbca06b82af97dec067f7e01",
+        "review": "Viewed. The composer, model, attachment and cancellation controls remain on the short phone screen."
+      },
+      {
+        "path": "frame-cancel-phone-results/task-mobile-threads-compos-d673a--question-by-touch-Pixel-5--mobile-chrome/phone-long-question-before.png",
+        "sha256": "8352939c8b21249e5d3df33b7a0764f412f067d3024bacdb8958819a09c1e2b3",
+        "review": "Viewed. The question header and steps are visible; choices use a bounded scroll area above the composer. Touch checks verify the choices below the fold."
+      }
+    ],
+    "limits": "Visual inspection of four captures, not pixel-diff proof or a performance measurement."
+  },
+  "limits": [
+    "Correctness checks are not dense-workbench timing evidence.",
+    "No markup, CSS, copy, animation duration or message-delivery change.",
+    "No original-baseline final-matrix, M2 Air, INP, battery or heap-retention acceptance."
+  ],
+  "next": "Commit and push this verified correction, then run fresh quiet-stream CPU attribution on frozen assets."
+}
