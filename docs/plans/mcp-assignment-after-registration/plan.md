@@ -678,3 +678,35 @@ Orchestrator preview model/session/override race tests also passed. Full web
 typecheck, affected ESLint and catalog/spec validation passed. The feature
 contract and rendered MCP UI are unchanged; normal hooks and the replacement
 head's exact CI/review result remain publication evidence.
+
+
+## Main conflict reconciliation (2026-10-26)
+
+Main advanced to `5a0e976d4842a5344cd5d099618898c7769e2634`, including
+Quick Chat draft restoration and Codex throttle recovery. Backup
+`backup/clarify-mcp-assignment-before-main-5a0-20261026` preserves the old
+published assignment head `2a0c8500e9a780a3b53b7390053453c9d47fdf8c` for the
+dependent exclusions rebase. Only the 15 assignment commits after the previous
+base `fb4c6f19c00facd063b998008193dba2600c5a89` were replayed onto this main.
+Conditional-write WO01 now maps from `608362f6d` to `ea7885cd9`, with an
+unchanged API, locking and retry contract.
+
+The sole conflict was the mobile Stats recovery fixture. It keeps upstream's
+300-second server backoff and our assertion that no automatic second request
+occurred before the explicit Retry action. This changes no locator timeout or
+production behavior. The range-diff is otherwise unchanged. Existing MCP UI
+captures remain valid; no rendered MCP code changed in this reconciliation.
+
+The focused frontend suite passed 100 tests in nine files, including Tiptap
+draft restoration and MCP selection, registration, target and focus hooks.
+Full web typecheck, affected ESLint, catalog/spec and public-doc validation
+passed. Race-enabled Codex classification, mock-provider and orchestrator
+retry scopes passed. A fresh managed build passed all 15 focused phone checks
+with one worker and zero retries, including the resolved Stats scenario,
+Quick Chat/Codex recovery, MCP assignment/save recovery and bound-session
+workflow preview. The desktop
+follow-up passed all 20 checks with one worker and zero retries, including
+file search, MCP assignment/save recovery, Quick Chat draft recovery and Codex
+retry/cancellation. Normal commit hooks are required for this ledger commit.
+The replacement head requires fresh CI and bot review evidence; the old head's
+queued aggregate is not a passing result.
