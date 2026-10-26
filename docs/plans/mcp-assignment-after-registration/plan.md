@@ -588,3 +588,38 @@ repetitions with the suite retry override disabled. No branch-picker code or
 assertion was changed. The failed E2E jobs were requested once more at that
 same head. Their outcome and the next published head's checks are delivery
 evidence, not an assertion that the initial run passed.
+
+## Main integration and selector diagnostics (2026-10-26)
+
+Main advanced again to `6a1a2ae10003c6bccc754ab144c6035ac38158d1`, containing
+attached-repository worktree placement. The task's 13 commits were replayed
+without conflicts, and every range-diff entry was unchanged. Backup
+`backup/clarify-mcp-assignment-before-review-rebase-20261026` preserves the old
+cleanup tip. Conditional-write WO01 maps from `523de156803f9db4ff2711579e2d9e59aea2e1ce`
+to `d1cd10ec24cf753cc513860b7153aee122850ac4`. The published cut point for
+dependent branches remains `70f87d3ccd4b298a9ce2b830fb88373f2c2717db` until
+this task's replacement head is published. The selection protocol is unchanged.
+
+A fresh managed build passed all eight desktop branch-split and task-recovery
+cases with suite retries disabled. After an interrupted test process, the
+remaining backendapp and worktree race scopes were rerun to completion. Both
+passed, including all three persisted-attachment placement/rollback/retry
+tests. MCP configuration and settings-handler race scopes had already passed
+on the same integrated source. PostgreSQL-only placement cases were skipped
+without a configured PostgreSQL test database.
+
+The old-head shard-11 retry failed in a different selector case: choosing an
+executor profile before task submission. Both CI logs show an option detached
+while Playwright waited for it to become stable. Six further exact-case runs
+passed locally. Controlled opening/closing animation variations also passed;
+those temporary probes were removed. No selector behavior, timeout or
+assertion was changed. This file now retains first-attempt failure traces:
+the previous artifact contained only a successful retry trace. The original
+14-file CI process group completed with 34 passes, including every selector
+case, and two setup failures before assertions (readiness timeout and seed
+workspace 404). The desktop setup case passed in isolation on an explicit
+port block. The phone focus replay exposed missing native Chromium libraries;
+after adding already-installed Nix libraries to that process's library path,
+it passed. Phone MCP recovery also passed on the integrated build. These local
+environment adjustments change no repository dependencies or product code.
+Fresh CI on the replacement head remains a delivery gate.

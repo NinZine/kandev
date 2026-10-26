@@ -36,6 +36,7 @@ import { makeGitEnv } from "../../helpers/git-helper";
 
 // Exercises the regular task-create dialog (New Task in the sidebar); run with office off.
 useRegularMode();
+test.use({ trace: "retain-on-failure" });
 
 test.describe("Local executor branch split", () => {
   test.describe.configure({ retries: 1 });
