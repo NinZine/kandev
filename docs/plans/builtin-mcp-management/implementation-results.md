@@ -117,3 +117,74 @@ resolved in the completed WO02 implementation. The passing prompt-producer run
 covered sysprompt, MCP server, orchestrator executor, orchestrator and task
 handlers (`/tmp/kandev-builtin-prompt-producers-green.log`). The earlier partial
 publication checkpoint is historical; it does not describe remaining work.
+
+## CI repair: 26 October 2026
+
+The failed checks on `6119a3436d13e156f41e406686f8d9576785dd21`
+exposed runtime admission gaps and outdated test fixtures. The branch integrates
+verified main `6a1a2ae10003c6bccc754ab144c6035ac38158d1`; the merge preserves
+both built-in package controls and the new catalog Usage presentation. A backup
+ref preserves the previous task head. An unrelated corrupt shared Git ref
+prevented fetch connectivity verification; the main tip and its complete object
+closure were verified separately, without changing that ref.
+
+Runtime repairs cover these boundaries:
+
+- The message-route wrapper forwards built-in intent and prompt preparation.
+- Prepared-workspace starts bind packages before process admission, including
+  the fast path that does not call lifecycle Launch again. Failed preparation
+  prevents the start.
+- Fresh workspace helpers discard the previous process binding. Retained helpers
+  verify their original binding and do not overwrite it with desired policy.
+- Helper creation preserves whether an agent command was explicit or inherited.
+  An inherited default does not block initial binding. Explicit configuration,
+  prior managed process use, and prior passthrough generations still reject it.
+
+Each runtime defect has a failing regression before its production correction.
+The explorer tests now supply the production state provider. Optional-tool mock
+calls use their actual package server names. Automation fixtures record their
+owner before launch; workflow controls are scoped to the active chat. The shared
+sidebar fixture waits for durable archive cleanup before unarchive.
+
+The first browser reruns were diagnostic: 18 passed and 4 failed, then 26 passed
+and 3 failed. They identified the additional prepared-workspace admission path
+and the archive fixture race. They are not final verification receipts.
+
+The final affected Go lint run reports zero issues. Race-enabled helper
+config/instance/process tests and lifecycle/executor/backendapp admission tests
+pass. The explorer/management tests pass (22 tests), as do the related state and
+selection tests (14 tests). Full web typecheck, affected ESLint, localization,
+architecture, documentation catalog, and specification checks pass.
+
+The rebuilt desktop run passes all 15 cases in 2.3 minutes, including restart
+with a queued direct message, walkthrough requests and live replacement,
+prevent-auto-start, and sidebar archive/unarchive state:
+
+```bash
+pnpm --dir apps/web e2e:run --project chromium \
+  tests/session/session-resume-turn-start.spec.ts \
+  tests/review/walkthrough.spec.ts \
+  tests/task/sidebar-shared-state.spec.ts \
+  tests/settings/prevent-auto-start-on-open.spec.ts -- --retries=0
+```
+
+Local receipts are `/tmp/kandev-4762-helper-race.log`,
+`/tmp/kandev-4762-prepared-start-race.log`,
+`/tmp/kandev-4762-go-lint-final.log`, and
+`/tmp/kandev-4762-desktop-final.log`. Browser runs use command-local host library
+paths and isolated backend ports. No full suite runs overlap.
+
+The final phone run passes all 25 cases in 3.6 minutes. It covers Rich Output
+image/file/replay views, automation detail and exact-run stop, Walkthrough touch
+navigation and requests, messages during restart with Auto-run on/off, and
+shared sidebar archive/unarchive state. Receipt:
+`/tmp/kandev-4762-mobile-final.log`.
+
+```bash
+pnpm --dir apps/web e2e:run --project mobile-chrome \
+  tests/review/mobile-walkthrough.spec.ts \
+  tests/chat/mobile-rich-output.spec.ts \
+  tests/session/mobile-session-resume-turn-start.spec.ts \
+  tests/mobile-automation-detail.spec.ts \
+  tests/task/mobile-sidebar-shared-state.spec.ts -- --retries=0
+```

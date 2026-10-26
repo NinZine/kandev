@@ -114,6 +114,9 @@ const processStderrDrainTimeout = time.Second
 
 // Manager manages the agent subprocess
 type Manager struct {
+	questionImageWorkDir     string
+	questionImageOnce        sync.Once
+	questionImageSlots       chan struct{}
 	cfg                      *config.InstanceConfig
 	builtinCatalogMu         sync.RWMutex
 	builtinCatalog           func() map[mcpprofile.PackageID][]string
@@ -438,6 +441,7 @@ func (m *Manager) BeginStop() {
 
 // NewManager creates a new process manager
 func NewManager(cfg *config.InstanceConfig, log *logger.Logger) *Manager {
+	imageWorkDir, _ := filepath.EvalSymlinks(cfg.WorkDir)
 	cfg.WorkDir = resolveExistingWorkDir(cfg.WorkDir, log.WithFields(zap.String("component", "process-manager")))
 	updatesChannelCapacity := cfg.DetachedEventLimit
 	if updatesChannelCapacity <= 0 {
@@ -445,6 +449,7 @@ func NewManager(cfg *config.InstanceConfig, log *logger.Logger) *Manager {
 	}
 	lifetimeCtx, lifetimeCancel := context.WithCancel(context.Background())
 	m := &Manager{
+		questionImageWorkDir:       imageWorkDir,
 		cfg:                        cfg,
 		logger:                     log.WithFields(zap.String("component", "process-manager")),
 		managedGitTools:            installedManagedGitToolsFromEnvironment(cfg.AgentEnv),
@@ -2316,6 +2321,7 @@ func (m *Manager) configure(command string, agentArgs []string, agentArgsPresent
 	}
 
 	m.cfg.AgentCommand = command
+	m.cfg.AgentCommandConfigured = true
 	m.cfg.AgentArgs = args
 	m.cfg.LaunchWrapper = launchwrapper.Profile(spec.Argv)
 	m.cfg.LaunchWrapperRequired = !spec.IsZero()

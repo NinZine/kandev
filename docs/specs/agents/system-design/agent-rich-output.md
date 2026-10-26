@@ -10,9 +10,8 @@ requirements:
 
 ## Purpose and boundaries
 
-The replacement baseline and structured evidence extension are implemented.
-The 2026-10-10 evidence package adds Table, StatusList and Callout while
-preserving existing component and historical contracts.
+The implemented evidence extension adds Table, StatusList and Callout and
+preserves existing component and historical contracts.
 
 Replace the fixed rich-output composition engine with json-render and expose
 catalog composition to agents through `show_rich_output_kandev`. Agents owns
@@ -567,6 +566,8 @@ The published APIs include `defineCatalog`, `catalog.validate`,
 - [Original native trust and persistence boundary](../../../decisions/2026-08-14-kandev-native-agent-rich-output.md)
 
 ## Implementation records
+
+- [Copilot rich-output identity repair](../../../plans/copilot-rich-output-identity/plan.md)
 
 - [CSV header BOM repair](../../../plans/rich-output-csv-header-bom/plan.md)
 - [Structured evidence extension](../../../plans/rich-output-evidence-components/plan.md)
