@@ -886,3 +886,25 @@ reject mixed modes or missing proof. All RED and intermediate failures remain
 retained. Both short caller runs preserve source and application identities;
 their disposable roots are removed with no remaining owned process. The next
 step is the full reference matrix on the current production build.
+
+## Full-reference v2 Grid result
+
+The first full-reference v2 Grid comparison on `44cf53e7` completes all
+12 attempts and six alternating pairs, verifying 21,600 ordered updates.
+Source, assets, runtime helpers, file state, all 12 backend logs and cleanup
+pass the integrity audit. Both builds retain 100 loaded messages in each of
+six visible sessions; the candidate does not render a smaller view.
+
+Normal streaming is still slower. Main-thread work per second rises 3.4%,
+script time rises 55.6%, and p95 frame gaps rise 59.8% by median paired change;
+all six pairs regress on those measures. Median p95 grows from 83.4 to
+141.7 ms. The 20% task-time target remains unmet. History requests fall 90.6%
+and resets fall to zero in every pair. Reduced-motion idle main-thread work
+falls 61.2% and renderer CPU falls 53.2% in every pair. These improvements do
+not establish a normal-streaming responsiveness gain.
+
+Cold encoded asset bytes fall 77.6%, while readiness remains mixed across
+three improving and three regressing pairs. Normal idle work also regresses
+slightly. The next step is fresh JavaScript attribution for the streaming
+regression. The other 19 matrix cases remain open. See
+[the complete paired results](evidence/final44cf-grid-six-pair-1x.json).
