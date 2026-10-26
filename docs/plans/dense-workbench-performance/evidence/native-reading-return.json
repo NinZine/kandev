@@ -1,0 +1,254 @@
+{
+  "status": "Verified scroll return correction; streaming performance regression remains open",
+  "recordedAt": "2026-10-26T12:23:37.050330+00:00",
+  "taskId": "bacce745-f09d-4752-a4d4-6ddc7d5a1225",
+  "sessionId": "5936a872-e574-45fb-b153-4e8d34a6e7bf",
+  "requirement": "AC-UI-TRANSCRIPT-AUTO-SCROLL-001.20",
+  "sourceParent": "d3c0dd0e4063e5c1a83e2362e8c6d70fe8bf7f14",
+  "beforeAssets": "44cf53e748355040d55feadf95c87546dcc2bb72d3b061b914226e2c8cb5fdaf",
+  "afterAssets": "c4a426d266695eff7d361531f1932f7e24c2e91383d11ce79ebf0b25ee36b420",
+  "trigger": "Native upward movement can precede a passive wheel handler. The pending origin then equals the reading position and incorrectly blocks a later return to the bottom.",
+  "change": "Preserve pending upward intent only while geometry still reports the old bottom edge. Clear the pending origin after an away-from-bottom observation, keep reading paused, and resume following on a later native return to the edge.",
+  "appearance": "No markup, CSS, visible copy, dependencies, timers or recurring RAF changes.",
+  "unit": {
+    "red": {
+      "recordedAt": "2026-10-26T11:58:37.389277+00:00",
+      "handle": 79316,
+      "exitCode": 1,
+      "failed": 1,
+      "skipped": 109,
+      "assertion": "Expected bottom follow write2147483647 after native-style return; actual621",
+      "source": [
+        {
+          "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+          "sha256": "d5ea357e96e7e04134e4101e0c3e9ec78f3555bb853621d68b608e25154e0225"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+          "sha256": "afa8c0add966e6d4c250f3071fcdb311a438cda66b8942f8d5c30cc62760cc3b"
+        }
+      ],
+      "productionSourceUnchanged": true
+    },
+    "focusedGreen": {
+      "handle": 76422,
+      "exitCode": 0,
+      "passed": 5
+    },
+    "related": {
+      "handle": 45772,
+      "exitCode": 0,
+      "passed": 137
+    }
+  },
+  "browser": {
+    "scope": "The initial already-moved wheel order is a controlled replay. The subsequent PageDown input is real browser keyboard input. This is correctness evidence, not a performance estimate.",
+    "red": {
+      "recordedAt": "2026-10-26T12:00:13.612053+00:00",
+      "handle": 23271,
+      "exitCode": 1,
+      "failed": 1,
+      "testedAssets": "44cf53e748355040d55feadf95c87546dcc2bb72d3b061b914226e2c8cb5fdaf",
+      "productionSourceUnchanged": true,
+      "heldMaximumMovementPx": 0,
+      "realPageDownReachedGapPx": 0,
+      "gapAfterFurtherGrowthPx": 55,
+      "samplesAfterReturn": 24,
+      "source": [
+        {
+          "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+          "sha256": "d5ea357e96e7e04134e4101e0c3e9ec78f3555bb853621d68b608e25154e0225"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+          "sha256": "2b521e1c7bbbeab303d780286cfb729aa492151988e2618f4355c19cd0ed1207"
+        },
+        {
+          "path": "apps/web/e2e/tests/chat/native-upward-intent.spec.ts",
+          "sha256": "579f2e224b2997b9383994c6f5832e4bb3f66ba6520b8cabe53bf41a10996980"
+        }
+      ]
+    },
+    "green": {
+      "path": "reading-return-desktop-results/chat-native-upward-intent--c061a--precedes-its-wheel-handler-chromium/native-reading-return.json",
+      "heldMaximumMovementPx": 0,
+      "realPageDownReachedGapPx": 0,
+      "gapAfterFurtherGrowthPx": 1,
+      "samplesAfterReturn": 24
+    },
+    "queuedUpwardReading": {
+      "path": "reading-return-desktop-results/chat-native-upward-intent--d10b1-sition-through-later-growth-chromium/queued-upward-reading.json",
+      "before": {
+        "top": 2096,
+        "height": 2580
+      },
+      "heldTop": 1936,
+      "heldHeight": 2636,
+      "final": {
+        "top": 1936,
+        "height": 2691
+      },
+      "maximumAbsoluteMovementPx": 0,
+      "sampleCount": 24
+    }
+  },
+  "build": {
+    "recordedAt": "2026-10-26T12:03:52.487Z",
+    "root": "/tmp/kandev-perf-delivery-5936a872",
+    "sourceParent": "d3c0dd0e4063e5c1a83e2362e8c6d70fe8bf7f14",
+    "source": "Uncommitted post-input return guard correction",
+    "assetsSha256": "c4a426d266695eff7d361531f1932f7e24c2e91383d11ce79ebf0b25ee36b420",
+    "assetFiles": 1253,
+    "gzipSiblingsVerified": 552,
+    "privateBenchmarkMarkers": 0,
+    "sourceFiles": [
+      {
+        "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "sha256": "063f91085f98faba523a801225b08c18048f5bbabc7fd2c976663a2d49db7a3f"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+        "sha256": "2b521e1c7bbbeab303d780286cfb729aa492151988e2618f4355c19cd0ed1207"
+      },
+      {
+        "path": "apps/web/e2e/tests/chat/native-upward-intent.spec.ts",
+        "sha256": "579f2e224b2997b9383994c6f5832e4bb3f66ba6520b8cabe53bf41a10996980"
+      }
+    ],
+    "buildAndLintAndWebTypecheck": {
+      "handle": 40163,
+      "exitCode": 0
+    },
+    "units": {
+      "handle": 45772,
+      "exitCode": 0,
+      "passed": 137
+    },
+    "focusedUnits": {
+      "handle": 76422,
+      "exitCode": 0,
+      "passed": 5
+    }
+  },
+  "qa": [
+    {
+      "recordedAt": "2026-10-26T12:11:04.607411+00:00",
+      "name": "reading-return-desktop",
+      "project": "chromium",
+      "handle": 55703,
+      "exitCode": 0,
+      "expectedChecks": 35,
+      "passed": 35,
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": {
+        "path": "reading-return-desktop-logs/kandev-run.e2e.3dgIz7SJ.log",
+        "sha256": "512a7ca7aba7d5055dd6d551777fd1f6e836c914a81b38a0ba872b85946b09ae"
+      },
+      "artifacts": "reading-return-desktop-results",
+      "ledgers": [
+        {
+          "path": "reading-return-desktop-results/chat-native-upward-intent--d10b1-sition-through-later-growth-chromium/queued-upward-reading.json",
+          "before": {
+            "top": 2096,
+            "height": 2580
+          },
+          "heldTop": 1936,
+          "heldHeight": 2636,
+          "final": {
+            "top": 1936,
+            "height": 2691
+          },
+          "maximumAbsoluteMovementPx": 0,
+          "sampleCount": 24
+        }
+      ],
+      "readingReturnLedgers": [
+        {
+          "path": "reading-return-desktop-results/chat-native-upward-intent--c061a--precedes-its-wheel-handler-chromium/native-reading-return.json",
+          "heldMaximumMovementPx": 0,
+          "realPageDownReachedGapPx": 0,
+          "gapAfterFurtherGrowthPx": 1,
+          "samplesAfterReturn": 24
+        }
+      ],
+      "fixtureRoots": [
+        "/tmp/kandev-e2e-0-M3ukz3"
+      ],
+      "fixtureRootsRemoved": true,
+      "assetsSha256": "c4a426d266695eff7d361531f1932f7e24c2e91383d11ce79ebf0b25ee36b420"
+    },
+    {
+      "recordedAt": "2026-10-26T12:19:46.332402+00:00",
+      "name": "reading-return-phone",
+      "project": "mobile-chrome",
+      "handle": 49514,
+      "exitCode": 0,
+      "expectedChecks": 17,
+      "passed": 17,
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": {
+        "path": "reading-return-phone-logs/kandev-run.e2e.HEWjfwql.log",
+        "sha256": "acebfdbf18c62dfa418fdf78311172dee03c72b33545f053e5c6c837789229d2"
+      },
+      "artifacts": "reading-return-phone-results",
+      "ledgers": [],
+      "readingReturnLedgers": [],
+      "fixtureRoots": [
+        "/tmp/kandev-e2e-0-xvQzY0"
+      ],
+      "fixtureRootsRemoved": true,
+      "assetsSha256": "c4a426d266695eff7d361531f1932f7e24c2e91383d11ce79ebf0b25ee36b420"
+    }
+  ],
+  "visualChecks": [
+    {
+      "recordedAt": "2026-10-26T12:09:53.654401+00:00",
+      "scope": "Two desktop captures visually inspected; no new layout or clipping issue. The change adds no markup, styles or copy. Motion behavior has separate browser assertions.",
+      "captures": [
+        {
+          "path": "/tmp/kandev-perf-delivery-5936a872/apps/web/e2e/test-results/chat-chat-motion-chat-moti-4d9d0-and-persists-on-this-device-chromium/chat-motion-settings-desktop.png",
+          "sha256": "f140762e8568b172922a88d5dea25ab3d3e714f0be1ef17ff5b8de44a3a2d06d"
+        },
+        {
+          "path": "/tmp/kandev-perf-delivery-5936a872/apps/web/e2e/test-results/chat-chat-motion-live-pros-fdceb--reduced-motion-stay-static-chromium/chat-motion-desktop.png",
+          "sha256": "bd3dd6dcbae54c8fa8664eeb36ba9bc02e9b0d3452069acac2631207cce43a53"
+        }
+      ]
+    },
+    {
+      "recordedAt": "2026-10-26T12:23:37.050330+00:00",
+      "scope": "Two phone captures inspected. Transcript, composer, navigation and appearance setting show no new layout or clipping change. Motion behavior is checked separately by browser assertions.",
+      "captures": [
+        {
+          "path": ".kandev/diagnostics/dense-workbench-performance/reading-return-phone-results/chat-mobile-chat-motion-li-c9d0c--reduced-motion-stay-static-mobile-chrome/chat-motion-phone.png",
+          "sha256": "ed5be77e741972c22f1046e42423524e1d8c225d0db467f0ef183a6e017ef44b"
+        },
+        {
+          "path": ".kandev/diagnostics/dense-workbench-performance/reading-return-phone-results/chat-mobile-chat-motion-ch-a87bc-and-persists-on-this-device-mobile-chrome/chat-motion-settings-phone.png",
+          "sha256": "b22d9fb248470313aaa1c9f83b1cf966aae9be45b3f61539a9da657431d166fd"
+        }
+      ]
+    }
+  ],
+  "cleanup": {
+    "ownedFixtureRootsRemoved": true,
+    "ownedProcesses": []
+  },
+  "performance": {
+    "latestPrimary": "final44cf-grid-six-pair-1x.json",
+    "streamingMainThreadMedianPairedIncreasePercent": 3.426,
+    "streamingFrameGapP95MedianPairedIncreasePercent": 59.832,
+    "conclusion": "The correction has no timing result. Fresh streaming CPU attribution is next. The final matrix and 20 percent streaming task-time target remain open."
+  },
+  "limits": [
+    "Linux Chromium results do not establish M2 Air, INP, battery or memory-leak results.",
+    "Historical 44cf timings apply only to their recorded build; the new C4 asset tree needs its own final comparison.",
+    "The earlier optional isolated E2E type audit retains six errors in unchanged helpers. The normal full web typecheck passes for this correction."
+  ]
+}

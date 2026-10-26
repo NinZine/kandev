@@ -2455,6 +2455,36 @@ describe("useScrollToDividerOrBottom — anchored-bar offset", () => {
     expect(metrics.scrollTop).toBe(2_147_483_647);
   });
 
+  it("resumes at bottom when native upward movement precedes its wheel handler", () => {
+    const metrics = { scrollHeight: 1000, scrollTop: 600, clientHeight: 400 };
+    const props = {
+      isWorking: false,
+      hasUnreadDivider: false,
+      metrics,
+      sessionId: "reading-session",
+    };
+    const view = render(<AutoScrollHarness {...props} />);
+    const element = screen.getByTestId(AUTO_SCROLL_CONTAINER_TEST_ID);
+    act(() => {
+      metrics.scrollTop = 440;
+      element.dispatchEvent(new WheelEvent("wheel", { deltaY: -160 }));
+      element.dispatchEvent(new Event("scroll"));
+    });
+    metrics.scrollHeight = 1021;
+    view.rerender(<AutoScrollHarness {...props} messages={[...TEST_MESSAGES, {} as Message]} />);
+    expect(metrics.scrollTop).toBe(440);
+    act(() => {
+      element.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown", bubbles: true }));
+      metrics.scrollTop = 621;
+      element.dispatchEvent(new Event("scroll"));
+    });
+    metrics.scrollHeight = 1042;
+    view.rerender(
+      <AutoScrollHarness {...props} messages={[...TEST_MESSAGES, {} as Message, {} as Message]} />,
+    );
+    expect(metrics.scrollTop).toBe(2_147_483_647);
+  });
+
   it("lets keyboard End supersede pending upward intent", () => {
     const metrics = { scrollHeight: 1000, scrollTop: 600, clientHeight: 400 };
     const props = {

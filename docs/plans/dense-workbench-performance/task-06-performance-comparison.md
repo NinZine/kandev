@@ -908,3 +908,25 @@ three improving and three regressing pairs. Normal idle work also regresses
 slightly. The next step is fresh JavaScript attribution for the streaming
 regression. The other 19 matrix cases remain open. See
 [the complete paired results](evidence/final44cf-grid-six-pair-1x.json).
+
+## Native movement before the wheel handler
+
+The latest correctness build (`c4a426d2`) covers another observed input order:
+native upward movement can occur before the passive wheel handler reads the
+offset. The pending origin could then remain active through a later keyboard
+return to the bottom. The repair clears that origin once geometry is visibly
+away from the edge, while keeping reading paused until a later native return.
+
+The new unit case fails before the repair. In real Chromium, controlled replay
+of the initial order holds reading; actual PageDown reaches the bottom, but
+the old app falls 55 pixels behind after further content. The corrected app
+stays within 1 pixel across 24 frames, and the earlier queued-scroll replay
+still holds reading with zero movement. All 137 related unit tests, 35 desktop
+checks, 17 phone checks, strict scoped lint, full web types and production build
+pass. Two desktop and two phone captures are inspected. Disposable instances
+are removed and no owned process remains. See
+[the correction evidence](evidence/native-reading-return.json).
+
+These are correctness results. The six-pair `44cf53e7` streaming regression
+remains recorded above. Fresh JavaScript attribution on the corrected frozen
+build is next; the final matrix and 20% task-time target remain open.

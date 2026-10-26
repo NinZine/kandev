@@ -48,14 +48,20 @@ slightly. The next step is fresh JavaScript attribution for the streaming
 regression. The other 19 matrix cases remain open. See
 [the complete paired results](evidence/final44cf-grid-six-pair-1x.json).
 
-The current uninstrumented correctness candidate (`44cf53e7`) preserves
-upward reading when a queued old-edge scroll precedes native movement. The
-controlled Chromium replay changes a 270-pixel jump to zero movement across
-24 frames. All 136 related unit tests, 34 desktop checks, 17 phone checks,
-strict scoped lint, the full web typecheck, and the production build pass.
-The optional isolated E2E type audit still reports six errors in unchanged
-fixtures/helpers; its complete failed logs are retained. See
-[the repair evidence](evidence/native-upward-intent.json).
+The current correctness candidate (`c4a426d2`) also restores following when
+native upward movement occurs before its wheel handler and the reader later
+returns to the bottom. The before-fix browser reaches the bottom with real
+PageDown input, then falls 55 pixels behind after more content. The corrected
+build stays within 1 pixel across the same 24 frames. All 137 related unit
+tests, 35 desktop checks, 17 phone checks, strict scoped lint, the full web
+typecheck, and the production build pass. Desktop and phone captures are
+inspected. No markup, styles, visible copy or animation loop changes.
+See [the correction evidence](evidence/native-reading-return.json).
+
+This correctness correction has no timing result. The complete `44cf53e7`
+comparison above remains valid for its own recorded build, and its streaming
+regression remains open. The earlier optional isolated E2E type audit retains
+six errors in unchanged helpers; the normal full web typecheck passes.
 
 The final dense matrix is still open for this build. The distinct v2 input
 protocol now passes 14 browser and 23 Node checks plus both-build Grid and

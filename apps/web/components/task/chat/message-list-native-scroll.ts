@@ -674,20 +674,22 @@ function useFollowIntent({
   const resyncIsNearBottom = useCallback(() => {
     const el = scrollRef.current;
     if (!el || !isVisibleRef.current || isAnimating()) return;
+    const scrollTop = el.scrollTop;
+    const gap = el.scrollHeight - scrollTop - el.clientHeight;
     const pending = pendingUpwardScrollRef.current;
-    // An old follow scroll must not consume upward intent before native movement.
+    // Keep fresh upward intent while a queued scroll still reports the old edge.
     if (
       pending &&
       userReading.current &&
       pending.sessionId === sessionIdRef.current &&
-      el.scrollTop >= pending.scrollTop
+      scrollTop >= pending.scrollTop &&
+      gap < 3
     ) {
       isNearBottomRef.current = false;
       return;
     }
     pendingUpwardScrollRef.current = null;
-    isNearBottomRef.current =
-      el.scrollHeight - el.scrollTop - el.clientHeight < (userReading.current ? 3 : 100);
+    isNearBottomRef.current = gap < (userReading.current ? 3 : 100);
     if (isNearBottomRef.current) userReading.current = false;
   }, [
     scrollRef,
