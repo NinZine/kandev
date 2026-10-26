@@ -1,7 +1,7 @@
 ---
 id: "05-executor-bindings"
 title: "Executor binding and explicit adoption"
-status: in_progress
+status: done
 wave: 5
 depends_on:
   - "04-assisted-enrollment"
@@ -147,9 +147,19 @@ Connection edits and task admission race across network calls. Recheck revision 
 ## Results
 
 Recovery resumed on 2026-10-20 under the preserved implementation approval.
+The following results describe that recovery handoff; the later closure is below.
 
 Managed executor binding/adoption, saved route stamps, runtime recovery references, and reachability integration restored and reconciled with current ownership/save coordination. Targeted tests pass. Real OpenSSH direct and bastion adoption now preserves the target and pin, refuses unverified or stale configuration changes, and authenticates after restart. Managed executor launch/reconnect and the legacy launch/recovery cases also have fresh container evidence. The complete browser adoption matrix, dependency details for refused deletion, and current-main orphan-sweep integration for managed connections remain open.
 
 See [recovery provenance](recovery/recovery.md) and
 [current validation](recovery/validation.md). Historical test reports are not
-current acceptance. This work order is not complete.
+current acceptance. At that recovery handoff, this work order was not complete.
+
+
+## Local closure (2026-10-25)
+
+Managed orphan cleanup now holds the shared saved-executor connection until cleanup ends, with no inline fallback. Composition, route protection, task/process fences, real workload restart, retained-session dependency navigation, and browser adoption checks pass.
+
+See [acceptance and validation](recovery/acceptance-2026-10-25.md) for exact
+evidence, limits, and fixture cleanup. This is local implementation completion;
+CI and PR review remain deferred.

@@ -1,7 +1,7 @@
 ---
 id: "04-assisted-enrollment"
 title: "Assisted enrollment"
-status: in_progress
+status: done
 wave: 4
 depends_on:
   - "03-trusted-connections"
@@ -141,9 +141,19 @@ The remote operation cannot be atomic with local audit storage. Preserve started
 ## Results
 
 Recovery resumed on 2026-10-20 under the preserved implementation approval.
+The following results describe that recovery handoff; the later closure is below.
 
 The production enrollment script now runs through disposable SSH protocol fixtures for password and identity bootstrap over direct and bastion routes. Tests preserve destination authorization bytes, leave bastion authorization unchanged, and retain uncertain outcomes without replay. Enrollment retains the failed hop and authentication diagnostic. Desktop/phone component tests cover explicit confirmation and password clearing. Real OpenSSH direct and bastion password bootstrap, bastion identity bootstrap, and direct identity bootstrap now pass. They preserve existing authorization bytes, leave bastion keys unchanged, make retries idempotent, and authenticate with the selected managed key after restart. The complete browser and failure-path acceptance matrix still needs final reconciliation.
 
 See [recovery provenance](recovery/recovery.md) and
 [current validation](recovery/validation.md). Historical test reports are not
-current acceptance. This work order is not complete.
+current acceptance. At that recovery handoff, this work order was not complete.
+
+
+## Local closure (2026-10-25)
+
+Current protocol, PostgreSQL, and real OpenSSH checks cover both bootstrap modes, direct/bastion routes, authorization preservation, audit/partial failures, and no credential replay. The ten-case integration run passes alongside the earlier focused safety evidence.
+
+See [acceptance and validation](recovery/acceptance-2026-10-25.md) for exact
+evidence, limits, and fixture cleanup. This is local implementation completion;
+CI and PR review remain deferred.

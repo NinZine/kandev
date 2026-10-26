@@ -2774,3 +2774,7 @@ mod tests {
         }
     }
 }
+
+#[cfg(all(test, unix))]
+#[path = "backend/managed_ssh_tests.rs"]
+mod managed_ssh_tests;

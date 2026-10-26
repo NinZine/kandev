@@ -1034,5 +1034,10 @@
   "sshManager.binding.returnToExecutor": "返回執行器",
   "sshManager.binding.useConnection": "使用連線",
   "sshManager.binding.draftConflict": "您離開期間執行器設定已更改。請放棄此草稿以載入目前設定。",
-  "sshManager.binding.reloadDraft": "放棄草稿並重新載入"
+  "sshManager.binding.reloadDraft": "放棄草稿並重新載入",
+  "sshManager.dependencies.title": "身分依賴項",
+  "sshManager.dependencies.help": "此身分仍在使用中。刪除前請檢查這些連線和工作階段。",
+  "sshManager.dependencies.connection": "連線：{{name}}",
+  "sshManager.dependencies.executor": "執行器：{{name}}",
+  "sshManager.dependencies.runtime": "工作階段：{{name}}"
 }

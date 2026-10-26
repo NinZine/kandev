@@ -1,6 +1,7 @@
 package sshconnections
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"github.com/google/uuid"
@@ -11,6 +12,11 @@ import (
 
 func TestEnrollmentJournalsBeforeRemoteAccessAndNeverReplaysPassword(t *testing.T) {
 	s, ctx := identityService(t)
+	testEnrollmentJournal(t, s, ctx)
+}
+
+func testEnrollmentJournal(t *testing.T, s *Service, ctx context.Context) {
+	t.Helper()
 	identity, err := s.CreateIdentity(ctx, CreateIdentityRequest{RequestID: uuid.NewString(), Label: "key", Kind: "generate"})
 	if err != nil {
 		t.Fatal(err)
@@ -62,6 +68,11 @@ func containsSecret(stored, encoded, secret string) bool {
 
 func TestInterruptedEnrollmentRecoversWithoutCredentialReplay(t *testing.T) {
 	s, ctx := identityService(t)
+	testEnrollmentRecovery(t, s, ctx)
+}
+
+func testEnrollmentRecovery(t *testing.T, s *Service, ctx context.Context) {
+	t.Helper()
 	identity, err := s.CreateIdentity(ctx, CreateIdentityRequest{RequestID: uuid.NewString(), Label: "key", Kind: "generate"})
 	if err != nil {
 		t.Fatal(err)

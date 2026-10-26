@@ -351,3 +351,17 @@ constants without changing their values. Architecture lint and the SSH service,
 transport, and handler package tests pass after these changes. The final commit
 hook receipt and manual-instance evidence are stored with the disposable lab
 outside the source tree. The feature remains disabled in shipped profiles.
+
+
+## Remaining acceptance completed (2026-10-25)
+
+The user requested implementation after draft PR #4778. The remaining orphan
+cleanup, identity dependency details, browser adoption, native desktop startup,
+and PostgreSQL transaction work is complete locally. The [dated acceptance
+record](acceptance-2026-10-25.md) contains current evidence, the requirement
+mapping, failed setup attempts, validation limits, and fixture cleanup. Earlier
+remaining-gap statements above describe their dated handoffs.
+
+The changes were uncommitted at the 2026-10-25 handoff. The user authorized
+committing and pushing them on 2026-10-26. CI and review comments remain deferred.
+No main instance, seeded instance, or live remote authorization was changed.

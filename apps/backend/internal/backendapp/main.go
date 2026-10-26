@@ -1014,7 +1014,7 @@ func startAgentInfrastructure(
 	// poller publishes, plus its own slow interval backstop.
 	startSSHOrphanSweepScheduler(
 		ctx, repos.Task, eventBus, log, addRuntimeCleanup,
-		lifecycleMgr.AcquireSSHOrphanSweepFence,
+		lifecycleMgr.AcquireSSHOrphanSweepFence, managedSSHExecutor(services),
 	)
 
 	// Launch-time session.launch.warning producer (task 05): repos.Task

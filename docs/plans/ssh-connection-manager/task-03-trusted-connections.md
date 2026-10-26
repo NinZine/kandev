@@ -1,7 +1,7 @@
 ---
 id: "03-trusted-connections"
 title: "Trusted connection setup"
-status: in_progress
+status: done
 wave: 3
 depends_on:
   - "02-managed-identities"
@@ -143,9 +143,19 @@ Observation is untrusted evidence, not permission to authenticate. Config aliase
 ## Results
 
 Recovery resumed on 2026-10-20 under the preserved implementation approval.
+The following results describe that recovery handoff; the later closure is below.
 
 Connection editing, trust observations/receipts, route revisions, single-hop guards, and preflight errors are restored. Protocol tests reject changed host keys at either hop before credentials are sent. UI regressions now cover duplicate mutation admission and obsolete load responses. The full connection and executor browser matrix remains open.
 
 See [recovery provenance](recovery/recovery.md) and
 [current validation](recovery/validation.md). Historical test reports are not
-current acceptance. This work order is not complete.
+current acceptance. At that recovery handoff, this work order was not complete.
+
+
+## Local closure (2026-10-25)
+
+Desktop and touch-phone migration now covers trusted direct access, one bastion, missing pins, cancellation, concurrent edits, and unsupported chains using real OpenSSH. Existing hop trust, stale-response, and diagnostic coverage remains applicable.
+
+See [acceptance and validation](recovery/acceptance-2026-10-25.md) for exact
+evidence, limits, and fixture cleanup. This is local implementation completion;
+CI and PR review remain deferred.

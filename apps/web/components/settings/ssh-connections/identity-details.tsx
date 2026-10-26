@@ -10,6 +10,7 @@ import { copyToClipboard } from "@/lib/utils/copy-to-clipboard";
 import { SettingsPageTemplate } from "../settings-page-template";
 import { settingsActionClassName, settingsControlClassName } from "../settings-control";
 import { ManagerConfirmation } from "./confirmation";
+import { IdentityDependencies } from "./identity-dependencies";
 export function IdentityDetails({
   identity,
   manager,
@@ -23,6 +24,7 @@ export function IdentityDetails({
   const [label, setLabel] = useState(identity.label);
   const [copied, setCopied] = useState<boolean | null>(null);
   const usage = manager.routes.filter((r) => r.destination.identity_id === identity.id).length;
+  const dependencies = identity.dependencies ?? [];
   return (
     <SettingsPageTemplate
       title={t("settings:sshManager.identities")}
@@ -85,13 +87,14 @@ export function IdentityDetails({
           title={t("settings:sshManager.deleteIdentity")}
           description={t("settings:sshManager.deleteIdentityWarning")}
           target={identity.id}
-          busy={manager.busy || usage > 0}
+          busy={manager.busy || usage > 0 || dependencies.length > 0}
           destructive
           onConfirm={async () => {
             await manager.deleteIdentity(identity);
             onDeleted();
           }}
         />
+        <IdentityDependencies dependencies={dependencies} />
       </div>
     </SettingsPageTemplate>
   );

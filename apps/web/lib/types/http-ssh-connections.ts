@@ -1,4 +1,5 @@
 export type SSHIdentity = {
+  dependencies?: SSHIdentityDependency[];
   id: string;
   label: string;
   kind: "managed" | "file" | "agent";
@@ -7,6 +8,13 @@ export type SSHIdentity = {
   reference?: string;
   generation: string;
   version: number;
+};
+export type SSHIdentityDependency = {
+  kind: "connection" | "executor" | "runtime";
+  id: string;
+  label?: string;
+  connection_id?: string;
+  task_id?: string;
 };
 export type ManagedSSHConnection = {
   id: string;

@@ -7,18 +7,27 @@ import (
 	"strings"
 )
 
-func (s *Service) ListIdentities(ctx context.Context) ([]Identity, error) {
+func (s *Service) ListIdentities(ctx context.Context) ([]IdentityDetails, error) {
 	if _, err := s.authorize(ctx); err != nil {
 		return nil, err
 	}
-	var rows []string
-	if err := s.store.db.SelectContext(ctx, &rows, `SELECT data FROM ssh_identities ORDER BY id`); err != nil {
+	tx, err := s.store.db.BeginTxx(ctx, nil)
+	if err != nil {
 		return nil, err
 	}
-	out := make([]Identity, 0, len(rows))
+	defer func() { _ = tx.Rollback() }()
+	var rows []string
+	if err := tx.SelectContext(ctx, &rows, `SELECT data FROM ssh_identities ORDER BY id`); err != nil {
+		return nil, err
+	}
+	out := make([]IdentityDetails, 0, len(rows))
 	for _, row := range rows {
-		var identity Identity
+		var identity IdentityDetails
 		if err := json.Unmarshal([]byte(row), &identity); err != nil {
+			return nil, err
+		}
+		identity.Dependencies, err = identityDependenciesIn(ctx, tx, identity.ID)
+		if err != nil {
 			return nil, err
 		}
 		out = append(out, identity)
@@ -38,14 +47,12 @@ func (s *Service) DeleteIdentity(ctx context.Context, id string, version int64) 
 		if identity.Version != version {
 			return ErrConflict
 		}
-		routes, err := connectionsIn(ctx, tx)
+		dependencies, err := identityDependenciesIn(ctx, tx, id)
 		if err != nil {
 			return err
 		}
-		for _, r := range routes {
-			if r.IdentityID == id {
-				return ErrInUse
-			}
+		if len(dependencies) > 0 {
+			return &IdentityInUse{Dependencies: dependencies}
 		}
 		if identity.Kind == identityManaged {
 			if err = s.vault.Delete(ctx, tx, "ssh-identity:"+id); err != nil {

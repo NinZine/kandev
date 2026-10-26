@@ -12,6 +12,7 @@ test("managed key enrollment survives restart and launches a reusable SSH execut
   backend,
   seedData,
   apiClient,
+  testPage,
 }) => {
   test.setTimeout(300_000);
   const release = await backend.useEnv({ KANDEV_FEATURES_SSH_CONNECTION_MANAGER: "true" });
@@ -104,6 +105,16 @@ test("managed key enrollment survives restart and launches a reusable SSH execut
       },
     );
     await waitForLatestSessionDone(apiClient, task.id, 1, "Managed SSH launch");
+    await testPage.goto(`/settings/executors/ssh-connections?tab=identities&id=${key.id}`);
+    await expect(
+      testPage.getByRole("button", { name: "Delete identity", exact: true }),
+    ).toBeDisabled();
+    await expect(
+      testPage.getByRole("link", { name: `Session: ${task.session_id}`, exact: true }),
+    ).toHaveAttribute("href", `/t/${task.id}?sessionId=${task.session_id}`);
+    await testPage.getByRole("link", { name: `Session: ${task.session_id}`, exact: true }).click();
+    await expect(testPage).toHaveURL(`/t/${task.id}?sessionId=${task.session_id}`);
+
     const before = (await apiClient.listSSHSessions(executor.id)).find(
       (row) => row.task_id === task.id,
     );
@@ -149,6 +160,7 @@ test("managed key enrollment survives restart and launches a reusable SSH execut
       )
       .toBe(true);
   } finally {
+    await testPage.close();
     try {
       await apiClient.e2eReset(seedData.workspaceId, [seedData.workflowId]);
     } finally {

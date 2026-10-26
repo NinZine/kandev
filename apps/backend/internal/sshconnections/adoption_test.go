@@ -1,6 +1,7 @@
 package sshconnections
 
 import (
+	"context"
 	"errors"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -9,11 +10,16 @@ import (
 
 func TestAdoptionPreservesTargetAndConflictsOnConcurrentEdit(t *testing.T) {
 	s, ctx := identityService(t)
+	testAdoptionTransactions(t, s, ctx)
+}
+
+func testAdoptionTransactions(t *testing.T, s *Service, ctx context.Context) {
+	t.Helper()
 	if _, err := s.store.db.Exec(`CREATE TABLE executors(id TEXT PRIMARY KEY,type TEXT,config TEXT,updated_at TIMESTAMP,deleted_at TIMESTAMP)`); err != nil {
 		t.Fatal(err)
 	}
 	config := `{"ssh_host":"legacy.example","ssh_user":"deploy","ssh_port":"2222","ssh_identity_source":"file","ssh_identity_file":"/tmp/legacy-key","ssh_host_fingerprint":"SHA256:legacy","ssh_shell":"zsh"}`
-	if _, err := s.store.db.Exec(`INSERT INTO executors(id,type,config) VALUES ('executor','ssh',?)`, config); err != nil {
+	if _, err := s.store.db.Exec(s.store.db.Rebind(`INSERT INTO executors(id,type,config) VALUES ('executor','ssh',?)`), config); err != nil {
 		t.Fatal(err)
 	}
 	preview, err := s.PreviewAdoption(ctx, "executor")
@@ -40,7 +46,7 @@ func TestAdoptionPreservesTargetAndConflictsOnConcurrentEdit(t *testing.T) {
 	if err = s.AdoptConnection(ctx, "executor", preview.ConfigDigest, route.Destination.ID, route.Stamp); !errors.Is(err, ErrConflict) {
 		t.Fatalf("concurrent edit overwritten: %v", err)
 	}
-	if _, err = s.store.db.Exec(`UPDATE executors SET config=? WHERE id='executor'`, config); err != nil {
+	if _, err = s.store.db.Exec(s.store.db.Rebind(`UPDATE executors SET config=? WHERE id='executor'`), config); err != nil {
 		t.Fatal(err)
 	}
 	if err = s.AdoptConnection(ctx, "executor", preview.ConfigDigest, route.Destination.ID, route.Stamp); err != nil {

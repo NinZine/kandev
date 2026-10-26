@@ -1034,5 +1034,10 @@
   "sshManager.binding.returnToExecutor": "Ŕēţũŕń ţō ēxēćũţōŕ",
   "sshManager.binding.useConnection": "Ũśē ćōńńēćţĩōń",
   "sshManager.binding.draftConflict": "Ţĥē ēxēćũţōŕ śēţţĩńĝś ćĥàńĝēď ŵĥĩĺē ŷōũ ŵēŕē àŵàŷ. Ďĩśćàŕď ţĥĩś ďŕàƒţ ţō ĺōàď ţĥē ćũŕŕēńţ śēţţĩńĝś.",
-  "sshManager.binding.reloadDraft": "Ďĩśćàŕď ďŕàƒţ àńď ŕēĺōàď"
+  "sshManager.binding.reloadDraft": "Ďĩśćàŕď ďŕàƒţ àńď ŕēĺōàď",
+  "sshManager.dependencies.title": "Ĩďēńţĩţŷ ďēƥēńďēńćĩēś",
+  "sshManager.dependencies.help": "Ţĥĩś ĩďēńţĩţŷ ĩś śţĩĺĺ ĩń ũśē. Ŕēvĩēŵ ţĥēśē ćōńńēćţĩōńś àńď śēśśĩōńś ƀēƒōŕē ďēĺēţĩńĝ ĩţ.",
+  "sshManager.dependencies.connection": "Ćōńńēćţĩōń: {{name}}",
+  "sshManager.dependencies.executor": "Ēxēćũţōŕ: {{name}}",
+  "sshManager.dependencies.runtime": "Śēśśĩōń: {{name}}"
 }

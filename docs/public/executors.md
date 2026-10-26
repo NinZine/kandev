@@ -579,7 +579,7 @@ Back up the database and its matching `master.key` together. A database restored
 
 Enrollment failures identify the destination or bastion when that information is available. An authentication rejection does not prove that the public key is missing. Cancelling the confirmation clears the one-time password. Changing the approved route also clears the password and removes the old enrollment result from the setup view.
 
-Connections and identities cannot be deleted while referenced. Transport changes are blocked while live or recoverable sessions depend on either hop; display-name edits remain available. Changing a host key requires independent verification and a new explicit trust action.
+Connections and identities cannot be deleted while referenced. An identity’s details show the connections, executors, and retained sessions that use it, including connections reached through a bastion. Open the linked management pages to resolve those dependencies before retrying deletion. Transport changes are blocked while live or recoverable sessions depend on either hop; display-name edits remain available. Changing a host key requires independent verification and a new explicit trust action.
 
 Disabling the feature preserves saved identities and connections but blocks their management and managed runtime connections, including recovery. Re-enable it and restart to use those bindings again. Existing inline SSH executors continue to work.
 
@@ -649,6 +649,8 @@ SSH materializes the primary attached repository at the remote task-workspace ro
 The runtime preflights the selected agent command and reports an installation hint when missing; it does not install the agent or its toolchain. Only these resolved credential environment names are forwarded to the remote agent: `CLAUDE_CODE_OAUTH_TOKEN`, `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, `GOOGLE_API_KEY`, `GITHUB_TOKEN`, and `GH_TOKEN`. Arbitrary profile variables and control-plane process variables are not forwarded to that agent process. Agent-specific auth setup scripts can still consume a selected stored secret and materialize their own remote login state.
 
 Stop attempts to kill the session's remote `agentctl` and remove only the remote session-runtime directory, then closes forwarding and SSH. Terminal archive/delete stops run the profile cleanup script first; cleanup is best-effort, so a failure does not block controller teardown. Plain Stop skips cleanup and preserves the task workspace for resume. The task directory always remains and no background sweeper currently removes it. The cached helper and checksum at `~/.kandev/bin/agentctl` and `agentctl.sha256` also remain for later sessions. Periodically audit the remote process list, session directories, and `<workdir-root>/tasks/` after confirming no session needs the data. An explicit resume re-dials SSH and reuses a live recorded PID when possible; otherwise Kandev starts a fresh remote controller and re-runs preparation.
+
+When an SSH executor becomes reachable, background cleanup can stop abandoned agentctl processes after checking their task and session ownership. Managed executors use their saved connection and host trust for this check. A disabled, unavailable, or changed managed connection cannot fall back to inline SSH settings. Background cleanup preserves task directories.
 
 Backend shutdown closes forwarding and SSH without killing remote processes or running cleanup.
 Startup recovery reconnects to the recorded controller and verifies its authenticated session identity before replay.

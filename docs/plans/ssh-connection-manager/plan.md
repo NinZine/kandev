@@ -1,6 +1,6 @@
 ---
 created: 2026-09-19
-status: in_progress
+status: done
 requirements:
   - REQ-EXECUTORS-SSH-CONNECTIONS-001
   - REQ-EXECUTORS-SSH-CONNECTIONS-002
@@ -16,19 +16,21 @@ legacy_specs: []
 
 ## Current local state
 
-Recovered implementation approval remains authoritative. Local implementation
-has resumed. The [recovery note](recovery/recovery.md) records source IDs and
-artifacts; [validation](recovery/validation.md) records fresh results and gaps.
-The continuation adds disposable SSH enrollment/restart coverage, UI submission
-and secret-lifetime fixes, and preserved hop diagnostics. Authorized Docker/Buildx
-installation removed the OpenSSH environment blocker. Real executor, restart,
-and direct/bastion adoption checks now have fresh evidence. All work orders remain
-in progress until their remaining acceptance checks pass. The user subsequently
-authorized the local commit `b386a0d3d1c2365194ceacb7c6cac82082d1179b`; no remote
-publication is authorized. The 2026-10-23 [navigation follow-up](../ssh-connections-executor-navigation/plan.md)
-moves management under Executors and completes contextual setup. Its two work
-orders are implemented and locally verified; they do not close the remaining
-checks in this package.
+Local implementation and acceptance of the six work orders are complete as of
+2026-10-25. The continuation closes managed orphan cleanup, identity dependency
+details, browser adoption coverage, native desktop restart, and PostgreSQL
+transactions. [Final acceptance](recovery/acceptance-2026-10-25.md) records the
+mapping, command results, environment failures, cleanup, and platform limits.
+The recovered implementation approval remains authoritative; original source
+IDs and artifacts remain in the [recovery note](recovery/recovery.md).
+
+The [navigation follow-up](../ssh-connections-executor-navigation/plan.md) is also
+implemented and locally verified. Draft PR [#4778](https://github.com/kdlbs/kandev/pull/4778)
+contained commits through `20661f71af0c8ac42f233d8de418411088ced639` at the
+2026-10-25 handoff. The user authorized committing and pushing the continuation
+on 2026-10-26. CI and review comments remain deferred by the user.
+No running main or seeded instance was changed. The feature remains disabled in
+shipped profiles; this completion does not promote or release it.
 
 ## Overview
 
@@ -37,8 +39,8 @@ and explicit assisted enrollment. Implement sequentially: shared transport and
 storage, identity management, trusted connections, enrollment, executor
 consumption, then integrated restart/compatibility evidence and public docs.
 Implementation was authorized on 2026-09-22 and resumed from recovered evidence
-on 2026-10-20. All six work orders contain recovered implementation, but remain
-in progress until their acceptance checks pass. See the [recovery record](recovery/recovery.md)
+on 2026-10-20. All six work orders contain recovered implementation, with remaining local
+acceptance completed on 2026-10-25. See the [recovery record](recovery/recovery.md)
 for approvals, reconstruction limits, current validation, and remaining work.
 
 Sources: [#3735](https://github.com/kdlbs/kandev/issues/3735),
@@ -297,12 +299,12 @@ Docker dependency. Run projects sequentially with the managed resource budget.
 
 ## Work orders
 
-- [ ] [Task 01: Shared transport and protected connection store](task-01-connection-foundation.md)
-- [ ] [Task 02: Managed identity settings](task-02-managed-identities.md)
-- [ ] [Task 03: Trusted connection setup](task-03-trusted-connections.md)
-- [ ] [Task 04: Assisted enrollment](task-04-assisted-enrollment.md)
-- [ ] [Task 05: Executor binding and explicit adoption](task-05-executor-bindings.md)
-- [ ] [Task 06: Restart and disabled-path integration](task-06-recovery-and-rollout.md)
+- [x] [Task 01: Shared transport and protected connection store](task-01-connection-foundation.md)
+- [x] [Task 02: Managed identity settings](task-02-managed-identities.md)
+- [x] [Task 03: Trusted connection setup](task-03-trusted-connections.md)
+- [x] [Task 04: Assisted enrollment](task-04-assisted-enrollment.md)
+- [x] [Task 05: Executor binding and explicit adoption](task-05-executor-bindings.md)
+- [x] [Task 06: Restart and disabled-path integration](task-06-recovery-and-rollout.md)
 
 Dependency order: 01 -> 02 -> 03 -> 04 -> 05 -> 06. Work is sequential; no
 subagents or persistent child tasks are authorized. Each order names exact

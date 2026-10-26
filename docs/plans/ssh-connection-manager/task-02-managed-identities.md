@@ -1,7 +1,7 @@
 ---
 id: "02-managed-identities"
 title: "Managed identity settings"
-status: in_progress
+status: done
 wave: 2
 depends_on:
   - "01-connection-foundation"
@@ -134,9 +134,19 @@ Generating/importing is an explicit command, not a shared-save side effect. Expl
 ## Results
 
 Recovery resumed on 2026-10-20 under the preserved implementation approval.
+The following results describe that recovery handoff; the later closure is below.
 
 Identity generation/import/reference UI and internal vault are restored. Protected import and secret-visibility unit tests pass. Desktop and phone browser coverage now generates and copies a key, rejects a wrong import passphrase, imports a protected key, and checks secret clearing after cancellation. Late identity responses cannot navigate after dismissal. Localization checks pass. Dependency details for refused deletion remain an implementation gap.
 
 See [recovery provenance](recovery/recovery.md) and
 [current validation](recovery/validation.md). Historical test reports are not
-current acceptance. This work order is not complete.
+current acceptance. At that recovery handoff, this work order was not complete.
+
+
+## Local closure (2026-10-25)
+
+Identity reads and refused deletion now identify connection, executor, and retained-session dependencies, including bastion use. Desktop/phone links and concurrent refusal refresh are implemented and tested. Unused-key deletion removes local storage without changing remote authorization.
+
+See [acceptance and validation](recovery/acceptance-2026-10-25.md) for exact
+evidence, limits, and fixture cleanup. This is local implementation completion;
+CI and PR review remain deferred.

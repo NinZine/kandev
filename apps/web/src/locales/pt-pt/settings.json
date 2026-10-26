@@ -1034,5 +1034,10 @@
   "sshManager.binding.returnToExecutor": "Voltar ao executor",
   "sshManager.binding.useConnection": "Usar ligação",
   "sshManager.binding.draftConflict": "As definições do executor foram alteradas enquanto estava ausente. Descarte este rascunho para carregar as definições atuais.",
-  "sshManager.binding.reloadDraft": "Descartar rascunho e recarregar"
+  "sshManager.binding.reloadDraft": "Descartar rascunho e recarregar",
+  "sshManager.dependencies.title": "Dependências da identidade",
+  "sshManager.dependencies.help": "Esta identidade ainda está em uso. Reveja estas ligações e sessões antes de a eliminar.",
+  "sshManager.dependencies.connection": "Ligação: {{name}}",
+  "sshManager.dependencies.executor": "Executor: {{name}}",
+  "sshManager.dependencies.runtime": "Sessão: {{name}}"
 }

@@ -2,6 +2,7 @@ import { act, cleanup, renderHook, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import * as api from "@/lib/api/domains/ssh-connections-api";
 import type { SSHIdentity } from "@/lib/types/http-ssh-connections";
+import { ApiError } from "@/lib/api/client";
 import { useSSHConnections } from "./use-ssh-connections";
 
 vi.mock("@/lib/api/domains/ssh-connections-api");
@@ -116,4 +117,25 @@ it("does not show an obsolete initial-load error after a newer successful refres
   });
   expect(result.current.error).toBeNull();
   expect(result.current.identities).toEqual([identity]);
+});
+
+// @covers AC-EXECUTORS-SSH-CONNECTIONS-001.6
+it("refreshes dependencies after another administrator binds the identity before deletion", async () => {
+  vi.mocked(api.listSSHIdentities).mockResolvedValue([identity]);
+  const { result } = renderHook(useSSHConnections);
+  await waitFor(() => expect(result.current.loaded).toBe(true));
+  const current = {
+    ...identity,
+    dependencies: [{ kind: "connection" as const, id: "new-route", label: "New route" }],
+  };
+  vi.mocked(api.listSSHIdentities).mockResolvedValue([current]);
+  vi.mocked(api.deleteSSHIdentity).mockRejectedValue(
+    new ApiError("Conflict", 409, { error: "ssh_resource_in_use" }),
+  );
+  await act(async () => {
+    await expect(result.current.deleteIdentity(identity)).rejects.toThrow();
+  });
+  expect(result.current.identities).toEqual([current]);
+  expect(result.current.error).toBe("ssh_resource_in_use");
+  expect(result.current.busy).toBe(false);
 });

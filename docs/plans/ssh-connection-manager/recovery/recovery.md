@@ -162,3 +162,19 @@ has passed. See the validation record for tested boundaries.
 
 No commit, push, PR, GitHub message, live enrollment, live authorized_keys change, or
 old-instance mutation was performed during recovery or local resumption.
+
+## Latest reliable state (2026-10-25)
+
+The user explicitly requested implementation of the remaining work after draft
+PR #4778. Managed orphan cleanup, identity dependency details, browser migration,
+native desktop startup/restart, and PostgreSQL transaction coverage are now
+complete locally. The [dated acceptance record](acceptance-2026-10-25.md) maps
+the requirements to evidence and records environment failures, cleanup, and
+platform limits. It supersedes earlier remaining-gap lists for this package.
+
+At the 2026-10-25 handoff, branch `feature/recover-and-resume-s-1mt` had committed
+head `20661f71af0c8ac42f233d8de418411088ced639` and an uncommitted continuation.
+Draft PR https://github.com/kdlbs/kandev/pull/4778 contained the previously pushed
+commits. The user authorized committing and pushing the continuation on
+2026-10-26. CI and review comments remain deferred. No main or seeded
+instance, old recovery source, or live SSH authorization was changed.

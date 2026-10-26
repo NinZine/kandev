@@ -1034,5 +1034,10 @@
   "sshManager.binding.returnToExecutor": "Return to executor",
   "sshManager.binding.useConnection": "Use connection",
   "sshManager.binding.draftConflict": "The executor settings changed while you were away. Discard this draft to load the current settings.",
-  "sshManager.binding.reloadDraft": "Discard draft and reload"
+  "sshManager.binding.reloadDraft": "Discard draft and reload",
+  "sshManager.dependencies.title": "Identity dependencies",
+  "sshManager.dependencies.help": "This identity is still in use. Review these connections and sessions before deleting it.",
+  "sshManager.dependencies.connection": "Connection: {{name}}",
+  "sshManager.dependencies.executor": "Executor: {{name}}",
+  "sshManager.dependencies.runtime": "Session: {{name}}"
 }

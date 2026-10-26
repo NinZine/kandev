@@ -1034,5 +1034,10 @@
   "sshManager.binding.returnToExecutor": "실행기로 돌아가기",
   "sshManager.binding.useConnection": "연결 사용",
   "sshManager.binding.draftConflict": "다른 화면을 보는 동안 실행기 설정이 변경되었습니다. 이 초안을 삭제하여 현재 설정을 불러오세요.",
-  "sshManager.binding.reloadDraft": "초안을 삭제하고 다시 불러오기"
+  "sshManager.binding.reloadDraft": "초안을 삭제하고 다시 불러오기",
+  "sshManager.dependencies.title": "ID 종속 항목",
+  "sshManager.dependencies.help": "이 ID는 아직 사용 중입니다. 삭제하기 전에 다음 연결과 세션을 확인하세요.",
+  "sshManager.dependencies.connection": "연결: {{name}}",
+  "sshManager.dependencies.executor": "실행기: {{name}}",
+  "sshManager.dependencies.runtime": "세션: {{name}}"
 }

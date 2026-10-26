@@ -139,6 +139,11 @@ func respond(c *gin.Context, value any, err error) {
 		return
 	}
 	var credential *CredentialFailure
+	var inUse *IdentityInUse
+	if errors.As(err, &inUse) {
+		c.AbortWithStatusJSON(http.StatusConflict, gin.H{errorResponseKey: ErrInUse.Error(), "dependencies": inUse.Dependencies})
+		return
+	}
 	if errors.As(err, &credential) {
 		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{errorResponseKey: credential.Code})
 		return

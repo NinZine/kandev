@@ -1034,5 +1034,10 @@
   "sshManager.binding.returnToExecutor": "実行環境に戻る",
   "sshManager.binding.useConnection": "この接続を使用",
   "sshManager.binding.draftConflict": "別の画面を開いている間に実行環境の設定が変更されました。この下書きを破棄して現在の設定を読み込んでください。",
-  "sshManager.binding.reloadDraft": "下書きを破棄して再読み込み"
+  "sshManager.binding.reloadDraft": "下書きを破棄して再読み込み",
+  "sshManager.dependencies.title": "IDの依存関係",
+  "sshManager.dependencies.help": "このIDは使用中です。削除する前に、これらの接続とセッションを確認してください。",
+  "sshManager.dependencies.connection": "接続：{{name}}",
+  "sshManager.dependencies.executor": "実行環境：{{name}}",
+  "sshManager.dependencies.runtime": "セッション：{{name}}"
 }

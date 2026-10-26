@@ -69,6 +69,9 @@ export function useSSHConnections() {
         if (refresh) await reload();
         return value;
       } catch (e) {
+        if (alive.current && sshManagerError(e) === "ssh_resource_in_use") {
+          await reload().catch(() => undefined);
+        }
         if (alive.current) setError(sshManagerError(e));
         throw e;
       } finally {

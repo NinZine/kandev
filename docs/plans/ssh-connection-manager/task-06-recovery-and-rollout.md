@@ -1,7 +1,7 @@
 ---
 id: "06-recovery-and-rollout"
 title: "Restart and disabled-path integration"
-status: in_progress
+status: done
 wave: 6
 depends_on:
   - "05-executor-bindings"
@@ -112,9 +112,19 @@ Use disposable backend state, master keys, and SSH hosts only. Test authoring mu
 ## Results
 
 Recovery resumed on 2026-10-20 under the preserved implementation approval.
+The following results describe that recovery handoff; the later closure is below.
 
 Recovery hooks, default-off gates, settings gates, and public documentation are restored. A fresh process reopens the database/vault and authenticates retained direct and bastion snapshots without SSH agent variables. Missing ciphertext and a different protection key fail before authentication without identity replacement. Authenticated browser coverage verifies administrator access and member rejection before management actions. A rebuilt real OpenSSH test now proves managed workload launch and backend restart without an inherited SSH agent, including health through the restored tunnel. That test exposed and verified a fix for startup recovery bypassing the managed resolver. The new Go regression checks valid, missing-stamp, stale-generation, and disabled cases without legacy fallback. Desktop-specific acceptance and the full failure matrix remain open.
 
 See [recovery provenance](recovery/recovery.md) and
 [current validation](recovery/validation.md). Historical test reports are not
-current acceptance. This work order is not complete.
+current acceptance. At that recovery handoff, this work order was not complete.
+
+
+## Local closure (2026-10-25)
+
+The native desktop process test authenticates a generated managed identity before and after a real backend restart without SSH agent variables. Managed and legacy OpenSSH restart checks pass. Remaining acceptance is reconciled, public documentation is current, and shipped feature defaults remain off.
+
+See [acceptance and validation](recovery/acceptance-2026-10-25.md) for exact
+evidence, limits, and fixture cleanup. This is local implementation completion;
+CI and PR review remain deferred.

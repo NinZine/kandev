@@ -1,7 +1,7 @@
 ---
 id: "01-connection-foundation"
 title: "Shared transport and protected connection store"
-status: in_progress
+status: done
 wave: 1
 depends_on: []
 plan: "plan.md"
@@ -100,9 +100,19 @@ Preserve existing exported lifecycle seams while moving internals. Do not treat 
 ## Results
 
 Recovery resumed on 2026-10-20 under the preserved implementation approval.
+The following results describe that recovery handoff; the later closure is below.
 
 Shared transport, protected identity storage, SQL schema, audit, runtime references, and disabled feature registration restored. Focused Go tests pass. Both recovered PostgreSQL cases pass on a disposable server. Complete acceptance mapping remains open.
 
 See [recovery provenance](recovery/recovery.md) and
 [current validation](recovery/validation.md). Historical test reports are not
-current acceptance. This work order is not complete.
+current acceptance. At that recovery handoff, this work order was not complete.
+
+
+## Local closure (2026-10-25)
+
+The remaining PostgreSQL transaction and concurrency cases pass. Both-dialect store conformance, SQL guard, focused transport/credential tests, and changed-package lint pass. The acceptance record maps the recovered implementation to its contracts.
+
+See [acceptance and validation](recovery/acceptance-2026-10-25.md) for exact
+evidence, limits, and fixture cleanup. This is local implementation completion;
+CI and PR review remain deferred.

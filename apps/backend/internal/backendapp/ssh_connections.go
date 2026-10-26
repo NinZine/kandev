@@ -27,3 +27,10 @@ func managedSSHManagement(services *Services) sshhandlers.ManagedConnections {
 	}
 	return services.SSHConnections
 }
+
+func managedSSHExecutor(services *Services) agentruntime.ManagedSSHExecutorConnection {
+	if services.SSHConnections == nil {
+		return nil
+	}
+	return services.SSHConnections
+}

@@ -34,16 +34,21 @@ func (s *Service) GetConnection(ctx context.Context, id string) (Route, error) {
 	}
 	return s.readRoute(ctx, id, "")
 }
-func (s *Service) GetIdentity(ctx context.Context, id string) (Identity, error) {
+func (s *Service) GetIdentity(ctx context.Context, id string) (IdentityDetails, error) {
 	if _, err := s.authorize(ctx); err != nil {
-		return Identity{}, err
+		return IdentityDetails{}, err
 	}
 	tx, err := s.store.db.BeginTxx(ctx, nil)
 	if err != nil {
-		return Identity{}, err
+		return IdentityDetails{}, err
 	}
 	defer func() { _ = tx.Rollback() }()
-	return identityIn(ctx, tx, id)
+	identity, err := identityIn(ctx, tx, id)
+	if err != nil {
+		return IdentityDetails{}, err
+	}
+	dependencies, err := identityDependenciesIn(ctx, tx, id)
+	return IdentityDetails{Identity: identity, Dependencies: dependencies}, err
 }
 func (s *Service) DeleteConnection(ctx context.Context, id string, version int64) error {
 	actor, err := s.authorize(ctx)
