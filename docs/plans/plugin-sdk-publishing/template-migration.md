@@ -60,7 +60,7 @@ npm ci --ignore-scripts
 npm run typecheck:recipes
 npm run test:recipes
 go run github.com/kdlbs/kandev/pluginsdk/cmd/kandev-sdk-check@v0.1.0 \
-  --manifest manifest.yaml --frontend-sdk node_modules/@kandev/plugin-sdk
+  --manifest manifest.yaml --frontend-sdk node_modules/@kdlbs/plugin-sdk
 ```
 
 Run `npm run test:ui` for the general template. The inspected coordinator

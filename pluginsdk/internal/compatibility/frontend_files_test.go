@@ -59,7 +59,7 @@ func TestFrontendCheckoutSymlink(t *testing.T) {
 			}
 			alias := filepath.Join(t.TempDir(), "checkout")
 			require.NoError(t, os.Symlink(root, alias))
-			relative := filepath.Join("node_modules", "@kandev", "plugin-sdk")
+			relative := filepath.Join("node_modules", "@kdlbs", "plugin-sdk")
 			for _, requested := range []string{relative, filepath.Join(alias, relative)} {
 				record, err := ResolveFrontend(alias, requested)
 				require.NoError(t, err)
@@ -103,11 +103,11 @@ func TestFrontendWorkspaceMemberSymlink(t *testing.T) {
 				data, err := os.ReadFile(path)
 				require.NoError(t, err)
 				require.NoError(t, os.WriteFile(path, []byte(strings.Replace(string(data), "  .:", "  packages/plugin:", 1)), 0600))
-				memberPackage := filepath.Join(member, "node_modules", "@kandev", "plugin-sdk")
+				memberPackage := filepath.Join(member, "node_modules", "@kdlbs", "plugin-sdk")
 				require.NoError(t, os.MkdirAll(filepath.Dir(memberPackage), 0755))
 				require.NoError(t, os.Rename(pkg, memberPackage))
 			}
-			relative := filepath.Join("node_modules", "@kandev", "plugin-sdk")
+			relative := filepath.Join("node_modules", "@kdlbs", "plugin-sdk")
 			_, err := ResolveFrontend(member, relative)
 			require.NoError(t, err)
 			alias := filepath.Join(t.TempDir(), "member")

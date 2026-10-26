@@ -58,7 +58,7 @@ with tarfile.open(sys.argv[1], 'r:gz') as archive:
   const manifest = JSON.parse(files["package.json"]);
   const record = JSON.parse(files["sdk-release.json"]);
   if (
-    manifest.name !== "@kandev/plugin-sdk" ||
+    manifest.name !== "@kdlbs/plugin-sdk" ||
     manifest.version !== record.sdk_version
   )
     throw new Error("SDK package identity differs from release record");

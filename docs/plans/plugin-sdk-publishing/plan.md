@@ -992,3 +992,34 @@ repetitions pass after rebuilding web assets. Independent read-only review
 confirms the real-hook regression and narrow ordering correction. The original
 CI trace does not expose saved restoration state, so its precise cause remains
 unconfirmed. Fresh exact-head CI is required after publication.
+
+
+## npm namespace correction (2026-10-26)
+
+The user selected `@kdlbs/plugin-sdk` after authenticated npm checks confirmed
+`zval` owns the `kdlbs` organization. The previous `@kandev` scope is not under
+that account's organization membership. Update the frontend package, host type
+imports, workspace dependency/lock evidence, checker installation paths,
+registry/publication adapters, CI filters, author docs, and queued external
+migration briefs together. Historical inventory and review evidence retain the
+name inspected at the time. The accepted Go module, independent `0.1.0` SDK
+version, host floor, and installed-plugin protocol remain unchanged.
+
+Validation: first exercise the existing registry and installed-dependency tests
+against the new identity and observe the old implementation fail. Then run Go
+SDK tests/vet, actual npm workspace installs, exact packed consumers in both
+TypeScript resolution modes, the real release build adapter, release/workflow
+contracts, frontend typecheck, documentation/harness checks, and new-head CI.
+No registry publication or placeholder package is part of this correction.
+
+
+Local namespace validation passed: Go SDK tests/vet and checker race tests;
+45 SDK packaging/release tests (the signed-source case required the installed
+GPG binaries on PATH); 11 publication-state tests; 63 public-doc validator tests;
+35 focused web contract/consumer tests; SDK and full web typechecks; frozen
+workspace install; 10 SDK CI contracts; 68 release workflow contracts; nine
+action-pinning checks; full documentation/specification/harness validation.
+The registry URL assertion failed against the former scope before the change,
+and real npm workspace consumers plus both packed TypeScript modes now pass.
+Eleven migration task descriptions were updated and verified CREATED with
+autopilot disabled. New-head CI and current-main merge validation follow delivery.

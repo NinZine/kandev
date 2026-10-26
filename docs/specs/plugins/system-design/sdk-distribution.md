@@ -187,7 +187,7 @@ Ship a Go command at `pluginsdk/cmd/kandev-sdk-check`, usable as:
 ```bash
 go run github.com/kdlbs/kandev/pluginsdk/cmd/kandev-sdk-check@v0.1.0 \
   --manifest manifest.yaml \
-  --frontend-sdk node_modules/@kandev/plugin-sdk
+  --frontend-sdk node_modules/@kdlbs/plugin-sdk
 ```
 
 The frontend flag is omitted for Go-only plugins. Support `--frontend-only` for

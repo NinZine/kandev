@@ -98,7 +98,7 @@ test("npm adapter publishes the retained archive without changing latest implici
     [
       "dist-tag",
       "add",
-      "@kandev/plugin-sdk@0.1.0",
+      "@kdlbs/plugin-sdk@0.1.0",
       "latest",
       "--registry",
       "https://registry.npmjs.org",

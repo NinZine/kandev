@@ -3,6 +3,10 @@
 Checked: 2026-10-16. This is a planning snapshot for SDK distribution, not a
 record of sent notifications. No author was contacted.
 
+Current migration target: `@kdlbs/plugin-sdk`, selected on 2026-10-26.
+The dependency names below record the original inspection. Authors must update
+old `@kandev/plugin-sdk` declarations and imports during migration.
+
 ## Scope and evidence
 
 The [official catalog source](https://github.com/kdlbs/kandev/blob/main/plugin-registry/plugins.yaml)

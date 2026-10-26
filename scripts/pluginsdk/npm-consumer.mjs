@@ -9,28 +9,28 @@ export async function startRegistry(candidate) {
   const server = createServer(async (request, response) => {
     try {
       const path = decodeURIComponent(request.url.split("?")[0]);
-      if (path === "/@kandev/plugin-sdk/-/plugin-sdk.tgz") {
+      if (path === "/@kdlbs/plugin-sdk/-/plugin-sdk.tgz") {
         response.setHeader("content-type", "application/octet-stream");
         response.end(bytes);
-      } else if (path === "/@kandev/plugin-sdk") {
+      } else if (path === "/@kdlbs/plugin-sdk") {
         response.setHeader("content-type", "application/json");
         response.end(
           JSON.stringify({
-            name: "@kandev/plugin-sdk",
+            name: "@kdlbs/plugin-sdk",
             "dist-tags": { latest: candidate.sdk_version },
             versions: {
               [candidate.sdk_version]: {
-                name: "@kandev/plugin-sdk",
+                name: "@kdlbs/plugin-sdk",
                 version: candidate.sdk_version,
                 dist: {
-                  tarball: url + "/@kandev/plugin-sdk/-/plugin-sdk.tgz",
+                  tarball: url + "/@kdlbs/plugin-sdk/-/plugin-sdk.tgz",
                   integrity: candidate.integrity,
                 },
               },
             },
           }),
         );
-      } else if (path.startsWith("/@kandev/plugin-sdk")) {
+      } else if (path.startsWith("/@kdlbs/plugin-sdk")) {
         response.writeHead(404).end();
       } else {
         const upstream = await fetch(

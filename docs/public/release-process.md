@@ -112,7 +112,7 @@ GHCR images are built before the GitHub Release. npm, Homebrew, and Scoop start 
 ## Plugin SDK publication
 
 The Go module `github.com/kdlbs/kandev/pluginsdk` and npm package
-`@kandev/plugin-sdk` share an independent version starting at `0.1.0`. They are
+`@kdlbs/plugin-sdk` share an independent version starting at `0.1.0`. They are
 not runtime platform packages and do not follow the host's version or Nightly
 channel. A Stable release verifies them even when their version is unchanged.
 This implementation has not established their first public availability.
@@ -120,7 +120,7 @@ This implementation has not established their first public availability.
 ### Prepare ownership and trust
 
 Before the first release, a maintainer must confirm control of npm scope
-`@kandev` and package name `@kandev/plugin-sdk`. Package absence does not prove
+`@kdlbs` and package name `@kdlbs/plugin-sdk`. Package absence does not prove
 ownership. Set `SDK_SCOPE_OWNERSHIP_CONFIRMED=true` in the protected `release`
 environment, and expose the same confirmation to the read-only
 `release-validation` environment used for dry-run/backfill preflight.

@@ -197,7 +197,7 @@ export class ReleaseIO {
     return this.npm([
       "dist-tag",
       "add",
-      `@kandev/plugin-sdk@${version}`,
+      `@kdlbs/plugin-sdk@${version}`,
       "latest",
       "--registry",
       "https://registry.npmjs.org",

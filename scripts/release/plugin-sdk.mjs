@@ -147,7 +147,7 @@ export async function prepareMetadata({
     await read("apps/packages/plugin-sdk/package.json"),
   );
   if (
-    manifest.name !== "@kandev/plugin-sdk" ||
+    manifest.name !== "@kdlbs/plugin-sdk" ||
     manifest.version !== current.sdk_version
   )
     throw new Error("npm package version differs from canonical SDK version");

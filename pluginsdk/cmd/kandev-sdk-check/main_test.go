@@ -13,13 +13,13 @@ import (
 // @covers AC-PLUGINS-SDK-DISTRIBUTION-002.2
 func TestFrontendOnlyCommand(t *testing.T) {
 	root := t.TempDir()
-	pkg := filepath.Join(root, "node_modules", "@kandev", "plugin-sdk")
+	pkg := filepath.Join(root, "node_modules", "@kdlbs", "plugin-sdk")
 	require.NoError(t, os.MkdirAll(pkg, 0755))
 	files := map[string]any{
-		"package.json": map[string]any{"dependencies": map[string]string{"@kandev/plugin-sdk": "0.1.0"}},
-		"node_modules/@kandev/plugin-sdk/package.json":     map[string]string{"name": "@kandev/plugin-sdk", "version": "0.1.0"},
-		"node_modules/@kandev/plugin-sdk/sdk-release.json": map[string]any{"schema_version": 1, "sdk_version": "0.1.0", "host_release": "0.100.0", "min_kandev_version": "0.100.0", "api_versions": []int{1, 2}, "change_kind": "initial"},
-		"package-lock.json": map[string]any{"lockfileVersion": 3, "packages": map[string]any{"": map[string]any{"dependencies": map[string]string{"@kandev/plugin-sdk": "0.1.0"}}, "node_modules/@kandev/plugin-sdk": map[string]any{"version": "0.1.0", "resolved": "https://registry.npmjs.org/@kandev/plugin-sdk/-/plugin-sdk-0.1.0.tgz", "integrity": "sha512-" + strings.Repeat("A", 86) + "=="}}},
+		"package.json": map[string]any{"dependencies": map[string]string{"@kdlbs/plugin-sdk": "0.1.0"}},
+		"node_modules/@kdlbs/plugin-sdk/package.json":     map[string]string{"name": "@kdlbs/plugin-sdk", "version": "0.1.0"},
+		"node_modules/@kdlbs/plugin-sdk/sdk-release.json": map[string]any{"schema_version": 1, "sdk_version": "0.1.0", "host_release": "0.100.0", "min_kandev_version": "0.100.0", "api_versions": []int{1, 2}, "change_kind": "initial"},
+		"package-lock.json":                               map[string]any{"lockfileVersion": 3, "packages": map[string]any{"": map[string]any{"dependencies": map[string]string{"@kdlbs/plugin-sdk": "0.1.0"}}, "node_modules/@kdlbs/plugin-sdk": map[string]any{"version": "0.1.0", "resolved": "https://registry.npmjs.org/@kdlbs/plugin-sdk/-/plugin-sdk-0.1.0.tgz", "integrity": "sha512-" + strings.Repeat("A", 86) + "=="}}},
 	}
 	for path, value := range files {
 		data, err := json.Marshal(value)
@@ -29,7 +29,7 @@ func TestFrontendOnlyCommand(t *testing.T) {
 	manifest := filepath.Join(root, "manifest.yaml")
 	require.NoError(t, os.WriteFile(manifest, []byte("api_version: 2\nmin_kandev_version: 0.100.0\n"), 0600))
 	var out, errOut bytes.Buffer
-	args := []string{"--frontend-only", "--frontend-sdk", "node_modules/@kandev/plugin-sdk"}
+	args := []string{"--frontend-only", "--frontend-sdk", "node_modules/@kdlbs/plugin-sdk"}
 	require.Equal(t, 0, run(args, root, &out, &errOut), errOut.String())
 	require.Contains(t, out.String(), "0.1.0")
 	require.NoError(t, os.WriteFile(manifest, []byte("api_version: 2\nmin_kandev_version: 0.99.0\n"), 0600))

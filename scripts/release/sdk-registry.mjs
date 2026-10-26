@@ -1,7 +1,7 @@
 import { writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 
-export const packageName = "@kandev/plugin-sdk";
+export const packageName = "@kdlbs/plugin-sdk";
 export const registryURL = "https://registry.npmjs.org";
 export function publicRegistryURL(raw) {
   const url = new URL(raw);
@@ -10,7 +10,7 @@ export function publicRegistryURL(raw) {
   return url;
 }
 export async function readPackage(version, fetchImpl = fetch) {
-  const response = await fetchImpl(`${registryURL}/@kandev%2fplugin-sdk`, {
+  const response = await fetchImpl(`${registryURL}/@kdlbs%2fplugin-sdk`, {
     headers: { accept: "application/json", "cache-control": "no-cache" },
     signal: AbortSignal.timeout(20_000),
   });

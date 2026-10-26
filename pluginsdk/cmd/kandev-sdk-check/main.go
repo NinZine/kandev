@@ -16,7 +16,7 @@ func run(args []string, directory string, out, errOut io.Writer) int {
 	flags := flag.NewFlagSet("kandev-sdk-check", flag.ContinueOnError)
 	flags.SetOutput(errOut)
 	flags.StringVar(&options.Manifest, "manifest", "manifest.yaml", "plugin manifest path")
-	flags.StringVar(&options.FrontendSDK, "frontend-sdk", "", "installed node_modules/@kandev/plugin-sdk path")
+	flags.StringVar(&options.FrontendSDK, "frontend-sdk", "", "installed node_modules/@kdlbs/plugin-sdk path")
 	flags.BoolVar(&options.FrontendOnly, "frontend-only", false, "check a frontend-only plugin without a Go dependency")
 	if err := flags.Parse(args); err != nil {
 		if errors.Is(err, flag.ErrHelp) {

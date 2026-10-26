@@ -33,14 +33,14 @@ export async function checkPackedConsumer(
         name: "independent-sdk-consumer",
         private: true,
         type: "module",
-        dependencies: { "@kandev/plugin-sdk": candidate.sdk_version },
+        dependencies: { "@kdlbs/plugin-sdk": candidate.sdk_version },
         devDependencies: { typescript: "5.9.3" },
       }),
     );
     const env = npmEnvironment(root);
     await run("npm", ["install", "--registry", registryURL], { cwd, env, timeout: 180_000 });
     const lock = JSON.parse(await readFile(join(cwd, "package-lock.json"), "utf8"));
-    const installed = lock.packages["node_modules/@kandev/plugin-sdk"];
+    const installed = lock.packages["node_modules/@kdlbs/plugin-sdk"];
     if (
       installed.integrity !== candidate.integrity ||
       !installed.resolved.startsWith(registryURL + "/")
@@ -48,7 +48,7 @@ export async function checkPackedConsumer(
       throw new Error("consumer did not install the candidate from the selected registry");
     await writeFile(
       join(cwd, "consumer.ts"),
-      `import type { PluginHostApi, PluginRegistry, PluginComposerSlotProps } from '@kandev/plugin-sdk';\nimport record from '@kandev/plugin-sdk/sdk-release.json' with { type: 'json' };\ndeclare const host: PluginHostApi;\ndeclare const registry: PluginRegistry;\ndeclare const slot: PluginComposerSlotProps;\nvoid host.React; void registry; void slot; const version: string = record.sdk_version; void version;\n`,
+      `import type { PluginHostApi, PluginRegistry, PluginComposerSlotProps } from '@kdlbs/plugin-sdk';\nimport record from '@kdlbs/plugin-sdk/sdk-release.json' with { type: 'json' };\ndeclare const host: PluginHostApi;\ndeclare const registry: PluginRegistry;\ndeclare const slot: PluginComposerSlotProps;\nvoid host.React; void registry; void slot; const version: string = record.sdk_version; void version;\n`,
     );
     const modes = ["NodeNext", "Bundler"];
     for (const mode of modes) {

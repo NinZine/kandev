@@ -36,7 +36,7 @@ SDK dependencies through public package infrastructure.
   A plugin using that module shall build, vet, and test without an SDK
   replacement directive, a Kandev checkout, or a Go workspace override.
 - **AC-PLUGINS-SDK-DISTRIBUTION-001.2:** From an empty project,
-  `npm install --save-dev --save-exact @kandev/plugin-sdk@<released-version>`
+  `npm install --save-dev --save-exact @kdlbs/plugin-sdk@<released-version>`
   shall succeed through the public npm registry. Its exported types shall
   typecheck without Kandev, React, or Zustand application dependencies.
 - **AC-PLUGINS-SDK-DISTRIBUTION-001.3:** The resolved Go SDK shall not depend on

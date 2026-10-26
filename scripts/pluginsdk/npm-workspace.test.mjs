@@ -55,7 +55,7 @@ test("checker follows an npm workspace's installed resolution and binds its exac
     JSON.stringify({
       name: "workspace-plugin",
       private: true,
-      dependencies: { "@kandev/plugin-sdk": record.sdk_version },
+      dependencies: { "@kdlbs/plugin-sdk": record.sdk_version },
     }),
   );
   const env = npmEnvironment(root);
@@ -75,20 +75,20 @@ test("checker follows an npm workspace's installed resolution and binds its exac
   );
   const lockPath = join(workspace, "package-lock.json");
   const before = await readFile(lockPath, "utf8");
-  assert.ok(JSON.parse(before).packages["node_modules/@kandev/plugin-sdk"]);
-  const check = (path = "node_modules/@kandev/plugin-sdk") =>
+  assert.ok(JSON.parse(before).packages["node_modules/@kdlbs/plugin-sdk"]);
+  const check = (path = "node_modules/@kdlbs/plugin-sdk") =>
     run(binary, ["--frontend-only", "--frontend-sdk", path], { cwd, env });
   assert.match((await check()).stdout, /compatible/);
   assert.match(
-    (await check("../../node_modules/@kandev/plugin-sdk")).stdout,
+    (await check("../../node_modules/@kdlbs/plugin-sdk")).stdout,
     /compatible/,
   );
   const alias = join(root, "plugin-link");
   await symlink(cwd, alias, "dir");
   for (const path of [
-    "node_modules/@kandev/plugin-sdk",
-    join(alias, "node_modules/@kandev/plugin-sdk"),
-    join(workspace, "node_modules/@kandev/plugin-sdk"),
+    "node_modules/@kdlbs/plugin-sdk",
+    join(alias, "node_modules/@kdlbs/plugin-sdk"),
+    join(workspace, "node_modules/@kdlbs/plugin-sdk"),
   ]) {
     const result = await run(
       binary,
@@ -99,14 +99,14 @@ test("checker follows an npm workspace's installed resolution and binds its exac
   }
   assert.equal(await readFile(lockPath, "utf8"), before);
 
-  const installed = join(workspace, "node_modules/@kandev/plugin-sdk");
-  const shadow = join(cwd, "node_modules/@kandev/plugin-sdk");
+  const installed = join(workspace, "node_modules/@kdlbs/plugin-sdk");
+  const shadow = join(cwd, "node_modules/@kdlbs/plugin-sdk");
   await cp(installed, shadow, { recursive: true });
   await assert.rejects(check(), (error) =>
     /no registry SDK resolution/.test(error.stderr),
   );
   await assert.rejects(
-    check("../../node_modules/@kandev/plugin-sdk"),
+    check("../../node_modules/@kdlbs/plugin-sdk"),
     (error) => /resolved installed/.test(error.stderr),
   );
   await rm(shadow, { recursive: true });
@@ -117,7 +117,7 @@ test("checker follows an npm workspace's installed resolution and binds its exac
   await rm(shadow);
 
   const lock = JSON.parse(before);
-  lock.packages["node_modules/@kandev/plugin-sdk"].version = "0.2.0";
+  lock.packages["node_modules/@kdlbs/plugin-sdk"].version = "0.2.0";
   await writeFile(lockPath, JSON.stringify(lock));
   await assert.rejects(check(), (error) => /lock version/.test(error.stderr));
   // A nearer lockfile cannot authorize a package installed outside its tree.

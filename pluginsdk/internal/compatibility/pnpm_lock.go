@@ -76,7 +76,7 @@ func checkPNPMLock(root, directory, spec, version string) error {
 	}
 	tarball := pkg.Resolution.Tarball
 	if tarball == "" {
-		tarball = "https://registry.npmjs.org/@kandev/plugin-sdk/-/plugin-sdk-" + version + ".tgz"
+		tarball = "https://registry.npmjs.org/@kdlbs/plugin-sdk/-/plugin-sdk-" + version + ".tgz"
 	}
 	return registryResolution(tarball, pkg.Resolution.Integrity)
 }

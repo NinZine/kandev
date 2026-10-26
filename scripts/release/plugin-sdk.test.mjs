@@ -153,7 +153,7 @@ test("release stamping changes only canonical and generated metadata in a dispos
       await writeFile(join(root, path), original);
     await writeFile(
       join(root, "apps/packages/plugin-sdk/package.json"),
-      JSON.stringify({ name: "@kandev/plugin-sdk", version: "0.1.0" }),
+      JSON.stringify({ name: "@kdlbs/plugin-sdk", version: "0.1.0" }),
     );
     await prepareMetadata({ root, hostVersion: "0.100.0", stamp: false });
     assert.equal(

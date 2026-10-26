@@ -26,8 +26,8 @@ definition using a checked-in repository-local replacement; external consumers
 install module versions without replacements. Do not rename the backend module
 or maintain a second generated protocol definition.
 
-Publish the Go module under `pluginsdk/vX.Y.Z` tags and the existing npm name
-`@kandev/plugin-sdk` under the same independent `X.Y.Z`, initially `0.1.0`.
+Publish the Go module under `pluginsdk/vX.Y.Z` tags and the npm name
+`@kdlbs/plugin-sdk` under the same independent `X.Y.Z`, initially `0.1.0`.
 Publish a new shared version for contract changes associated with a Stable host
 release. An unchanged host release reuses the previous SDK. SDK patch releases
 may address packaging, dependencies, or SDK fixes without changing the host
@@ -54,6 +54,22 @@ The reconciled design retains the original tested npm archive and an authenticat
 receipt. SDK tagging runs after host publication on both normal and recovery
 paths. An initial bootstrap state retains the candidate without claiming success.
 These recovery details preserve the accepted version and host-baseline choices.
+
+## Namespace amendment (2026-10-26)
+
+The user selected `@kdlbs/plugin-sdk` before the first SDK publication.
+The original proposal used `@kandev/plugin-sdk`, matching the local workspace
+package. Authenticated npm checks confirmed that account `zval` owns the
+`kdlbs` organization but is not a member of the `kandev` organization.
+Access to the unscoped `kandev` package does not grant that scope.
+Use the controlled organization namespace for publication and source imports.
+Do not publish an alias or placeholder under the former name.
+
+This amendment changes only the npm identity. The Go module path, shared
+independent version starting at `0.1.0`, SDK-wide host floor, and installed
+plugin wire compatibility remain unchanged. Existing frontend source consumers
+must update their dependency name, imports, and lockfiles when migrating.
+The package remains unpublished until the signed release procedure completes.
 
 ## Consequences
 

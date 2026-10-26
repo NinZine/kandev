@@ -8,18 +8,19 @@ function response(status, body, type = "application/json") {
     { status, headers: { "content-type": type } },
   );
   Object.defineProperty(result, "url", {
-    value: "https://registry.npmjs.org/@kandev%2fplugin-sdk",
+    value: "https://registry.npmjs.org/@kdlbs%2fplugin-sdk",
   });
   return result;
 }
 test("distinguishes confirmed package absence from absent version and unreadable state", async () => {
-  const absent = await readPackage("0.1.0", async () =>
-    response(404, { error: "Not found" }),
-  );
+  const absent = await readPackage("0.1.0", async (url) => {
+    assert.equal(url, "https://registry.npmjs.org/@kdlbs%2fplugin-sdk");
+    return response(404, { error: "Not found" });
+  });
   assert.equal(absent.packageExists, false);
   const existing = await readPackage("0.1.0", async () =>
     response(200, {
-      name: "@kandev/plugin-sdk",
+      name: "@kdlbs/plugin-sdk",
       versions: {},
       "dist-tags": {},
     }),
@@ -46,16 +47,16 @@ test("distinguishes confirmed package absence from absent version and unreadable
 });
 test("validates selected registry identity and archive integrity metadata", async () => {
   const version = {
-    name: "@kandev/plugin-sdk",
+    name: "@kdlbs/plugin-sdk",
     version: "0.1.0",
     dist: {
       integrity: "sha512-" + "A".repeat(86) + "==",
       tarball:
-        "https://registry.npmjs.org/@kandev/plugin-sdk/-/plugin-sdk-0.1.0.tgz",
+        "https://registry.npmjs.org/@kdlbs/plugin-sdk/-/plugin-sdk-0.1.0.tgz",
     },
   };
   const document = {
-    name: "@kandev/plugin-sdk",
+    name: "@kdlbs/plugin-sdk",
     versions: { "0.1.0": version },
     "dist-tags": { latest: "0.1.0" },
   };

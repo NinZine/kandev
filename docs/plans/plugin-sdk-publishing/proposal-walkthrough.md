@@ -14,7 +14,7 @@ release process, and migration concrete.
 | --- | --- |
 | A Go SDK module independent of the backend | Keep it in this monorepo at `pluginsdk/`, with public import `github.com/kdlbs/kandev/pluginsdk` |
 | Include SDK code and generated plugin protocol | Move the SDK, canonical `.proto`, and generated Go types together; host and plugins use one definition |
-| Publish `@kandev/plugin-sdk` | Package the existing frontend types and publish through npm |
+| Publish `@kandev/plugin-sdk` (original issue name) | Publish the frontend types as `@kdlbs/plugin-sdk`, selected after scope ownership checks |
 | Document SDK, host, and manifest API compatibility | Give both SDKs a shared independent release version, publish a compatibility record, and check the manifest in author CI |
 | Release SDKs when the plugin contract changes | Extend Stable release automation with immutable artifacts, explicit recovery, and clean public installation checks |
 
@@ -64,7 +64,10 @@ CI selection so later SDK-only changes also test the host.
 
 **Result:** A plugin UI can typecheck with the npm SDK and its own project files.
 
-Keep the existing name `@kandev/plugin-sdk`. Its types already live separately
+Use the public name `@kdlbs/plugin-sdk`, selected on 2026-10-26 because the
+maintainer controls that npm organization. Replace the former local name
+`@kandev/plugin-sdk` in dependencies, imports, and lockfiles. Existing installed
+frontend bundles do not resolve this name at runtime. Its types live separately
 from the web application. Prepare its package contents, license, repository
 metadata, and compatibility-record export for publication.
 

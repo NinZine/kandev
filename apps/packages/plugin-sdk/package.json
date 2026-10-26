@@ -1,5 +1,5 @@
 {
-  "name": "@kandev/plugin-sdk",
+  "name": "@kdlbs/plugin-sdk",
   "version": "0.1.0",
   "description": "Versioned frontend contracts for Kandev runtime plugins",
   "type": "module",

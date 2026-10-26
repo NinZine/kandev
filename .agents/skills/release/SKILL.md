@@ -10,7 +10,7 @@ npm also has an explicit prerelease-only `nightly` channel; it is not part of th
 artifact set.
 
 Plugin SDKs are a separate version family: Go
-`github.com/kdlbs/kandev/pluginsdk` and npm `@kandev/plugin-sdk` share a version
+`github.com/kdlbs/kandev/pluginsdk` and npm `@kdlbs/plugin-sdk` share a version
 starting at 0.1.0. Stable verifies or publishes them; Nightly does not. Read the
 [SDK publication and recovery procedure](../../../docs/public/release-process.md#plugin-sdk-publication)
 before changing SDK release behavior. Public availability requires release

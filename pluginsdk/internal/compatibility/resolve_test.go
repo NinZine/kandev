@@ -12,18 +12,18 @@ import (
 func frontendFixture(t *testing.T) (string, string) {
 	t.Helper()
 	root := t.TempDir()
-	pkg := filepath.Join(root, "node_modules", "@kandev", "plugin-sdk")
-	writeJSON(t, filepath.Join(root, "package.json"), map[string]any{"dependencies": map[string]string{"@kandev/plugin-sdk": "0.1.0"}})
-	writeJSON(t, filepath.Join(pkg, "package.json"), map[string]string{"name": "@kandev/plugin-sdk", "version": "0.1.0"})
+	pkg := filepath.Join(root, "node_modules", "@kdlbs", "plugin-sdk")
+	writeJSON(t, filepath.Join(root, "package.json"), map[string]any{"dependencies": map[string]string{"@kdlbs/plugin-sdk": "0.1.0"}})
+	writeJSON(t, filepath.Join(pkg, "package.json"), map[string]string{"name": "@kdlbs/plugin-sdk", "version": "0.1.0"})
 	writeJSON(t, filepath.Join(pkg, "sdk-release.json"), releasedRecord())
-	writeNPMLock(t, root, "0.1.0", "https://registry.npmjs.org/@kandev/plugin-sdk/-/plugin-sdk-0.1.0.tgz", false)
+	writeNPMLock(t, root, "0.1.0", "https://registry.npmjs.org/@kdlbs/plugin-sdk/-/plugin-sdk-0.1.0.tgz", false)
 	return root, pkg
 }
 func writeNPMLock(t *testing.T, root, version, resolved string, link bool) {
 	t.Helper()
 	writeJSON(t, filepath.Join(root, "package-lock.json"), map[string]any{"lockfileVersion": 3, "packages": map[string]any{
-		"":                                map[string]any{"dependencies": map[string]string{"@kandev/plugin-sdk": "0.1.0"}},
-		"node_modules/@kandev/plugin-sdk": map[string]any{"version": version, "resolved": resolved, "integrity": "sha512-" + strings.Repeat("A", 86) + "==", "link": link},
+		"":                               map[string]any{"dependencies": map[string]string{"@kdlbs/plugin-sdk": "0.1.0"}},
+		"node_modules/@kdlbs/plugin-sdk": map[string]any{"version": version, "resolved": resolved, "integrity": "sha512-" + strings.Repeat("A", 86) + "==", "link": link},
 	}})
 }
 
@@ -54,7 +54,7 @@ func TestInstalledNPMLockEvidence(t *testing.T) {
 			writeJSON(t, filepath.Join(p, "sdk-release.json"), record)
 		}},
 		{"manifest substitution", "registry", func(t *testing.T, r, p string) {
-			writeJSON(t, filepath.Join(r, "package.json"), map[string]any{"dependencies": map[string]string{"@kandev/plugin-sdk": "file:../sdk"}})
+			writeJSON(t, filepath.Join(r, "package.json"), map[string]any{"dependencies": map[string]string{"@kdlbs/plugin-sdk": "file:../sdk"}})
 		}},
 		{"outside installed tree", "installed", func(t *testing.T, r, p string) {
 			require.NoError(t, os.Rename(p, p+"-outside"))
@@ -84,7 +84,7 @@ func pnpmFrontendFixture(t *testing.T) (string, string) {
 	t.Helper()
 	root, pkg := frontendFixture(t)
 	require.NoError(t, os.Remove(filepath.Join(root, "package-lock.json")))
-	store := filepath.Join(root, "node_modules", ".pnpm", "@kandev+plugin-sdk@0.1.0", "node_modules", "@kandev", "plugin-sdk")
+	store := filepath.Join(root, "node_modules", ".pnpm", "@kdlbs+plugin-sdk@0.1.0", "node_modules", "@kdlbs", "plugin-sdk")
 	require.NoError(t, os.MkdirAll(filepath.Dir(store), 0755))
 	require.NoError(t, os.Rename(pkg, store))
 	require.NoError(t, os.Symlink(store, pkg))
@@ -92,15 +92,15 @@ func pnpmFrontendFixture(t *testing.T) (string, string) {
 importers:
   .:
     dependencies:
-      '@kandev/plugin-sdk':
+      '@kdlbs/plugin-sdk':
         specifier: 0.1.0
         version: 0.1.0
 packages:
-  '@kandev/plugin-sdk@0.1.0':
+  '@kdlbs/plugin-sdk@0.1.0':
     resolution:
       integrity: sha512-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
 snapshots:
-  '@kandev/plugin-sdk@0.1.0': {}
+  '@kdlbs/plugin-sdk@0.1.0': {}
 `
 	require.NoError(t, os.WriteFile(filepath.Join(root, "pnpm-lock.yaml"), []byte(lock), 0600))
 	return root, pkg

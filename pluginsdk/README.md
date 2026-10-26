@@ -24,7 +24,7 @@ supported manifest API versions. Run the checker in the consumer project:
 go run github.com/kdlbs/kandev/pluginsdk/cmd/kandev-sdk-check@v0.1.0 --manifest manifest.yaml
 ```
 
-For a frontend dependency, add `--frontend-sdk node_modules/@kandev/plugin-sdk`.
+For a frontend dependency, add `--frontend-sdk node_modules/@kdlbs/plugin-sdk`.
 The checker reads installed versions and rejects local SDK substitutions. It
 does not edit project files. Keep exact dependency pins and commit lockfiles.
 

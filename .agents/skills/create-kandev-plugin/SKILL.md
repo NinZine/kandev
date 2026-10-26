@@ -207,7 +207,7 @@ repository above.
    identity and example behavior without deleting its packaging, test, or
    release safeguards.
 5. Check public SDK availability before migrating. After the selected release
-   is verified, pin `github.com/kdlbs/kandev/pluginsdk` and `@kandev/plugin-sdk`
+   is verified, pin `github.com/kdlbs/kandev/pluginsdk` and `@kdlbs/plugin-sdk`
    to exact versions. Remove SDK local replacements/file links, regenerate
    locks, and run the installed-dependency compatibility checker documented in
    the authoring guide. Use the SDK-wide host floor, not a guessed feature floor.

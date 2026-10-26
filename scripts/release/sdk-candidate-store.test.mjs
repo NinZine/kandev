@@ -30,7 +30,7 @@ async function fixture(t) {
   const raw = JSON.stringify(record, null, 2) + "\n";
   const files = {
     "package.json": JSON.stringify({
-      name: "@kandev/plugin-sdk",
+      name: "@kdlbs/plugin-sdk",
       version: "0.1.0",
       files: ["src", "sdk-release.json", "README.md", "LICENSE"],
     }),

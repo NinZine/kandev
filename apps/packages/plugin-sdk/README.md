@@ -1,19 +1,19 @@
-# @kandev/plugin-sdk
+# @kdlbs/plugin-sdk
 
 Runtime-free TypeScript contracts for Kandev UI plugins.
 
 The shared Go/npm SDK version starts at `0.1.0`, independently of Kandev.
 Public installation is available only after a verified Stable SDK release.
 After that release, install an exact version with
-`npm install --save-dev --save-exact @kandev/plugin-sdk@0.1.0` and commit the
-lockfile. Read the exported `@kandev/plugin-sdk/sdk-release.json` for the
+`npm install --save-dev --save-exact @kdlbs/plugin-sdk@0.1.0` and commit the
+lockfile. Read the exported `@kdlbs/plugin-sdk/sdk-release.json` for the
 originating host, SDK-wide host floor, and supported manifest API versions.
 
 Run the Go-hosted compatibility command from the frontend project root:
 
 ```bash
 go run github.com/kdlbs/kandev/pluginsdk/cmd/kandev-sdk-check@v0.1.0 \
-  --manifest manifest.yaml --frontend-only --frontend-sdk node_modules/@kandev/plugin-sdk
+  --manifest manifest.yaml --frontend-only --frontend-sdk node_modules/@kdlbs/plugin-sdk
 ```
 
 The checker supports npm lockfile v2/v3 and pnpm lockfile v9. It rejects local

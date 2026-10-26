@@ -76,7 +76,7 @@ compatibility enforcement, or npm uploads.
 node scripts/pluginsdk/sync-record.mjs --check
 node --test scripts/pluginsdk/sync-record.test.mjs scripts/pluginsdk/pack-candidate.test.mjs
 node --test scripts/pluginsdk/consumer-smoke.test.mjs
-(cd apps && pnpm --filter @kandev/plugin-sdk test && pnpm --filter @kandev/plugin-sdk typecheck)
+(cd apps && pnpm --filter @kdlbs/plugin-sdk test && pnpm --filter @kdlbs/plugin-sdk typecheck)
 (cd apps/web && pnpm run typecheck)
 node scripts/pluginsdk/consumer-smoke.mjs --mode local --skip-compatibility-check
 git diff --check

@@ -62,21 +62,21 @@ After the selected SDK version is publicly verified:
    registry version and commit the generated lockfile:
 
    ```bash
-   npm install --save-dev --save-exact @kandev/plugin-sdk@0.1.0
+   npm install --save-dev --save-exact @kdlbs/plugin-sdk@0.1.0
    ```
 
 4. Set `manifest.yaml`'s `min_kandev_version` to at least the highest floor of
    the SDKs actually installed. Select an `api_version` supported by all of
    them. Use a complete Stable host version without prerelease or build suffixes.
    Inspect the installed npm record with
-   `node -p 'require("@kandev/plugin-sdk/sdk-release.json")'`.
+   `node -p 'require("@kdlbs/plugin-sdk/sdk-release.json")'`.
    Do not invent the initial host number from these examples.
 5. Add the compatibility check before build/package in CI, after dependency
    installation. Run it from the plugin's Go module and manifest directory:
 
    ```bash
    go run github.com/kdlbs/kandev/pluginsdk/cmd/kandev-sdk-check@v0.1.0 \
-     --manifest manifest.yaml --frontend-sdk node_modules/@kandev/plugin-sdk
+     --manifest manifest.yaml --frontend-sdk node_modules/@kdlbs/plugin-sdk
    ```
 
 Omit `--frontend-sdk` for Go-only plugins. Add `--frontend-only` for a project
@@ -471,7 +471,7 @@ app does not receive that API. Use the canvas state protocol instead.
 The guide summarizes the contract for discovery. These files remain the source
 of truth and must be updated together when the contract changes:
 
-- Versioned frontend author contract: `@kandev/plugin-sdk`, sourced from
+- Versioned frontend author contract: `@kdlbs/plugin-sdk`, sourced from
   `apps/packages/plugin-sdk`. Import it with `import type`; the package has no
   dependency on Kandev, React, Zustand, or private `@/` modules, so it also
   typechecks when consumed from an isolated or sparse checkout.
@@ -524,7 +524,7 @@ Type frontend bundles against the versioned, runtime-free SDK rather than
 copying host interfaces or importing Kandev application files:
 
 ```ts
-import type { PluginHostApi, PluginRegistry } from "@kandev/plugin-sdk";
+import type { PluginHostApi, PluginRegistry } from "@kdlbs/plugin-sdk";
 ```
 
 Official code-host plugins use `host.context` for provider-neutral workspace,
@@ -592,7 +592,7 @@ closing future reads.
 ### Managed conversation and task surfaces
 
 Use the shared Host components for an installation-owned conversation. Import
-the prop and controller types from `@kandev/plugin-sdk`; the plugin owns the
+the prop and controller types from `@kdlbs/plugin-sdk`; the plugin owns the
 controller adapter and calls its declared workspace actions.
 
 ```tsx
@@ -660,7 +660,7 @@ before submitting the request.
 | host.useSettingsSaveContributor | Registers one plugin-owned contributor for the native save bar; the host prefixes ids with `plugin:<pluginId>:` before shared coordination                                                                                                                                                             | Active ui.bundle                                                       | Contributor lifecycle follows the rendering component; save and discard remain plugin-owned                                                                                                                     | host.useSettingsSaveContributor({ id: "credentials", revision, isDirty, save, discard })                            |
 | host.setIntegrationEnabled      | Publishes one registration's live enabled value for one workspace; the value is reactive but not durable                                                                                                                                                                                               | Active ui.bundle                                                       | The host validates that `integrationId` belongs to this plugin; republish after load using `host.context.getWorkspaceIds()` and `subscribeWorkspaces()`                                                         | host.setIntegrationEnabled("acme", workspaceId, enabled)                                                            |
 | host.i18n                       | Plugin-scoped `locale`, imperative `t(key, options?)`, and reactive `useTranslation()`                                                                                                                                                                                                                 | A registered English catalog                                           | Locale changes re-render reactive consumers; missing active-locale messages fall back to the plugin's English catalog                                                                                           | const { t } = host.i18n.useTranslation(); t("pullRequests")                                                         |
-| host.store (legacy)             | Compatibility-only access to Kandev's private Zustand store; intentionally absent from `@kandev/plugin-sdk`                                                                                                                                                                                            | Older ui.bundle                                                        | Do not use in new or official plugins; private slices may change without plugin-API compatibility                                                                                                               | Migrate reads to host.context                                                                                       |
+| host.store (legacy)             | Compatibility-only access to Kandev's private Zustand store; intentionally absent from `@kdlbs/plugin-sdk`                                                                                                                                                                                            | Older ui.bundle                                                        | Do not use in new or official plugins; private slices may change without plugin-API compatibility                                                                                                               | Migrate reads to host.context                                                                                       |
 | host.api.fetch / baseUrl        | fetch(path, init?) is scoped to /api/plugins/<id>/...; baseUrl is the backend origin for split-origin deployments                                                                                                                                                                                      | Active ui.bundle; backend path must be a declared webhook when relayed | Declare `webhooks[].access: authenticated` for UI-only or billable operations; requests are generation-aborted on unload                                                                                        | host.api.fetch("webhooks/inbound", { method: "POST" })                                                              |
 | host.api.invokeAction           | Authenticated call to a declared action with host-verified workspace/task/session/repository selectors and bounded untrusted body                                                                                                                                                                      | Matching manifest `actions[]` key/scope                                | Browser abort cancels the bounded plugin RPC; safe domain statuses and `Retry-After` may be returned                                                                                                            | host.api.invokeAction("reviews.get", { taskId }, { signal })                                                        |
 | host.storage                    | Authenticated, per-user key/value storage: get(scope, scopeId, key, options?)/set(scope, scopeId, key, value, options?)/delete(scope, scopeId, key, options?)/list(scope, scopeId, options?) plus subscribe(filter, handler); no plugin backend required                                               | capabilities.user_state: true                                          | Reads and writes accept an AbortSignal; set/delete also accept writerId (appended to the host's per-tab id, not a replacement) for echo suppression; list returns every entry under the scope pair, unpaginated | host.storage.set("task", taskId, "note", value, { writerId: panelId, signal })                                      |
@@ -983,7 +983,7 @@ sidebar cluster and `presentation: "mobile"` for the phone navigation sheet.
 Mobile actions must keep their own buttons or links at least 44px in the active
 dimension and provide an accessible name.
 
-`PluginComposerSlotProps` is exported by `@kandev/plugin-sdk` as `{ surface,
+`PluginComposerSlotProps` is exported by `@kdlbs/plugin-sdk` as `{ surface,
 presentation, taskId, taskTitle?, activeSessionId, sessionIds, disabled,
 submittable, disabledReason?, composer, registerTaskCreatedHandler? }`. The
 optional `registerTaskCreatedHandler` is supplied only to create-mode
@@ -2709,7 +2709,7 @@ interface PluginHostApi {
     // plugin reach first-party kandev REST endpoints directly.
     baseUrl: string;
   };
-  ui: PluginUIApi; // named curated host components; see @kandev/plugin-sdk
+  ui: PluginUIApi; // named curated host components; see @kdlbs/plugin-sdk
   i18n: {
     readonly locale: string;
     t(
@@ -2785,7 +2785,7 @@ interface PluginModalHandle {
 ```
 
 A compatibility-only `host.store` remains for older bundles, but it is absent
-from `@kandev/plugin-sdk`. New plugins must not depend on private `AppState`
+from `@kdlbs/plugin-sdk`. New plugins must not depend on private `AppState`
 records or mutate the SPA store.
 
 A plugin bundle must render with `host.React` / `host.jsx`; bundling your
@@ -3063,7 +3063,7 @@ Register a `chat-top-bar` component to surface at-a-glance status in the
 session top bar. Import its context from the public SDK:
 
 ```ts
-import type { ChatTopBarSlotProps } from "@kandev/plugin-sdk";
+import type { ChatTopBarSlotProps } from "@kdlbs/plugin-sdk";
 
 // The exported type contains:
 type Context = {
@@ -3101,7 +3101,7 @@ a `chat-submit-decoration` component instead. The host layers it over the send
 button's own box:
 
 ```ts
-import type { ChatSubmitDecorationSlotProps } from "@kandev/plugin-sdk";
+import type { ChatSubmitDecorationSlotProps } from "@kdlbs/plugin-sdk";
 ```
 
 ```ts

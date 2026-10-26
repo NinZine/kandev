@@ -12,7 +12,7 @@ import (
 )
 
 const ModulePath = "github.com/kdlbs/kandev/pluginsdk"
-const PackageName = "@kandev/plugin-sdk"
+const PackageName = "@kdlbs/plugin-sdk"
 
 const (
 	npmLockKind  = "npm"
@@ -138,9 +138,9 @@ func installedFrontend(directory, root, kind, requested string) (string, error) 
 	if err != nil {
 		return "", err
 	}
-	local := filepath.Join(directory, "node_modules", "@kandev", "plugin-sdk")
+	local := filepath.Join(directory, "node_modules", "@kdlbs", "plugin-sdk")
 	for current := directory; ; current = filepath.Dir(current) {
-		candidate := filepath.Join(current, "node_modules", "@kandev", "plugin-sdk")
+		candidate := filepath.Join(current, "node_modules", "@kdlbs", "plugin-sdk")
 		_, err := os.Lstat(candidate)
 		if err == nil {
 			if filepath.Clean(requested) != local && filepath.Clean(requested) != candidate {
@@ -196,7 +196,7 @@ func verifyInstalledPath(path, root, version, kind string) error {
 	if err != nil {
 		return err
 	}
-	store := filepath.Join(root, "node_modules", ".pnpm", "@kandev+plugin-sdk@"+version, "node_modules", "@kandev", "plugin-sdk")
+	store := filepath.Join(root, "node_modules", ".pnpm", "@kdlbs+plugin-sdk@"+version, "node_modules", "@kdlbs", "plugin-sdk")
 	if kind == pnpmLockKind && actual == store {
 		return nil
 	}
@@ -206,12 +206,12 @@ func verifyInstalledPath(path, root, version, kind string) error {
 // Resolve checkout aliases without accepting links within the installed package tree.
 func canonicalInstalledPath(path string) (string, error) {
 	project := filepath.Dir(filepath.Dir(filepath.Dir(path)))
-	if filepath.Clean(path) != filepath.Join(project, "node_modules", "@kandev", "plugin-sdk") {
-		return "", fmt.Errorf("frontend SDK path must identify node_modules/@kandev/plugin-sdk")
+	if filepath.Clean(path) != filepath.Join(project, "node_modules", "@kdlbs", "plugin-sdk") {
+		return "", fmt.Errorf("frontend SDK path must identify node_modules/@kdlbs/plugin-sdk")
 	}
 	project, err := filepath.EvalSymlinks(project)
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(project, "node_modules", "@kandev", "plugin-sdk"), nil
+	return filepath.Join(project, "node_modules", "@kdlbs", "plugin-sdk"), nil
 }

@@ -121,7 +121,7 @@ async function localSources(root, version, resolved, sourceRoot) {
 async function checkConsumers(go, cwd, version, record, frontend) {
   const command = ["run", `${sdkModule}/cmd/kandev-sdk-check@${version}`];
   const args = frontend
-    ? ["--frontend-sdk", "node_modules/@kandev/plugin-sdk"]
+    ? ["--frontend-sdk", "node_modules/@kdlbs/plugin-sdk"]
     : [];
   const manifest = join(cwd, "manifest.yaml");
   const valid = `api_version: ${record.api_versions.at(-1)}\nmin_kandev_version: ${record.min_kandev_version}\n`;
