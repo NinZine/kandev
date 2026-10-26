@@ -1,0 +1,298 @@
+{
+  "status": "Observed-input protocol calibrated; full reference matrix remains pending",
+  "recordedAt": "2026-10-26T10:33:10.939421+00:00",
+  "taskId": "bacce745-f09d-4752-a4d4-6ddc7d5a1225",
+  "sessionId": "5936a872-e574-45fb-b153-4e8d34a6e7bf",
+  "mode": "scripted-scroll-v2",
+  "observationProtocol": "native-observed-scroll-v2",
+  "productionRevision": "138a567d45b8a751715abc23f3b2f3e003703e53",
+  "candidateAssetsSha256": "44cf53e748355040d55feadf95c87546dcc2bb72d3b061b914226e2c8cb5fdaf",
+  "baselineRevision": "595df36ed5c1cf02fd90cb972b623ad6edc53df8",
+  "baselineAssetsSha256": "312770e3ef7b09b53e7791dbea8ad87eea19f687bd85a218ce6ced2493ce3987",
+  "originalV1Helper": {
+    "path": "apps/web/e2e/helpers/dense-interactions.ts",
+    "sha256": "cef907a213b16e33f30493bf139158f13687e97ff23dace4e85eb813edf47e33",
+    "unchanged": true
+  },
+  "sourceParent": "138a567d45b8a751715abc23f3b2f3e003703e53",
+  "rehearsalSourceFiles": [
+    {
+      "path": "apps/web/e2e/helpers/dense-comparison-sample.ts",
+      "sha256": "13872339a8320ab005c9c75e5456f62b582de76baa1b198d6b4bfb7d3b4d2007"
+    },
+    {
+      "path": "apps/web/e2e/helpers/dense-interaction-mode.mjs",
+      "sha256": "0fe9b5d1c43be84b573af8f8f6950b38ddd30c6b306408f6aaa825b8dd84584d"
+    },
+    {
+      "path": "apps/web/e2e/helpers/dense-interactions-v2.ts",
+      "sha256": "0a0e99b3f7b8fd330adf93a78eb8f8fb1e3e2d6505166903d796ed7951149139"
+    },
+    {
+      "path": "apps/web/e2e/helpers/dense-observed-scroll.ts",
+      "sha256": "c6415783134f5a2a7544873ca4aa2f673f67f321e007c6a01bec165ef3dd3640"
+    },
+    {
+      "path": "apps/web/e2e/scripts/dense-interaction-mode.test.mjs",
+      "sha256": "4c3d10cbd715334bfb93cf57b4ec5ade29543fa2985fbe57b94dc946e7214f48"
+    },
+    {
+      "path": "apps/web/e2e/scripts/dense-interaction-summary.mjs",
+      "sha256": "77507635810926fa89c789de9b7cff339cbd906e0019f1eda36b5631c039f92e"
+    },
+    {
+      "path": "apps/web/e2e/scripts/dense-observed-interaction-summary.mjs",
+      "sha256": "e2fc838af1830b2a394a50f432d5178cb172db73ee7a0b563a964f5c79000690"
+    },
+    {
+      "path": "apps/web/e2e/scripts/summarize-dense-observed-interactions.test.mjs",
+      "sha256": "b3f659b7e2e86b49c14e8ffa4eea4b5679537aad2c05ce8d4982664a6b7dc500"
+    },
+    {
+      "path": "apps/web/e2e/tests/performance/dense-observed-interactions.spec.ts",
+      "sha256": "d22df92d47b22a57a62720193b963a73da4692f336e1f422504e544e0b419505"
+    },
+    {
+      "path": "apps/web/e2e/tests/performance/dense-observed-scroll.spec.ts",
+      "sha256": "ef2538ab22008b42386bd8405708904403a379246a2a10dac070dc0f471d546b"
+    },
+    {
+      "path": "apps/web/e2e/tests/performance/dense-workbench-comparison.spec.ts",
+      "sha256": "17894647acb08359b86487ca3586e87d56c22d5ef0fc1645231c29695fd4acc5"
+    }
+  ],
+  "changes": [
+    "Observe one intended transcript through each scripted native gesture; retain bounded scalar state and remove listeners and JS handles.",
+    "Use event-time geometry or its higher preceding browser observation for upward input. Retain the raw event geometry, origin source and timestamp. No universal delta or DPR conversion is assumed.",
+    "Retain a bottom hit within the five-second wait when later streaming growth moves the current edge.",
+    "Require held reading immediately before the explicit return gesture. A transient upward movement followed by an unrequested advance is rejected.",
+    "Keep the original v1 helper, wheel commands, hover/disclosure sequence, action schedule and all failed reports. Version2 is opt-in and gets separate result groups.",
+    "Reject missing proofs, mixed modes, invalid targets/sessions, untrusted or prevented input, changed commands, extended deadlines and lost reading positions."
+  ],
+  "preserved": {
+    "wheelCommands": [
+      [0, -160],
+      [0, 1000000]
+    ],
+    "waitLimitMs": 5000,
+    "bottomBoundPx": 3,
+    "readingAdvanceBoundPx": 3,
+    "defaultMode": "quiet; v1 remains the default when scripted input is enabled without an explicit protocol"
+  },
+  "calibration": {
+    "browser": {
+      "handle": 52894,
+      "exitCode": 0,
+      "passed": 14,
+      "collectorCases": 9,
+      "runnerCases": 3,
+      "unchangedV1Cases": 2
+    },
+    "node": {
+      "handle": 68849,
+      "exitCode": 0,
+      "passed": 23
+    },
+    "strictLint": "passed",
+    "isolatedNewCollectorRunnerAndCalibrationTypes": "passed",
+    "actualCalibrationWitnesses": {
+      "recordedAt": "2026-10-26T10:24:56.283Z",
+      "passed": 2,
+      "results": [
+        {
+          "file": "observed-protocol-final-calibration-results/performance-dense-observed-ac4ef-s-with-native-proof-steady--chromium/observed-interactions.json",
+          "prefix": "scripted-scroll-v2-",
+          "actualCommands": [
+            {
+              "deltaX": 0,
+              "deltaY": -160
+            },
+            {
+              "deltaX": 0,
+              "deltaY": 1000000
+            }
+          ],
+          "heldAdvancePx": 0,
+          "bottomHitGapPx": 0,
+          "currentGapPx": 0
+        },
+        {
+          "file": "observed-protocol-final-calibration-results/performance-dense-observed-e0bfb-ve-proof-grow-after-bottom--chromium/observed-interactions.json",
+          "prefix": "scripted-scroll-v2-",
+          "actualCommands": [
+            {
+              "deltaX": 0,
+              "deltaY": -160
+            },
+            {
+              "deltaX": 0,
+              "deltaY": 1000000
+            }
+          ],
+          "heldAdvancePx": 0,
+          "bottomHitGapPx": 0,
+          "currentGapPx": 200
+        }
+      ]
+    }
+  },
+  "redAndIntermediateEvidence": [
+    {
+      "name": "collector stub RED",
+      "handle": 75124,
+      "exitCode": 1,
+      "failed": 8,
+      "evidence": "observed-scroll-initial-red.json"
+    },
+    {
+      "name": "first real collector",
+      "handle": 26068,
+      "exitCode": 1,
+      "passed": 6,
+      "failed": 2,
+      "evidence": "observed-scroll-first-implementation.json"
+    },
+    {
+      "name": "retained asynchronous origin failures",
+      "handle": 22929,
+      "exitCode": 1,
+      "failed": 2,
+      "evidence": "observed-scroll-origin-before-repair.json"
+    },
+    {
+      "name": "runner stub RED",
+      "handle": 24644,
+      "exitCode": 1,
+      "failed": 3,
+      "evidence": "observed-interactions-initial-red.json"
+    },
+    {
+      "name": "new summary contract RED",
+      "exitCode": 1,
+      "evidence": "observed-summary-initial-red.log"
+    },
+    {
+      "name": "mode selection stub RED",
+      "exitCode": 1,
+      "evidence": "observed-mode-initial-red.log"
+    },
+    {
+      "name": "strict complexity gate",
+      "handle": 45838,
+      "exitCode": 1,
+      "reason": "Wheel validator16versus15; extracted command validation without a waiver",
+      "evidence": "observed-protocol-first-lint.log"
+    }
+  ],
+  "rehearsals": [
+    {
+      "recordedAt": "2026-10-26T10:28:13.688708+00:00",
+      "handle": 15746,
+      "exitCode": 0,
+      "passedAttempts": 2,
+      "raw": "matched-dense-1793010378608.json",
+      "sha256": "6b515c2e0d07e1451a4d83074ee8c008f7cd478722ffec89ac4977f717aa2d53",
+      "sourceUnchanged": true,
+      "sourcePatchExact": true,
+      "builds": {
+        "baseline": {
+          "binary": "/tmp/kandev-dense-baseline-595df36/apps/backend/bin/kandev",
+          "assets": "/tmp/kandev-dense-baseline-595df36/apps/web/dist",
+          "binarySha256": "79862387cc00751d9462fd4f2f5b844ad7126f3e45d5e990a7c14577d31499de",
+          "assetsSha256": "312770e3ef7b09b53e7791dbea8ad87eea19f687bd85a218ce6ced2493ce3987"
+        },
+        "candidate": {
+          "binary": "/tmp/kandev-perf-delivery-5936a872/apps/backend/bin/kandev",
+          "assets": "/tmp/kandev-perf-delivery-5936a872/apps/web/dist",
+          "binarySha256": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+          "assetsSha256": "44cf53e748355040d55feadf95c87546dcc2bb72d3b061b914226e2c8cb5fdaf"
+        }
+      },
+      "measurementKind": "harness-rehearsal",
+      "interactionMode": "scripted-scroll-v2",
+      "copiedRawAndLogFiles": 4
+    },
+    {
+      "recordedAt": "2026-10-26T10:31:35.594600+00:00",
+      "handle": 85819,
+      "exitCode": 0,
+      "passedAttempts": 2,
+      "raw": "matched-dense-1793010523792.json",
+      "sha256": "a28a8aa646fd86a45048df395378105670acdfe0fa5ba0219fdb0e52efff7714",
+      "sourceUnchanged": true,
+      "sourcePatchExact": true,
+      "builds": {
+        "baseline": {
+          "binary": "/tmp/kandev-dense-baseline-595df36/apps/backend/bin/kandev",
+          "assets": "/tmp/kandev-dense-baseline-595df36/apps/web/dist",
+          "binarySha256": "79862387cc00751d9462fd4f2f5b844ad7126f3e45d5e990a7c14577d31499de",
+          "assetsSha256": "312770e3ef7b09b53e7791dbea8ad87eea19f687bd85a218ce6ced2493ce3987"
+        },
+        "candidate": {
+          "binary": "/tmp/kandev-perf-delivery-5936a872/apps/backend/bin/kandev",
+          "assets": "/tmp/kandev-perf-delivery-5936a872/apps/web/dist",
+          "binarySha256": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+          "assetsSha256": "44cf53e748355040d55feadf95c87546dcc2bb72d3b061b914226e2c8cb5fdaf"
+        }
+      },
+      "measurementKind": "harness-rehearsal",
+      "interactionMode": "scripted-scroll-v2",
+      "verifiedOrderedUpdates": 120
+    }
+  ],
+  "actualRehearsalValidation": {
+    "recordedAt": "2026-10-26T10:31:35.860Z",
+    "passedNativeProofs": 4,
+    "verifiedOrderedUpdates": 240,
+    "candidateAssetsUnchanged": "44cf53e748355040d55feadf95c87546dcc2bb72d3b061b914226e2c8cb5fdaf",
+    "results": [
+      {
+        "layout": "grid",
+        "sample": "baseline-1x-0",
+        "scheduledVerifiedUpdates": 60,
+        "holdMaximumAdvancePx": 0,
+        "bottomHitGapPx": 0,
+        "sourceRevision": "138a567d45b8a751715abc23f3b2f3e003703e53"
+      },
+      {
+        "layout": "grid",
+        "sample": "candidate-1x-0",
+        "scheduledVerifiedUpdates": 60,
+        "holdMaximumAdvancePx": 0,
+        "bottomHitGapPx": 0,
+        "sourceRevision": "138a567d45b8a751715abc23f3b2f3e003703e53"
+      },
+      {
+        "layout": "columns",
+        "sample": "baseline-1x-0",
+        "scheduledVerifiedUpdates": 60,
+        "holdMaximumAdvancePx": 0,
+        "bottomHitGapPx": 0,
+        "sourceRevision": "138a567d45b8a751715abc23f3b2f3e003703e53"
+      },
+      {
+        "layout": "columns",
+        "sample": "candidate-1x-0",
+        "scheduledVerifiedUpdates": 60,
+        "holdMaximumAdvancePx": 0,
+        "bottomHitGapPx": 0,
+        "sourceRevision": "138a567d45b8a751715abc23f3b2f3e003703e53"
+      }
+    ]
+  },
+  "cleanup": {
+    "recordedAt": "2026-10-26T10:31:35.605553+00:00",
+    "fixtureRoots": ["/tmp/kandev-e2e-0-ofjlbB", "/tmp/kandev-e2e-0-sHFO2u"],
+    "fixtureRootsRemoved": true,
+    "remainingOwnedEnvironmentProcesses": [],
+    "method": "Read-only process environment scan for these exact disposable roots; current process ancestors excluded."
+  },
+  "limits": [
+    "Rehearsals use8tasks,8columns,20stored messages per column and2second windows. They verify the caller and do not establish dense speed gains.",
+    "Both arms must use the same protocol. Do not pool v1, v2 or diagnostic timings.",
+    "The target-scoped correctness observer adds work to the harness on both arms. It does not change either production application.",
+    "The preceding origin observation is recorded with its source and time. It is not an inferred input queue delay or INP value.",
+    "Full reference density, six complete alternating pairs and final-build coverage remain pending.",
+    "No direct M2 Air, battery or memory-leak conclusion."
+  ]
+}

@@ -37,11 +37,13 @@ The optional isolated E2E type audit still reports six errors in unchanged
 fixtures/helpers; its complete failed logs are retained. See
 [the repair evidence](evidence/native-upward-intent.json).
 
-The final dense matrix is still open for this build. Next, calibrate a distinct
-input protocol for the two confirmed measurement defects: stale pre-gesture
-position and missed bottom-hit observations. Keep the original commands,
-five-second bounds, workload and failed v1 reports, and require held reading.
-The focused repair is correctness evidence, with no final speed or M2 Air claim.
+The final dense matrix is still open for this build. The distinct v2 input
+protocol now passes 14 browser and 23 Node checks plus both-build Grid and
+Columns rehearsals. The four complete samples verify 240 ordered updates.
+Original commands, five-second bounds, workload and failed v1 reports stay
+unchanged; the new mode requires held reading and keeps versioned results.
+See [the protocol evidence](evidence/observed-input-protocol-v2.json).
+These focused checks establish correctness, with no final speed or M2 Air claim.
 Earlier entries below retain their own build and fixture identities.
 
 The earlier `820f` full-reference grid run finishes all 12 planned attempts:

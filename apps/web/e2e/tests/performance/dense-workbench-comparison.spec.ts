@@ -1,6 +1,5 @@
 import { copyDenseBackendLog } from "../../helpers/dense-evidence";
 import { DENSE_THREADS_FILE_PROTOCOL } from "../../scripts/dense-file-summary.mjs";
-import { DENSE_INTERACTION_MODE } from "../../helpers/dense-interactions";
 import { DENSE_NATIVE_INPUT_ATTRIBUTION } from "../../helpers/dense-native-input";
 import {
   DENSE_ATTEMPT_PROTOCOL,
@@ -19,7 +18,7 @@ import {
   seedDenseThreadsFixture,
   verifyDenseThreadsFiles,
 } from "../../helpers/dense-threads-fixture";
-import { runDenseSample } from "../../helpers/dense-comparison-sample";
+import { runDenseSample, DENSE_INTERACTION_MODE } from "../../helpers/dense-comparison-sample";
 import { hashAssetTree, sha256File, snapshotDatabase } from "../../helpers/dense-snapshot";
 import { profileMachine } from "../task/task-navigation-profile-helpers";
 

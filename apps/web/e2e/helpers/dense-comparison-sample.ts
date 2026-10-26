@@ -1,4 +1,6 @@
-import { DENSE_INTERACTION_MODE, runDenseInteractions } from "./dense-interactions";
+import { runDenseInteractions } from "./dense-interactions";
+import { selectDenseInteractionMode } from "./dense-interaction-mode.mjs";
+import { runDenseObservedInteractions } from "./dense-interactions-v2";
 import { verifyDenseColumnTraversal } from "./dense-column-traversal";
 import { inspectDenseBusyHeaderMotion } from "./dense-busy-headers";
 import { DENSE_VISIBILITY_PROBE } from "./dense-visible";
@@ -25,6 +27,12 @@ import {
   installDenseNativeInputObserver,
   captureDenseNativeInputObserver,
 } from "./dense-native-input";
+
+export const DENSE_INTERACTION_MODE = selectDenseInteractionMode();
+const runInteractions =
+  DENSE_INTERACTION_MODE === "scripted-scroll-v2"
+    ? runDenseObservedInteractions
+    : runDenseInteractions;
 
 async function startDenseProfile(cdp: CDPSession, profilePath?: string) {
   if (!profilePath) return;
@@ -307,7 +315,7 @@ async function observeDenseWindow(options: {
       `fixed ${options.scenario} performance observation window`,
     ),
     options.scenario === "streaming" && DENSE_INTERACTION_MODE !== "quiet"
-      ? runDenseInteractions({ ...options, durationMs })
+      ? runInteractions({ ...options, durationMs })
       : Promise.resolve([]),
   ]);
   for (const result of results) if (result.status === "rejected") throw result.reason;

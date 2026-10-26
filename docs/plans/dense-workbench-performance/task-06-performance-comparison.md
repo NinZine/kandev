@@ -866,3 +866,23 @@ bottom-hit observations. The original commands, five-second bounds, workload,
 and failed v1 reports remain unchanged. The new protocol must reject a transient
 upward move followed by an unrequested return. No final speed or M2 Air claim
 follows from the focused repair.
+
+## Observed-input protocol calibration
+
+The final dense matrix is still open for this build. The distinct v2 input
+protocol now passes 14 browser and 23 Node checks plus both-build Grid and
+Columns rehearsals. The four complete samples verify 240 ordered updates.
+Original commands, five-second bounds, workload and failed v1 reports stay
+unchanged; the new mode requires held reading and keeps versioned results.
+See [the protocol evidence](evidence/observed-input-protocol-v2.json).
+These focused checks establish correctness, with no final speed or M2 Air claim.
+Earlier entries below retain their own build and fixture identities.
+
+The caller now records a native event-time origin or its higher preceding
+browser observation, retains an eligible bottom hit, and checks held reading
+before the return input. The original v1 helper stays byte-identical. The
+controlled rearming fault is rejected before positive input, and summaries
+reject mixed modes or missing proof. All RED and intermediate failures remain
+retained. Both short caller runs preserve source and application identities;
+their disposable roots are removed with no remaining owned process. The next
+step is the full reference matrix on the current production build.

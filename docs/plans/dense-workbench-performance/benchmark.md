@@ -630,3 +630,40 @@ Run `dense-native-input.spec.ts` with the existing interaction diagnostic
 spec. It saves explicit JSON ledger files. The summary guard and its actual
 passing-diagnostic rejection are covered separately. See
 [the calibration evidence](evidence/native-input-calibration.json).
+
+## Observed native inputs, version 2
+
+Set `KANDEV_DENSE_INTERACTIONS=1` and
+`KANDEV_DENSE_INTERACTION_PROTOCOL=v2` to select `scripted-scroll-v2`. Quiet
+mode and the default scripted v1 mode keep their existing behavior. The
+original v1 helper and its failed reports remain unchanged. Unknown protocol
+values fail before a measurement starts.
+
+Version 2 keeps the same wheel commands (-160 and 1,000,000), target hover and
+disclosure sequence, four-action schedule, five-second wait limit, and
+three-pixel bottom bound. It observes the intended native transcript through
+each gesture. A wheel can reach its passive handler after the compositor has
+moved; upward origin therefore retains the higher preceding browser
+observation when needed. Raw event geometry, origin source and time stay in
+the proof. No delta-to-pixel or DPR conversion is assumed.
+
+The observer retains a qualifying bottom hit when later height growth moves
+the edge before a remote poll. Before the return gesture, a separate check
+requires the reader's lowest position to stay held within three pixels. A
+transient upward move followed by automatic following fails. Target/session
+replacement, prevented or synthetic input, extra wheel events and missing
+proof also fail. Listeners and their JS handles are removed on success and
+failure. This is a target-scoped correctness observer, with no recurring RAF
+loop, full attribution payload, bounds walk or application state mutation.
+
+Every proof records its command and exact five-second deadline. Summaries
+require the native input and held-reading witnesses and label the entire
+scripted scenario with its version. Both arms use the same version; do not
+pool v1, v2, quiet or diagnostic timings. The observer adds harness work to
+both arms. Application bundle identity remains separate from harness identity.
+
+Calibration passes 14 browser checks and 23 Node checks. Both application
+versions pass small Grid and Columns callers, verifying 240 ordered updates
+in four complete samples. These small rehearsals establish caller correctness,
+with no dense performance conclusion. See
+[the protocol evidence](evidence/observed-input-protocol-v2.json).
