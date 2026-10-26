@@ -3,6 +3,8 @@ import { KanbanPage } from "../../pages/kanban-page";
 import type { ApiClient } from "../../helpers/api-client";
 import type { Locator, Page } from "@playwright/test";
 
+test.use({ trace: "retain-on-failure" });
+
 const LONG_STEP_NAME = `Awaiting review from the platform team ${"x".repeat(60)}`;
 
 // The header layout budget's ceiling is a two-digit step count on both sides
@@ -233,7 +235,8 @@ test.describe("Kanban preview workflow step navigation", () => {
     const moveButtonBox = await moveButton.boundingBox();
     expect(moveButtonBox).not.toBeNull();
     if (!moveButtonBox) return;
-    expect(moveButtonBox.height).toBeGreaterThanOrEqual(44);
+    await expect(moveButton).toHaveCSS("height", "44px");
+    expect(Math.round(moveButtonBox.height * 100) / 100).toBeGreaterThanOrEqual(44);
 
     await moveButton.tap();
 

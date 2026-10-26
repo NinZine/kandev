@@ -1023,3 +1023,38 @@ The registry URL assertion failed against the former scope before the change,
 and real npm workspace consumers plus both packed TypeScript modes now pass.
 Eleven migration task descriptions were updated and verified CREATED with
 autopilot disabled. New-head CI and current-main merge validation follow delivery.
+
+
+## Namespace-head CI cleanup (2026-10-26)
+
+Run `40386346725` on `9168ef88253113814ad283dad80f1ecc08e1091f`
+completed with three flaky E2E cases. The complete 118-report audit found
+4,308 attempts: 4,265 passed, 40 skipped, three failed and three retries,
+with no parse errors. Other checks passed and review threads were resolved.
+
+- Tablet preview: the failed attempt measured the declared 44px button as
+  `43.99993896484375`. Keep exact CSS height verification and compare geometry
+  at hundredth-pixel precision, consistent with existing touch checks. A
+  `43.99px` measurement still fails. Preserve the real tap and workflow result.
+- Jira: a successful mock provider contradicted the manually seeded failed
+  health row. A controlled real save/probe overwrote that row and reproduced
+  the failed banner assertion. Configuring the provider failure before saving
+  passed the same controlled check. Arm/verify the actual config-save receipt
+  before seeding health. Keep both original failed-state/error assertions.
+  Original CI write ordering is unproven because its failed attempt has no trace.
+- Sidebar: the actual failure concerns active-row opacity, after persistence
+  assertions passed. Its retained trace belongs to the successful retry. Five
+  valid unchanged repeats passed; no causal fix is claimed. Preserve every
+  assertion and retain first-failure traces. All three affected specs now retain
+  failure traces without increasing timeouts or retrying actions.
+
+Validation: the independent Jira producer control failed with the original
+inconsistent provider and passed with aligned failure. The three complete specs
+passed 17/17 with `--retries=0`; unchanged sidebar repeats passed 5/5.
+Local startup required `KANDEV_SERVER_HOST=127.0.0.1`, the existing Nix Chromium
+library path, IPv4-first DNS, and an isolated port offset. Earlier setup/browser
+launch failures never reached the UI assertion and are not CI reproductions.
+Temporary probe files were removed from the repository. New-head CI remains a
+subsequent delivery gate. Current main `baa92e5dcf53eca4dac223b0deba5e26c1ee08fb`
+adds a Quick Chat helper conflict; preserve the owned menu handoff/lifecycle-only
+exclusion and incoming Codex profile/preferred-agent selection together.
