@@ -123,13 +123,16 @@ is stored in the URL or browser storage.
 
 Task `000d477e-f792-4c9d-8503-50ed73bb9646` owns management clarity, named owner
 navigation, and the global-profile workspace picker. Its complete saved scope
-was read on 2026-10-22. It records design reconstruction, not implemented routes.
-No sibling code is present at the verified parent base.
+was read on 2026-10-22. At that design checkpoint, it recorded design
+reconstruction rather than implemented routes. No sibling code was present at
+the parent base verified on that date. Management PR #4759 later supplied the
+implemented routes and was squash-merged into main.
 
 The sibling's 2026-10-22 saved-plan update proposes
 `/settings/workspaces/:workspaceId/mcp-servers?serverId=:definitionId&view=usage`
-as a detail view inside the existing catalog. This is a proposal, not a shipped
-route. Assignment does not require a usage view for its completion or recovery.
+as a detail view inside the existing catalog. This was a proposal at that
+checkpoint and was later implemented by management. Assignment does not require
+a usage view for its completion or recovery.
 It consumes the sibling's owner destinations when their committed contract is
 available, and can link this detail view later without creating another hub.
 
@@ -140,7 +143,7 @@ variant requires `scope`, `workspaceId`, and `ownerId`. Profile also requires
 ID. Reject a conflicting duplicate `sessionId`. Never infer missing identity
 from the active browser context. The task variant remains outside assignment.
 
-| Scope | Planned destination |
+| Scope | Owner destination |
 | --- | --- |
 | Repository | `/settings/workspaces/:workspaceId/repositories?repositoryId=:ownerId#mcp` |
 | Profile | `/settings/agents/:agentId/profiles/:ownerId?workspaceId=:workspaceId#mcp` |
@@ -182,8 +185,8 @@ import uncommitted sibling files or silently drop global profiles to claim
 completion. Work order 03 must record the integrated SHA.
 
 The existing Configured catalog remains the recovery destination; it does not
-require the sibling's future server-detail destination. Work orders 01 and 02
-can proceed on the parent baseline after implementation authorization.
+require the sibling's server-detail destination. Work orders 01 and 02 were
+implemented, then reconciled with the integrated management base.
 
 ## Authorization and eligibility
 
@@ -381,8 +384,8 @@ mutation on handoff and no duplicate registration on assignment recovery.
 
 Update `docs/public/agents-and-profiles.md` (reference) and the workspace MCP
 how-to section of `docs/public/automation-and-mcp.md` with the implementation.
-Explain saved-only, owner consequences, and partial success. Do not publish
-planned behavior as shipped during this design-only turn. No new telemetry,
+Explain saved-only, owner consequences, and partial success. During the
+design-only turn, planned behavior was not to be published as shipped. No new telemetry,
 provider probe, background job, or persistence workflow is required.
 
 ## Related decisions

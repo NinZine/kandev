@@ -1029,9 +1029,12 @@ fails, the previous applied selection remains active and the UI offers retry.
 If another editor changes the saved choices, Kandev rejects your stale save.
 Choose **Reload choices**, review your retained draft against the latest saved
 choices, then save again. A save whose response is lost also requires a reload
-before another attempt. Repository and profile editors use **Save changes**;
-session Customize saves after an explicit selection change. Application retry
-remains available for a saved session setup that failed to apply.
+before another attempt.
+
+Repository and profile editors use **Save changes**. Session Customize saves
+after an explicit selection change.
+
+Application retry remains available for a saved session setup that failed to apply.
 The pending-change list continues to describe the saved choices while a rejected
 checkbox draft remains visible.
 

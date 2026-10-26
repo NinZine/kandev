@@ -30,14 +30,16 @@ management design branch for the authorized draft checkpoint below.
 ## Baseline and coordination
 
 - Task: `5a8cb5cd-22ee-42e5-bd6d-e2179e899c8c`.
-- Workspace: `/home/zeval/.kandev/tasks/clarify-mcp-assignme_ymv86j32/pr3293-followup-source-20261022`.
+- Workspace: task-owned isolated Git checkout.
 - Own branch: `feature/clarify-mcp-assignme-mhh`.
 - Historical fetched parent: `feature/plan-workspace-mcp-c-dcc` at
   `193de56ba2597b335a97b1e5ab01d09340f22647`, verified 2026-10-22.
-- Current PR base: `main` at
+- Historical post-merge PR base: `main` at
   `e5c38184cf9c191075dc88c1ffad28c636858bf5`, verified against the remote on
   2026-10-26. This is the actual squash merge of management PR #4759.
-  Draft publication is authorized. No review handling, CI waiting, or merge.
+  That checkpoint authorized draft publication only. The user's later fixup
+  request authorized ready status, bot review requests, CI monitoring, and
+  comment remediation. No merge is authorized.
   Do not mutate the parent or sibling workspace.
 
 ### Draft publication stack, 2026-10-24
@@ -539,10 +541,11 @@ assertion threshold changed.
 
 After fixes, all nine exact-case repetitions passed with retries disabled.
 Typecheck, affected lint and 53 message/mention/rich-output tests passed.
-The original CI process groups 3-3, 21-1 and 21-4 are also being replayed locally
-from the downloaded manifest, sequentially with one worker and zero retries.
-Their final results and the new head's remote checks remain delivery evidence
-in the PR, not a claim that the failed historical head was green.
+The original CI process groups 3-3, 21-1 and 21-4 passed locally from the
+downloaded manifest, sequentially with one worker and zero retries: 137 passed
+and two skipped. The four phone capacity scenarios also passed. These results
+and the new head's remote checks remain delivery evidence in the PR, not a
+claim that the failed historical head was green.
 
 Main advanced to `7fb28fc022d5320922608bf57cc9fd9351a8b8da`. The old published
 assignment tip is preserved at
@@ -553,3 +556,35 @@ and this plan only. Durable requirements/design and public behavior need no
 additional update. Existing MCP screenshots remain valid because the rendered
 feature source did not change. Normal hook receipts and exact-head CI/review
 results are recorded with publication. No merge is authorized.
+
+## Fresh review follow-up (2026-10-26)
+
+CodeRabbit reviewed the published synchronization follow-up and reported two
+minor findings, a public-doc paragraph nit, and an unverified local-path nit.
+The task-edit browser helper now deletes its workspace MCP definition in a
+`finally` block. A temporary fault-injection probe made task creation fail
+after definition creation. It proved the leak before the fix and cleanup after
+the fix; the probe was removed after verification. The normal desktop recovery
+journey also passed. The helper's assertions and product behavior are unchanged.
+The phone recovery journey, full web typecheck and affected ESLint passed too.
+Catalog/spec validation and both public-doc validators passed. This is fixture
+cleanup and editorial clarification; no new product behavior or UI capture is
+required. Normal hooks and exact-head CI are recorded with publication.
+
+The system design now dates its former management proposal and describes the
+completed work orders retrospectively. The public reference splits stale-save,
+editor-save and application-retry guidance into separate paragraphs. The plan
+removes its machine-specific workspace path and distinguishes the initial
+draft-only checkpoint from the later ready/fixup authorization. Historical
+temporary log paths in this ledger identify local verification artifacts;
+reproduction uses the recorded commands rather than those ephemeral files.
+
+At historical head `70f87d3ccd4b298a9ce2b830fb88373f2c2717db`, CI finished
+with 86 passed, 13 skipped, one neutral, two failed and zero pending checks.
+The walkthrough model deadline and Windows cold-cache compilation timeout both
+passed on one unchanged-head retry. The remaining leaf failure was a branch
+picker click in normal shard 11; the case passed its CI retry and three local
+repetitions with the suite retry override disabled. No branch-picker code or
+assertion was changed. The failed E2E jobs were requested once more at that
+same head. Their outcome and the next published head's checks are delivery
+evidence, not an assertion that the initial run passed.
