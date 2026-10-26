@@ -269,12 +269,22 @@ async function runProfileSessionLifecycleScenario(
       { timeout: 30_000 },
     )
     .toBe(true);
+  const expectedProfileBState = endPolicy === "park" ? "WAITING_FOR_INPUT" : "COMPLETED";
   await expect
     .poll(async () => {
       const { sessions } = await apiClient.listTaskSessions(task.id);
-      return sessions.find((item) => item.agent_profile_id === profileB.id)?.state;
+      const settledProfileASession = sessions.find(
+        (item) =>
+          item.agent_profile_id === profileA.id &&
+          (startPolicy === "reuse" ? item.is_primary : item.id === originalASessionId),
+      );
+      const settledProfileBSession = sessions.find((item) => item.agent_profile_id === profileB.id);
+      return (
+        settledProfileASession?.state === "WAITING_FOR_INPUT" &&
+        settledProfileBSession?.state === expectedProfileBState
+      );
     })
-    .toBe(endPolicy === "park" ? "WAITING_FOR_INPUT" : "COMPLETED");
+    .toBe(true);
 
   const { sessions } = await apiClient.listTaskSessions(task.id);
   expect(sessions).toHaveLength(startPolicy === "reuse" ? 2 : 3);
