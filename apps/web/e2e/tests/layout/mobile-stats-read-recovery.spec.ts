@@ -18,7 +18,7 @@ test("mobile Stats exposes a touch-sized retry and recovers a failed section", a
     if (!dailyAvailable) {
       await route.fulfill({
         status: 503,
-        headers: { "Retry-After": "5" },
+        headers: { "Retry-After": "300" },
         contentType: "application/json",
         json: { error: "statistics are busy", error_code: "analytics_busy" },
       });

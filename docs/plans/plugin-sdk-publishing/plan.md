@@ -1058,3 +1058,17 @@ Temporary probe files were removed from the repository. New-head CI remains a
 subsequent delivery gate. Current main `baa92e5dcf53eca4dac223b0deba5e26c1ee08fb`
 adds a Quick Chat helper conflict; preserve the owned menu handoff/lifecycle-only
 exclusion and incoming Codex profile/preferred-agent selection together.
+
+Merged-main validation: main `baa92e5dcf53eca4dac223b0deba5e26c1ee08fb`
+was integrated after cleanup commit `9530585e5fd7b3c9c42b75debea92549040bc8a6`.
+The sole Quick Chat helper conflict retains both parents' behavior: owned menu
+handoff and non-lifecycle opening-turn readiness, plus Codex mock preparation
+and preferred-agent selection. Automatic merges retain the click-triggered
+Stats recovery latch and bounded archive response grace. Independent read-only
+review found no actionable issue. Fresh host/web/plugin builds succeeded;
+27/27 combined browser tests passed with retries disabled, including cross-device
+Quick Chat, opening drafts, Codex recovery/cancellation, and the three CI scopes.
+Four focused unit files passed 31 tests; full web typecheck, 10 SDK CI contracts,
+68 release contracts, full docs/spec validation, and changed helper lint passed.
+The release-key checks required the installed GPG binary on PATH. No publication
+or registry/protected-setting change occurred. Fresh pushed-head CI is pending.
