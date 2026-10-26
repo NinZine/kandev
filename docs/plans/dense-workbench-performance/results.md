@@ -2,10 +2,22 @@
 
 Status: earlier-build 1x comparisons for compatible tasks, incompatible layouts,
 same-environment session tabs, Dockview core, and full-plugin Dockview are
-recorded below. The latest production build is `7a984021113`. Its final grid,
-columns, stress, owner retention, and regression-attribution gates remain open.
+recorded below. The latest production build is `112fc038bcb5`, with assets `9ee2c6f5`. Its
+six-pair confirmation, final matrix, stress, owner retention, and streaming
+task-time gates remain open.
 The branch is `feature/evaluate-live-thread-bc0`; the frozen baseline is
 `595df36ed5c1cf02fd90cb972b623ad6edc53df8`.
+
+## Saved-fixture recovery after host restart
+
+The first six-pair confirmation was interrupted after a host restart, with eight
+of twelve samples complete. Its full report and four pending attempts remain
+unchanged; the summary rejects it. Saved-fixture replay now passes 14 unit tests,
+strict lint and both-build full-dataset rehearsals, with 120 ordered updates.
+The isolated E2E type audit matches all 15 baseline errors and adds none. The
+source report and snapshot remain byte-identical, and the new worker is removed.
+A fresh complete six-pair comparison is next. These checks establish harness
+recovery, not a new speed gain. See [the recovery evidence](evidence/fixture-replay-recovery.json).
 
 ## Threads reference file-state correction
 

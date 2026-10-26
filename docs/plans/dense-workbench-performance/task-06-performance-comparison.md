@@ -1009,3 +1009,35 @@ verify 7,200 ordered updates. Streaming frame-gap p95 improves in both pairs,
 while main-thread utilization is mixed. Next: six alternating confirmation
 pairs with the same full density and frozen builds. See
 [the evidence](evidence/scroll-position-batching-two-pair-1x.json).
+
+## Recovery after the confirmation host restart
+
+Status: replay recovery verified; fresh reference confirmation pending.
+The host restarted after eight completed samples in the
+six-pair confirmation. Its original report retains all twelve planned attempts,
+including four pending attempts. The summary guard rejects it. The original
+runner and sampler exit codes are unknown. Source, assets, helpers, eight backend
+logs and 14,400 ordered updates remain verified. Do not promote this interrupted
+series to a completed six-pair result.
+
+The immutable `dense-base.db` survives with its recorded hash, passing SQLite
+integrity and containing all 36,000 messages. Add an explicit fixture-replay path
+for a new comparison. Validate the source-report hash, snapshot hash, disposable
+root, dataset dimensions and seed identity before use. Keep the existing file
+identity checks before and after every arm. Use fresh database, home and stream
+flag names for each replay so old completion flags cannot start a stream early.
+
+The replay starts a new report and a complete attempt plan. Keep original reports
+unchanged. Record replay provenance and distinguish a short harness rehearsal
+from reference timing. First test rejection of modified snapshots and incompatible
+datasets, then run both-build replay rehearsals with the full saved dataset.
+Production assets, native inputs, deadlines and message workload remain unchanged.
+
+Validation: 14 replay unit tests, strict lint and both frozen builds pass.
+The full saved dataset remains intact, with 100 messages loaded in each of six
+visible sessions and 120 verified ordered updates across the short rehearsal.
+The current isolated E2E dependency graph has the same 15 errors as HEAD and no
+new errors. The source report, snapshot, production files, assets, helpers,
+lockfiles and packaged fixtures remain unchanged; the new worker is removed.
+Next: start a fresh six-pair reference report with full 60-second windows.
+See [the recovery evidence](evidence/fixture-replay-recovery.json).

@@ -90,6 +90,43 @@ fixture, so test execution does not require Go. Its test-only source has its own
 freshness check. The fixture fills an isolated, stopped session's retained
 journal to the shipped 256 MiB limit and checks pruning after Retry.
 
+## Replay a saved dense benchmark fixture
+
+The opt-in Threads comparison accepts `KANDEV_DENSE_FIXTURE_REPLAY` as the path
+to a JSON descriptor. Use this only for a preserved disposable E2E fixture. It
+skips reseeding and starts a new report with the complete attempt plan. It never
+resumes or merges samples from the source report.
+
+```json
+{
+  "protocol": "dense-fixture-replay-v1",
+  "fixtureRoot": "/tmp/kandev-e2e-0-example",
+  "sourceReport": "/path/to/preserved-matched-dense-report.json",
+  "sourceReportSha256": "<SHA-256 of the preserved report>",
+  "seed": {
+    "workspaceId": "<workspace ID in the snapshot>",
+    "agentProfileId": "<agent profile ID in the snapshot>"
+  }
+}
+```
+
+The fixture root must be a direct child of the operating system temporary
+directory with a `kandev-e2e-` prefix. The snapshot must be `dense-base.db` in
+that root. The loader checks report and snapshot hashes, dataset dimensions,
+stored-history counts, repository ownership and profile-file counts. Each arm
+still checks file hashes before and after timing. Database copies and sample
+homes belong to the new worker; unique replay stream flags prevent reuse of
+old completion flags. The saved root stays available for later runs.
+
+Record replay provenance in the new report. Keep a short rehearsal separate
+from reference timing. A rehearsal must be explicitly marked by setting
+`KANDEV_DENSE_TASKS`, even when it retains the full task count. Run the loader
+checks from the repository root with Node 24 or later:
+
+```sh
+node --test apps/web/e2e/scripts/dense-fixture-replay.test.mjs
+```
+
 ## Playwright projects
 
 The suite is split into six projects. Pick one with `--project=<name>`.

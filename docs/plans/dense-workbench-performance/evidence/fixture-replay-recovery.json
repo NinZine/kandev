@@ -1,0 +1,564 @@
+{
+  "recordedAt": "2026-10-26T20:05:13.094727+00:00",
+  "status": "Harness recovery verified. Fresh six-pair reference comparison remains pending.",
+  "scope": "Disposable benchmark fixture replay only. No production behavior, native input, deadline, workload-density or summary acceptance change.",
+  "productionRevision": "112fc038bcb52d154c922c2d0826be22c1ed7cd4",
+  "assetsSha256": "9ee2c6f56e71f44c954ac3bbdceef93829c445c53cd99cb4ac17c10a910f6d21",
+  "interruption": {
+    "recordedAt": "2026-10-26T19:45:18.497513+00:00",
+    "status": "interrupted after host restart; no original command exit code recovered",
+    "mainHandle": 10989,
+    "mainExitCode": null,
+    "samplerHandle": 66006,
+    "samplerExitCode": null,
+    "lastSamplerWallTime": "2026-10-26T16:57:29.028996+00:00",
+    "lastSamplerMonotonicSeconds": 146220.505703702,
+    "currentUptimeSeconds": 7342.89,
+    "bootChangedSinceRun": true,
+    "completedSamples": 8,
+    "completedPairs": 4,
+    "verifiedOrderedUpdates": 14400,
+    "pendingSamples": 4,
+    "originalReport": "matched-dense-1793032055482.json",
+    "savedFixture": "/tmp/kandev-e2e-0-nMsIqR/dense-base.db",
+    "decision": "Preserve the incomplete report and its full attempt plan. Do not promote it to a completed six-pair result."
+  },
+  "interruptedSeriesAudit": {
+    "report": "matched-dense-1793032055482.json",
+    "reportSha256": "b878e27d929c8266e1241bfea9e5c12fe646e1b56cd23060c61f5f96985bd41a",
+    "mainExitCode": null,
+    "samplerExitCode": null,
+    "completeSamples": 8,
+    "verifiedOrderedUpdates": 14400,
+    "allAttemptsPassed": false,
+    "backendLogsVerified": 8,
+    "remainingOwnedProcesses": []
+  },
+  "incompleteSummaryGuard": {
+    "exitCode": 1,
+    "log": "interrupted-six-pair-summary-guard.log",
+    "sha256": "0de59e7e9f7e9b4242a07a62b81cc1ffd13955c0e59e8bf2ba3370cad667d9df",
+    "result": "Original unmodified summary rejects the four pending attempts."
+  },
+  "replayDescriptor": {
+    "protocol": "dense-fixture-replay-v1",
+    "fixtureRoot": "/tmp/kandev-e2e-0-nMsIqR",
+    "sourceReport": "/home/zeval/.kandev/tasks/do-some-live-evaluat_ije4iccr/kdlbs-kandev/.kandev/diagnostics/dense-workbench-performance/matched-dense-1793032055482.json",
+    "sourceReportSha256": "b878e27d929c8266e1241bfea9e5c12fe646e1b56cd23060c61f5f96985bd41a",
+    "seed": {
+      "workspaceId": "642562af-228e-461f-8558-181b93f3d39b",
+      "agentProfileId": "1d066e18-5562-4e56-877a-f50134271f58"
+    }
+  },
+  "snapshotValidation": {
+    "recordedAt": "2026-10-26T19:55:20.779066+00:00",
+    "snapshotHash": "493eca3be34e94315bcd3c64c13b6945ff7ab73ee648f771f1c9dc47099e5999",
+    "quickCheck": "ok",
+    "taskCount": 1000,
+    "messageCount": 36000,
+    "primarySessionsVerified": 30,
+    "primaryHistoryEach": 1000,
+    "siblingSessionsVerified": 60,
+    "siblingHistoryEach": 100,
+    "descriptor": "scroll-batch-fixture-replay.json"
+  },
+  "replayRules": [
+    "Hash-check the immutable source report and snapshot before use.",
+    "Require disposable-root ownership, matching dataset dimensions, primary and sibling histories, and profile-file counts.",
+    "Keep per-arm file-state checks before and after timing.",
+    "Copy the snapshot into each new worker-owned sample database.",
+    "Use new worker-owned homes and unique replay stream flags.",
+    "Always create a new report and complete attempt plan. Never merge interrupted samples.",
+    "Preserve the source report and snapshot byte-for-byte.",
+    "Exclude short rehearsals from performance evidence."
+  ],
+  "tddRed": [
+    {
+      "log": "fixture-replay-red.log",
+      "sha256": "6ca92af48d242f9bdeb10942e605ea731b53e8cdf5a43d241c023d35889d7e9d",
+      "exitCode": 1,
+      "failed": 9,
+      "passed": 0
+    },
+    {
+      "log": "fixture-replay-integrity-red.log",
+      "sha256": "7ba1ee44764a0e9d6a3c7642e7248c9cf589e5d5384c34bf26d802bc3fe098b9",
+      "exitCode": 1,
+      "failed": 3,
+      "passed": 9
+    },
+    {
+      "log": "fixture-replay-history-red.log",
+      "sha256": "cbce7a421528bf82344357d0f609e5f01304daac7d0c3f9029aa5dad449c65d3",
+      "exitCode": 1,
+      "failed": 2,
+      "passed": 12
+    }
+  ],
+  "checks": [
+    {
+      "check": "history-green",
+      "exitCode": 0,
+      "detail": "14 tests pass",
+      "log": "fixture-replay-history-green.log",
+      "sha256": "e14f68e9e7e1f7ca0ab4b483dbe64e64292859076bec2e1c2ca624393849eded"
+    },
+    {
+      "check": "history-lint",
+      "exitCode": 0,
+      "detail": "Strict lint passes for all six changed harness files",
+      "log": "fixture-replay-history-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "types-corrected",
+      "exitCode": 2,
+      "detail": "15 baseline errors; zero new errors",
+      "log": "fixture-replay-types-corrected.log",
+      "sha256": "4c0c10632dd5603acdd59a6a2508822a66d6ed750546150c0790ca5f693cc1f6"
+    },
+    {
+      "check": "types-baseline",
+      "exitCode": 2,
+      "detail": "HEAD source supplied in memory for the same entrypoint graph",
+      "log": "fixture-replay-types-baseline.log",
+      "sha256": "4c0c10632dd5603acdd59a6a2508822a66d6ed750546150c0790ca5f693cc1f6"
+    }
+  ],
+  "typeAudit": {
+    "currentTypecheckExitCode": 2,
+    "baselineTypecheckExitCode": 2,
+    "currentErrors": 15,
+    "baselineErrors": 15,
+    "newErrors": 0,
+    "comparison": "Same entrypoint dependency graph, baseline tracked TypeScript read from HEAD in memory; no source files changed."
+  },
+  "rehearsalAudit": {
+    "recordedAt": "2026-10-26T20:04:04.714944+00:00",
+    "report": "matched-dense-1793044899091.json",
+    "reportSha256": "3a0243aebfb111fee87442d1acb881cee6b08a7da498afbe2d82a948ad7e59a1",
+    "measurementKind": "harness-rehearsal",
+    "sourceRevision": "112fc038bcb52d154c922c2d0826be22c1ed7cd4",
+    "productionRevision": "112fc038bcb52d154c922c2d0826be22c1ed7cd4",
+    "sourcePatchSha256": "45a391abbe011049dd814da79b4cbd89e6103fe67147638fd96d81529bfc1ee2",
+    "harnessSha256": "f6746cbdb791c1ffb18795b5113f05e66b734ab56f7fff585fc3a48d5b94580d",
+    "harnessFilesVerified": 1956,
+    "committedProductionFilesVerified": 8,
+    "untrackedFilesVerified": 3,
+    "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+    "backendLogsVerified": 2,
+    "mainHandle": 27291,
+    "mainExitCode": 0,
+    "samplerHandle": 11418,
+    "samplerExitCode": 0,
+    "completeSamples": 2,
+    "verifiedOrderedUpdates": 120,
+    "allAttemptsPassed": true,
+    "error": null,
+    "newWorkerRoots": [
+      "/tmp/kandev-e2e-0-36lkCt"
+    ],
+    "newWorkerRootsRemoved": true,
+    "savedFixtureRoot": "/tmp/kandev-e2e-0-nMsIqR",
+    "savedFixturePreserved": true,
+    "sourceReportAndSnapshotUnchanged": true,
+    "sampleNamespace": "replay-1793044899091-",
+    "remainingOwnedProcesses": [],
+    "initialLoadedHistory": [
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ]
+    ],
+    "finalLoadedHistory": [
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ]
+    ],
+    "artifacts": [
+      {
+        "path": "matched-dense-1793044899091.json",
+        "sha256": "3a0243aebfb111fee87442d1acb881cee6b08a7da498afbe2d82a948ad7e59a1"
+      },
+      {
+        "path": "matched-dense-1793044899091.json.backend.log",
+        "sha256": "80d6841129e114d3c6842fdb57927cab323f2262e39b8b85daad22bfa4529f43"
+      },
+      {
+        "path": "matched-dense-1793044899091.json.baseline-1x-0.backend.log",
+        "sha256": "94161794d7df5fc7505adb5a120c8c30eed82dec940662a67a99c72d85692965"
+      },
+      {
+        "path": "matched-dense-1793044899091.json.candidate-1x-0.backend.log",
+        "sha256": "80d6841129e114d3c6842fdb57927cab323f2262e39b8b85daad22bfa4529f43"
+      }
+    ]
+  },
+  "rehearsal": {
+    "measurementKind": "harness-rehearsal",
+    "comparisonPlan": {
+      "pairs": 1,
+      "rates": [
+        1
+      ],
+      "candidateFirst": false
+    },
+    "attempts": [
+      {
+        "arm": "baseline",
+        "pair": 0,
+        "cpuRate": 1,
+        "sample": "baseline-1x-0",
+        "status": "passed"
+      },
+      {
+        "arm": "candidate",
+        "pair": 0,
+        "cpuRate": 1,
+        "sample": "candidate-1x-0",
+        "status": "passed"
+      }
+    ],
+    "workload": {
+      "layout": "grid",
+      "extraBusyHeaders": 0,
+      "tasks": 1000,
+      "columns": 30,
+      "messages": 1000,
+      "durationMs": 2000
+    },
+    "initialLoadedHistory": [
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ]
+    ],
+    "finalLoadedHistory": [
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ]
+    ],
+    "fileState": [
+      [
+        {
+          "taskId": "f8748d2f-b4e1-4335-bd3e-6666d4813442",
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "environmentId": "a008ab21-b7c9-4b09-ae75-b399e551cc8f",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0000_vypmi9r4/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "5ff4d53abea3ae02ad8612583653c713de322b2722e9383e0e4796703a7e5bd6"
+        },
+        {
+          "taskId": "2fb9ec34-7879-416a-a5e5-f7fbf850c09b",
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "environmentId": "999d490b-ae2e-4bc9-998a-bd5639b66a42",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0001_hvbsyqrv/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "b65a1f677b5651b41a136719f9ed760849a25d129fa808e91a25564ea54af9ff"
+        },
+        {
+          "taskId": "43555be8-f0bb-451b-b581-872a5dce6db8",
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "environmentId": "8bf2b4cf-0c08-4412-ad9b-7c50fe55e093",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0002_h8mucm3g/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "b920ca84e5b816a4852a8738a14c5eb6c98d5a01b252ab295d5a21580875cd78"
+        },
+        {
+          "taskId": "4ff066e2-dbf2-4492-ab9e-a24460634295",
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "environmentId": "e343da9f-ebea-4b06-a753-d6e44995db2a",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0003_uzndifm4/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "18f5b44265f9d8d906ad4f8f2013e83dba16592cb67828f9f57c8c63c637e2f1"
+        },
+        {
+          "taskId": "5bdfa78f-fa6b-40f9-bec1-cb0fcb99e26e",
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "environmentId": "9a2d244c-22a5-4c5c-8d70-61d9782fd54b",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0004_sbmcrr8a/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "2e9471d8c3c10ad771d81c540ca918c2ae0a383f789d7d50a45af7b1993d9091"
+        },
+        {
+          "taskId": "edc2e926-ac7f-4905-9e8f-fbbaf772e4b7",
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "environmentId": "2d84a4a1-94b0-45be-ab4c-c47183d18422",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0005_z9lzwiaf/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "7a94157b68f3000169c1b21d5dc05341979a38f5a026036e38200ea6daa53585"
+        }
+      ],
+      [
+        {
+          "taskId": "f8748d2f-b4e1-4335-bd3e-6666d4813442",
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "environmentId": "a008ab21-b7c9-4b09-ae75-b399e551cc8f",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0000_vypmi9r4/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "5ff4d53abea3ae02ad8612583653c713de322b2722e9383e0e4796703a7e5bd6"
+        },
+        {
+          "taskId": "2fb9ec34-7879-416a-a5e5-f7fbf850c09b",
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "environmentId": "999d490b-ae2e-4bc9-998a-bd5639b66a42",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0001_hvbsyqrv/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "b65a1f677b5651b41a136719f9ed760849a25d129fa808e91a25564ea54af9ff"
+        },
+        {
+          "taskId": "43555be8-f0bb-451b-b581-872a5dce6db8",
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "environmentId": "8bf2b4cf-0c08-4412-ad9b-7c50fe55e093",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0002_h8mucm3g/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "b920ca84e5b816a4852a8738a14c5eb6c98d5a01b252ab295d5a21580875cd78"
+        },
+        {
+          "taskId": "4ff066e2-dbf2-4492-ab9e-a24460634295",
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "environmentId": "e343da9f-ebea-4b06-a753-d6e44995db2a",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0003_uzndifm4/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "18f5b44265f9d8d906ad4f8f2013e83dba16592cb67828f9f57c8c63c637e2f1"
+        },
+        {
+          "taskId": "5bdfa78f-fa6b-40f9-bec1-cb0fcb99e26e",
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "environmentId": "9a2d244c-22a5-4c5c-8d70-61d9782fd54b",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0004_sbmcrr8a/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "2e9471d8c3c10ad771d81c540ca918c2ae0a383f789d7d50a45af7b1993d9091"
+        },
+        {
+          "taskId": "edc2e926-ac7f-4905-9e8f-fbbaf772e4b7",
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "environmentId": "2d84a4a1-94b0-45be-ab4c-c47183d18422",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0005_z9lzwiaf/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "7a94157b68f3000169c1b21d5dc05341979a38f5a026036e38200ea6daa53585"
+        }
+      ]
+    ],
+    "fixtureReplay": {
+      "protocol": "dense-fixture-replay-v1",
+      "sourceReport": "/home/zeval/.kandev/tasks/do-some-live-evaluat_ije4iccr/kdlbs-kandev/.kandev/diagnostics/dense-workbench-performance/matched-dense-1793032055482.json",
+      "sourceReportSha256": "b878e27d929c8266e1241bfea9e5c12fe646e1b56cd23060c61f5f96985bd41a",
+      "databaseSha256": "493eca3be34e94315bcd3c64c13b6945ff7ab73ee648f771f1c9dc47099e5999",
+      "fixtureRoot": "/tmp/kandev-e2e-0-nMsIqR",
+      "sampleNamespace": "replay-1793044899091-"
+    }
+  },
+  "limits": [
+    "The rehearsal uses two-second windows and establishes no speed gain.",
+    "The interrupted run establishes no complete six-pair result.",
+    "Normal streaming task-time target and the original-baseline final matrix remain open.",
+    "Linux Chromium evidence does not establish M2 Air, INP, battery or heap-retention results."
+  ]
+}

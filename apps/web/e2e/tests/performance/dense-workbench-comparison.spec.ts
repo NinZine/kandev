@@ -14,13 +14,11 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { test, expect } from "../../fixtures/test-base";
 import { DENSE_WORKLOAD } from "../../helpers/dense-workbench-fixture";
-import {
-  seedDenseThreadsFixture,
-  verifyDenseThreadsFiles,
-} from "../../helpers/dense-threads-fixture";
+import { verifyDenseThreadsFiles } from "../../helpers/dense-threads-fixture";
 import { runDenseSample, DENSE_INTERACTION_MODE } from "../../helpers/dense-comparison-sample";
-import { hashAssetTree, sha256File, snapshotDatabase } from "../../helpers/dense-snapshot";
+import { hashAssetTree, sha256File } from "../../helpers/dense-snapshot";
 import { profileMachine } from "../task/task-navigation-profile-helpers";
+import { prepareDenseComparisonFixture } from "../../helpers/dense-comparison-fixture";
 
 test.skip(process.env.KANDEV_DENSE_COMPARE !== "1", "opt-in matched dense benchmark");
 
@@ -75,10 +73,8 @@ test("compares frozen builds on identical dense conversation snapshots", async (
     }));
   const lockfileSha256 = sha256File(path.join(candidateRoot, "apps/pnpm-lock.yaml"));
   expect(lockfileSha256).toBe(sha256File(path.join(baselineRoot, "apps/pnpm-lock.yaml")));
-  const fixture = await seedDenseThreadsFixture(api, seed, backend);
-  await testPage.close();
-  const snapshot = path.join(backend.tmpDir, "dense-base.db");
-  snapshotDatabase(path.join(backend.tmpDir, "kandev.db"), snapshot);
+  const prepared = await prepareDenseComparisonFixture(api, seed, backend, testPage);
+  const { fixture, snapshot } = prepared;
   const directory = path.join(candidateRoot, ".kandev/diagnostics/dense-workbench-performance");
   fs.mkdirSync(directory, { recursive: true });
   const output = path.join(directory, `matched-dense-${Date.now()}.json`);
@@ -108,6 +104,7 @@ test("compares frozen builds on identical dense conversation snapshots", async (
     candidateFirst: process.env.KANDEV_DENSE_CANDIDATE_FIRST === "1",
     builds,
     fixture,
+    fixtureReplay: prepared.provenance,
     databaseSha256: sha256File(snapshot),
     sourcePatch: execFileSync("git", ["diff", "HEAD"], { encoding: "utf8", cwd: candidateRoot }),
     samples: [] as unknown[],
@@ -138,10 +135,13 @@ test("compares frozen builds on identical dense conversation snapshots", async (
             KANDEV_HOME_DIR: path.join(backend.tmpDir, `${sample}-home`),
             KANDEV_WEB_DIST_DIR: arms[arm].assets,
             KANDEV_LOG_LEVEL: "warn",
+            ...prepared.restartEnv,
           },
           arms[arm].binary,
         );
-        const fileState = await verifyDenseThreadsFiles(api, backend, fixture);
+        const { total: taskCount } = await api.listTasks(prepared.seed.workspaceId);
+        expect(taskCount).toBe(DENSE_WORKLOAD.tasks);
+        const fileState = await verifyDenseThreadsFiles(api, prepared.backend, fixture);
         report.checkpoints[sample] = { ...report.checkpoints[sample], fileState };
         save();
         const busyHeaders = fixture.threads.slice(6, 6 + DENSE_WORKLOAD.extraBusyHeaders);
@@ -149,12 +149,12 @@ test("compares frozen builds on identical dense conversation snapshots", async (
         await seedDenseBusyHeaders(api, busyHeaders);
         const result = await runDenseSample({
           browser,
-          backend,
+          backend: prepared.backend,
           api,
-          seed,
+          seed: prepared.seed,
           threads: fixture.threads.slice(0, 6),
           allThreads: fixture.threads,
-          sample,
+          sample: prepared.sampleNamespace + sample,
           cpuRate,
           failureArtifactPrefix: `${output}.${sample}`,
           profilePath:
@@ -164,8 +164,8 @@ test("compares frozen builds on identical dense conversation snapshots", async (
             save();
           },
         });
-        await verifyDenseThreadsFiles(api, backend, fixture);
-        return { arm, pair, ...result, fileState };
+        await verifyDenseThreadsFiles(api, prepared.backend, fixture);
+        return { arm, pair, ...result, sample, fileState };
       },
       (outcome) => {
         recordDenseAttempt(report, outcome);

@@ -13,6 +13,15 @@ utilization is mixed. Six-pair confirmation, the 20% task-time target and the
 final original-baseline matrix remain open. Details and complete paired values
 appear below and in [the evidence](evidence/scroll-position-batching-two-pair-1x.json).
 
+The first six-pair confirmation was interrupted after a host restart, with eight
+of twelve samples complete. Its full report and four pending attempts remain
+unchanged; the summary rejects it. Saved-fixture replay now passes 14 unit tests,
+strict lint and both-build full-dataset rehearsals, with 120 ordered updates.
+The isolated E2E type audit matches all 15 baseline errors and adds none. The
+source report and snapshot remain byte-identical, and the new worker is removed.
+A fresh complete six-pair comparison is next. These checks establish harness
+recovery, not a new speed gain. See [the recovery evidence](evidence/fixture-replay-recovery.json).
+
 The earlier complete package comparison remains valid for its own `44cf53e7`
 build:
 

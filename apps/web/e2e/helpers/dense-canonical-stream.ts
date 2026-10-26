@@ -26,7 +26,7 @@ function visibleStreamThreads(
 
 export async function prepareDenseStream(
   api: ApiClient,
-  seed: SeedData,
+  seed: Pick<SeedData, "agentProfileId">,
   backend: BackendContext,
   threads: DenseThread[],
   sample: string,

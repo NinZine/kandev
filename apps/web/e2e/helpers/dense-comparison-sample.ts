@@ -91,7 +91,7 @@ export async function runDenseSample(options: {
   browser: Browser;
   backend: BackendContext;
   api: ApiClient;
-  seed: SeedData;
+  seed: Pick<SeedData, "workspaceId" | "agentProfileId">;
   threads: DenseThread[];
   allThreads: DenseThread[];
   sample: string;
