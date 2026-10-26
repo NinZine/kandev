@@ -1,0 +1,2975 @@
+{
+  "recordedAt": "2026-10-26T16:01:45.898593+00:00",
+  "status": "Retained after two preliminary full-density pairs. Six-pair confirmation and the final package matrix remain open.",
+  "scope": "C4 versus store-scoped nonvisual scroll-position publication. This is separate from the original-595 package comparison.",
+  "productionParent": "09f15ce510d25f240311094b09f4efdf3fb56220",
+  "sourcePatch": {
+    "path": "scroll-batch-candidate.patch",
+    "sha256": "2c32d1b7de9164b12bbac066e948e0db32e89a1dcd0bc2fa1e5fa316bf489e94"
+  },
+  "productionAssets": {
+    "baseline": "c4a426d266695eff7d361531f1932f7e24c2e91383d11ce79ebf0b25ee36b420",
+    "candidate": "9ee2c6f56e71f44c954ac3bbdceef93829c445c53cd99cb4ac17c10a910f6d21"
+  },
+  "mechanism": "Already-deferred native scroll captures share one same-store publication per animation frame. Explicit and final boundary saves remain synchronous; messages keep their current path.",
+  "rootCauseAttribution": {
+    "source": {
+      "path": "c4-quiet-cpu-scroll-publication-callers.json",
+      "sha256": "c5870f93f9f5a0e48448379efece8b4df55ed1198b692a09ad8ce4e0129fe5be"
+    },
+    "scrollPositionAncestorSampledMs": 3592.324,
+    "storeNotificationInclusiveSampledMs": 7837.296,
+    "limits": "Overlapping sampled durations, not action counts or CPU counters."
+  },
+  "tdd": {
+    "uiActionRed": {
+      "handle": 71848,
+      "exitCode": 1,
+      "failed": 2,
+      "passed": 4,
+      "reason": "Bulk setter absent; existing synchronous setter tests pass",
+      "source": [
+        {
+          "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+          "sha256": "047c7a9f2449f1c06d2193ce1bce8c1b38703b95e3268ba138fef0d14bea1e38"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+          "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/types.ts",
+          "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+        },
+        {
+          "path": "apps/web/lib/state/app-state-types.ts",
+          "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+        }
+      ]
+    },
+    "schedulerRed": {
+      "handle": 8015,
+      "exitCode": 1,
+      "failed": 1,
+      "skipped": 10,
+      "actualPublications": 6,
+      "expectedPublications": 1,
+      "baseline": "Adapter uses the existing per-producer frame coalescer and synchronous action; it is not wired into production yet.",
+      "project": "browser-locales",
+      "source": [
+        {
+          "path": "apps/web/components/task/chat/transcript-scroll-persistence.ts",
+          "sha256": "9cba40723f245db5ec671a3d5e49756d935847b15c2d4d46abf11633a453e42f"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-scroll-persistence.test.ts",
+          "sha256": "ed1c503346125fcc9398ac685701b270edeb2024cfd0357752ad8ffaf48c4fa4"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+          "sha256": "d2609565c36c3b9adee1f1b2554a3d26cc4974454f09fb3eb4f0f79b8062ba9a"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+          "sha256": "047c7a9f2449f1c06d2193ce1bce8c1b38703b95e3268ba138fef0d14bea1e38"
+        }
+      ]
+    },
+    "nativeDetachRed": {
+      "recoveredAt": "2026-10-26T15:08:02.960916+00:00",
+      "test": "cancels an unconfirmed position when initial placement detaches before its frame",
+      "log": "scroll-batch-native-detach-red.log",
+      "logSha256": "e6514538c47e9346fbb0d93185eaf8552c538b416d22708e1d19618fd81f015b",
+      "observedResult": {
+        "failed": 1,
+        "skipped": 110,
+        "unexpectedWrite": [
+          "unconfirmed-placement",
+          275
+        ]
+      },
+      "terminalHandle": "not available after prior tool output truncation; no matching test process remains; exit code not inferred",
+      "files": {
+        "apps/web/components/task/chat/message-list-native.test.tsx": "47c9921c4772617fc3fff728a97086c8ee53d8ffd811c40daea4c9b70fe968b0",
+        "apps/web/components/task/chat/message-list-native-scroll.ts": "063f91085f98faba523a801225b08c18048f5bbabc7fd2c976663a2d49db7a3f",
+        "apps/web/components/task/chat/transcript-scroll-persistence.ts": "e08b8f890e10a737b03038aca3b75442fd9b24b231ba89cf4e7584b143c4bfdc"
+      },
+      "meaning": "Observed test failure is a regression witness. The originating exit code was not recovered and is not claimed."
+    },
+    "combinedGreen": {
+      "handle": 39007,
+      "exitCode": 0,
+      "files": 6,
+      "passed": 187,
+      "log": {
+        "path": "scroll-batch-units-green.log",
+        "sha256": "94d33b2b3b77a26ac56ad813dff160f004744e77a967928409031bc9d105020e"
+      }
+    }
+  },
+  "buildAndChecks": {
+    "recordedAt": "2026-10-26T15:10:38.022Z",
+    "root": "/tmp/kandev-perf-delivery-5936a872",
+    "sourceParent": "09f15ce510d25f240311094b09f4efdf3fb56220",
+    "source": "Uncommitted store-scoped scroll-position batching experiment",
+    "assetsSha256": "9ee2c6f56e71f44c954ac3bbdceef93829c445c53cd99cb4ac17c10a910f6d21",
+    "assetFiles": 1253,
+    "gzipSiblingsVerified": 552,
+    "sourceFiles": [
+      {
+        "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "sha256": "5c5d8826c98cbfd7f0ebb0e509468168ebfce25694f9410b69e383be4a1be6c8"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+        "sha256": "04a9e9eb7326f9b9a4310a32981eb9a2c6c7b30521e2ea7f1d80e084f030bf44"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-scroll-persistence.test.ts",
+        "sha256": "d24d44bd7c8c16813393ede8c53bae365c0a2af9a1e6bc63e831a43bf513b2dd"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-scroll-persistence.ts",
+        "sha256": "e08b8f890e10a737b03038aca3b75442fd9b24b231ba89cf4e7584b143c4bfdc"
+      },
+      {
+        "path": "apps/web/lib/state/app-state-types.ts",
+        "sha256": "5832afb1a147d5ce24883dda2facae448a7ff6f103a5fcb1c481dc08375d6bad"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+        "sha256": "047c7a9f2449f1c06d2193ce1bce8c1b38703b95e3268ba138fef0d14bea1e38"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/types.ts",
+        "sha256": "23530be71239554477b268b0f9672cfe603a3e5be9368888f7dd402f4a17b662"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+        "sha256": "d2609565c36c3b9adee1f1b2554a3d26cc4974454f09fb3eb4f0f79b8062ba9a"
+      }
+    ],
+    "units": {
+      "handle": 39007,
+      "exitCode": 0,
+      "passed": 187,
+      "files": 6
+    },
+    "lintTypes": {
+      "handle": 24419,
+      "exitCode": 0
+    },
+    "build": {
+      "handle": 92872,
+      "exitCode": 0
+    },
+    "beforeControl": "edge-row-cache-before-control.json",
+    "speedGain": "Unmeasured; candidate must pass dense comparison before performance acceptance"
+  },
+  "desktop": {
+    "recordedAt": "2026-10-26T15:17:24.030082+00:00",
+    "name": "scroll-batch-desktop",
+    "project": "chromium",
+    "handle": 50758,
+    "exitCode": 0,
+    "expectedChecks": 35,
+    "passed": 35,
+    "lastRun": {
+      "status": "passed",
+      "failedTests": []
+    },
+    "log": {
+      "path": "scroll-batch-desktop-logs/kandev-run.e2e.3bGkUrxE.log",
+      "sha256": "2c6e35f711e1ad8a7caef39e362941e0b32413841be6b258a9679b53b2a1c5e1"
+    },
+    "artifacts": "scroll-batch-desktop-results",
+    "ledgers": [
+      {
+        "path": "scroll-batch-desktop-results/chat-native-upward-intent--d10b1-sition-through-later-growth-chromium/queued-upward-reading.json",
+        "before": {
+          "top": 2096,
+          "height": 2580
+        },
+        "heldTop": 1936,
+        "heldHeight": 2636,
+        "final": {
+          "top": 1936,
+          "height": 2691
+        },
+        "maximumAbsoluteMovementPx": 0,
+        "sampleCount": 24
+      }
+    ],
+    "readingReturnLedgers": [
+      {
+        "path": "scroll-batch-desktop-results/chat-native-upward-intent--c061a--precedes-its-wheel-handler-chromium/native-reading-return.json",
+        "heldMaximumMovementPx": 0,
+        "realPageDownReachedGapPx": 0,
+        "gapAfterFurtherGrowthPx": 1,
+        "samplesAfterReturn": 24
+      }
+    ],
+    "fixtureRoots": [
+      "/tmp/kandev-e2e-0-WhrMSF"
+    ],
+    "fixtureRootsRemoved": true,
+    "assetsSha256": "9ee2c6f56e71f44c954ac3bbdceef93829c445c53cd99cb4ac17c10a910f6d21"
+  },
+  "phone": {
+    "recordedAt": "2026-10-26T15:20:28.649407+00:00",
+    "name": "scroll-batch-phone",
+    "project": "mobile-chrome",
+    "handle": 25724,
+    "exitCode": 0,
+    "expectedChecks": 17,
+    "passed": 17,
+    "lastRun": {
+      "status": "passed",
+      "failedTests": []
+    },
+    "log": {
+      "path": "scroll-batch-phone-logs/kandev-run.e2e.eCAGeYiI.log",
+      "sha256": "a289b148f67d0a10d0b265d23fcf534549805c33285a9e9f7ff33827a3bcc016"
+    },
+    "artifacts": "scroll-batch-phone-results",
+    "ledgers": [],
+    "readingReturnLedgers": [],
+    "fixtureRoots": [
+      "/tmp/kandev-e2e-0-s68J7O"
+    ],
+    "fixtureRootsRemoved": true,
+    "assetsSha256": "9ee2c6f56e71f44c954ac3bbdceef93829c445c53cd99cb4ac17c10a910f6d21"
+  },
+  "visualChecks": {
+    "recordedAt": "2026-10-26T15:20:49.811040+00:00",
+    "assetsSha256": "9ee2c6f56e71f44c954ac3bbdceef93829c445c53cd99cb4ac17c10a910f6d21",
+    "captures": [
+      {
+        "path": "scroll-batch-desktop-results/layout-saved-layout-arrang-3c514-s-and-preserves-both-drafts-chromium/restored-3-columns.png",
+        "sha256": "23f0f94069e27d47033fd97a953527ff34fb080d5e5b189e15d9ca9b5ea0fee0",
+        "review": "Viewed. Main content and tested controls visible; no unexpected clipping observed."
+      },
+      {
+        "path": "scroll-batch-desktop-results/task-threads-composer-disc-22cd1-d-answers-usable-in-Columns-chromium/question-wheel-columns.png",
+        "sha256": "765593fcd41eeffcd1602aa4ec63fa10be40a76d477cb37d3ca0f95a581f83d8",
+        "review": "Viewed. Main content and tested controls visible; no unexpected clipping observed."
+      },
+      {
+        "path": "scroll-batch-phone-results/task-mobile-threads-compos-3bf33-ough-single-chat-navigation-mobile-chrome/phone-visible-composer-short-height.png",
+        "sha256": "5fa1a228f3424b27470e49855b6f41db52550216c1e3d1e9666e84ea5e52a691",
+        "review": "Viewed. The tested composer and scrollable question controls remain usable in the captured phone layout."
+      },
+      {
+        "path": "scroll-batch-phone-results/task-mobile-threads-compos-d673a--question-by-touch-Pixel-5--mobile-chrome/phone-long-question-before.png",
+        "sha256": "8352939c8b21249e5d3df33b7a0764f412f067d3024bacdb8958819a09c1e2b3",
+        "review": "Viewed. The tested composer and scrollable question controls remain usable in the captured phone layout."
+      }
+    ],
+    "limits": "Visual inspection of these captures, not pixel-diff proof or a performance measurement."
+  },
+  "comparison": {
+    "report": {
+      "path": "matched-dense-1793029215214.json",
+      "sha256": "97d5c99d18f135c8fad872aa16bbdeeff1799d7c3bae727fda2c5e63f215767b"
+    },
+    "summary": {
+      "path": "scroll-batch-two-pair-summary.json",
+      "sha256": "f68aba14fa4cbc2a46ca266c1f24e5900a976915d487ac5488ccd6438e392c60"
+    },
+    "measurementKind": "reference-workload",
+    "fixtureProtocol": "threads-files-v1",
+    "interactionMode": "scripted-scroll-v2",
+    "layout": "grid",
+    "fixtureWorkload": {
+      "layout": "grid",
+      "extraBusyHeaders": 0,
+      "tasks": 1000,
+      "columns": 30,
+      "messages": 1000,
+      "durationMs": 60000
+    },
+    "attempts": [
+      {
+        "arm": "baseline",
+        "pair": 0,
+        "cpuRate": 1,
+        "sample": "baseline-1x-0",
+        "status": "passed"
+      },
+      {
+        "arm": "candidate",
+        "pair": 0,
+        "cpuRate": 1,
+        "sample": "candidate-1x-0",
+        "status": "passed"
+      },
+      {
+        "arm": "candidate",
+        "pair": 1,
+        "cpuRate": 1,
+        "sample": "candidate-1x-1",
+        "status": "passed"
+      },
+      {
+        "arm": "baseline",
+        "pair": 1,
+        "cpuRate": 1,
+        "sample": "baseline-1x-1",
+        "status": "passed"
+      }
+    ],
+    "verifiedOrderedUpdates": 7200,
+    "streamObservationDurations": [
+      {
+        "sample": "baseline-1x-0",
+        "arm": "baseline",
+        "pair": 0,
+        "elapsedMs": 61865.41246200004,
+        "deadlineElapsedMs": 60000.16353700007,
+        "scriptMsPerSecond": 615.0080713253191
+      },
+      {
+        "sample": "candidate-1x-0",
+        "arm": "candidate",
+        "pair": 0,
+        "elapsedMs": 64394.54536499991,
+        "deadlineElapsedMs": 60000.78929600003,
+        "scriptMsPerSecond": 494.46337138527673
+      },
+      {
+        "sample": "candidate-1x-1",
+        "arm": "candidate",
+        "pair": 1,
+        "elapsedMs": 61125.0189100001,
+        "deadlineElapsedMs": 60000.44598400011,
+        "scriptMsPerSecond": 556.0323187800213
+      },
+      {
+        "sample": "baseline-1x-1",
+        "arm": "baseline",
+        "pair": 1,
+        "elapsedMs": 72929.3811029999,
+        "deadlineElapsedMs": 60000.06705499999,
+        "scriptMsPerSecond": 513.2438316888489
+      }
+    ],
+    "comparisons": [
+      {
+        "group": "1x/cold",
+        "metric": "readyMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 24436.637332999962,
+          "min": 21487.893533000024,
+          "max": 27385.3811329999,
+          "values": [
+            27385.3811329999,
+            21487.893533000024
+          ]
+        },
+        "candidate": {
+          "median": 21508.02948050003,
+          "min": 15946.293513000011,
+          "max": 27069.76544800005,
+          "values": [
+            27069.76544800005,
+            15946.293513000011
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          315.6156849998515,
+          5541.600020000013
+        ],
+        "pairedPercentReduction": [
+          1.1524969598452244,
+          25.789405608741976
+        ],
+        "medianPairedPercentReduction": 13.4709512842936
+      },
+      {
+        "group": "1x/cold",
+        "metric": "documentMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 14884.824025000096,
+          "min": 13547.085554000223,
+          "max": 16222.56249599997,
+          "values": [
+            16222.56249599997,
+            13547.085554000223
+          ]
+        },
+        "candidate": {
+          "median": 13394.42745149997,
+          "min": 9442.29792000004,
+          "max": 17346.5569829999,
+          "values": [
+            17346.5569829999,
+            9442.29792000004
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -1123.9944869999308,
+          4104.787634000182
+        ],
+        "pairedPercentReduction": [
+          -6.928587806501448,
+          30.300152882611037
+        ],
+        "medianPairedPercentReduction": 11.685782538054795
+      },
+      {
+        "group": "1x/cold",
+        "metric": "assetEncodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 4165530,
+          "min": 4165530,
+          "max": 4165530,
+          "values": [
+            4165530,
+            4165530
+          ]
+        },
+        "candidate": {
+          "median": 4165867,
+          "min": 4165867,
+          "max": 4165867,
+          "values": [
+            4165867,
+            4165867
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -337,
+          -337
+        ],
+        "pairedPercentReduction": [
+          -0.008090207008471911,
+          -0.008090207008471911
+        ],
+        "medianPairedPercentReduction": -0.008090207008471911
+      },
+      {
+        "group": "1x/cold",
+        "metric": "assetDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 14688521,
+          "min": 14688521,
+          "max": 14688521,
+          "values": [
+            14688521,
+            14688521
+          ]
+        },
+        "candidate": {
+          "median": 14689459,
+          "min": 14689459,
+          "max": 14689459,
+          "values": [
+            14689459,
+            14689459
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -938,
+          -938
+        ],
+        "pairedPercentReduction": [
+          -0.006385939060848944,
+          -0.006385939060848944
+        ],
+        "medianPairedPercentReduction": -0.006385939060848944
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60060.37748799997,
+          "min": 60055.24021900003,
+          "max": 60065.51475699991,
+          "values": [
+            60055.24021900003,
+            60065.51475699991
+          ]
+        },
+        "candidate": {
+          "median": 60124.80428150005,
+          "min": 60040.059030999895,
+          "max": 60209.54953200021,
+          "values": [
+            60040.059030999895,
+            60209.54953200021
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          15.181188000133261,
+          -144.0347750002984
+        ],
+        "pairedPercentReduction": [
+          0.025278706645369974,
+          -0.2397961219228757
+        ],
+        "medianPairedPercentReduction": -0.10725870763875286
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 16991.734,
+          "min": 15122.375000000002,
+          "max": 18861.092999999997,
+          "values": [
+            18861.092999999997,
+            15122.375000000002
+          ]
+        },
+        "candidate": {
+          "median": 14260.8585,
+          "min": 13707.752999999999,
+          "max": 14813.964000000002,
+          "values": [
+            13707.752999999999,
+            14813.964000000002
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          5153.339999999998,
+          308.41100000000006
+        ],
+        "pairedPercentReduction": [
+          27.32259471919257,
+          2.0394349432546144
+        ],
+        "medianPairedPercentReduction": 14.681014831223592
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 282.9135401867479,
+          "min": 251.76467830466186,
+          "max": 314.062402068834,
+          "values": [
+            314.062402068834,
+            251.76467830466186
+          ]
+        },
+        "candidate": {
+          "median": 237.17511273864423,
+          "min": 228.31011863133594,
+          "max": 246.04010684595252,
+          "values": [
+            228.31011863133594,
+            246.04010684595252
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          85.75228343749805,
+          5.724571458709335
+        ],
+        "pairedPercentReduction": [
+          27.304218165759128,
+          2.2737786321963713
+        ],
+        "medianPairedPercentReduction": 14.78899839897775
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 17307.997499999998,
+          "min": 15430.011999999999,
+          "max": 19185.983,
+          "values": [
+            19185.983,
+            15430.011999999999
+          ]
+        },
+        "candidate": {
+          "median": 14523.234,
+          "min": 14001.719,
+          "max": 15044.749,
+          "values": [
+            14001.719,
+            15044.749
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          5184.264000000001,
+          385.262999999999
+        ],
+        "pairedPercentReduction": [
+          27.021101811671578,
+          2.4968418689499337
+        ],
+        "medianPairedPercentReduction": 14.758971840310755
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 25360,
+          "min": 23360,
+          "max": 27360,
+          "values": [
+            27360,
+            23360
+          ]
+        },
+        "candidate": {
+          "median": 21805,
+          "min": 20729.999999999996,
+          "max": 22880.000000000004,
+          "values": [
+            20729.999999999996,
+            22880.000000000004
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          6630.000000000004,
+          479.99999999999636
+        ],
+        "pairedPercentReduction": [
+          24.23245614035089,
+          2.0547945205479294
+        ],
+        "medianPairedPercentReduction": 13.14362533044941
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 2277.6009999999997,
+          "min": 1963.0159999999996,
+          "max": 2592.1859999999997,
+          "values": [
+            2592.1859999999997,
+            1963.0159999999996
+          ]
+        },
+        "candidate": {
+          "median": 1762.8430000000003,
+          "min": 1623.8190000000002,
+          "max": 1901.8670000000002,
+          "values": [
+            1623.8190000000002,
+            1901.8670000000002
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          968.3669999999995,
+          61.14899999999943
+        ],
+        "pairedPercentReduction": [
+          37.3571572410313,
+          3.115053570628026
+        ],
+        "medianPairedPercentReduction": 20.236105405829665
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 2283.207,
+          "min": 2027.6229999999998,
+          "max": 2538.791,
+          "values": [
+            2538.791,
+            2027.6229999999998
+          ]
+        },
+        "candidate": {
+          "median": 1906.3134999999997,
+          "min": 1867.687,
+          "max": 1944.9399999999998,
+          "values": [
+            1867.687,
+            1944.9399999999998
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          671.1040000000003,
+          82.68299999999999
+        ],
+        "pairedPercentReduction": [
+          26.433999490308583,
+          4.077829063884164
+        ],
+        "medianPairedPercentReduction": 15.255914277096373
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 170.211,
+          "min": 151.236,
+          "max": 189.186,
+          "values": [
+            189.186,
+            151.236
+          ]
+        },
+        "candidate": {
+          "median": 133.69249999999997,
+          "min": 121.62499999999999,
+          "max": 145.75999999999996,
+          "values": [
+            121.62499999999999,
+            145.75999999999996
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          67.56100000000002,
+          5.4760000000000275
+        ],
+        "pairedPercentReduction": [
+          35.71141627816013,
+          3.620831019069552
+        ],
+        "medianPairedPercentReduction": 19.666123648614843
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 3581.5,
+          "min": 3574,
+          "max": 3589,
+          "values": [
+            3574,
+            3589
+          ]
+        },
+        "candidate": {
+          "median": 3598.5,
+          "min": 3598,
+          "max": 3599,
+          "values": [
+            3599,
+            3598
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -25,
+          -9
+        ],
+        "pairedPercentReduction": [
+          -0.6994963626189143,
+          -0.25076623014767346
+        ],
+        "medianPairedPercentReduction": -0.4751312963832939
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 358.5,
+          "min": 357,
+          "max": 360,
+          "values": [
+            357,
+            360
+          ]
+        },
+        "candidate": {
+          "median": 334,
+          "min": 307,
+          "max": 361,
+          "values": [
+            307,
+            361
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          50,
+          -1
+        ],
+        "pairedPercentReduction": [
+          14.005602240896359,
+          -0.2777777777777778
+        ],
+        "medianPairedPercentReduction": 6.86391223155929
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 16.750000000003638,
+          "min": 16.70000000001164,
+          "max": 16.799999999995634,
+          "values": [
+            16.799999999995634,
+            16.70000000001164
+          ]
+        },
+        "candidate": {
+          "median": 16.70000000001164,
+          "min": 16.70000000001164,
+          "max": 16.70000000001164,
+          "values": [
+            16.70000000001164,
+            16.70000000001164
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0.0999999999839929,
+          0
+        ],
+        "pairedPercentReduction": [
+          0.5952380951429695,
+          0
+        ],
+        "medianPairedPercentReduction": 0.2976190475714848
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 66.70000000000073,
+          "min": 50.099999999998545,
+          "max": 83.30000000000291,
+          "values": [
+            50.099999999998545,
+            83.30000000000291
+          ]
+        },
+        "candidate": {
+          "median": 74.90000000000146,
+          "min": 49.900000000001455,
+          "max": 99.90000000000146,
+          "values": [
+            49.900000000001455,
+            99.90000000000146
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0.19999999999708962,
+          -16.599999999998545
+        ],
+        "pairedPercentReduction": [
+          0.3992015968005897,
+          -19.92797118847295
+        ],
+        "medianPairedPercentReduction": -9.764384795836179
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 0.5,
+          "min": 0,
+          "max": 1,
+          "values": [
+            1,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0.5,
+          "min": 0,
+          "max": 1,
+          "values": [
+            0,
+            1
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          1,
+          -1
+        ],
+        "pairedPercentReduction": [
+          100,
+          null
+        ],
+        "medianPairedPercentReduction": 100
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 25.5,
+          "min": 0,
+          "max": 51,
+          "values": [
+            51,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 52,
+          "min": 0,
+          "max": 104,
+          "values": [
+            0,
+            104
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          51,
+          -104
+        ],
+        "pairedPercentReduction": [
+          100,
+          null
+        ],
+        "medianPairedPercentReduction": 100
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 24542,
+          "min": 24542,
+          "max": 24542,
+          "values": [
+            24542,
+            24542
+          ]
+        },
+        "candidate": {
+          "median": 24542,
+          "min": 24542,
+          "max": 24542,
+          "values": [
+            24542,
+            24542
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 60,
+          "min": 60,
+          "max": 60,
+          "values": [
+            60,
+            60
+          ]
+        },
+        "candidate": {
+          "median": 60,
+          "min": 60,
+          "max": 60,
+          "values": [
+            60,
+            60
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 73.5,
+          "min": 73,
+          "max": 74,
+          "values": [
+            74,
+            73
+          ]
+        },
+        "candidate": {
+          "median": 74,
+          "min": 73,
+          "max": 75,
+          "values": [
+            73,
+            75
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          1,
+          -2
+        ],
+        "pairedPercentReduction": [
+          1.3513513513513513,
+          -2.73972602739726
+        ],
+        "medianPairedPercentReduction": -0.6941873380229544
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13425235.5,
+          "min": 13335401,
+          "max": 13515070,
+          "values": [
+            13335401,
+            13515070
+          ]
+        },
+        "candidate": {
+          "median": 13605451,
+          "min": 13515672,
+          "max": 13695230,
+          "values": [
+            13695230,
+            13515672
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -359829,
+          -602
+        ],
+        "pairedPercentReduction": [
+          -2.6982990612730733,
+          -0.004454286955228497
+        ],
+        "medianPairedPercentReduction": -1.3513766741141509
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13464759.5,
+          "min": 13376106,
+          "max": 13553413,
+          "values": [
+            13376106,
+            13553413
+          ]
+        },
+        "candidate": {
+          "median": 13643960,
+          "min": 13554343,
+          "max": 13733577,
+          "values": [
+            13733577,
+            13554343
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -357471,
+          -930
+        ],
+        "pairedPercentReduction": [
+          -2.672459383919356,
+          -0.006861740286376575
+        ],
+        "medianPairedPercentReduction": -1.339660562102866
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 75,
+          "min": 72,
+          "max": 78,
+          "values": [
+            78,
+            72
+          ]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          6,
+          0
+        ],
+        "pairedPercentReduction": [
+          7.6923076923076925,
+          0
+        ],
+        "medianPairedPercentReduction": 3.8461538461538463
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 67397.39678249997,
+          "min": 61865.41246200004,
+          "max": 72929.3811029999,
+          "values": [
+            61865.41246200004,
+            72929.3811029999
+          ]
+        },
+        "candidate": {
+          "median": 62759.782137500006,
+          "min": 61125.0189100001,
+          "max": 64394.54536499991,
+          "values": [
+            64394.54536499991,
+            61125.0189100001
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -2529.132902999874,
+          11804.362192999804
+        ],
+        "pairedPercentReduction": [
+          -4.088120974790815,
+          16.186017232654454
+        ],
+        "medianPairedPercentReduction": 6.048948128931819
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 62894.076,
+          "min": 58752.740999999995,
+          "max": 67035.41100000001,
+          "values": [
+            58752.740999999995,
+            67035.41100000001
+          ]
+        },
+        "candidate": {
+          "median": 58571.38100000001,
+          "min": 57756.334,
+          "max": 59386.42800000001,
+          "values": [
+            59386.42800000001,
+            57756.334
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -633.6870000000126,
+          9279.077000000005
+        ],
+        "pairedPercentReduction": [
+          -1.0785658493788617,
+          13.842052821903343
+        ],
+        "medianPairedPercentReduction": 6.38174348626224
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 934.4344523060748,
+          "min": 919.1825021156329,
+          "max": 949.6864024965167,
+          "values": [
+            949.6864024965167,
+            919.1825021156329
+          ]
+        },
+        "candidate": {
+          "median": 933.5581113096102,
+          "min": 922.2276151401801,
+          "max": 944.8886074790403,
+          "values": [
+            922.2276151401801,
+            944.8886074790403
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          27.458787356336643,
+          -25.706105363407346
+        ],
+        "pairedPercentReduction": [
+          2.8913531123698863,
+          -2.796626927105443
+        ],
+        "medianPairedPercentReduction": 0.047363092632221715
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 61917.268,
+          "min": 57658.681000000004,
+          "max": 66175.855,
+          "values": [
+            57658.681000000004,
+            66175.855
+          ]
+        },
+        "candidate": {
+          "median": 58296.0995,
+          "min": 57293.242,
+          "max": 59298.957,
+          "values": [
+            59298.957,
+            57293.242
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -1640.275999999998,
+          8882.612999999998
+        ],
+        "pairedPercentReduction": [
+          -2.8448031962437677,
+          13.42274006131088
+        ],
+        "medianPairedPercentReduction": 5.288968432533556
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 77095,
+          "min": 72480,
+          "max": 81710.00000000001,
+          "values": [
+            72480,
+            81710.00000000001
+          ]
+        },
+        "candidate": {
+          "median": 71120,
+          "min": 70520.00000000001,
+          "max": 71720,
+          "values": [
+            71720,
+            70520.00000000001
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          760,
+          11190
+        ],
+        "pairedPercentReduction": [
+          1.0485651214128036,
+          13.69477420144413
+        ],
+        "medianPairedPercentReduction": 7.3716696614284665
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 37739.1415,
+          "min": 37430.555,
+          "max": 38047.728,
+          "values": [
+            38047.728,
+            37430.555
+          ]
+        },
+        "candidate": {
+          "median": 32914.115000000005,
+          "min": 31840.744000000002,
+          "max": 33987.486000000004,
+          "values": [
+            31840.744000000002,
+            33987.486000000004
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          6206.984,
+          3443.068999999996
+        ],
+        "pairedPercentReduction": [
+          16.313678440930822,
+          9.198551824839347
+        ],
+        "medianPairedPercentReduction": 12.756115132885085
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 5178.773,
+          "min": 4881.018,
+          "max": 5476.528,
+          "values": [
+            4881.018,
+            5476.528
+          ]
+        },
+        "candidate": {
+          "median": 5255.7119999999995,
+          "min": 5039.612,
+          "max": 5471.812,
+          "values": [
+            5471.812,
+            5039.612
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -590.7939999999999,
+          436.91600000000017
+        ],
+        "pairedPercentReduction": [
+          -12.103909471343885,
+          7.9779743662408045
+        ],
+        "medianPairedPercentReduction": -2.06296755255154
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 910.9780000000001,
+          "min": 901.221,
+          "max": 920.735,
+          "values": [
+            901.221,
+            920.735
+          ]
+        },
+        "candidate": {
+          "median": 799.9595,
+          "min": 772.7040000000001,
+          "max": 827.215,
+          "values": [
+            772.7040000000001,
+            827.215
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          128.51699999999994,
+          93.51999999999998
+        ],
+        "pairedPercentReduction": [
+          14.260320165641938,
+          10.157102749433873
+        ],
+        "medianPairedPercentReduction": 12.208711457537905
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 2640,
+          "min": 2515,
+          "max": 2765,
+          "values": [
+            2515,
+            2765
+          ]
+        },
+        "candidate": {
+          "median": 3586.5,
+          "min": 3261,
+          "max": 3912,
+          "values": [
+            3912,
+            3261
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -1397,
+          -496
+        ],
+        "pairedPercentReduction": [
+          -55.54671968190855,
+          -17.93851717902351
+        ],
+        "medianPairedPercentReduction": -36.74261843046603
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 1581,
+          "min": 1517,
+          "max": 1645,
+          "values": [
+            1645,
+            1517
+          ]
+        },
+        "candidate": {
+          "median": 2011,
+          "min": 1936,
+          "max": 2086,
+          "values": [
+            2086,
+            1936
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -441,
+          -419
+        ],
+        "pairedPercentReduction": [
+          -26.80851063829787,
+          -27.620303230059328
+        ],
+        "medianPairedPercentReduction": -27.214406934178598
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 150,
+          "min": 150,
+          "max": 150,
+          "values": [
+            150,
+            150
+          ]
+        },
+        "candidate": {
+          "median": 83.34999999999127,
+          "min": 66.69999999998254,
+          "max": 100,
+          "values": [
+            66.69999999998254,
+            100
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          83.30000000001746,
+          50
+        ],
+        "pairedPercentReduction": [
+          55.53333333334498,
+          33.333333333333336
+        ],
+        "medianPairedPercentReduction": 44.43333333333916
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 299.95000000000437,
+          "min": 250,
+          "max": 349.90000000000873,
+          "values": [
+            349.90000000000873,
+            250
+          ]
+        },
+        "candidate": {
+          "median": 150,
+          "min": 116.69999999999709,
+          "max": 183.3000000000029,
+          "values": [
+            116.69999999999709,
+            183.3000000000029
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          233.20000000001164,
+          66.69999999999709
+        ],
+        "pairedPercentReduction": [
+          66.64761360388849,
+          26.679999999998834
+        ],
+        "medianPairedPercentReduction": 46.663806801943664
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 103.5,
+          "min": 57,
+          "max": 150,
+          "values": [
+            57,
+            150
+          ]
+        },
+        "candidate": {
+          "median": 2.5,
+          "min": 2,
+          "max": 3,
+          "values": [
+            3,
+            2
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          54,
+          148
+        ],
+        "pairedPercentReduction": [
+          94.73684210526316,
+          98.66666666666667
+        ],
+        "medianPairedPercentReduction": 96.70175438596492
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 6462.5,
+          "min": 4126,
+          "max": 8799,
+          "values": [
+            4126,
+            8799
+          ]
+        },
+        "candidate": {
+          "median": 161.5,
+          "min": 148,
+          "max": 175,
+          "values": [
+            175,
+            148
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          3951,
+          8651
+        ],
+        "pairedPercentReduction": [
+          95.75860397479399,
+          98.31799068075918
+        ],
+        "medianPairedPercentReduction": 97.03829732777658
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [
+            26378,
+            26378
+          ]
+        },
+        "candidate": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [
+            26378,
+            26378
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 61,
+          "min": 61,
+          "max": 61,
+          "values": [
+            61,
+            61
+          ]
+        },
+        "candidate": {
+          "median": 61,
+          "min": 61,
+          "max": 61,
+          "values": [
+            61,
+            61
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 80.5,
+          "min": 74,
+          "max": 87,
+          "values": [
+            74,
+            87
+          ]
+        },
+        "candidate": {
+          "median": 74,
+          "min": 72,
+          "max": 76,
+          "values": [
+            76,
+            72
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -2,
+          15
+        ],
+        "pairedPercentReduction": [
+          -2.7027027027027026,
+          17.24137931034483
+        ],
+        "medianPairedPercentReduction": 7.269338303821064
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 14822605.5,
+          "min": 13619014,
+          "max": 16026197,
+          "values": [
+            13619014,
+            16026197
+          ]
+        },
+        "candidate": {
+          "median": 13622551,
+          "min": 13252466,
+          "max": 13992636,
+          "values": [
+            13992636,
+            13252466
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -373622,
+          2773731
+        ],
+        "pairedPercentReduction": [
+          -2.743385093810756,
+          17.307480995023337
+        ],
+        "medianPairedPercentReduction": 7.28204795060629
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 28059658,
+          "min": 25901800,
+          "max": 30217516,
+          "values": [
+            30217516,
+            25901800
+          ]
+        },
+        "candidate": {
+          "median": 27550073,
+          "min": 27168708,
+          "max": 27931438,
+          "values": [
+            27168708,
+            27931438
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          3048808,
+          -2029638
+        ],
+        "pairedPercentReduction": [
+          10.089538795975155,
+          -7.8358955748249155
+        ],
+        "medianPairedPercentReduction": 1.1268216105751199
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 1043,
+          "min": 891,
+          "max": 1195,
+          "values": [
+            1195,
+            891
+          ]
+        },
+        "candidate": {
+          "median": 1174,
+          "min": 1108,
+          "max": 1240,
+          "values": [
+            1108,
+            1240
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          87,
+          -349
+        ],
+        "pairedPercentReduction": [
+          7.2803347280334725,
+          -39.16947250280584
+        ],
+        "medianPairedPercentReduction": -15.944568887386183
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60050.3705645001,
+          "min": 60038.450618,
+          "max": 60062.2905110002,
+          "values": [
+            60038.450618,
+            60062.2905110002
+          ]
+        },
+        "candidate": {
+          "median": 60044.146796999965,
+          "min": 60041.07497800002,
+          "max": 60047.21861599991,
+          "values": [
+            60041.07497800002,
+            60047.21861599991
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -2.6243600000161678,
+          15.071895000291988
+        ],
+        "pairedPercentReduction": [
+          -0.004371132121169969,
+          0.025093773267823714
+        ],
+        "medianPairedPercentReduction": 0.010361320573326872
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 7761.373999999996,
+          "min": 7654.428999999993,
+          "max": 7868.3189999999995,
+          "values": [
+            7868.3189999999995,
+            7654.428999999993
+          ]
+        },
+        "candidate": {
+          "median": 6316.639500000001,
+          "min": 6098.084999999997,
+          "max": 6535.194000000004,
+          "values": [
+            6535.194000000004,
+            6098.084999999997
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          1333.1249999999955,
+          1556.3439999999955
+        ],
+        "pairedPercentReduction": [
+          16.942945500811486,
+          20.33259437118036
+        ],
+        "medianPairedPercentReduction": 18.637769935995923
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 129.2480872531344,
+          "min": 127.44151005360195,
+          "max": 131.05466445266686,
+          "values": [
+            131.05466445266686,
+            127.44151005360195
+          ]
+        },
+        "candidate": {
+          "median": 105.20010749744384,
+          "min": 101.55482869235061,
+          "max": 108.84538630253705,
+          "values": [
+            108.84538630253705,
+            101.55482869235061
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          22.209278150129805,
+          25.886681361251334
+        ],
+        "pairedPercentReduction": [
+          16.946575875711122,
+          20.312597795148054
+        ],
+        "medianPairedPercentReduction": 18.62958683542959
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 7691.745500000003,
+          "min": 7164.117000000005,
+          "max": 8219.374000000002,
+          "values": [
+            8219.374000000002,
+            7164.117000000005
+          ]
+        },
+        "candidate": {
+          "median": 6501.238999999998,
+          "min": 6415.526,
+          "max": 6586.951999999997,
+          "values": [
+            6586.951999999997,
+            6415.526
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          1632.422000000005,
+          748.5910000000049
+        ],
+        "pairedPercentReduction": [
+          19.86066092137923,
+          10.449173289604348
+        ],
+        "medianPairedPercentReduction": 15.154917105491787
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 11449.999999999996,
+          "min": 9869.99999999999,
+          "max": 13030.000000000002,
+          "values": [
+            13030.000000000002,
+            9869.99999999999
+          ]
+        },
+        "candidate": {
+          "median": 10850.000000000002,
+          "min": 10570.000000000007,
+          "max": 11129.999999999996,
+          "values": [
+            10570.000000000007,
+            11129.999999999996
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          2459.9999999999945,
+          -1260.0000000000055
+        ],
+        "pairedPercentReduction": [
+          18.8795088257866,
+          -12.765957446808578
+        ],
+        "medianPairedPercentReduction": 3.0567756894890117
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 2442.748999999999,
+          "min": 2349.604999999997,
+          "max": 2535.8930000000014,
+          "values": [
+            2349.604999999997,
+            2535.8930000000014
+          ]
+        },
+        "candidate": {
+          "median": 1857.4160000000006,
+          "min": 1688.243,
+          "max": 2026.5890000000013,
+          "values": [
+            2026.5890000000013,
+            1688.243
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          323.01599999999553,
+          847.6500000000015
+        ],
+        "pairedPercentReduction": [
+          13.747672481118995,
+          33.42609487072211
+        ],
+        "medianPairedPercentReduction": 23.586883675920554
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 19.608999999999988,
+          "min": 14.349000000001055,
+          "max": 24.86899999999892,
+          "values": [
+            24.86899999999892,
+            14.349000000001055
+          ]
+        },
+        "candidate": {
+          "median": 22.550000000000292,
+          "min": 13.245000000000395,
+          "max": 31.85500000000019,
+          "values": [
+            31.85500000000019,
+            13.245000000000395
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -6.986000000001269,
+          1.10400000000066
+        ],
+        "pairedPercentReduction": [
+          -28.091197876881147,
+          7.693915952335207
+        ],
+        "medianPairedPercentReduction": -10.19864096227297
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 135.83199999999994,
+          "min": 127.73099999999982,
+          "max": 143.93300000000008,
+          "values": [
+            143.93300000000008,
+            127.73099999999982
+          ]
+        },
+        "candidate": {
+          "median": 122.63550000000001,
+          "min": 120.97899999999994,
+          "max": 124.29200000000007,
+          "values": [
+            124.29200000000007,
+            120.97899999999994
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          19.641000000000005,
+          6.751999999999882
+        ],
+        "pairedPercentReduction": [
+          13.645932482474482,
+          5.286109088631492
+        ],
+        "medianPairedPercentReduction": 9.466020785552987
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 3,
+          "min": 2,
+          "max": 4,
+          "values": [
+            4,
+            2
+          ]
+        },
+        "candidate": {
+          "median": 2.5,
+          "min": 2,
+          "max": 3,
+          "values": [
+            3,
+            2
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          1,
+          0
+        ],
+        "pairedPercentReduction": [
+          25,
+          0
+        ],
+        "medianPairedPercentReduction": 12.5
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 360,
+          "min": 358,
+          "max": 362,
+          "values": [
+            362,
+            358
+          ]
+        },
+        "candidate": {
+          "median": 338,
+          "min": 318,
+          "max": 358,
+          "values": [
+            318,
+            358
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          44,
+          0
+        ],
+        "pairedPercentReduction": [
+          12.154696132596685,
+          0
+        ],
+        "medianPairedPercentReduction": 6.077348066298343
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 16.79999999998836,
+          "min": 16.79999999998836,
+          "max": 16.79999999998836,
+          "values": [
+            16.79999999998836,
+            16.79999999998836
+          ]
+        },
+        "candidate": {
+          "median": 16.79999999998836,
+          "min": 16.79999999998836,
+          "max": 16.79999999998836,
+          "values": [
+            16.79999999998836,
+            16.79999999998836
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 124.98399999999674,
+          "min": 116.69999999998254,
+          "max": 133.26800000001094,
+          "values": [
+            116.69999999998254,
+            133.26800000001094
+          ]
+        },
+        "candidate": {
+          "median": 141.64999999999418,
+          "min": 66.69999999998254,
+          "max": 216.60000000000582,
+          "values": [
+            216.60000000000582,
+            66.69999999998254
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -99.90000000002328,
+          66.5680000000284
+        ],
+        "pairedPercentReduction": [
+          -85.60411311057261,
+          49.95047573312644
+        ],
+        "medianPairedPercentReduction": -17.826818688723087
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 2,
+          "min": 0,
+          "max": 4,
+          "values": [
+            0,
+            4
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          4
+        ],
+        "pairedPercentReduction": [
+          null,
+          100
+        ],
+        "medianPairedPercentReduction": 100
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 201.5,
+          "min": 0,
+          "max": 403,
+          "values": [
+            0,
+            403
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          403
+        ],
+        "pairedPercentReduction": [
+          null,
+          100
+        ],
+        "medianPairedPercentReduction": 100
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [
+            26378,
+            26378
+          ]
+        },
+        "candidate": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [
+            26378,
+            26378
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 73.5,
+          "min": 73,
+          "max": 74,
+          "values": [
+            73,
+            74
+          ]
+        },
+        "candidate": {
+          "median": 73,
+          "min": 73,
+          "max": 73,
+          "values": [
+            73,
+            73
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          1
+        ],
+        "pairedPercentReduction": [
+          0,
+          1.3513513513513513
+        ],
+        "medianPairedPercentReduction": 0.6756756756756757
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13810450,
+          "min": 13716587,
+          "max": 13904313,
+          "values": [
+            13716587,
+            13904313
+          ]
+        },
+        "candidate": {
+          "median": 13716603.5,
+          "min": 13716555,
+          "max": 13716652,
+          "values": [
+            13716555,
+            13716652
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          32,
+          187661
+        ],
+        "pairedPercentReduction": [
+          0.00023329418608287908,
+          1.3496603535895662
+        ],
+        "medianPairedPercentReduction": 0.6749468238878246
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13838839,
+          "min": 13744975,
+          "max": 13932703,
+          "values": [
+            13744975,
+            13932703
+          ]
+        },
+        "candidate": {
+          "median": 13747208,
+          "min": 13747160,
+          "max": 13747256,
+          "values": [
+            13747160,
+            13747256
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -2185,
+          185447
+        ],
+        "pairedPercentReduction": [
+          -0.01589671861898621,
+          1.3310195444487691
+        ],
+        "medianPairedPercentReduction": 0.6575614129148915
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "candidate": {
+          "median": 78,
+          "min": 78,
+          "max": 78,
+          "values": [
+            78,
+            78
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -6,
+          -6
+        ],
+        "pairedPercentReduction": [
+          -8.333333333333334,
+          -8.333333333333334
+        ],
+        "medianPairedPercentReduction": -8.333333333333334
+      }
+    ]
+  },
+  "integrityAudit": {
+    "recordedAt": "2026-10-26T15:56:42.364962+00:00",
+    "report": "matched-dense-1793029215214.json",
+    "reportSha256": "97d5c99d18f135c8fad872aa16bbdeeff1799d7c3bae727fda2c5e63f215767b",
+    "sourceRevision": "09f15ce510d25f240311094b09f4efdf3fb56220",
+    "sourcePatchSha256": "2c32d1b7de9164b12bbac066e948e0db32e89a1dcd0bc2fa1e5fa316bf489e94",
+    "harnessFilesVerified": 1953,
+    "experimentalFilesVerified": 12,
+    "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+    "backendLogsVerified": 4,
+    "mainHandle": 49013,
+    "mainExitCode": 0,
+    "samplerHandle": 70165,
+    "samplerExitCode": 0,
+    "completeSamples": 4,
+    "verifiedOrderedUpdates": 7200,
+    "allAttemptsPassed": true,
+    "error": null,
+    "fixtureRoots": [
+      "/tmp/kandev-e2e-0-ij6Q8z"
+    ],
+    "fixtureRootsRemoved": true,
+    "remainingOwnedProcesses": [],
+    "initialLoadedHistory": [
+      [
+        {
+          "sessionId": "6ace3631-4b45-4575-a425-3971ea793227",
+          "messages": 100
+        },
+        {
+          "sessionId": "15abc0b1-b1c1-4876-971b-f1a0e9a18082",
+          "messages": 100
+        },
+        {
+          "sessionId": "3aa7f2e7-7950-45ab-8cbc-a7bc9f2b881a",
+          "messages": 100
+        },
+        {
+          "sessionId": "58a9fcb0-70d9-4906-adee-aa60e393d410",
+          "messages": 100
+        },
+        {
+          "sessionId": "ec5dcf28-bde6-41a8-aafe-3034d7e67235",
+          "messages": 100
+        },
+        {
+          "sessionId": "37bcefc6-1476-401c-8bd4-dd4f5ba33431",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "6ace3631-4b45-4575-a425-3971ea793227",
+          "messages": 100
+        },
+        {
+          "sessionId": "15abc0b1-b1c1-4876-971b-f1a0e9a18082",
+          "messages": 100
+        },
+        {
+          "sessionId": "3aa7f2e7-7950-45ab-8cbc-a7bc9f2b881a",
+          "messages": 100
+        },
+        {
+          "sessionId": "58a9fcb0-70d9-4906-adee-aa60e393d410",
+          "messages": 100
+        },
+        {
+          "sessionId": "ec5dcf28-bde6-41a8-aafe-3034d7e67235",
+          "messages": 100
+        },
+        {
+          "sessionId": "37bcefc6-1476-401c-8bd4-dd4f5ba33431",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "6ace3631-4b45-4575-a425-3971ea793227",
+          "messages": 100
+        },
+        {
+          "sessionId": "15abc0b1-b1c1-4876-971b-f1a0e9a18082",
+          "messages": 100
+        },
+        {
+          "sessionId": "3aa7f2e7-7950-45ab-8cbc-a7bc9f2b881a",
+          "messages": 100
+        },
+        {
+          "sessionId": "58a9fcb0-70d9-4906-adee-aa60e393d410",
+          "messages": 100
+        },
+        {
+          "sessionId": "ec5dcf28-bde6-41a8-aafe-3034d7e67235",
+          "messages": 100
+        },
+        {
+          "sessionId": "37bcefc6-1476-401c-8bd4-dd4f5ba33431",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "6ace3631-4b45-4575-a425-3971ea793227",
+          "messages": 100
+        },
+        {
+          "sessionId": "15abc0b1-b1c1-4876-971b-f1a0e9a18082",
+          "messages": 100
+        },
+        {
+          "sessionId": "3aa7f2e7-7950-45ab-8cbc-a7bc9f2b881a",
+          "messages": 100
+        },
+        {
+          "sessionId": "58a9fcb0-70d9-4906-adee-aa60e393d410",
+          "messages": 100
+        },
+        {
+          "sessionId": "ec5dcf28-bde6-41a8-aafe-3034d7e67235",
+          "messages": 100
+        },
+        {
+          "sessionId": "37bcefc6-1476-401c-8bd4-dd4f5ba33431",
+          "messages": 100
+        }
+      ]
+    ],
+    "finalLoadedHistory": [
+      [
+        {
+          "sessionId": "6ace3631-4b45-4575-a425-3971ea793227",
+          "messages": 100
+        },
+        {
+          "sessionId": "15abc0b1-b1c1-4876-971b-f1a0e9a18082",
+          "messages": 100
+        },
+        {
+          "sessionId": "3aa7f2e7-7950-45ab-8cbc-a7bc9f2b881a",
+          "messages": 100
+        },
+        {
+          "sessionId": "58a9fcb0-70d9-4906-adee-aa60e393d410",
+          "messages": 100
+        },
+        {
+          "sessionId": "ec5dcf28-bde6-41a8-aafe-3034d7e67235",
+          "messages": 100
+        },
+        {
+          "sessionId": "37bcefc6-1476-401c-8bd4-dd4f5ba33431",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "6ace3631-4b45-4575-a425-3971ea793227",
+          "messages": 100
+        },
+        {
+          "sessionId": "15abc0b1-b1c1-4876-971b-f1a0e9a18082",
+          "messages": 100
+        },
+        {
+          "sessionId": "3aa7f2e7-7950-45ab-8cbc-a7bc9f2b881a",
+          "messages": 100
+        },
+        {
+          "sessionId": "58a9fcb0-70d9-4906-adee-aa60e393d410",
+          "messages": 100
+        },
+        {
+          "sessionId": "ec5dcf28-bde6-41a8-aafe-3034d7e67235",
+          "messages": 100
+        },
+        {
+          "sessionId": "37bcefc6-1476-401c-8bd4-dd4f5ba33431",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "6ace3631-4b45-4575-a425-3971ea793227",
+          "messages": 100
+        },
+        {
+          "sessionId": "15abc0b1-b1c1-4876-971b-f1a0e9a18082",
+          "messages": 100
+        },
+        {
+          "sessionId": "3aa7f2e7-7950-45ab-8cbc-a7bc9f2b881a",
+          "messages": 100
+        },
+        {
+          "sessionId": "58a9fcb0-70d9-4906-adee-aa60e393d410",
+          "messages": 100
+        },
+        {
+          "sessionId": "ec5dcf28-bde6-41a8-aafe-3034d7e67235",
+          "messages": 100
+        },
+        {
+          "sessionId": "37bcefc6-1476-401c-8bd4-dd4f5ba33431",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "6ace3631-4b45-4575-a425-3971ea793227",
+          "messages": 100
+        },
+        {
+          "sessionId": "15abc0b1-b1c1-4876-971b-f1a0e9a18082",
+          "messages": 100
+        },
+        {
+          "sessionId": "3aa7f2e7-7950-45ab-8cbc-a7bc9f2b881a",
+          "messages": 100
+        },
+        {
+          "sessionId": "58a9fcb0-70d9-4906-adee-aa60e393d410",
+          "messages": 100
+        },
+        {
+          "sessionId": "ec5dcf28-bde6-41a8-aafe-3034d7e67235",
+          "messages": 100
+        },
+        {
+          "sessionId": "37bcefc6-1476-401c-8bd4-dd4f5ba33431",
+          "messages": 100
+        }
+      ]
+    ],
+    "artifacts": [
+      {
+        "path": "matched-dense-1793029215214.json",
+        "sha256": "97d5c99d18f135c8fad872aa16bbdeeff1799d7c3bae727fda2c5e63f215767b"
+      },
+      {
+        "path": "matched-dense-1793029215214.json.backend.log",
+        "sha256": "a6008883d9040cba6eb75831efabeec2815ee39d42dcb26bac90ddf63dda4f18"
+      },
+      {
+        "path": "matched-dense-1793029215214.json.baseline-1x-0.backend.log",
+        "sha256": "adde7242d2e9e48de04610536b68ef52b6e128fc472ad4ba02bc1cefacee61bd"
+      },
+      {
+        "path": "matched-dense-1793029215214.json.baseline-1x-1.backend.log",
+        "sha256": "a6008883d9040cba6eb75831efabeec2815ee39d42dcb26bac90ddf63dda4f18"
+      },
+      {
+        "path": "matched-dense-1793029215214.json.candidate-1x-0.backend.log",
+        "sha256": "296f9c258d6ce86311ee0171a81f0a5e3c6b4a9eb88ac98e97a6365925ba154b"
+      },
+      {
+        "path": "matched-dense-1793029215214.json.candidate-1x-1.backend.log",
+        "sha256": "03311e4fe8a3b6deb770a797cd7789a38ddd4a5cfd91ef6cf78e86c915c1d0bd"
+      }
+    ]
+  },
+  "runtimeEquivalence": {
+    "recordedAt": "2026-10-26T15:12:41.486387+00:00",
+    "productionRevision": "09f15ce510d25f240311094b09f4efdf3fb56220",
+    "harnessRevision": "09f15ce510d25f240311094b09f4efdf3fb56220",
+    "arms": {
+      "baseline": {
+        "root": "/tmp/kandev-edge-rows-before-5936a872",
+        "assets": {
+          "sha256": "c4a426d266695eff7d361531f1932f7e24c2e91383d11ce79ebf0b25ee36b420",
+          "files": 1253
+        },
+        "helpers": {
+          "kandev": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+          "agentctl": "6e768aef1a1692630fe109c25e23ac31ab461b691800c2059e6dfdd5cf0b4d0a",
+          "mock-agent": "c69f05ee9f5622cc5bce83405c2e9240b537f3e79a21da65765d9867592288c1"
+        },
+        "lockfileSha256": "9d5a03a9086f28c93752fce491f896047fbcdbc64abfafe3b3aa53261199c554"
+      },
+      "candidate": {
+        "root": "/tmp/kandev-perf-delivery-5936a872",
+        "assets": {
+          "sha256": "9ee2c6f56e71f44c954ac3bbdceef93829c445c53cd99cb4ac17c10a910f6d21",
+          "files": 1253
+        },
+        "helpers": {
+          "kandev": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+          "agentctl": "6e768aef1a1692630fe109c25e23ac31ab461b691800c2059e6dfdd5cf0b4d0a",
+          "mock-agent": "c69f05ee9f5622cc5bce83405c2e9240b537f3e79a21da65765d9867592288c1"
+        },
+        "lockfileSha256": "9d5a03a9086f28c93752fce491f896047fbcdbc64abfafe3b3aa53261199c554"
+      }
+    },
+    "pluginAndRuntimeFixture": [
+      {
+        "path": "apps/backend/.build/e2e-plugin-identity.json",
+        "sha256": "21efa157dbd6ffaf203de06d537be878a6bdef6d7c5ea6110663653849dc0181"
+      },
+      {
+        "path": "apps/web/e2e/fixtures/plugins/prompt-history-plugin/bundle.js",
+        "sha256": "6fce362e09d8c806e9a4642d4c027a9dacc28c80b4c59685efc1130446494fa1"
+      },
+      {
+        "path": "apps/backend/cmd/plugin-fixture/fixture-package/ui/bundle.js",
+        "sha256": "6fce362e09d8c806e9a4642d4c027a9dacc28c80b4c59685efc1130446494fa1"
+      },
+      {
+        "path": "apps/backend/cmd/plugin-fixture/fixture-package/manifest.yaml",
+        "sha256": "0c688de60da6b8ce993cb711b5a5ecef6ce34107e6eed0bb22e526841545cb5b"
+      },
+      {
+        "path": "apps/backend/.build/kandev-plugin-e2e-1.0.0.tar.gz",
+        "sha256": "9fd37c4eaa58a63603e071bf6a30d76e478d685c2b3e6d1ed58d7aa3f3d25894"
+      },
+      {
+        "path": "apps/backend/bin/kandev",
+        "sha256": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9"
+      },
+      {
+        "path": "apps/backend/bin/agentctl",
+        "sha256": "6e768aef1a1692630fe109c25e23ac31ab461b691800c2059e6dfdd5cf0b4d0a"
+      },
+      {
+        "path": "apps/backend/bin/mock-agent",
+        "sha256": "c69f05ee9f5622cc5bce83405c2e9240b537f3e79a21da65765d9867592288c1"
+      },
+      {
+        "path": "apps/backend/bin/e2e-delivery-fixture",
+        "sha256": "5ce9ae7496ad43db160092fb999d2a19573663ec5a5520cae27a26bbd2d7ed88"
+      }
+    ],
+    "productionSourcePatchSha256": "2c32d1b7de9164b12bbac066e948e0db32e89a1dcd0bc2fa1e5fa316bf489e94",
+    "scope": "Isolated C4-to-scroll-position-batching comparison; separate from original-595 final package matrix"
+  },
+  "harnessManifest": {
+    "sourceRevision": "09f15ce510d25f240311094b09f4efdf3fb56220",
+    "harnessSha256": "2207e5aab1cb1d7533f26781733dc0edc5c52214e2e657a5507ef8dd8516695f",
+    "filesVerified": 1953,
+    "sourceFilesVerified": 12
+  },
+  "hostObservation": {
+    "source": {
+      "path": "scroll-batch-two-pair-host-load.jsonl",
+      "sha256": "e1439e536f1fc086e487113a212a18e01cd7e5ab43484fac42ea2bf2c480159e"
+    },
+    "samples": 71,
+    "maxLoadAverage1m": 13.35107421875,
+    "minAvailableMemoryKiB": 12712040,
+    "limits": "Shared-host observations do not identify a cause."
+  },
+  "decision": {
+    "observedResponsiveness": "Streaming frame-gap p95 changes from 150 ms to 66.7 ms and 100 ms; maximum gaps fall in both pairs.",
+    "cpuLimit": "Streaming main-thread work per second improves 2.89% in one pair and regresses 2.80% in the other. The 20% task-time target is unmet.",
+    "durationLimit": "Per-window script totals fall in both pairs, but stream observation durations vary. Script time per second is mixed. Preserve both forms.",
+    "idleLimit": "Idle work improves in both pairs, while maximum gaps and reduced-motion renderer CPU are mixed. No uniform idle responsiveness or CPU claim.",
+    "confirmation": "Run six alternating C4-to-candidate pairs with unchanged density, inputs and deadlines. Keep this preliminary report separate."
+  },
+  "limits": [
+    "Linux Chromium 149 at 1470x956 CSS pixels and DPR 2.",
+    "Two preliminary pairs do not complete the final package matrix.",
+    "Frame gaps are browser cadence observations, not INP or measured screen presentation.",
+    "No M2 Air, battery, or memory-leak claim.",
+    "No visual layout, CSS, copy, message-delivery timing, or generic panel restore change."
+  ],
+  "documentationChecks": {
+    "indexValidation": {
+      "exitCode": 0,
+      "decisions": 384,
+      "specifications": 1618
+    },
+    "allSpecificationLint": {
+      "exitCode": 0,
+      "status": "passed"
+    }
+  }
+}

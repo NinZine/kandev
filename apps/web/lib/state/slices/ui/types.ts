@@ -376,6 +376,11 @@ export type UISliceState = {
   acknowledgedAgentErrors: Record<string, string>;
 };
 
+export type TranscriptScrollPosition = {
+  sessionId: string;
+  scrollTop: number;
+};
+
 export type UISliceActions = {
   setPreviewOpen: (sessionId: string, open: boolean) => void;
   togglePreviewOpen: (sessionId: string) => void;
@@ -399,6 +404,7 @@ export type UISliceActions = {
   setTranscriptAutoScrollEnabled: (sessionId: string, enabled: boolean) => void;
   setDirectoryBrowserShowHidden: (showHidden: boolean) => void;
   setTranscriptScrollTop: (sessionId: string, scrollTop: number) => void;
+  setTranscriptScrollTops: (positions: readonly TranscriptScrollPosition[]) => void;
   setReviewPRSelection: (taskId: string, selectedKey: string) => void;
   setActiveDocument: (sessionId: string, doc: ActiveDocument | null) => void;
   setSystemHealth: (response: SystemHealthResponse) => void;

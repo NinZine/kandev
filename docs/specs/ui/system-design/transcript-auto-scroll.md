@@ -4,7 +4,7 @@ system: ui
 requirements:
   - REQ-UI-TRANSCRIPT-AUTO-SCROLL-001
 created: 2026-08-27
-updated: 2026-09-26
+updated: 2026-10-26
 owners:
   - kandev
 ---
@@ -24,7 +24,7 @@ restoration, and catch-up after the user enables auto-scroll again.
 
 | Requirement                         | Design section                                                                                                                                                                                                                                                                                        |
 | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `REQ-UI-TRANSCRIPT-AUTO-SCROLL-001` | [Bottom placement](#bottom-placement), [Persistent-panel visibility lifecycle](#persistent-panel-visibility-lifecycle), [Environment-change rebuild lifecycle](#environment-change-rebuild-lifecycle), [Interaction boundaries](#interaction-boundaries), [Responsive behavior](#responsive-behavior) |
+| `REQ-UI-TRANSCRIPT-AUTO-SCROLL-001` | [Bottom placement](#bottom-placement), [Persistent-panel visibility lifecycle](#persistent-panel-visibility-lifecycle), [Scroll-position persistence](#scroll-position-persistence), [Environment-change rebuild lifecycle](#environment-change-rebuild-lifecycle), [Interaction boundaries](#interaction-boundaries), [Responsive behavior](#responsive-behavior) |
 
 ## Bottom placement
 
@@ -104,6 +104,32 @@ place.
 
 The visibility lifecycle uses component refs only. It does not add persisted
 scroll state or change the existing per-session disabled-position storage.
+
+## Scroll-position persistence
+
+Native transcript scroll events defer persistence by one animation frame. The
+frame queue belongs to the app store. Captures from that store share one
+`setTranscriptScrollTops` publication, while each session keeps its existing
+storage key. Different stores have independent queues. Captures read the
+current visible position or the transcript's existing frozen or remembered
+position when the frame runs. When two producers capture the same session,
+the final producer's value wins.
+
+Each mounted producer owns one pending entry. Cancellation removes only that
+entry. A late cancelled callback cannot consume a new entry or delete a newer
+store queue. A capture failure preserves healthy peers and reports the error.
+An empty queue releases its frame and store entry.
+
+Initial placement and explicit boundaries keep the synchronous
+`setTranscriptScrollTop` action. Detaching a confirmed placement synchronously
+flushes that producer's current position, including an unscheduled final
+capture, without dropping its peers. Detaching an unconfirmed initial placement
+for the same session cancels its pending capture. Session replacement retains
+the outgoing session's existing final-capture rule.
+
+The queue changes persistence publication only. Message delivery, permissions,
+turn completion, reader intent, native following, and the generic panel offset
+restore retain their current owners and timing.
 
 ## Environment-change rebuild lifecycle
 

@@ -7,6 +7,7 @@ depends_on:
   - "05-workbench-lifecycle"
 plan: "plan.md"
 requirements:
+  - REQ-UI-TRANSCRIPT-AUTO-SCROLL-001
   - REQ-PLATFORM-POSTGRES-DOMAIN-STORE-PARITY-007
   - REQ-PLUGINS-PROMPT-HISTORY-HOST-006
   - REQ-UI-SESSION-REFRESH-EFFICIENCY-004
@@ -21,6 +22,7 @@ acceptance_criteria:
   - AC-UI-PERSISTENT-STATUS-MOTION-006.1
   - AC-PLATFORM-WEB-ASSET-DELIVERY-001.1
 system_design:
+  - ../../specs/ui/system-design/transcript-auto-scroll.md
   - ../../specs/platform/system-design/postgres-domain-store-parity.md
   - ../../specs/plugins/system-design/conversation-source-reconciliation.md
   - ../../specs/ui/system-design/session-refresh-efficiency.md
@@ -951,6 +953,59 @@ are removed, with exact C4 source and asset restoration. All paired values,
 the patch and rejected build remain preserved. See
 [the rejected experiment](evidence/rejected-transcript-row-references-1x.json).
 
-Next: test whether generic panel scroll retention duplicates native transcript
-ownership. Keep actual hide/show restoration and reading controls intact.
-The final matrix and 20% streaming task-time target remain open.
+Further attribution maps 3.59 of 7.84 seconds in sampled store-notification
+stacks to scroll-position persistence. Same-store deferred captures now share
+one publication per frame. Synchronous boundary saves, store isolation,
+reading controls and the generic panel restore remain in place.
+
+Two full-density alternating pairs on assets `9ee2c6f5` pass all four samples
+and verify 7,200 ordered updates. Streaming frame-gap p95 falls from 150 ms
+to 66.7 ms and 100 ms; maximum streaming gaps also fall in both pairs.
+Main-thread work per second improves 2.89% in one pair and regresses 2.80%
+in the other. The 20% task-time target remains unmet. Stream observation
+durations vary, so lower per-window script totals do not establish a uniform
+script-rate gain. Idle maximum gaps are mixed.
+
+All 187 related unit tests, 35 desktop checks, 17 phone checks, strict lint,
+full web types and production build pass. Four captures are inspected.
+The change is retained for its preliminary frame-cadence result, with a
+six-pair confirmation next. The original-baseline final matrix remains open.
+See [the complete evidence](evidence/scroll-position-batching-two-pair-1x.json).
+
+## Candidate experiment: store-scoped scroll-position saves
+
+Status: retained after two preliminary pairs; six-pair confirmation is pending.
+The C4 profile maps
+3,592 ms of its 7,837 ms of sampled store-notification work to
+`setTranscriptScrollTop`. These are overlapping profiler samples, not action
+counts or CPU-counter measurements.
+
+Group only native transcripts' already-deferred position captures within the
+same app store and animation frame. Apply their latest per-session values in
+one state publication. Keep the current single-position action synchronous for
+initial placement, explicit boundaries and final detach flushes. Preserve the
+existing per-session storage keys and the native transcript's local reader state.
+
+Each mounted producer owns one queue entry. Cancellation removes that entry;
+flushing one producer must preserve its peers. An obsolete callback must not
+consume a new entry or remove a newer store queue. Different app stores never
+share a batch. Capture current positions when the frame runs; preserve the
+current last-writer result when two producers refer to the same session.
+
+The generic panel restore stays in place. The transcript design still uses it
+when the reader is away from the bottom. Streamed messages, turn completion,
+permissions and other visible state continue through their current paths.
+The rejected all-session message batching experiment remains excluded.
+
+Use tests to prove the publication bound, synchronous flush, isolation,
+cancellation, late callbacks, session replacement and real hide/show behavior.
+Then use the existing full-density native-v2 comparison on frozen builds.
+The owning transcript design now records the per-store queue and its producer
+cleanup boundaries. The existing storage contract and generic restore remain.
+
+Validation: 187 unit tests, 35 desktop checks, 17 phone checks, strict lint,
+full web types and production build pass. Two preliminary native-v2 pairs
+verify 7,200 ordered updates. Streaming frame-gap p95 improves in both pairs,
+while main-thread utilization is mixed. Next: six alternating confirmation
+pairs with the same full density and frozen builds. See
+[the evidence](evidence/scroll-position-batching-two-pair-1x.json).

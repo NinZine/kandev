@@ -2,6 +2,7 @@
 created: 2026-10-22
 status: in_progress
 requirements:
+  - REQ-UI-TRANSCRIPT-AUTO-SCROLL-001
   - REQ-UI-CHAT-MOTION-001
   - REQ-PLATFORM-POSTGRES-DOMAIN-STORE-PARITY-007
   - REQ-PLUGINS-PROMPT-HISTORY-HOST-006
@@ -13,6 +14,7 @@ requirements:
   - REQ-UI-PERSISTENT-STATUS-MOTION-006
   - REQ-PLATFORM-WEB-ASSET-DELIVERY-001
 system_design:
+  - ../../specs/ui/system-design/transcript-auto-scroll.md
   - ../../specs/ui/system-design/chat-motion.md
   - ../../specs/platform/system-design/postgres-domain-store-parity.md
   - ../../specs/plugins/system-design/conversation-source-reconciliation.md
@@ -27,6 +29,15 @@ legacy_specs: []
 # Implementation plan: Dense workbench performance
 
 ## Latest measured checkpoint
+
+Current candidate `9ee2c6f5` has a preliminary two-pair streaming frame-cadence
+gain against C4. Both pairs pass all correctness checks. Streaming main-thread
+utilization is mixed. Six-pair confirmation, the 20% task-time target and the
+final original-baseline matrix remain open. Details and complete paired values
+appear below and in [the evidence](evidence/scroll-position-batching-two-pair-1x.json).
+
+The earlier complete package comparison remains valid for its own `44cf53e7`
+build:
 
 The first full-reference v2 Grid comparison on `44cf53e7` completes all
 12 attempts and six alternating pairs, verifying 21,600 ordered updates.
@@ -66,9 +77,24 @@ are removed, with exact C4 source and asset restoration. All paired values,
 the patch and rejected build remain preserved. See
 [the rejected experiment](evidence/rejected-transcript-row-references-1x.json).
 
-Next: test whether generic panel scroll retention duplicates native transcript
-ownership. Keep actual hide/show restoration and reading controls intact.
-The final matrix and 20% streaming task-time target remain open.
+Further attribution maps 3.59 of 7.84 seconds in sampled store-notification
+stacks to scroll-position persistence. Same-store deferred captures now share
+one publication per frame. Synchronous boundary saves, store isolation,
+reading controls and the generic panel restore remain in place.
+
+Two full-density alternating pairs on assets `9ee2c6f5` pass all four samples
+and verify 7,200 ordered updates. Streaming frame-gap p95 falls from 150 ms
+to 66.7 ms and 100 ms; maximum streaming gaps also fall in both pairs.
+Main-thread work per second improves 2.89% in one pair and regresses 2.80%
+in the other. The 20% task-time target remains unmet. Stream observation
+durations vary, so lower per-window script totals do not establish a uniform
+script-rate gain. Idle maximum gaps are mixed.
+
+All 187 related unit tests, 35 desktop checks, 17 phone checks, strict lint,
+full web types and production build pass. Four captures are inspected.
+The change is retained for its preliminary frame-cadence result, with a
+six-pair confirmation next. The original-baseline final matrix remains open.
+See [the complete evidence](evidence/scroll-position-batching-two-pair-1x.json).
 
 The current correctness candidate (`c4a426d2`) also restores following when
 native upward movement occurs before its wheel handler and the reader later
@@ -80,9 +106,9 @@ typecheck, and the production build pass. Desktop and phone captures are
 inspected. No markup, styles, visible copy or animation loop changes.
 See [the correction evidence](evidence/native-reading-return.json).
 
-This correctness correction has no timing result. The complete `44cf53e7`
-comparison above remains valid for its own recorded build, and its streaming
-regression remains open. The earlier optional isolated E2E type audit retains
+The C4-to-batching timing evidence is separate from the complete `44cf53e7`
+comparison. That earlier comparison remains valid for its own recorded build,
+and its streaming regression remains open. The earlier optional isolated E2E type audit retains
 six errors in unchanged helpers; the normal full web typecheck passes.
 
 The final dense matrix is still open for this build. The distinct v2 input

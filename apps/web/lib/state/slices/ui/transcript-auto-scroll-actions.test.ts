@@ -1,8 +1,9 @@
-import { beforeEach, describe, it, expect } from "vitest";
+import { beforeEach, describe, it, expect, vi } from "vitest";
 import { create, type StoreApi, type UseBoundStore } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { createUISlice } from "./ui-slice";
 import type { UISlice } from "./types";
+import { getStoredAutoScrollTop } from "@/lib/local-storage";
 
 function makeStore() {
   return create<UISlice>()(
@@ -43,5 +44,30 @@ describe("transcript auto-scroll actions", () => {
 
     store.getState().setTranscriptScrollTop("session-a", 400);
     expect(store.getState().transcriptAutoScroll.scrollTopBySessionId["session-a"]).toBe(400);
+  });
+
+  it("publishes all frame positions once and persists the last value for each session", () => {
+    const published: Record<string, number>[] = [];
+    store.subscribe((state) => {
+      published.push({ ...state.transcriptAutoScroll.scrollTopBySessionId });
+    });
+    store.getState().setTranscriptScrollTops([
+      { sessionId: "batch-session-a", scrollTop: 250 },
+      { sessionId: "batch-session-b", scrollTop: 400 },
+      { sessionId: "batch-session-a", scrollTop: 275 },
+    ]);
+
+    expect(published).toEqual([{ "batch-session-a": 275, "batch-session-b": 400 }]);
+    expect(getStoredAutoScrollTop("batch-session-a")).toBe(275);
+    expect(getStoredAutoScrollTop("batch-session-b")).toBe(400);
+  });
+
+  it("leaves state and subscribers unchanged for an empty frame", () => {
+    const previous = store.getState();
+    const changed = vi.fn();
+    store.subscribe(changed);
+    store.getState().setTranscriptScrollTops([]);
+    expect(store.getState()).toBe(previous);
+    expect(changed).not.toHaveBeenCalled();
   });
 });

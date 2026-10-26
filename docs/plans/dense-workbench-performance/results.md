@@ -1540,6 +1540,66 @@ are removed, with exact C4 source and asset restoration. All paired values,
 the patch and rejected build remain preserved. See
 [the rejected experiment](evidence/rejected-transcript-row-references-1x.json).
 
-Next: test whether generic panel scroll retention duplicates native transcript
-ownership. Keep actual hide/show restoration and reading controls intact.
-The final matrix and 20% streaming task-time target remain open.
+Further attribution maps 3.59 of 7.84 seconds in sampled store-notification
+stacks to scroll-position persistence. Same-store deferred captures now share
+one publication per frame. Synchronous boundary saves, store isolation,
+reading controls and the generic panel restore remain in place.
+
+Two full-density alternating pairs on assets `9ee2c6f5` pass all four samples
+and verify 7,200 ordered updates. Streaming frame-gap p95 falls from 150 ms
+to 66.7 ms and 100 ms; maximum streaming gaps also fall in both pairs.
+Main-thread work per second improves 2.89% in one pair and regresses 2.80%
+in the other. The 20% task-time target remains unmet. Stream observation
+durations vary, so lower per-window script totals do not establish a uniform
+script-rate gain. Idle maximum gaps are mixed.
+
+All 187 related unit tests, 35 desktop checks, 17 phone checks, strict lint,
+full web types and production build pass. Four captures are inspected.
+The change is retained for its preliminary frame-cadence result, with a
+six-pair confirmation next. The original-baseline final matrix remains open.
+See [the complete evidence](evidence/scroll-position-batching-two-pair-1x.json).
+
+
+## Store-scoped scroll-position publication: preliminary retained gain
+
+Assets `9ee2c6f5` group already-deferred native position captures per app store
+and animation frame. The synchronous single-position action and final detach
+flush remain immediate. Same-session unconfirmed initial placement cancels its
+pending capture. Messages, turn completion, permissions and generic panel
+restoration retain their current paths.
+
+The C4 control is `c4a426d2`. Both arms use their own byte-verified B6 runtime
+helpers and the same lockfile. Two alternating full-density pairs pass all four
+samples in 35.1 minutes, including fixture preparation. They verify 7,200
+ordered updates, 1,000 tasks, 30 columns, 36,000 stored profile messages and
+six visible 100-message chats. All 1,953 harness files, 12 experimental source
+and documentation files, both asset trees, runtime helpers, packaged fixtures,
+file-state identities and four backend logs pass the post-run audit. The
+disposable root is removed, with no owned process remaining.
+
+| Streaming measure | Control, pair 1 | Candidate, pair 1 | Control, pair 2 | Candidate, pair 2 |
+| --- | ---: | ---: | ---: | ---: |
+| Frame-gap p95 (ms) | 150.0 | 66.7 | 150.0 | 100.0 |
+| Maximum frame gap (ms) | 349.9 | 116.7 | 250.0 | 183.3 |
+| Main-thread work (ms/s) | 949.7 | 922.2 | 919.2 | 944.9 |
+| Observation duration (s) | 61.9 | 64.4 | 72.9 | 61.1 |
+
+The p95 frame gap improves 55.5% and 33.3%; maximum streaming gaps improve
+in both pairs. Main-thread work per second is mixed. Per-window script totals
+fall 16.3% and 9.2%, while script time per second is mixed because observation
+durations differ. The original 60-second deadlines and all final observation
+work remain unchanged. Reduced-motion idle work falls 16.9% and 20.3%, but
+maximum idle gaps and reduced-motion renderer CPU are mixed. The cause of
+those mixed observations is unconfirmed.
+
+All 187 related unit tests, 35 desktop checks and 17 phone checks pass, along
+with strict lint, full web types and the production build. Four captures are
+inspected. The native reading regression holds its position with zero movement;
+real PageDown resumes following and remains within one pixel after growth.
+
+The implementation is retained for its preliminary streaming frame-cadence
+gain. A six-pair confirmation is next. This C4-to-candidate experiment does
+not complete the original-baseline matrix or meet the 20% task-time target.
+Frame gaps are not INP or measured screen presentation. No M2 Air, battery or
+memory-leak gain follows from these Linux Chromium measurements. See
+[all paired metrics and integrity evidence](evidence/scroll-position-batching-two-pair-1x.json).

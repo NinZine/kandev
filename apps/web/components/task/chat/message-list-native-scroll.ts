@@ -11,6 +11,7 @@ import {
   type LazyLoadSentinelSettleResult,
 } from "@/hooks/use-lazy-load-sentinel";
 import type { Message } from "@/lib/types/http";
+import type { TranscriptScrollPosition } from "@/lib/state/slices/ui/types";
 import { TASK_DESCRIPTION_SYNTHETIC_ID, type RenderItem } from "@/hooks/use-processed-messages";
 import { getItemKey, shouldAutoScrollToBottom } from "./message-list-shared";
 import { getOldestVisibleBoundaryKey } from "./message-list-native-boundary";
@@ -20,10 +21,10 @@ import {
   hasTranscriptAppendedSinceBaseline,
   shouldCatchUpOnAutoScrollEnable,
   resolveNativeInitialScrollTop,
-  createFrameCoalescer,
   scheduleAfterPanelRestore,
   useActivationPending,
 } from "./transcript-auto-scroll";
+import { createTranscriptScrollCoalescer } from "./transcript-scroll-persistence";
 import { scheduleClampedScrollRestore } from "./clamped-scroll-restore";
 import { useTranscriptViewportResize } from "./transcript-viewport-resize";
 import { createDebugLogger, isDebug } from "@/lib/debug/log";
@@ -912,8 +913,8 @@ function usePersistedTranscriptScroll({
     };
     /** Persists the container's current scrollTop for the session (used when
      * auto-scroll is disabled). */
-    const captureScrollTop = () => {
-      if (!sessionId) return;
+    const captureScrollTop = (): TranscriptScrollPosition | null => {
+      if (!sessionId) return null;
       const frozen = frozenScrollTopRef.current;
       const frozenScrollTop = frozen?.sessionId === sessionId ? frozen.scrollTop : undefined;
       const isCurrentVisibleSession =
@@ -921,14 +922,12 @@ function usePersistedTranscriptScroll({
       const scrollTop =
         frozenScrollTop ??
         (isCurrentVisibleSession ? el.scrollTop : lastScrollTopBySessionRef.current.get(sessionId));
-      if (scrollTop === undefined) return;
-      storeApi.getState().setTranscriptScrollTop(sessionId, scrollTop);
+      if (scrollTop === undefined) return null;
       rememberSessionScrollTop(sessionId, scrollTop);
+      return { sessionId, scrollTop };
     };
-    // Coalesce persisted writes to at most one per animation frame — native
-    // scroll events can fire far more often than that, and each write is a
-    // synchronous sessionStorage.setItem plus a store update.
-    const coalescer = createFrameCoalescer(captureScrollTop);
+    // Same-store positions share one publication per frame; detach flushes stay synchronous.
+    const coalescer = createTranscriptScrollCoalescer(storeApi, captureScrollTop);
     /** Scroll listener: resyncs the near-bottom flag and schedules a
      * coalesced persistence of the scroll position. */
     const onScroll = () => {
@@ -983,6 +982,7 @@ function usePersistedTranscriptScroll({
       // and back), even if no scroll event fired right before it, and even
       // if a coalesced write above was still pending.
       if (!initialPlacementPending || latestSessionIdRef.current !== sessionId) coalescer.flush();
+      else coalescer.cancel();
     };
   }, [
     scrollRef,

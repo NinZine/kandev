@@ -99,6 +99,11 @@ vi.mock("@/components/state-provider", () => ({
   useAppStoreApi: () => ({
     getState: () => ({
       setTranscriptScrollTop: transcriptScrollTopWrites,
+      setTranscriptScrollTops: (positions: readonly { sessionId: string; scrollTop: number }[]) => {
+        for (const { sessionId, scrollTop } of positions) {
+          transcriptScrollTopWrites(sessionId, scrollTop);
+        }
+      },
       transcriptAutoScroll: {
         scrollTopBySessionId: Object.fromEntries(transcriptScrollTopBySessionId),
       },
@@ -229,6 +234,7 @@ function AutoScrollHarness({
   motionEnabled = false,
   isVisible = true,
   sessionId = null,
+  initialPlacementPending = false,
   metrics,
 }: {
   isWorking: boolean;
@@ -239,6 +245,7 @@ function AutoScrollHarness({
   motionEnabled?: boolean;
   isVisible?: boolean;
   sessionId?: string | null;
+  initialPlacementPending?: boolean;
   metrics?: NativeScrollMetrics;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -255,6 +262,7 @@ function AutoScrollHarness({
     hasUnreadDivider,
     isProgrammaticScrollLocked: NEVER_LOCKED,
     isVisible,
+    initialPlacementPending,
   });
   useNativeScrollMetrics(scrollRef, metrics);
   if (markRef) markRef.current = markNotNearBottom;
@@ -2824,6 +2832,39 @@ describe("useScrollToDividerOrBottom — anchored-bar offset", () => {
     );
 
     expect(scrollContainer.scrollTop).toBe(600);
+  });
+
+  it("cancels an unconfirmed position when initial placement detaches before its frame", () => {
+    const frames = new Map<number, FrameRequestCallback>();
+    let frameId = 0;
+    vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) => {
+      frames.set(++frameId, callback);
+      return frameId;
+    });
+    vi.stubGlobal("cancelAnimationFrame", (id: number) => frames.delete(id));
+    const view = render(
+      <AutoScrollHarness
+        isWorking={false}
+        hasUnreadDivider={false}
+        sessionId="unconfirmed-placement"
+        initialPlacementPending
+        metrics={{ scrollHeight: 1000, scrollTop: 275, clientHeight: 400 }}
+      />,
+    );
+    try {
+      const root = screen.getByTestId(AUTO_SCROLL_CONTAINER_TEST_ID);
+      act(() => root.dispatchEvent(new Event("scroll")));
+      expect(frames.size).toBe(1);
+      const late = [...frames.values()][0];
+      view.unmount();
+      const remainingFrames = frames.size;
+      act(() => late(16));
+      expect(transcriptScrollTopWrites).not.toHaveBeenCalled();
+      expect(remainingFrames).toBe(0);
+    } finally {
+      view.unmount();
+      vi.unstubAllGlobals();
+    }
   });
 
   it("persists the last visible disabled offset through hide, unmount, and remount", () => {
