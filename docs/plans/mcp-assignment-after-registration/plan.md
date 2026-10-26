@@ -623,3 +623,58 @@ after adding already-installed Nix libraries to that process's library path,
 it passed. Phone MCP recovery also passed on the integrated build. These local
 environment adjustments change no repository dependencies or product code.
 Fresh CI on the replacement head remains a delivery gate.
+
+## File-search fixture follow-up (2026-10-26)
+
+The next CI leaf failure was the collapsed-folder file-search scenario in
+normal shard 3. Its screenshot showed only the baseline repository file.
+The search fixture committed its files on the shared checkout's current
+branch, but task creation selected `main`. A preceding PR-watcher scenario
+can leave that checkout on another branch. An isolated worktree-executor
+probe passed and did not establish the initial remote-publication hypothesis.
+A temporary non-main checkout reproduced the exact missing-folder assertion;
+restoring the existing immutable fixture baseline before seeding made that
+same probe pass. Both probes were removed after verification.
+
+The two file-search scenarios that seed files now call the existing
+`resetSeedRepositoryCheckout` helper before their writes. Search assertions,
+application code, executor defaults and timeout budgets are unchanged. The
+original 15-file CI process group passed all 48 desktop/phone checks with
+one worker and zero retries on a fresh managed build. Affected ESLint passed.
+This is test setup only; durable feature requirements, system design, public
+behavior and the existing MCP screenshots need no change.
+
+Main advanced to `fb4c6f19c00facd063b998008193dba2600c5a89`, fixing removed
+worktree cache aliases. The 14 assignment commits were replayed without
+conflicts; every range-diff entry was unchanged. Backup
+`backup/clarify-mcp-assignment-before-file-search-ci-20261026` preserves the old
+published `d1f433a1154f0c006c7a8c423b4b516cad1fc6ff` dependent-branch boundary.
+Conditional-write WO01 maps to `608362f6d` with the same selection protocol.
+The next published head requires its own CI and automated-review evidence;
+local reproduction does not waive the historical failed remote check.
+
+The second remote leaf failure was a phone workflow-override preview expecting
+the profile default after an actual session binding existed. The existing
+workflow-agent-overrides design requires the bound session's effective model,
+which can differ from that profile default. A controlled explicit model change
+reproduced the old assertion failure with a correctly reused session. The
+fixture now deliberately selects `mock-smart` on the replacement session,
+checks the exact bound session/profile IDs, and verifies that effective model
+on the tablet and phone disclosures. Planned new-session previews still check
+the profile's `mock-slow` model. Three zero-retry repetitions passed.
+
+The second original 14-file process group completed with 38 passes, one skip
+and one local layout failure; the reported workflow case passed. The extra
+failure measured four lines instead of three for the long coordinator
+containment notice at 390px. It reproduced alone with Figtree fully loaded,
+so a font-readiness hypothesis was rejected. No coordinator source or test
+change remains. This is a recorded local validation limit, not a claim that
+this entire replay passed; its exact case passed the remote run being
+investigated. Temporary layout probes were removed.
+
+Race-enabled backendapp/worktree integration scopes passed on the new main,
+including live attachment retries and removed-worktree cache alias cases.
+Orchestrator preview model/session/override race tests also passed. Full web
+typecheck, affected ESLint and catalog/spec validation passed. The feature
+contract and rendered MCP UI are unchanged; normal hooks and the replacement
+head's exact CI/review result remain publication evidence.
