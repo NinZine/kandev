@@ -48,6 +48,7 @@ export type ChatInputEditorAreaProps = {
   taskId: string | null;
   workspaceId?: string | null;
   entityReferencesEnabled?: boolean;
+  entityReferenceLinkingEnabled?: boolean;
   onAddContextFile?: (file: ContextFile) => void;
   onToggleContextFile?: (file: ContextFile) => void;
   planContextEnabled: boolean;
@@ -202,12 +203,11 @@ function composerPluginOptions(
 export function ChatInputEditorArea(p: ChatInputEditorAreaProps) {
   useComposerActivity({ busy: Boolean(p.isEnhancingPrompt) });
   const { t } = useTranslation("chat");
-  const { inputRef, value, handleChange, handleSubmitWithReset, inputPlaceholder } = p;
-  const { isDisabled, planModeEnabled, planModeAvailable, mcpServers } = p;
-  const { submitKey, setIsInputFocused, sessionId, taskId, planContextEnabled } = p;
-  const { onAddContextFile, onToggleContextFile, addFiles, fileInputRef } = p;
-  const { showRequestChangesTooltip, isAgentBusy, onPlanModeChange, taskTitle, taskDescription } =
-    p;
+  const { value, handleSubmitWithReset } = p;
+  const { planModeEnabled, planModeAvailable, mcpServers } = p;
+  const { submitKey, sessionId, taskId, planContextEnabled } = p;
+  const { onToggleContextFile, addFiles, fileInputRef } = p;
+  const { isAgentBusy, onPlanModeChange, taskTitle, taskDescription } = p;
   const { isSending, onCancel, contextCount, contextPopoverOpen, setContextPopoverOpen } = p;
   const { contextFiles, onImplementPlan, onEnhancePrompt, isEnhancingPrompt } = p;
   // Exclude auto-added plan context from the count — it's always present in plan mode
@@ -224,34 +224,7 @@ export function ChatInputEditorArea(p: ChatInputEditorAreaProps) {
   const handleAttachFiles = useCallback(() => fileInputRef.current?.click(), [fileInputRef]);
   return (
     <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
-      <EditorWithTooltip
-        showTooltip={showRequestChangesTooltip}
-        isEnhancingPrompt={isEnhancingPrompt}
-        className={p.editorClassName}
-      >
-        <TipTapInput
-          ref={inputRef}
-          value={value}
-          onChange={handleChange}
-          onSubmit={wrappedSubmit}
-          placeholder={inputPlaceholder}
-          disabled={isDisabled}
-          planModeEnabled={planModeEnabled}
-          submitKey={submitKey}
-          onFocus={() => setIsInputFocused(true)}
-          onBlur={() => setIsInputFocused(false)}
-          sessionId={sessionId}
-          detailActive={p.detailActive}
-          taskId={taskId}
-          workspaceId={p.workspaceId ?? null}
-          entityReferencesEnabled={p.entityReferencesEnabled ?? false}
-          onAddContextFile={onAddContextFile}
-          onToggleContextFile={onToggleContextFile}
-          planContextEnabled={planContextEnabled}
-          onImagePaste={addFiles}
-          onPlanModeChange={onPlanModeChange}
-        />
-      </EditorWithTooltip>
+      <ChatInputEditorSurface p={p} onSubmit={wrappedSubmit} />
       <FileInput fileInputRef={fileInputRef} addFiles={addFiles} />
       <ChatInputToolbar
         planModeEnabled={planModeEnabled}
@@ -294,6 +267,46 @@ export function ChatInputEditorArea(p: ChatInputEditorAreaProps) {
         hidePlanMode={p.hidePlanMode}
       />
     </div>
+  );
+}
+
+function ChatInputEditorSurface({
+  p,
+  onSubmit,
+}: {
+  p: ChatInputEditorAreaProps;
+  onSubmit: () => void;
+}) {
+  return (
+    <EditorWithTooltip
+      showTooltip={p.showRequestChangesTooltip}
+      isEnhancingPrompt={p.isEnhancingPrompt}
+      className={p.editorClassName}
+    >
+      <TipTapInput
+        ref={p.inputRef}
+        value={p.value}
+        onChange={p.handleChange}
+        onSubmit={onSubmit}
+        placeholder={p.inputPlaceholder}
+        disabled={p.isDisabled}
+        planModeEnabled={p.planModeEnabled}
+        submitKey={p.submitKey}
+        onFocus={() => p.setIsInputFocused(true)}
+        onBlur={() => p.setIsInputFocused(false)}
+        sessionId={p.sessionId}
+        detailActive={p.detailActive}
+        taskId={p.taskId}
+        workspaceId={p.workspaceId ?? null}
+        entityReferencesEnabled={p.entityReferencesEnabled ?? false}
+        entityReferenceLinkingEnabled={p.entityReferenceLinkingEnabled ?? true}
+        onAddContextFile={p.onAddContextFile}
+        onToggleContextFile={p.onToggleContextFile}
+        planContextEnabled={p.planContextEnabled}
+        onImagePaste={p.addFiles}
+        onPlanModeChange={p.onPlanModeChange}
+      />
+    </EditorWithTooltip>
   );
 }
 

@@ -71,6 +71,7 @@ type TipTapInputProps = {
   taskId?: string | null;
   workspaceId?: string | null;
   entityReferencesEnabled?: boolean;
+  entityReferenceLinkingEnabled?: boolean;
   onAddContextFile?: (file: ContextFile) => void;
   onToggleContextFile?: (file: ContextFile) => void;
   planContextEnabled?: boolean;
@@ -414,69 +415,92 @@ function useEditorRefSync(editorRef: RefObject<Editor | null>, editor: Editor | 
 
 // ── Component ───────────────────────────────────────────────────────
 
-export const TipTapInput = forwardRef<TipTapInputHandle, TipTapInputProps>(function TipTapInput(
-  {
-    value,
-    onChange,
-    onSubmit,
-    placeholder = "",
-    disabled = false,
-    className,
-    planModeEnabled = false,
-    onPlanModeChange,
-    submitKey = "cmd_enter",
-    onFocus,
-    onBlur,
-    sessionId,
-    detailActive = true,
-    taskId,
-    workspaceId = null,
-    entityReferencesEnabled = false,
-    onImagePaste,
+export const TipTapInput = forwardRef<TipTapInputHandle, TipTapInputProps>(
+  function TipTapInput(props, ref) {
+    const {
+      menu,
+      slashCommands,
+      entityReferences,
+      overlay,
+      history,
+      isDraining,
+      editorWrapperRef,
+      editor,
+      handleReverseSearchSelect,
+      closeEntityReferenceMenu,
+    } = useTipTapInputState(props, ref);
+    return (
+      <>
+        <TipTapPopups
+          menu={menu}
+          slashCommands={slashCommands}
+          entityReferences={entityReferences}
+          overlay={overlay}
+          history={history}
+          isDraining={isDraining}
+          onReverseSearchSelect={handleReverseSearchSelect}
+          onEntityReferenceClose={closeEntityReferenceMenu}
+        />
+        <TipTapEditorArea
+          editor={editor}
+          editorWrapperRef={editorWrapperRef}
+          sessionId={props.sessionId}
+          taskId={props.taskId ?? null}
+          detailActive={props.detailActive ?? true}
+        />
+      </>
+    );
   },
-  ref,
-) {
+);
+
+function useTipTapInputState(props: TipTapInputProps, ref: React.ForwardedRef<TipTapInputHandle>) {
   const menu = useMenuHandlers();
   const { mentionSuggestion, slashSuggestion, slashCommands } = useSuggestionConfigs({
-    sessionId,
-    taskId: taskId ?? null,
-    workspaceId,
+    sessionId: props.sessionId,
+    taskId: props.taskId ?? null,
+    workspaceId: props.workspaceId ?? null,
     onMentionKeyDown: menu.onMentionKeyDown,
     onSlashKeyDown: menu.onSlashKeyDown,
     setMentionMenu: menu.setMentionMenu,
     setSlashMenu: menu.setSlashMenu,
   });
   const entityReferences = useEntityReferenceComposer({
-    enabled: entityReferencesEnabled,
-    workspaceId,
-    sessionId,
+    enabled: props.entityReferencesEnabled ?? false,
+    linkOnSendEnabled: props.entityReferenceLinkingEnabled ?? true,
+    workspaceId: props.workspaceId ?? null,
+    sessionId: props.sessionId,
   });
-  const { editorWrapperRef, editorRef, ...overlay } = useReverseSearchOverlay(sessionId);
+  const { editorWrapperRef, editorRef, ...overlay } = useReverseSearchOverlay(props.sessionId);
   const { isSuggestionMenuOpen, closeEntityReferenceMenu } = useSuggestionMenuOpenState(
     menu,
     entityReferences,
     editorWrapperRef,
     editorRef,
   );
-  const { history, getHistory } = useChatHistory(sessionId);
-  const { isDraining } = useDrainOlderMessages(sessionId, overlay.isReverseSearchOpen, RAW_DRAIN);
+  const { history, getHistory } = useChatHistory(props.sessionId);
+  const { isDraining } = useDrainOlderMessages(
+    props.sessionId,
+    overlay.isReverseSearchOpen,
+    RAW_DRAIN,
+  );
   const { editor, applyHistoryEntry } = useTipTapEditor({
-    value,
-    onChange,
-    onSubmit,
-    placeholder,
-    disabled,
-    className,
-    planModeEnabled,
-    onPlanModeChange,
-    submitKey,
-    onFocus,
-    onBlur,
-    sessionId,
-    onImagePaste,
+    value: props.value,
+    onChange: props.onChange,
+    onSubmit: props.onSubmit,
+    placeholder: props.placeholder ?? "",
+    disabled: props.disabled ?? false,
+    className: props.className,
+    planModeEnabled: props.planModeEnabled ?? false,
+    onPlanModeChange: props.onPlanModeChange,
+    submitKey: props.submitKey ?? "cmd_enter",
+    onFocus: props.onFocus,
+    onBlur: props.onBlur,
+    sessionId: props.sessionId,
+    onImagePaste: props.onImagePaste,
     mentionSuggestion,
     slashSuggestion,
     entityReferenceSuggestion: entityReferences.suggestion,
+    entityReferenceLinkingEnabled: props.entityReferenceLinkingEnabled ?? true,
     onTextInput: entityReferences.onTextInput,
     onBeforeInput: entityReferences.onBeforeInput,
     slashCommands,
@@ -492,28 +516,19 @@ export const TipTapInput = forwardRef<TipTapInputHandle, TipTapInputProps>(funct
     overlay.closeReverseSearch,
     editor,
   );
-  return (
-    <>
-      <TipTapPopups
-        menu={menu}
-        slashCommands={slashCommands}
-        entityReferences={entityReferences}
-        overlay={overlay}
-        history={history}
-        isDraining={isDraining}
-        onReverseSearchSelect={handleReverseSearchSelect}
-        onEntityReferenceClose={closeEntityReferenceMenu}
-      />
-      <TipTapEditorArea
-        editor={editor}
-        editorWrapperRef={editorWrapperRef}
-        sessionId={sessionId}
-        taskId={taskId ?? null}
-        detailActive={detailActive}
-      />
-    </>
-  );
-});
+  return {
+    menu,
+    slashCommands,
+    entityReferences,
+    overlay,
+    history,
+    isDraining,
+    editorWrapperRef,
+    editor,
+    handleReverseSearchSelect,
+    closeEntityReferenceMenu,
+  };
+}
 
 function TipTapEditorArea(p: {
   editor: Editor | null;

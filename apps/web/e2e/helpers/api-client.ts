@@ -34,6 +34,7 @@ import type {
   TaskCIAutomationPatch,
   TaskPR,
 } from "../../lib/types/github";
+import type { EntityReference } from "../../lib/types/entity-reference";
 import type { TaskStatusSummary } from "../../lib/types/task-status-summary";
 import type { SecretListItem, SecretScope } from "../../lib/types/http-secrets";
 import type {
@@ -3414,6 +3415,7 @@ export class ApiClient {
     identity: QueueSessionIdentityInput,
     content: string,
     attachments?: MessageAttachmentInput[],
+    entityReferences?: EntityReference[],
   ): Promise<void> {
     await this.wsRequest("message.queue.add", {
       task_id: identity.taskId,
@@ -3421,6 +3423,7 @@ export class ApiClient {
       session_incarnation_id: identity.sessionIncarnationId,
       content,
       attachments,
+      entity_references: entityReferences,
     });
   }
 

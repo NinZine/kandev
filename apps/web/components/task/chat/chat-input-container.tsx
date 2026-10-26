@@ -84,6 +84,7 @@ type ChatInputContainerProps = {
   workspaceResolutionFailed?: boolean;
   onRetryWorkspaceResolution?: () => void;
   entityReferencesEnabled?: boolean;
+  entityReferenceLinkingEnabled?: boolean;
   taskTitle?: string;
   taskDescription: string;
   planModeEnabled: boolean;
@@ -167,6 +168,7 @@ function normalizeChatInputProps(p: ChatInputContainerProps): NormalizedChatInpu
     contextItems: p.contextItems ?? [],
     showRequestChangesTooltip: p.showRequestChangesTooltip ?? false,
     entityReferencesEnabled: p.entityReferencesEnabled ?? false,
+    entityReferenceLinkingEnabled: p.entityReferenceLinkingEnabled ?? true,
   };
 }
 
@@ -221,6 +223,7 @@ function buildEditorAreaProps(
     taskId: p.taskId,
     workspaceId: p.workspaceId ?? null,
     entityReferencesEnabled: p.entityReferencesEnabled,
+    entityReferenceLinkingEnabled: p.entityReferenceLinkingEnabled,
     onAddContextFile: p.onAddContextFile,
     onToggleContextFile: p.onToggleContextFile,
     planContextEnabled: p.planContextEnabled,
