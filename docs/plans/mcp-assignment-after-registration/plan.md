@@ -710,3 +710,55 @@ file search, MCP assignment/save recovery, Quick Chat draft recovery and Codex
 retry/cancellation. Normal commit hooks are required for this ledger commit.
 The replacement head requires fresh CI and bot review evidence; the old head's
 queued aggregate is not a passing result.
+
+
+## Session-restart fixture race (2026-10-26)
+
+At published head `d4f28bab5`, E2E shard 18 rejected a retried background-activity
+restart scenario. The initial session-list barrier did not pause the separate
+session-detail reconciler. Under a two-CPU limit, the scenario reproduced its
+missing background-status assertion once in six zero-retry repetitions. A
+temporary store-transition trace identified `session-state-reconciler.ts`
+applying an authoritative detail snapshot through `setTaskSession`, correctly
+clearing the injected stale activity while the list request remained held.
+The production reconciliation behavior is correct; all diagnostic probes were
+removed after this evidence was captured.
+
+The fixture now pauses detail reads before reload. It holds those responses
+while releasing only the explicit foreground session-list refresh, so that
+independent snapshot must clear the stale status before detail reconciliation
+can resume. Cleanup releases both gates and drains their handlers before
+removing the routes. The corrected scenario passed six zero-retry repetitions
+under the same two-CPU limit. No assertion, timeout or production behavior was
+weakened. The existing background-work-liveness requirement and design remain
+authoritative, and no public documentation change is needed for this fixture.
+
+Main subsequently added the new-session MCP picker and merged-task file links
+at `baa92e5dcf53eca4dac223b0deba5e26c1ee08fb`. Backup
+`backup/clarify-mcp-assignment-before-main-baa-20261026` preserves the published
+`d4f28bab55fe56641386cfa2c0cd3bba9b07ffdd` dependent-branch boundary. The 16
+assignment commits after `5a0e976d` were replayed onto this main with every
+range-diff entry unchanged. The owned fixture patch was preserved separately
+and reapplied. Conditional-write WO01 now maps from `ea7885cd9` to `63a7e82fb`.
+Incoming new-session, file-link and MCP consumer unit suites passed 78 tests;
+full typecheck and affected ESLint passed. The exact 12-file CI process replay
+uses a fresh managed build, two CPUs, one worker, both original projects and
+zero retries; existing describe-level retry overrides are disabled only during
+that verification and restored afterward. All 28 checks in that process
+passed. Additional new-session and MCP assignment integration passed all 24
+desktop/phone checks with one worker and zero retries on the same build.
+
+The same published head's walkthrough generator hit its 600-second deadline
+with zero model stdout and verification not run on both the original attempt
+and one failed-job retry. Setup, trusted context and artifact upload passed.
+No further retry, provider, timeout or required-check policy change was made.
+The exact job and diagnostic evidence is recorded in the PR comment at
+<https://github.com/kdlbs/kandev/pull/4760#issuecomment-6429317057>.
+
+A temporary assertion failure with both HTTP reads held verified the failure
+cleanup: all held handlers drained, no secondary route-handling error occurred,
+and the exact source was restored. The previous head's final CI result was
+82 passed, three failed and zero pending. Those failures were the diagnosed
+restart-test flake, its dependent E2E aggregate, and the separately evidenced
+walkthrough model deadline. Fresh CI must validate the corrective commit;
+local green results do not replace that gate.

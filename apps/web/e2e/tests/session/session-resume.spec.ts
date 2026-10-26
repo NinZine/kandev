@@ -185,30 +185,40 @@ test.describe("Session resume (ACP mode)", () => {
     });
 
     await backend.restart();
-    await testPage.reload();
-    await session.waitForLoad();
-    await session.waitForChatIdle({ timeout: 60_000 });
-    await expect(session.chat.getByText("Resumed agent Mock", { exact: false })).toBeVisible({
-      timeout: 15_000,
-    });
-    await waitForSessionState(apiClient, {
-      taskId: task.id,
-      sessionId,
-      expectedState: "WAITING_FOR_INPUT",
-      message: "Resumed session did not settle before activity reconciliation",
-      timeout: 30_000,
-    });
-    await waitForTaskSessionsSettled(testPage, task.id);
-
     const sessionsPath = `/api/v1/tasks/${task.id}/sessions`;
     const matchesSessions = (url: URL) => url.pathname === sessionsPath;
+    const matchesSessionDetail = (url: URL) =>
+      url.pathname === `/api/v1/task-sessions/${sessionId}`;
     const releaseResponse = Promise.withResolvers<void>();
-    const holdSessionResponse = async (route: Route) => {
-      await releaseResponse.promise;
-      await route.continue();
+    const releaseDetailResponse = Promise.withResolvers<void>();
+    const pendingResponses = new Set<Promise<void>>();
+    const holdSessionResponse = (route: Route) => {
+      const gate = matchesSessionDetail(new URL(route.request().url()))
+        ? releaseDetailResponse.promise
+        : releaseResponse.promise;
+      const handled = gate.then(() => route.continue());
+      pendingResponses.add(handled);
+      return handled.finally(() => pendingResponses.delete(handled));
     };
-    await testPage.route(matchesSessions, holdSessionResponse);
+    // Detail reconciliation can also clear a stale projection during resumption.
+    await testPage.route(matchesSessionDetail, holdSessionResponse);
     try {
+      await testPage.reload();
+      await session.waitForLoad();
+      await session.waitForChatIdle({ timeout: 60_000 });
+      await expect(session.chat.getByText("Resumed agent Mock", { exact: false })).toBeVisible({
+        timeout: 15_000,
+      });
+      await waitForSessionState(apiClient, {
+        taskId: task.id,
+        sessionId,
+        expectedState: "WAITING_FOR_INPUT",
+        message: "Resumed session did not settle before activity reconciliation",
+        timeout: 30_000,
+      });
+      await waitForTaskSessionsSettled(testPage, task.id);
+
+      await testPage.route(matchesSessions, holdSessionResponse);
       const refreshRequested = testPage.waitForRequest(
         (request) => request.method() === "GET" && matchesSessions(new URL(request.url())),
       );
@@ -233,7 +243,10 @@ test.describe("Session resume (ACP mode)", () => {
       await expect(session.anyIdleInput()).toBeVisible();
     } finally {
       releaseResponse.resolve();
+      releaseDetailResponse.resolve();
+      while (pendingResponses.size > 0) await Promise.all([...pendingResponses]);
       await testPage.unroute(matchesSessions, holdSessionResponse);
+      await testPage.unroute(matchesSessionDetail, holdSessionResponse);
     }
   });
 
