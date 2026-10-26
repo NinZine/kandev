@@ -44,7 +44,7 @@ export async function checkAssignmentRepositoryHandoff(
     const useIn = page
       .getByTestId(`mcp-server-card-${definition.id}`)
       .getByRole("button", { name: "Use in", exact: true });
-    await expect(useIn).toBeVisible({ timeout: 5000 });
+    await expect(useIn).toBeVisible();
     await useIn.click();
     const chooser = page.getByTestId("mcp-assignment-chooser");
     await expect(chooser).toBeVisible();
@@ -62,7 +62,31 @@ export async function checkAssignmentRepositoryHandoff(
         caption: "Review repository scope before opening MCP settings",
       });
     expect(writes).toEqual([]);
-    await open.click();
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const catalog = `**/api/v1/workspaces/${seed.workspaceId}/mcp-servers`;
+    await page.route(
+      catalog,
+      async (route) => {
+        await gate;
+        await route.continue();
+      },
+      { times: 1 },
+    );
+    try {
+      await open.click();
+      await expect(open).toHaveAccessibleName("Open MCP settings");
+      await expect(open).toBeDisabled();
+      await expect(chooser.getByRole("status")).toHaveText("Loading…");
+      if (capture.capturing)
+        await capture.screenshot("checking", {
+          caption: "Destination checking is announced while Open MCP settings keeps its name",
+        });
+    } finally {
+      release();
+    }
     const row = page.getByTestId(`mcp-choice-${definition.id}`);
     await expect(row).toBeVisible();
     await expect(row).toHaveAttribute("data-mcp-highlighted", "true");

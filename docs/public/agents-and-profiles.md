@@ -1035,6 +1035,11 @@ remains available for a saved session setup that failed to apply.
 The pending-change list continues to describe the saved choices while a rejected
 checkbox draft remains visible.
 
+In the existing task editor, a failed MCP save also exposes **Reload choices**.
+Reload keeps your task fields and MCP draft. Submit the task again only after
+you review those choices.
+
+
 For a saved global profile, **Workspace** selects the catalog context without
 changing your active workspace. If settings have unsaved changes, switching
 workspaces offers Save and leave, Discard and leave, or continued editing.

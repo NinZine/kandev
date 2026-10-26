@@ -102,7 +102,7 @@ it("offers the exact running session and excludes terminal, passthrough, and dis
       ownerId: "session",
       taskId: "task",
       label: "Conversation",
-      detail: "global",
+      detail: "global · session",
     },
   ]);
 });
@@ -116,4 +116,21 @@ it("does not offer any session from an unavailable task or missing current profi
   ])
     expect(sessionAssignmentTargets("ws", owner, [session], profiles)).toEqual([]);
   expect(sessionAssignmentTargets("ws", task, [session], [])).toEqual([]);
+});
+
+it("distinguishes unnamed conversations that share a profile in choices and review details", () => {
+  const profiles = profileAssignmentTargets("ws", owners);
+  const targets = sessionAssignmentTargets(
+    "ws",
+    task,
+    [
+      { ...session, id: sessionId("same-prefix-first"), name: "" },
+      { ...session, id: sessionId("same-prefix-second"), name: "" },
+    ],
+    profiles,
+  );
+  expect(targets.map((target) => target.detail)).toEqual([
+    "global · same-prefix-first",
+    "global · same-prefix-second",
+  ]);
 });

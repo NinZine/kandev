@@ -207,7 +207,12 @@ func (s *SelectionService) List(ctx context.Context, scope SelectionScope, works
 
 func (s *SelectionService) Replace(ctx context.Context, scope SelectionScope, workspaceID, ownerID string, definitionIDs []string) error {
 	if _, ok := s.repo.(ConditionalSelectionRepository); ok {
-		_, err := s.ReplaceConditional(ctx, SelectionOrigin{Scope: scope, WorkspaceID: workspaceID, OwnerID: ownerID}, definitionIDs, SelectionCondition{})
+		origin := SelectionOrigin{Scope: scope, WorkspaceID: workspaceID, OwnerID: ownerID}
+		if scope == SelectionScopeTaskSession {
+			_, err := s.replaceConditional(ctx, origin, definitionIDs, SelectionCondition{})
+			return err
+		}
+		_, err := s.ReplaceConditional(ctx, origin, definitionIDs, SelectionCondition{})
 		return err
 	}
 

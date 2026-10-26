@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { MCPSelectionResponse } from "@/lib/types/http-mcp";
 
 function sameSelection(left: string[], right: string[]) {
@@ -9,7 +9,9 @@ function sameSelection(left: string[], right: string[]) {
 export function useMCPSelectionDraft(context: string, selection: MCPSelectionResponse | null) {
   const [draft, setDraft] = useState({ context, ids: [] as string[], baseline: [] as string[] });
   const contextRef = useRef(context);
-  contextRef.current = context;
+  useLayoutEffect(() => {
+    contextRef.current = context;
+  }, [context]);
   useEffect(() => {
     setDraft((previous) => {
       const baseline = selection?.definition_ids ?? [];

@@ -5,6 +5,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/jmoiron/sqlx"
+
 	settingsmodels "github.com/kandev/kandev/internal/agent/settings/models"
 	settingsstore "github.com/kandev/kandev/internal/agent/settings/store"
 	"github.com/stretchr/testify/require"
@@ -89,4 +91,44 @@ func TestMCPAssignmentSessionAdmission(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestMCPInternalLaunchSelectionsPreserveIneligibleSession(t *testing.T) {
+	harness := newBootStateTestHarness(t)
+	ctx := context.Background()
+	workspaces, err := harness.taskSvc.ListWorkspaces(ctx)
+	require.NoError(t, err)
+	workflows, err := harness.taskSvc.ListWorkflows(ctx, workspaces[0].ID, false)
+	require.NoError(t, err)
+	settingsDB, err := sqlx.Open("sqlite3", ":memory:")
+	require.NoError(t, err)
+	settingsDB.SetMaxOpenConns(1)
+	t.Cleanup(func() { require.NoError(t, settingsDB.Close()) })
+	repo, cleanup, err := settingsstore.Provide(settingsDB, settingsDB, nil)
+	require.NoError(t, err)
+	t.Cleanup(func() { require.NoError(t, cleanup()) })
+	task := &models.Task{ID: "launch-mcp-task", Title: "Task", WorkspaceID: workspaces[0].ID, WorkflowID: workflows[0].ID}
+	require.NoError(t, harness.taskRepo.CreateTask(ctx, task))
+	session := &models.TaskSession{ID: "launch-mcp-session", TaskID: task.ID, IsPassthrough: true, State: models.TaskSessionStateStarting}
+	require.NoError(t, harness.taskRepo.CreateTaskSession(ctx, session))
+	definition := &mcpconfig.MCPServerDefinition{ID: "launch-docs", WorkspaceID: task.WorkspaceID, RuntimeName: "docs", NormalizedRuntimeName: "docs", DisplayName: "Docs", Enabled: true, ExecutionMode: "remote", Transport: "http", Configuration: mcpconfig.MCPServerConfiguration{URL: "https://mcp.example.test/docs"}}
+	require.NoError(t, repo.CreateMCPServerDefinition(ctx, definition))
+	service := mcpconfig.NewSelectionService(repo, repo)
+	params := routeParams{taskSvc: harness.taskSvc, agentSettingsRepo: repo}
+	service.SetOwnerValidator(mcpSelectionOwnerValidator(params))
+	service.SetAdditionValidator(mcpSelectionAdditionValidator(params))
+	service.SetSessionMCPStateRepository(repo)
+	origin := mcpconfig.SelectionOrigin{Scope: mcpconfig.SelectionScopeTaskSession, WorkspaceID: task.WorkspaceID, OwnerID: session.ID}
+	_, err = service.ReplaceConditional(ctx, origin, []string{definition.ID}, mcpconfig.SelectionCondition{})
+	require.ErrorIs(t, err, mcpconfig.ErrMCPSelectionOwnerAccess)
+	require.NoError(t, service.Replace(ctx, origin.Scope, origin.WorkspaceID, origin.OwnerID, []string{definition.ID}))
+	snapshot, err := service.ReadSnapshot(ctx, origin)
+	require.NoError(t, err)
+	require.Equal(t, []string{definition.ID}, snapshot.DefinitionIDs)
+	require.Equal(t, int64(1), snapshot.State.DesiredRevision)
+	require.Error(t, service.Replace(ctx, origin.Scope, "foreign-workspace", origin.OwnerID, []string{definition.ID}))
+	require.NoError(t, service.Replace(ctx, origin.Scope, origin.WorkspaceID, origin.OwnerID, nil))
+	definition.Enabled = false
+	require.NoError(t, repo.UpdateMCPServerDefinition(ctx, definition, definition.Revision))
+	require.ErrorIs(t, service.Replace(ctx, origin.Scope, origin.WorkspaceID, origin.OwnerID, []string{definition.ID}), mcpconfig.ErrMCPDefinitionDisabled)
 }

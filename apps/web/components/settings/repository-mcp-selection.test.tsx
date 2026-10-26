@@ -80,11 +80,9 @@ it.each(["repository", "profile"] as const)(
       }),
     );
     const { rerender } = render(content);
-    fireEvent.click(
-      scope === "repository"
-        ? screen.getByTestId("repository-mcp-selection-trigger")
-        : screen.getByRole("button", { name: /MCP servers/ }),
-    );
+    if (scope === "repository") {
+      fireEvent.click(screen.getByTestId("repository-mcp-selection-trigger"));
+    }
     const boxes = await screen.findAllByRole("checkbox");
     fireEvent.click(boxes[0]);
     let pending!: Promise<void>;

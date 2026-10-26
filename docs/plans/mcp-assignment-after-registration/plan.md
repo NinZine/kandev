@@ -436,3 +436,82 @@ The new base includes unrelated main changes; these are inherited and absent
 from the assignment PR diff. Affected validation is recorded in WO03. Existing
 backups and user work are preserved. Keep PR #4760 draft, with no review handling,
 CI waiting, auto-merge or merge.
+
+## PR fixup after ready-for-review request (2026-10-26)
+
+The user authorized marking PR #4760 ready, requesting bot reviews, fixing CI,
+and dispositioning review comments. No merge is authorized. Historical draft-only
+and no-review restrictions are superseded for this fixup. Backed up the published
+head at `backup/clarify-mcp-assignment-before-ci-fixup-20261026` before rebasing
+assignment-only commits onto current main. Current-head CI/review evidence will
+be reported separately after the final push; earlier exact-head claims are historical.
+
+Remediation scope:
+
+- Task edit exposes the existing Reload choices feedback after a rejected MCP
+  save. Reload preserves task fields and the MCP draft and performs no PUT;
+  another explicit submission retries. Desktop and phone use the same recovery
+  action in the existing internally scrolling dialog (no additional overlay).
+- The profile draft assertion uses its inline choices; only repositories open
+  the collapsed picker. It still proves an in-flight acknowledgment retains a
+  newer draft. The task edit regression now exercises reload before retry.
+- Session chooser/review detail includes the exact ID, also exposed as the
+  choice's accessible description. Destination validation keeps the button name
+  stable and announces translated loading status. A deferred catalog response
+  proves the checking state on desktop and phone.
+- Shared selection editor/draft guards update after committed layout effects;
+  a discarded suspended replacement render cannot invalidate an accepted save
+  or keep saving/dirty state stuck. Existing context-switch rejection remains.
+- Internal session launch writes retain atomic persistence and basic owner,
+  workspace and catalog validation without the HTTP settings runtime eligibility
+  gate. Settings writes still reject ineligible additions. Non-session admission
+  checks remain unchanged. The regression uses separate settings/task stores,
+  matching production; an initial same-connection test fixture was stopped
+  because it deadlocked its own SQLite writer/read setup.
+- CI E2E corrections preserve their assertions: wait for drawer closure before
+  reopening port management, wait for finite workflow drawer animations before
+  measuring the unchanged 44px target, and keep the manual Stats recovery
+  fixture in its failed state with a server Retry-After hint for the test window.
+  No production timeout, size threshold or retry masking changed.
+
+Bot findings: Greptile's session identity and live-status threads are actionable;
+CodeRabbit's internal launch and stale profile-test threads are actionable.
+Its aggregate discarded-render suggestion and default-timeout nit are also
+addressed. Claude's backend-only review found no blockers: its suggested
+same-set deduplication conflicts with the intentional explicit application Retry
+contract, and the existing owner-admission comment already distinguishes the
+settings transaction from task-service validation. Codex review was requested,
+but its connector replied that the requesting account needs a GitHub connection;
+no Codex review result is claimed.
+
+### Local verification for the remediation
+
+- Frontend: 76 tests across eight dialog/assignment suites, plus 30 tests across
+  four shared editor/draft/session suites passed. The suspended-render regression
+  failed with a null accepted result before the layout-effect fix and passed
+  afterward. Full typecheck and affected ESLint passed.
+- Backend: the real settings-store/session-service regression rejected the
+  internal launch write before the fix. Afterward the MCP/Selection/Effective/
+  Usage/ImportStatus race command passed in mcpconfig, settings handlers and
+  backendapp. The same regression preserves HTTP rejection, workspace isolation,
+  disabled-definition rejection and desired-state advancement. Changed-package
+  Go lint passed with zero issues.
+- Browser: 14 desktop journeys and 21 phone journeys passed, retries disabled.
+  These include the new task-edit recovery, delayed destination check, exact
+  session review and all three reported failing E2E scopes. The final binary's
+  phone assignment/recovery subset is rerun before publication. Fresh synthetic
+  images replace affected evidence. No real endpoint connection was tested.
+- Catalog/spec/public-doc checks passed. Incoming main's harness change also
+  passed harness and spec validator tests/lint. Normal commit hooks and exact-head
+  remote CI/review recheck remain delivery steps, not completed local evidence.
+
+Commands and logs: focused Vitest results are recorded in
+`/tmp/pr4760-fixup-unit-final.log` and `/tmp/pr4760-fixup-guards-final.log`;
+backend race in `/tmp/pr4760-review-backend-green.log`; browser runs used managed
+host mode, one shard and sequential projects (`/tmp/kandev-run.e2e.YETxqUNT.log`,
+`/tmp/kandev-run.e2e.RhOn7ji6.log`). Authoritative base for this remediation is
+main `b4e9cf5ede3545ca6a8e58165e580ad7c4988afa`.
+
+Final-binary phone assignment/recovery subset passed all nine journeys, with no
+retries (`/tmp/kandev-run.e2e.peMTAxLe.log`). Hook/remote review evidence remains
+pending until the remediation commit is published and checked.

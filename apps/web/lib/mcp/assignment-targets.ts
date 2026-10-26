@@ -95,7 +95,7 @@ export function sessionAssignmentTargets(
         ownerId: session.id,
         taskId: task.id,
         label: session.name || profile.label,
-        detail: profile.label,
+        detail: `${profile.label} · ${session.id}`,
       },
     ];
   });

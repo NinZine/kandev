@@ -39,6 +39,7 @@ test("mobile Stats exposes a touch-sized retry and recovers a failed section", a
   const retryBox = await retry.boundingBox();
   if (!retryBox) throw new Error("mobile Stats retry control is not visible");
   expect(retryBox.height).toBeGreaterThanOrEqual(44);
+  expect(dailyRequests).toBe(1);
 
   const recoveredDailyRead = waitForHttp(
     testPage,

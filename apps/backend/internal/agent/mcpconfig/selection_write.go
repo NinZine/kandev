@@ -71,12 +71,6 @@ func (s *SelectionService) ReadSnapshot(ctx context.Context, origin SelectionOri
 }
 
 func (s *SelectionService) ReplaceConditional(ctx context.Context, origin SelectionOrigin, ids []string, condition SelectionCondition) (SelectionSnapshot, error) {
-	if err := condition.Validate(origin.Scope); err != nil {
-		return SelectionSnapshot{}, err
-	}
-	if err := s.validateContext(ctx, origin.Scope, origin.WorkspaceID, origin.OwnerID); err != nil {
-		return SelectionSnapshot{}, err
-	}
 	if s.additionValidator != nil {
 		condition.ValidateAdditions = func(ctx context.Context) error {
 			if err := s.additionValidator(ctx, origin.Scope, origin.WorkspaceID, origin.OwnerID); err != nil {
@@ -84,6 +78,16 @@ func (s *SelectionService) ReplaceConditional(ctx context.Context, origin Select
 			}
 			return nil
 		}
+	}
+	return s.replaceConditional(ctx, origin, ids, condition)
+}
+
+func (s *SelectionService) replaceConditional(ctx context.Context, origin SelectionOrigin, ids []string, condition SelectionCondition) (SelectionSnapshot, error) {
+	if err := condition.Validate(origin.Scope); err != nil {
+		return SelectionSnapshot{}, err
+	}
+	if err := s.validateContext(ctx, origin.Scope, origin.WorkspaceID, origin.OwnerID); err != nil {
+		return SelectionSnapshot{}, err
 	}
 	if repo, ok := s.repo.(ConditionalSelectionRepository); ok {
 		snapshot, err := repo.ReplaceMCPSelectionsConditional(ctx, origin, uniqueSelectionIDs(ids), condition)

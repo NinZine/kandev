@@ -216,3 +216,31 @@ plus `tests/task/task-mcp-selection.spec.ts`; phone covered their `mobile-`
 counterparts. RED log: `/tmp/kandev-run.e2e.alcZxHxm.log`; GREEN logs:
 `/tmp/kandev-run.e2e.H7JKgokB.log` and `/tmp/kandev-run.e2e.DS7TdSx5.log`.
 These mock-provider checks do not certify live endpoint/provider behavior.
+
+### Local verification for the remediation
+
+- Frontend: 76 tests across eight dialog/assignment suites, plus 30 tests across
+  four shared editor/draft/session suites passed. The suspended-render regression
+  failed with a null accepted result before the layout-effect fix and passed
+  afterward. Full typecheck and affected ESLint passed.
+- Backend: the real settings-store/session-service regression rejected the
+  internal launch write before the fix. Afterward the MCP/Selection/Effective/
+  Usage/ImportStatus race command passed in mcpconfig, settings handlers and
+  backendapp. The same regression preserves HTTP rejection, workspace isolation,
+  disabled-definition rejection and desired-state advancement. Changed-package
+  Go lint passed with zero issues.
+- Browser: 14 desktop journeys and 21 phone journeys passed, retries disabled.
+  These include the new task-edit recovery, delayed destination check, exact
+  session review and all three reported failing E2E scopes. The final binary's
+  phone assignment/recovery subset is rerun before publication. Fresh synthetic
+  images replace affected evidence. No real endpoint connection was tested.
+- Catalog/spec/public-doc checks passed. Incoming main's harness change also
+  passed harness and spec validator tests/lint. Normal commit hooks and exact-head
+  remote CI/review recheck remain delivery steps, not completed local evidence.
+
+Commands and logs: focused Vitest results are recorded in
+`/tmp/pr4760-fixup-unit-final.log` and `/tmp/pr4760-fixup-guards-final.log`;
+backend race in `/tmp/pr4760-review-backend-green.log`; browser runs used managed
+host mode, one shard and sequential projects (`/tmp/kandev-run.e2e.YETxqUNT.log`,
+`/tmp/kandev-run.e2e.RhOn7ji6.log`). Authoritative base for this remediation is
+main `b4e9cf5ede3545ca6a8e58165e580ad7c4988afa`.

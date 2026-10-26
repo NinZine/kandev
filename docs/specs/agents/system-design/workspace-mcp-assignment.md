@@ -199,7 +199,10 @@ workspace. Repositories must exist in this workspace. Sessions must already
 exist under an accessible, unarchived task and support the existing Customize
 editor; terminal/deleted or noncustomizable sessions are unavailable. A running
 eligible session remains selectable because existing timing handles active
-turns. Disabled-profile sessions are not new assignment candidates. Do not
+turns. Session choices and their scope review include the exact session ID so
+conversations using the same profile remain distinguishable. Destination checks
+retain the action button name and announce progress through a translated live
+status region. Disabled-profile sessions are not new assignment candidates. Do not
 invent a repository enabled flag where none exists.
 
 Mutation validation rejects newly added definitions when the definition or
@@ -299,7 +302,10 @@ On mismatch, return 409 with stable `mcp_selection_conflict`, without replacing
 rows or advancing desired state or notifying runtime. The hook keeps the draft,
 shows Reload choices, and requires explicit review before the next save. An
 ordinary 409 is not the shared stale-page interlock. Existing handled interlock
-errors continue to use shared reload recovery.
+errors continue to use shared reload recovery. The existing-task edit dialog
+also exposes this recovery action after its task selection write fails. Reload
+reads the accepted selection without discarding task fields or MCP choices;
+only a later explicit form submission can retry the write.
 
 For sessions, increment the latest desired revision atomically under the shared
 session writer and notify existing runtime application only after commit.
@@ -309,7 +315,11 @@ are unchanged. An accepted explicit same-set Retry also advances desired
 revision and schedules existing application, without clearing applied revision,
 accepted setup, or attachment attempt ID. Preserve the existing behavior rather
 than introducing a new retry flag or deduplicating that write. A stale revision
-still rejects before retry admission. The registration chooser issues no PUT.
+still rejects before retry admission. Internal orchestrator session writes use
+the same atomic store operation and workspace/owner/definition validation, but
+do not apply the HTTP settings path's session runtime-eligibility gate. This
+preserves selections accepted during session creation or launch for later
+eligible application. The registration chooser issues no PUT.
 
 The design uses the existing additive and atomic-selection boundary. The
 membership precondition is narrower than a new assignment service or persisted

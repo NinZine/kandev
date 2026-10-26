@@ -159,7 +159,12 @@ export async function checkAssignmentSessionHandoff(page: Page, api: ApiClient, 
       .flatMap((agent) => agent.profiles)
       .find((item) => item.id === seed.agentProfileId)!;
     await chooser.getByRole("button", { name: profile.name, exact: true }).click();
+    await expect(chooser).toContainText(task.session_id);
     await expect(chooser).toContainText("future sessions keep their existing defaults");
+    if (capture.capturing)
+      await capture.screenshot("review", {
+        caption: "Review the exact existing conversation and session identifier before assignment",
+      });
     await chooser.getByRole("button", { name: "Open MCP settings", exact: true }).click();
     await new SessionPage(page).waitForLoad();
     expect(new URL(page.url()).searchParams.get("sessionId")).toBe(task.session_id);

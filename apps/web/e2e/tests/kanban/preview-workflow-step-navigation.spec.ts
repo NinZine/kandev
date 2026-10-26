@@ -1,3 +1,4 @@
+import { waitForFiniteAnimations } from "../../helpers/pr-capture";
 import { test, expect } from "../../fixtures/test-base";
 import { KanbanPage } from "../../pages/kanban-page";
 import type { ApiClient } from "../../helpers/api-client";
@@ -230,6 +231,7 @@ test.describe("Kanban preview workflow step navigation", () => {
     await expect(disclosure).toBeVisible();
     const moveButton = disclosure.getByTestId(`workflow-step-disclosure-move-${targetStep.id}`);
     await expect(moveButton).toBeVisible();
+    await waitForFiniteAnimations(disclosure);
     const moveButtonBox = await moveButton.boundingBox();
     expect(moveButtonBox).not.toBeNull();
     if (!moveButtonBox) return;

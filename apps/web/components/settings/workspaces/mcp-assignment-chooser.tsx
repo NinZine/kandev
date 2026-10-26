@@ -144,13 +144,19 @@ function OwnerResults({
           key={item.id}
           variant="outline"
           aria-label={item.label}
+          aria-describedby={
+            item.detail ? `mcp-owner-detail-${encodeURIComponent(item.id)}` : undefined
+          }
           className={`${ACTION} h-auto w-full justify-start whitespace-normal py-2 text-left`}
           onClick={() => onChoose(item.id)}
         >
           <span className="min-w-0">
             <span className="block wrap-anywhere">{item.label}</span>
             {item.detail && (
-              <span className="block wrap-anywhere text-xs font-normal text-muted-foreground">
+              <span
+                id={`mcp-owner-detail-${encodeURIComponent(item.id)}`}
+                className="block wrap-anywhere text-xs font-normal text-muted-foreground"
+              >
                 {item.detail}
               </span>
             )}
@@ -288,7 +294,7 @@ export function MCPAssignmentChooser({
       </Button>
       {target && (
         <Button className={`${ACTION} max-md:min-h-12`} disabled={busy} onClick={() => void open()}>
-          {t(busy ? "common:loading" : "settings:mcpAssignmentOpen")}
+          {t("settings:mcpAssignmentOpen")}
         </Button>
       )}
     </>
@@ -300,6 +306,11 @@ export function MCPAssignmentChooser({
   return (
     <AssignmentShell name={receipt.displayName} footer={footer} onClose={onClose}>
       <div className="space-y-4">
+        {busy && (
+          <p role="status" aria-live="polite" className="text-sm text-muted-foreground">
+            {t("common:loading")}
+          </p>
+        )}
         {!scope && <ScopeChoices onSelect={setScope} />}
         {target ? (
           <AssignmentReview target={target} status={owners.openStatus} />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { getMCPSelections, replaceMCPSelections } from "@/lib/api/domains/mcp-api";
 import type {
   MCPSelectionOrigin,
@@ -346,12 +346,13 @@ export function useMCPSelectionEditor(
   const requestRef = useRef(0);
   const saveRequestRef = useRef(0);
   const scopesRef = useRef(inheritedScopes);
-  scopesRef.current = inheritedScopes;
-
   const inheritedKey = inheritedScopesKey(inheritedScopes);
   const contextKey = `${scope}:${ownerId ?? ""}:${workspaceId ?? ""}:${inheritedKey}`;
   const contextRef = useRef(contextKey);
-  contextRef.current = contextKey;
+  useLayoutEffect(() => {
+    contextRef.current = contextKey;
+    scopesRef.current = inheritedScopes;
+  });
 
   useEffect(() => {
     loadedContextRef.current = null;
