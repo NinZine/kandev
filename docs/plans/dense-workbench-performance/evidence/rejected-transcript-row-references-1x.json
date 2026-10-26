@@ -1,0 +1,2521 @@
+{
+  "status": "Rejected; candidate source and tests removed, C4 source and assets restored",
+  "recordedAt": "2026-10-26T14:29:30.565791+00:00",
+  "sourceParent": "2f3c343e04bda7aac01e4352f74959173c185522",
+  "hypothesis": "Reuse up to four connected, correctly scoped row handles while continuing to measure current geometry and finding replaced or missing rows. Preserve the existing query algorithm.",
+  "unitRed": {
+    "recordedAt": "2026-10-26T13:27:26.655264+00:00",
+    "handle": 86808,
+    "exitCode": 1,
+    "failed": 5,
+    "skipped": 110,
+    "sourceRevision": "2f3c343e04bda7aac01e4352f74959173c185522",
+    "productionUnchanged": true,
+    "repeatedUpdateRowScans": 61,
+    "expectedRepeatedUpdateRowScans": 0,
+    "replacementRowScans": 2,
+    "expectedReplacementRowScans": 1,
+    "source": [
+      {
+        "path": "apps/web/components/task/chat/message-list-native.tsx",
+        "sha256": "b7413b75cb4380f5ca41e196a60364e15b06de4d7cd36bd53591d71b7bda1b30"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+        "sha256": "59436facb81f71749380e063bd1a4af55751d627e1515da46e9d47d88365465d"
+      }
+    ]
+  },
+  "unitAndStaticGreen": {
+    "recordedAt": "2026-10-26T13:34:21.690Z",
+    "root": "/tmp/kandev-perf-delivery-5936a872",
+    "sourceParent": "2f3c343e04bda7aac01e4352f74959173c185522",
+    "source": "Uncommitted bounded transcript-row reference experiment",
+    "assetsSha256": "3d1aca7c3c2e84f21b2bbaf60326ac17b1a6a49a3e823a855cf31dcb6da3d3ba",
+    "assetFiles": 1253,
+    "gzipSiblingsVerified": 552,
+    "privateBenchmarkMarkers": 0,
+    "sourceFiles": [
+      {
+        "path": "apps/web/components/task/chat/message-list-native.tsx",
+        "sha256": "1ac25414def1f0bd135010ff3d4e46a635504dcbc05b1dd5762f60c09440a841"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+        "sha256": "aed4c1974598796e51f050c0af64197c789884d8159e5c7ca24a67e17d772948"
+      }
+    ],
+    "finalLintUnitsTypesBuild": {
+      "handle": 4812,
+      "exitCode": 0,
+      "unitFiles": 4,
+      "unitPassed": 174
+    },
+    "focusedGreen": {
+      "handle": 22872,
+      "exitCode": 0,
+      "passed": 12
+    },
+    "lintAfterTestSplit": {
+      "handle": 10528,
+      "exitCode": 0
+    },
+    "beforeControl": "edge-row-cache-before-control.json",
+    "speedGain": "Unmeasured; candidate must pass dense comparison before performance acceptance"
+  },
+  "qa": [
+    {
+      "recordedAt": "2026-10-26T13:41:27.397318+00:00",
+      "name": "edge-row-cache-desktop",
+      "project": "chromium",
+      "handle": 4341,
+      "exitCode": 0,
+      "expectedChecks": 35,
+      "passed": 35,
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": {
+        "path": "edge-row-cache-desktop-logs/kandev-run.e2e.3oiHSQJc.log",
+        "sha256": "82f5cecbab588e92d40b9f16d5df7fa911d33050c55bc5c417bf114dd3fa401c"
+      },
+      "artifacts": "edge-row-cache-desktop-results",
+      "ledgers": [
+        {
+          "path": "edge-row-cache-desktop-results/chat-native-upward-intent--d10b1-sition-through-later-growth-chromium/queued-upward-reading.json",
+          "before": {
+            "top": 2096,
+            "height": 2580
+          },
+          "heldTop": 1936,
+          "heldHeight": 2636,
+          "final": {
+            "top": 1936,
+            "height": 2691
+          },
+          "maximumAbsoluteMovementPx": 0,
+          "sampleCount": 24
+        }
+      ],
+      "readingReturnLedgers": [
+        {
+          "path": "edge-row-cache-desktop-results/chat-native-upward-intent--c061a--precedes-its-wheel-handler-chromium/native-reading-return.json",
+          "heldMaximumMovementPx": 0,
+          "realPageDownReachedGapPx": 0,
+          "gapAfterFurtherGrowthPx": 1,
+          "samplesAfterReturn": 24
+        }
+      ],
+      "fixtureRoots": [
+        "/tmp/kandev-e2e-0-N4hym1"
+      ],
+      "fixtureRootsRemoved": true,
+      "assetsSha256": "3d1aca7c3c2e84f21b2bbaf60326ac17b1a6a49a3e823a855cf31dcb6da3d3ba"
+    },
+    {
+      "recordedAt": "2026-10-26T13:45:59.306715+00:00",
+      "name": "edge-row-cache-phone",
+      "project": "mobile-chrome",
+      "handle": 27962,
+      "exitCode": 0,
+      "expectedChecks": 17,
+      "passed": 17,
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": {
+        "path": "edge-row-cache-phone-logs/kandev-run.e2e.LeesrBqR.log",
+        "sha256": "c6dbceb3487f89ffeba912963396f965808409650fe6a1ec9d8a05d539c71801"
+      },
+      "artifacts": "edge-row-cache-phone-results",
+      "ledgers": [],
+      "readingReturnLedgers": [],
+      "fixtureRoots": [
+        "/tmp/kandev-e2e-0-ZKzqK1"
+      ],
+      "fixtureRootsRemoved": true,
+      "assetsSha256": "3d1aca7c3c2e84f21b2bbaf60326ac17b1a6a49a3e823a855cf31dcb6da3d3ba"
+    }
+  ],
+  "visualChecks": [
+    {
+      "recordedAt": "2026-10-26T13:41:49.021712+00:00",
+      "scope": "Two desktop captures inspected. Transcript, composer, side panels and settings have no new layout or clipping issue. The experiment changes no markup, styles or visible copy.",
+      "captures": [
+        {
+          "path": ".kandev/diagnostics/dense-workbench-performance/edge-row-cache-desktop-results/chat-chat-motion-live-pros-fdceb--reduced-motion-stay-static-chromium/chat-motion-desktop.png",
+          "sha256": "be64328446f143f25c5dd26e7d705a6728d64d935b4e3dc76ba6df4e04c4a683"
+        },
+        {
+          "path": ".kandev/diagnostics/dense-workbench-performance/edge-row-cache-desktop-results/chat-chat-motion-chat-moti-4d9d0-and-persists-on-this-device-chromium/chat-motion-settings-desktop.png",
+          "sha256": "f140762e8568b172922a88d5dea25ab3d3e714f0be1ef17ff5b8de44a3a2d06d"
+        }
+      ]
+    },
+    {
+      "recordedAt": "2026-10-26T13:46:32.924438+00:00",
+      "scope": "Two phone captures inspected. Transcript, composer, navigation and appearance settings show no new layout or clipping issue. No markup, styles or visible copy changed.",
+      "captures": [
+        {
+          "path": ".kandev/diagnostics/dense-workbench-performance/edge-row-cache-phone-results/chat-mobile-chat-motion-li-c9d0c--reduced-motion-stay-static-mobile-chrome/chat-motion-phone.png",
+          "sha256": "ed5be77e741972c22f1046e42423524e1d8c225d0db467f0ef183a6e017ef44b"
+        },
+        {
+          "path": ".kandev/diagnostics/dense-workbench-performance/edge-row-cache-phone-results/chat-mobile-chat-motion-ch-a87bc-and-persists-on-this-device-mobile-chrome/chat-motion-settings-phone.png",
+          "sha256": "b22d9fb248470313aaa1c9f83b1cf966aae9be45b3f61539a9da657431d166fd"
+        }
+      ]
+    }
+  ],
+  "rawReport": "matched-dense-1793023531348.json",
+  "rawSha256": "e7a31c28f73d5573aa7cd670f0af3553be1f52da21cd145f04cf6a5b1a8a72dd",
+  "measurementKind": "reference-workload",
+  "interactionMode": "scripted-scroll-v2",
+  "sourcePatchSha256": "bc8ac0045ef7fbb46765a146b88d451f93017ce9bdbb60c9054100562b6295e2",
+  "summary": {
+    "measurementKind": "reference-workload",
+    "fixtureProtocol": "threads-files-v1",
+    "attemptProtocol": "continue-and-fail-v1",
+    "comparisonPlan": {
+      "pairs": 2,
+      "rates": [
+        1
+      ],
+      "candidateFirst": false
+    },
+    "finalVisibilityProbe": "boolean-poll",
+    "layout": "grid",
+    "extraBusyHeaders": 0,
+    "interactionMode": "scripted-scroll-v2",
+    "throttleAfterLoad": false,
+    "machine": {
+      "revision": "2f3c343e04bda7aac01e4352f74959173c185522",
+      "cpu": "11th Gen Intel(R) Core(TM) i7-11700T @ 1.40GHz",
+      "cores": 16,
+      "load": [
+        3.24,
+        3.45,
+        3.36
+      ],
+      "totalMemory": 33303871488,
+      "freeMemory": 24258015232,
+      "platform": "linux 6.18.49"
+    },
+    "builds": {
+      "baseline": {
+        "binary": "/tmp/kandev-edge-rows-before-5936a872/apps/backend/bin/kandev",
+        "assets": "/tmp/kandev-edge-rows-before-5936a872/apps/web/dist",
+        "binarySha256": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+        "assetsSha256": "c4a426d266695eff7d361531f1932f7e24c2e91383d11ce79ebf0b25ee36b420"
+      },
+      "candidate": {
+        "binary": "/tmp/kandev-perf-delivery-5936a872/apps/backend/bin/kandev",
+        "assets": "/tmp/kandev-perf-delivery-5936a872/apps/web/dist",
+        "binarySha256": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+        "assetsSha256": "3d1aca7c3c2e84f21b2bbaf60326ac17b1a6a49a3e823a855cf31dcb6da3d3ba"
+      }
+    },
+    "sampleCount": 4,
+    "comparisons": [
+      {
+        "group": "1x/cold",
+        "metric": "readyMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 27007.342102500028,
+          "min": 17585.70793500007,
+          "max": 36428.976269999985,
+          "values": [
+            17585.70793500007,
+            36428.976269999985
+          ]
+        },
+        "candidate": {
+          "median": 15727.774535500095,
+          "min": 14091.12864800007,
+          "max": 17364.42042300012,
+          "values": [
+            14091.12864800007,
+            17364.42042300012
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          3494.5792870000005,
+          19064.555846999865
+        ],
+        "pairedPercentReduction": [
+          19.871700928484607,
+          52.33349327661431
+        ],
+        "medianPairedPercentReduction": 36.10259710254946
+      },
+      {
+        "group": "1x/cold",
+        "metric": "documentMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 13921.392633500043,
+          "min": 8349.33333100006,
+          "max": 19493.451936000027,
+          "values": [
+            8349.33333100006,
+            19493.451936000027
+          ]
+        },
+        "candidate": {
+          "median": 8534.052733000019,
+          "min": 7961.404088000068,
+          "max": 9106.701377999969,
+          "values": [
+            7961.404088000068,
+            9106.701377999969
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          387.9292429999914,
+          10386.750558000058
+        ],
+        "pairedPercentReduction": [
+          4.646230155402435,
+          53.28327990394591
+        ],
+        "medianPairedPercentReduction": 28.964755029674173
+      },
+      {
+        "group": "1x/cold",
+        "metric": "assetEncodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 4165530,
+          "min": 4165530,
+          "max": 4165530,
+          "values": [
+            4165530,
+            4165530
+          ]
+        },
+        "candidate": {
+          "median": 4165637,
+          "min": 4165637,
+          "max": 4165637,
+          "values": [
+            4165637,
+            4165637
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -107,
+          -107
+        ],
+        "pairedPercentReduction": [
+          -0.0025687007415622983,
+          -0.0025687007415622983
+        ],
+        "medianPairedPercentReduction": -0.0025687007415622983
+      },
+      {
+        "group": "1x/cold",
+        "metric": "assetDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 14688521,
+          "min": 14688521,
+          "max": 14688521,
+          "values": [
+            14688521,
+            14688521
+          ]
+        },
+        "candidate": {
+          "median": 14688928,
+          "min": 14688928,
+          "max": 14688928,
+          "values": [
+            14688928,
+            14688928
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -407,
+          -407
+        ],
+        "pairedPercentReduction": [
+          -0.002770871212969638,
+          -0.002770871212969638
+        ],
+        "medianPairedPercentReduction": -0.002770871212969638
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60059.27635149995,
+          "min": 60034.08262600005,
+          "max": 60084.47007699986,
+          "values": [
+            60034.08262600005,
+            60084.47007699986
+          ]
+        },
+        "candidate": {
+          "median": 60092.222859499976,
+          "min": 60055.75291300006,
+          "max": 60128.69280599989,
+          "values": [
+            60128.69280599989,
+            60055.75291300006
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -94.61017999984324,
+          28.717163999797776
+        ],
+        "pairedPercentReduction": [
+          -0.15759411297953055,
+          0.04779465303263216
+        ],
+        "medianPairedPercentReduction": -0.05489972997344919
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 17315.388,
+          "min": 14998.359999999999,
+          "max": 19632.415999999997,
+          "values": [
+            14998.359999999999,
+            19632.415999999997
+          ]
+        },
+        "candidate": {
+          "median": 18354.457000000002,
+          "min": 14310.607,
+          "max": 22398.307,
+          "values": [
+            22398.307,
+            14310.607
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -7399.947000000002,
+          5321.8089999999975
+        ],
+        "pairedPercentReduction": [
+          -49.33837432892665,
+          27.107254654750584
+        ],
+        "medianPairedPercentReduction": -11.115559837088032
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 288.2888397814898,
+          "min": 249.83075186534768,
+          "max": 326.7469276976319,
+          "values": [
+            249.83075186534768,
+            326.7469276976319
+          ]
+        },
+        "candidate": {
+          "median": 305.3974154271417,
+          "min": 238.28869518514074,
+          "max": 372.5061356691427,
+          "values": [
+            372.5061356691427,
+            238.28869518514074
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -122.675383803795,
+          88.45823251249118
+        ],
+        "pairedPercentReduction": [
+          -49.10339615433486,
+          27.072399160964558
+        ],
+        "medianPairedPercentReduction": -11.01549849668515
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 17639.72,
+          "min": 15323.849999999999,
+          "max": 19955.59,
+          "values": [
+            15323.849999999999,
+            19955.59
+          ]
+        },
+        "candidate": {
+          "median": 18348.042,
+          "min": 14607.988000000003,
+          "max": 22088.096,
+          "values": [
+            22088.096,
+            14607.988000000003
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -6764.246000000003,
+          5347.601999999997
+        ],
+        "pairedPercentReduction": [
+          -44.14194866172668,
+          26.79751387956957
+        ],
+        "medianPairedPercentReduction": -8.672217391078554
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 25190,
+          "min": 23540.000000000004,
+          "max": 26840,
+          "values": [
+            23540.000000000004,
+            26840
+          ]
+        },
+        "candidate": {
+          "median": 27365,
+          "min": 22890,
+          "max": 31840,
+          "values": [
+            31840,
+            22890
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -8299.999999999996,
+          3950
+        ],
+        "pairedPercentReduction": [
+          -35.259133389974494,
+          14.716840536512668
+        ],
+        "medianPairedPercentReduction": -10.271146426730912
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 2267.526500000001,
+          "min": 1888.3710000000012,
+          "max": 2646.6820000000002,
+          "values": [
+            1888.3710000000012,
+            2646.6820000000002
+          ]
+        },
+        "candidate": {
+          "median": 2544.013,
+          "min": 1878.9009999999998,
+          "max": 3209.125,
+          "values": [
+            3209.125,
+            1878.9009999999998
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -1320.7539999999988,
+          767.7810000000004
+        ],
+        "pairedPercentReduction": [
+          -69.94144688729058,
+          29.009189619304482
+        ],
+        "medianPairedPercentReduction": -20.46612863399305
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 2373.828,
+          "min": 2020.086,
+          "max": 2727.57,
+          "values": [
+            2020.086,
+            2727.57
+          ]
+        },
+        "candidate": {
+          "median": 2426.333,
+          "min": 1900.2050000000002,
+          "max": 2952.461,
+          "values": [
+            2952.461,
+            1900.2050000000002
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -932.3749999999998,
+          827.365
+        ],
+        "pairedPercentReduction": [
+          -46.15521319389371,
+          30.333410324941248
+        ],
+        "medianPairedPercentReduction": -7.91090143447623
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 169.18199999999996,
+          "min": 138.256,
+          "max": 200.10799999999995,
+          "values": [
+            138.256,
+            200.10799999999995
+          ]
+        },
+        "candidate": {
+          "median": 183.247,
+          "min": 140.797,
+          "max": 225.697,
+          "values": [
+            225.697,
+            140.797
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -87.441,
+          59.31099999999995
+        ],
+        "pairedPercentReduction": [
+          -63.24571808818424,
+          29.63949467287663
+        ],
+        "medianPairedPercentReduction": -16.803111707653805
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 3583,
+          "min": 3572,
+          "max": 3594,
+          "values": [
+            3594,
+            3572
+          ]
+        },
+        "candidate": {
+          "median": 3555,
+          "min": 3517,
+          "max": 3593,
+          "values": [
+            3517,
+            3593
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          77,
+          -21
+        ],
+        "pairedPercentReduction": [
+          2.1424596549805233,
+          -0.5879059350503919
+        ],
+        "medianPairedPercentReduction": 0.7772768599650657
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 341.5,
+          "min": 322,
+          "max": 361,
+          "values": [
+            322,
+            361
+          ]
+        },
+        "candidate": {
+          "median": 353.5,
+          "min": 348,
+          "max": 359,
+          "values": [
+            359,
+            348
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -37,
+          13
+        ],
+        "pairedPercentReduction": [
+          -11.490683229813664,
+          3.601108033240997
+        ],
+        "medianPairedPercentReduction": -3.944787598286333
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 16.79999999998836,
+          "min": 16.79999999998836,
+          "max": 16.79999999998836,
+          "values": [
+            16.79999999998836,
+            16.79999999998836
+          ]
+        },
+        "candidate": {
+          "median": 16.750000000005457,
+          "min": 16.70000000001164,
+          "max": 16.799999999999272,
+          "values": [
+            16.799999999999272,
+            16.70000000001164
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -1.0913936421275139e-11,
+          0.09999999997671694
+        ],
+        "pairedPercentReduction": [
+          -6.496390726953989e-11,
+          0.595238095099918
+        ],
+        "medianPairedPercentReduction": 0.29761904751747703
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 74.89999999999964,
+          "min": 66.59999999999854,
+          "max": 83.20000000000073,
+          "values": [
+            83.20000000000073,
+            66.59999999999854
+          ]
+        },
+        "candidate": {
+          "median": 133.29999999999927,
+          "min": 116.59999999999854,
+          "max": 150,
+          "values": [
+            150,
+            116.59999999999854
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -66.79999999999927,
+          -50
+        ],
+        "pairedPercentReduction": [
+          -80.28846153845996,
+          -75.07507507507671
+        ],
+        "medianPairedPercentReduction": -77.68176830676833
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 1,
+          "min": 0,
+          "max": 2,
+          "values": [
+            2,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -2,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 90,
+          "min": 0,
+          "max": 180,
+          "values": [
+            180,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -180,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 24542,
+          "min": 24542,
+          "max": 24542,
+          "values": [
+            24542,
+            24542
+          ]
+        },
+        "candidate": {
+          "median": 24542,
+          "min": 24542,
+          "max": 24542,
+          "values": [
+            24542,
+            24542
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 60,
+          "min": 60,
+          "max": 60,
+          "values": [
+            60,
+            60
+          ]
+        },
+        "candidate": {
+          "median": 60,
+          "min": 60,
+          "max": 60,
+          "values": [
+            60,
+            60
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 73.5,
+          "min": 73,
+          "max": 74,
+          "values": [
+            74,
+            73
+          ]
+        },
+        "candidate": {
+          "median": 74.5,
+          "min": 74,
+          "max": 75,
+          "values": [
+            75,
+            74
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -1,
+          -1
+        ],
+        "pairedPercentReduction": [
+          -1.3513513513513513,
+          -1.36986301369863
+        ],
+        "medianPairedPercentReduction": -1.3606071825249906
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13515153,
+          "min": 13515088,
+          "max": 13515218,
+          "values": [
+            13515218,
+            13515088
+          ]
+        },
+        "candidate": {
+          "median": 13515472.5,
+          "min": 13515349,
+          "max": 13515596,
+          "values": [
+            13515596,
+            13515349
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -378,
+          -261
+        ],
+        "pairedPercentReduction": [
+          -0.0027968472280654297,
+          -0.0019311749949389896
+        ],
+        "medianPairedPercentReduction": -0.0023640111115022094
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13552588.5,
+          "min": 13551615,
+          "max": 13553562,
+          "values": [
+            13553562,
+            13551615
+          ]
+        },
+        "candidate": {
+          "median": 13554320,
+          "min": 13553697,
+          "max": 13554943,
+          "values": [
+            13554943,
+            13553697
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -1381,
+          -2082
+        ],
+        "pairedPercentReduction": [
+          -0.010189203399076936,
+          -0.015363482507435461
+        ],
+        "medianPairedPercentReduction": -0.0127763429532562
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60689.17431550007,
+          "min": 60650.78828500002,
+          "max": 60727.56034600013,
+          "values": [
+            60650.78828500002,
+            60727.56034600013
+          ]
+        },
+        "candidate": {
+          "median": 68142.82511249988,
+          "min": 60478.11732699978,
+          "max": 75807.53289799998,
+          "values": [
+            75807.53289799998,
+            60478.11732699978
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -15156.744612999959,
+          249.4430190003477
+        ],
+        "pairedPercentReduction": [
+          -24.990185686916263,
+          0.41075751698096574
+        ],
+        "medianPairedPercentReduction": -12.289714084967649
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 59401.06,
+          "min": 58954.22599999999,
+          "max": 59847.894,
+          "values": [
+            58954.22599999999,
+            59847.894
+          ]
+        },
+        "candidate": {
+          "median": 67206.633,
+          "min": 59601.66099999999,
+          "max": 74811.605,
+          "values": [
+            74811.605,
+            59601.66099999999
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -15857.379000000008,
+          246.23300000000745
+        ],
+        "pairedPercentReduction": [
+          -26.89778167895888,
+          0.41143135295622507
+        ],
+        "medianPairedPercentReduction": -13.243175163001327
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 978.7709556167638,
+          "min": 972.0273662886651,
+          "max": 985.5145449448626,
+          "values": [
+            972.0273662886651,
+            985.5145449448626
+          ]
+        },
+        "candidate": {
+          "median": 986.1851459616526,
+          "min": 985.5078768034251,
+          "max": 986.8624151198799,
+          "values": [
+            986.8624151198799,
+            985.5078768034251
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -14.835048831214749,
+          0.006668141437444319
+        ],
+        "pairedPercentReduction": [
+          -1.5261966222059176,
+          0.0006766152231489782
+        ],
+        "medianPairedPercentReduction": -0.7627600034913843
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 59355.509999999995,
+          "min": 58955.876,
+          "max": 59755.144,
+          "values": [
+            58955.876,
+            59755.144
+          ]
+        },
+        "candidate": {
+          "median": 66912.8605,
+          "min": 59663.53599999999,
+          "max": 74162.185,
+          "values": [
+            74162.185,
+            59663.53599999999
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -15206.309000000001,
+          91.60800000000745
+        ],
+        "pairedPercentReduction": [
+          -25.79269452293441,
+          0.15330563005589518
+        ],
+        "medianPairedPercentReduction": -12.819694446439257
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 74250,
+          "min": 73710,
+          "max": 74789.99999999999,
+          "values": [
+            73710,
+            74789.99999999999
+          ]
+        },
+        "candidate": {
+          "median": 84720,
+          "min": 74370,
+          "max": 95070,
+          "values": [
+            95070,
+            74370
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -21360,
+          419.99999999998545
+        ],
+        "pairedPercentReduction": [
+          -28.97842897842898,
+          0.561572402727618
+        ],
+        "medianPairedPercentReduction": -14.208428287850682
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 40108.071500000005,
+          "min": 39005.624,
+          "max": 41210.51900000001,
+          "values": [
+            41210.51900000001,
+            39005.624
+          ]
+        },
+        "candidate": {
+          "median": 46905.457,
+          "min": 40183.095,
+          "max": 53627.819,
+          "values": [
+            53627.819,
+            40183.095
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -12417.299999999996,
+          -1177.4709999999977
+        ],
+        "pairedPercentReduction": [
+          -30.131384659339023,
+          -3.018721095193856
+        ],
+        "medianPairedPercentReduction": -16.57505287726644
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 4995.542,
+          "min": 4969.838000000001,
+          "max": 5021.246,
+          "values": [
+            4969.838000000001,
+            5021.246
+          ]
+        },
+        "candidate": {
+          "median": 5726.405000000001,
+          "min": 5420.156000000001,
+          "max": 6032.6539999999995,
+          "values": [
+            6032.6539999999995,
+            5420.156000000001
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -1062.815999999999,
+          -398.91000000000076
+        ],
+        "pairedPercentReduction": [
+          -21.385324833525736,
+          -7.944442475035095
+        ],
+        "medianPairedPercentReduction": -14.664883654280416
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 985.671,
+          "min": 912.233,
+          "max": 1059.1090000000002,
+          "values": [
+            1059.1090000000002,
+            912.233
+          ]
+        },
+        "candidate": {
+          "median": 1231.6439999999998,
+          "min": 1062.732,
+          "max": 1400.5559999999998,
+          "values": [
+            1400.5559999999998,
+            1062.732
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -341.44699999999966,
+          -150.49900000000002
+        ],
+        "pairedPercentReduction": [
+          -32.23908020798611,
+          -16.497868417388982
+        ],
+        "medianPairedPercentReduction": -24.368474312687546
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 2708.5,
+          "min": 2626,
+          "max": 2791,
+          "values": [
+            2626,
+            2791
+          ]
+        },
+        "candidate": {
+          "median": 2698,
+          "min": 2357,
+          "max": 3039,
+          "values": [
+            2357,
+            3039
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          269,
+          -248
+        ],
+        "pairedPercentReduction": [
+          10.243716679360244,
+          -8.885704048728055
+        ],
+        "medianPairedPercentReduction": 0.6790063153160943
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 1978.5,
+          "min": 1916,
+          "max": 2041,
+          "values": [
+            2041,
+            1916
+          ]
+        },
+        "candidate": {
+          "median": 2119.5,
+          "min": 1934,
+          "max": 2305,
+          "values": [
+            1934,
+            2305
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          107,
+          -389
+        ],
+        "pairedPercentReduction": [
+          5.242528172464478,
+          -20.302713987473904
+        ],
+        "medianPairedPercentReduction": -7.530092907504713
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 141.65000000000873,
+          "min": 133.30000000001746,
+          "max": 150,
+          "values": [
+            150,
+            133.30000000001746
+          ]
+        },
+        "candidate": {
+          "median": 158.29999999999563,
+          "min": 133.3000000000029,
+          "max": 183.29999999998836,
+          "values": [
+            183.29999999998836,
+            133.3000000000029
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -33.29999999998836,
+          1.4551915228366852e-11
+        ],
+        "pairedPercentReduction": [
+          -22.19999999999224,
+          1.0916665587670626e-11
+        ],
+        "medianPairedPercentReduction": -11.099999999990661
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 175,
+          "min": 166.6999999999971,
+          "max": 183.3000000000029,
+          "values": [
+            166.6999999999971,
+            183.3000000000029
+          ]
+        },
+        "candidate": {
+          "median": 208.34999999999854,
+          "min": 166.59999999999127,
+          "max": 250.10000000000582,
+          "values": [
+            250.10000000000582,
+            166.59999999999127
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -83.40000000000873,
+          16.70000000001164
+        ],
+        "pairedPercentReduction": [
+          -50.02999400120587,
+          9.110747408625956
+        ],
+        "medianPairedPercentReduction": -20.45962329628996
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 10.5,
+          "min": 4,
+          "max": 17,
+          "values": [
+            4,
+            17
+          ]
+        },
+        "candidate": {
+          "median": 57.5,
+          "min": 2,
+          "max": 113,
+          "values": [
+            113,
+            2
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -109,
+          15
+        ],
+        "pairedPercentReduction": [
+          -2725,
+          88.23529411764706
+        ],
+        "medianPairedPercentReduction": -1318.3823529411766
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 614.5,
+          "min": 239,
+          "max": 990,
+          "values": [
+            239,
+            990
+          ]
+        },
+        "candidate": {
+          "median": 3679.5,
+          "min": 119,
+          "max": 7240,
+          "values": [
+            7240,
+            119
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -7001,
+          871
+        ],
+        "pairedPercentReduction": [
+          -2929.2887029288704,
+          87.97979797979798
+        ],
+        "medianPairedPercentReduction": -1420.6544524745361
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [
+            26378,
+            26378
+          ]
+        },
+        "candidate": {
+          "median": 26380.5,
+          "min": 26378,
+          "max": 26383,
+          "values": [
+            26378,
+            26383
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          -5
+        ],
+        "pairedPercentReduction": [
+          0,
+          -0.01895518993100311
+        ],
+        "medianPairedPercentReduction": -0.009477594965501554
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 61,
+          "min": 61,
+          "max": 61,
+          "values": [
+            61,
+            61
+          ]
+        },
+        "candidate": {
+          "median": 56.5,
+          "min": 52,
+          "max": 61,
+          "values": [
+            61,
+            52
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          9
+        ],
+        "pairedPercentReduction": [
+          0,
+          14.754098360655737
+        ],
+        "medianPairedPercentReduction": 7.377049180327869
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 72.5,
+          "min": 72,
+          "max": 73,
+          "values": [
+            72,
+            73
+          ]
+        },
+        "candidate": {
+          "median": 60,
+          "min": 48,
+          "max": 72,
+          "values": [
+            48,
+            72
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          24,
+          1
+        ],
+        "pairedPercentReduction": [
+          33.333333333333336,
+          1.36986301369863
+        ],
+        "medianPairedPercentReduction": 17.35159817351598
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13343858.5,
+          "min": 13253958,
+          "max": 13433759,
+          "values": [
+            13253958,
+            13433759
+          ]
+        },
+        "candidate": {
+          "median": 11058994,
+          "min": 8863310,
+          "max": 13254678,
+          "values": [
+            8863310,
+            13254678
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          4390648,
+          179081
+        ],
+        "pairedPercentReduction": [
+          33.12707041926646,
+          1.3330669397895258
+        ],
+        "medianPairedPercentReduction": 17.230068679527992
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 34334222,
+          "min": 31865340,
+          "max": 36803104,
+          "values": [
+            36803104,
+            31865340
+          ]
+        },
+        "candidate": {
+          "median": 36154197.5,
+          "min": 34344396,
+          "max": 37963999,
+          "values": [
+            34344396,
+            37963999
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          2458708,
+          -6098659
+        ],
+        "pairedPercentReduction": [
+          6.680708235914015,
+          -19.138848039907938
+        ],
+        "medianPairedPercentReduction": -6.2290699019969615
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 1548.5,
+          "min": 1367,
+          "max": 1730,
+          "values": [
+            1730,
+            1367
+          ]
+        },
+        "candidate": {
+          "median": 1828.5,
+          "min": 1782,
+          "max": 1875,
+          "values": [
+            1875,
+            1782
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -145,
+          -415
+        ],
+        "pairedPercentReduction": [
+          -8.38150289017341,
+          -30.35844915874177
+        ],
+        "medianPairedPercentReduction": -19.36997602445759
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60048.44862899999,
+          "min": 60025.73283000011,
+          "max": 60071.16442799987,
+          "values": [
+            60025.73283000011,
+            60071.16442799987
+          ]
+        },
+        "candidate": {
+          "median": 60046.47910300002,
+          "min": 60033.90676499996,
+          "max": 60059.051441000076,
+          "values": [
+            60033.90676499996,
+            60059.051441000076
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -8.173934999853373,
+          12.112986999796703
+        ],
+        "pairedPercentReduction": [
+          -0.013617384768967188,
+          0.020164395205481814
+        ],
+        "medianPairedPercentReduction": 0.0032735052182573127
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 7527.148499999996,
+          "min": 6963.397999999998,
+          "max": 8090.898999999993,
+          "values": [
+            6963.397999999998,
+            8090.898999999993
+          ]
+        },
+        "candidate": {
+          "median": 5579.842000000006,
+          "min": 5014.966000000001,
+          "max": 6144.718000000012,
+          "values": [
+            5014.966000000001,
+            6144.718000000012
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          1948.431999999997,
+          1946.1809999999814
+        ],
+        "pairedPercentReduction": [
+          27.98105177960527,
+          24.053952471783212
+        ],
+        "medianPairedPercentReduction": 26.017502125694243
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 125.34772316590077,
+          "min": 116.00688024453038,
+          "max": 134.68856608727117,
+          "values": [
+            116.00688024453038,
+            134.68856608727117
+          ]
+        },
+        "candidate": {
+          "median": 92.9234162609696,
+          "min": 83.53555965682628,
+          "max": 102.31127286511293,
+          "values": [
+            83.53555965682628,
+            102.31127286511293
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          32.4713205877041,
+          32.377293222158244
+        ],
+        "pairedPercentReduction": [
+          27.99085754160266,
+          24.03863532200606
+        ],
+        "medianPairedPercentReduction": 26.01474643180436
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 7861.765499999997,
+          "min": 7285.404999999997,
+          "max": 8438.125999999997,
+          "values": [
+            7285.404999999997,
+            8438.125999999997
+          ]
+        },
+        "candidate": {
+          "median": 5865.733500000005,
+          "min": 5281.346999999997,
+          "max": 6450.120000000013,
+          "values": [
+            5281.346999999997,
+            6450.120000000013
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          2004.058,
+          1988.005999999984
+        ],
+        "pairedPercentReduction": [
+          27.5078461664108,
+          23.559804629605967
+        ],
+        "medianPairedPercentReduction": 25.533825398008382
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 13295.000000000002,
+          "min": 12199.999999999989,
+          "max": 14390.000000000015,
+          "values": [
+            12199.999999999989,
+            14390.000000000015
+          ]
+        },
+        "candidate": {
+          "median": 10605.000000000004,
+          "min": 9670.000000000016,
+          "max": 11539.999999999993,
+          "values": [
+            9670.000000000016,
+            11539.999999999993
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          2529.9999999999727,
+          2850.000000000022
+        ],
+        "pairedPercentReduction": [
+          20.73770491803258,
+          19.805420430854895
+        ],
+        "medianPairedPercentReduction": 20.271562674443736
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 2111.7075000000013,
+          "min": 1861.6060000000018,
+          "max": 2361.809000000001,
+          "values": [
+            1861.6060000000018,
+            2361.809000000001
+          ]
+        },
+        "candidate": {
+          "median": 1595.9600000000016,
+          "min": 1449.4000000000042,
+          "max": 1742.519999999999,
+          "values": [
+            1449.4000000000042,
+            1742.519999999999
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          412.20599999999763,
+          619.289000000002
+        ],
+        "pairedPercentReduction": [
+          22.14249416901306,
+          26.22096028933761
+        ],
+        "medianPairedPercentReduction": 24.181727229175337
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 27.395499999999906,
+          "min": 17.865999999999715,
+          "max": 36.9250000000001,
+          "values": [
+            17.865999999999715,
+            36.9250000000001
+          ]
+        },
+        "candidate": {
+          "median": 17.746000000000706,
+          "min": 14.86300000000007,
+          "max": 20.62900000000134,
+          "values": [
+            20.62900000000134,
+            14.86300000000007
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -2.7630000000016253,
+          22.062000000000026
+        ],
+        "pairedPercentReduction": [
+          -15.465129295878592,
+          59.74813811780628
+        ],
+        "medianPairedPercentReduction": 22.141504410963844
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 155.08850000000007,
+          "min": 142.25200000000004,
+          "max": 167.9250000000001,
+          "values": [
+            167.9250000000001,
+            142.25200000000004
+          ]
+        },
+        "candidate": {
+          "median": 103.60950000000003,
+          "min": 96.60500000000005,
+          "max": 110.61399999999999,
+          "values": [
+            96.60500000000005,
+            110.61399999999999
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          71.32000000000005,
+          31.638000000000048
+        ],
+        "pairedPercentReduction": [
+          42.4713413726366,
+          22.240812079970784
+        ],
+        "medianPairedPercentReduction": 32.35607672630369
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 3,
+          "min": 3,
+          "max": 3,
+          "values": [
+            3,
+            3
+          ]
+        },
+        "candidate": {
+          "median": 2,
+          "min": 2,
+          "max": 2,
+          "values": [
+            2,
+            2
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          1,
+          1
+        ],
+        "pairedPercentReduction": [
+          33.333333333333336,
+          33.333333333333336
+        ],
+        "medianPairedPercentReduction": 33.333333333333336
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 358,
+          "min": 357,
+          "max": 359,
+          "values": [
+            357,
+            359
+          ]
+        },
+        "candidate": {
+          "median": 359,
+          "min": 359,
+          "max": 359,
+          "values": [
+            359,
+            359
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -2,
+          0
+        ],
+        "pairedPercentReduction": [
+          -0.5602240896358543,
+          0
+        ],
+        "medianPairedPercentReduction": -0.2801120448179272
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 16.70000000001164,
+          "min": 16.70000000001164,
+          "max": 16.70000000001164,
+          "values": [
+            16.70000000001164,
+            16.70000000001164
+          ]
+        },
+        "candidate": {
+          "median": 16.70000000001164,
+          "min": 16.70000000001164,
+          "max": 16.70000000001164,
+          "values": [
+            16.70000000001164,
+            16.70000000001164
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 75,
+          "min": 50,
+          "max": 100,
+          "values": [
+            50,
+            100
+          ]
+        },
+        "candidate": {
+          "median": 99.90000000000873,
+          "min": 66.60000000000582,
+          "max": 133.20000000001164,
+          "values": [
+            66.60000000000582,
+            133.20000000001164
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -16.60000000000582,
+          -33.20000000001164
+        ],
+        "pairedPercentReduction": [
+          -33.20000000001164,
+          -33.20000000001164
+        ],
+        "medianPairedPercentReduction": -33.20000000001164
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [
+            26378,
+            26378
+          ]
+        },
+        "candidate": {
+          "median": 26380.5,
+          "min": 26378,
+          "max": 26383,
+          "values": [
+            26378,
+            26383
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          -5
+        ],
+        "pairedPercentReduction": [
+          0,
+          -0.01895518993100311
+        ],
+        "medianPairedPercentReduction": -0.009477594965501554
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 72.5,
+          "min": 72,
+          "max": 73,
+          "values": [
+            73,
+            72
+          ]
+        },
+        "candidate": {
+          "median": 72.5,
+          "min": 72,
+          "max": 73,
+          "values": [
+            72,
+            73
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          1,
+          -1
+        ],
+        "pairedPercentReduction": [
+          1.36986301369863,
+          -1.3888888888888888
+        ],
+        "medianPairedPercentReduction": -0.00951293759512939
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13622490.5,
+          "min": 13528559,
+          "max": 13716422,
+          "values": [
+            13716422,
+            13528559
+          ]
+        },
+        "candidate": {
+          "median": 13622596,
+          "min": 13528659,
+          "max": 13716533,
+          "values": [
+            13528659,
+            13716533
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          187763,
+          -187974
+        ],
+        "pairedPercentReduction": [
+          1.3688919748896615,
+          -1.3894606217853653
+        ],
+        "medianPairedPercentReduction": -0.010284323447851906
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13650882.5,
+          "min": 13556952,
+          "max": 13744813,
+          "values": [
+            13744813,
+            13556952
+          ]
+        },
+        "candidate": {
+          "median": 13650985,
+          "min": 13557050,
+          "max": 13744920,
+          "values": [
+            13557050,
+            13744920
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          187763,
+          -187968
+        ],
+        "pairedPercentReduction": [
+          1.3660644200834162,
+          -1.3865063474444699
+        ],
+        "medianPairedPercentReduction": -0.010220963680526829
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      }
+    ],
+    "notes": [
+      "mainThreadMs and mainThreadMsPerSecond use TaskDuration with timeTicks: elapsed time in main-thread tasks, not thread CPU time. Script, style, and layout durations use the same elapsed-time domain.",
+      "mainThreadCpuMs uses ThreadTime (renderer main-thread CPU). rendererCpuMs uses ProcessTime (renderer-process CPU); it excludes separate browser, GPU, and backend processes.",
+      "Positive reduction means a lower candidate value. Counts such as mounted editors are observations, not optimization scores.",
+      "Frame gaps and driver DOM readiness are not INP. Linux CPU throttling is not an M2 Air simulation.",
+      "Extra busy headers are backend-seeded status rows, not additional live executions. The six canonical stream producers remain unchanged. Busy-header variants must not be pooled with the default workload.",
+      "Final-content probe versions must not be pooled. Locator-assertion retries can collect page-wide ARIA snapshots; boolean polling retains the same visibility gate without those snapshots.",
+      "Scripted input variants have a separate mode and window prefix. Their later idle windows can retain composer state changed by those inputs. Action timestamps preserve late execution; they do not imply that all inputs completed on schedule.",
+      "Streaming duration includes the wait for final visible content. Fixed-deadline traffic is retained in the raw report.",
+      "History decoded bytes include captured requests and responses. They are not compressed network transfer."
+    ]
+  },
+  "audit": {
+    "recordedAt": "2026-10-26T14:22:39.514129+00:00",
+    "report": "matched-dense-1793023531348.json",
+    "reportSha256": "e7a31c28f73d5573aa7cd670f0af3553be1f52da21cd145f04cf6a5b1a8a72dd",
+    "sourceRevision": "2f3c343e04bda7aac01e4352f74959173c185522",
+    "sourcePatchSha256": "bc8ac0045ef7fbb46765a146b88d451f93017ce9bdbb60c9054100562b6295e2",
+    "harnessFilesVerified": 1953,
+    "experimentalFilesVerified": 2,
+    "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+    "backendLogsVerified": 4,
+    "mainHandle": 34288,
+    "mainExitCode": 0,
+    "samplerHandle": 81653,
+    "samplerExitCode": 0,
+    "completeSamples": 4,
+    "verifiedOrderedUpdates": 7200,
+    "fixtureRootRemoved": true,
+    "remainingOwnedProcesses": []
+  },
+  "restoration": {
+    "recordedAt": "2026-10-26T14:27:33.977242+00:00",
+    "decision": "Reject bounded row references. Reduced-motion idle work improves, but normal streaming has no repeatable responsiveness gain and other frame results regress.",
+    "sourceRestoredTo": "2f3c343e04bda7aac01e4352f74959173c185522",
+    "sourceAndTestsRestoredExactly": true,
+    "restoredAssetsSha256": "c4a426d266695eff7d361531f1932f7e24c2e91383d11ce79ebf0b25ee36b420",
+    "restoredAssetFilesByteVerified": 1253,
+    "rejectedBuildRoot": "/tmp/kandev-rejected-edge-rows-5936a872",
+    "rejectedAssetsSha256": "3d1aca7c3c2e84f21b2bbaf60326ac17b1a6a49a3e823a855cf31dcb6da3d3ba",
+    "rejectedPatch": "edge-row-cache-candidate.patch",
+    "patchSha256": "bc8ac0045ef7fbb46765a146b88d451f93017ce9bdbb60c9054100562b6295e2",
+    "historyWindowVerified": "100 messages in each of 6 visible sessions, initially and finally in all 4 samples",
+    "host": {
+      "sampleCount": 70,
+      "maximumLoad1m": 9.88818359375,
+      "minimumAvailableMemoryKiB": 12250392
+    },
+    "causes": "The paired regressions are observed; their cause is not established. Do not infer a host-load or parser-cleanup cause."
+  },
+  "decision": "Reduced-motion idle work and renderer CPU improve in both pairs. Normal streaming script duration rises in both pairs; frame-gap p95 regresses in one and is unchanged in the other. Both idle variants have worse maximum gaps in both pairs. There is no repeatable normal-streaming responsiveness gain. Remove the prototype and its specific tests.",
+  "limits": [
+    "This is an isolated C4-to-experiment two-pair comparison, not the original-595 final package matrix.",
+    "All planned attempts, including the longer first candidate window, remain in the summary. No error or sample is stripped.",
+    "The causes of the observed regressions are unconfirmed. Do not claim host contention, parser cleanup or cache lifetime as a cause.",
+    "Do not repeat the rejected reference cache without new attribution that addresses the tradeoffs.",
+    "No direct M2 Air, field INP, battery or memory-leak claim."
+  ]
+}

@@ -905,8 +905,8 @@ not establish a normal-streaming responsiveness gain.
 
 Cold encoded asset bytes fall 77.6%, while readiness remains mixed across
 three improving and three regressing pairs. Normal idle work also regresses
-slightly. The next step is fresh JavaScript attribution for the streaming
-regression. The other 19 matrix cases remain open. See
+slightly. Fresh JavaScript attribution is complete. The streaming
+regression remains open. The other 19 matrix cases remain open. See
 [the complete paired results](evidence/final44cf-grid-six-pair-1x.json).
 
 ## Native movement before the wheel handler
@@ -930,3 +930,27 @@ are removed and no owned process remains. See
 These are correctness results. The six-pair `44cf53e7` streaming regression
 remains recorded above. Fresh JavaScript attribution on the corrected frozen
 build is next; the final matrix and 20% task-time target remain open.
+
+## Fresh C4 attribution and rejected row references
+
+Fresh C4 CPU attribution completes both quiet samples and verifies 3,600 ordered
+updates. The candidate samples 4.20 seconds in selection checks, 2.46 seconds
+in React context propagation and 2.14 seconds in row lookup, including 1.55
+seconds in edge tracking. A generic panel scroll listener also samples 2.07
+seconds. These overlapping sampled durations are not CPU counters. A separate
+scripted profile misses the bottom observation; its full failure and original
+profile remain preserved. See [the attribution](evidence/current-c4-stream-cpu-attribution.json).
+
+A bounded row-reference prototype passes 174 unit tests, 35 desktop checks,
+17 phone checks and four inspected captures. Two full-density alternating
+pairs pass all four attempts and verify 7,200 ordered updates. Streaming p95
+rises 22.2% in one pair and is unchanged in the other; script time rises 30.1%
+and 3.0%. Reduced-motion idle work falls 28.0% and 24.0%, while both idle
+variants have worse maximum frame gaps. The prototype and its specific tests
+are removed, with exact C4 source and asset restoration. All paired values,
+the patch and rejected build remain preserved. See
+[the rejected experiment](evidence/rejected-transcript-row-references-1x.json).
+
+Next: test whether generic panel scroll retention duplicates native transcript
+ownership. Keep actual hide/show restoration and reading controls intact.
+The final matrix and 20% streaming task-time target remain open.

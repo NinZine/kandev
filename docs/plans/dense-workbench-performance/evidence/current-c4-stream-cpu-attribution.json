@@ -1,0 +1,212 @@
+{
+  "status": "Completed attribution; normal streaming regression remains open",
+  "recordedAt": "2026-10-26T14:29:30.565791+00:00",
+  "taskId": "bacce745-f09d-4752-a4d4-6ddc7d5a1225",
+  "sessionId": "5936a872-e574-45fb-b153-4e8d34a6e7bf",
+  "productionRevision": "2f3c343e04bda7aac01e4352f74959173c185522",
+  "productionAssets": "c4a426d266695eff7d361531f1932f7e24c2e91383d11ce79ebf0b25ee36b420",
+  "preservedCurrentAssetsRoot": "/tmp/kandev-edge-rows-before-5936a872",
+  "quiet": {
+    "report": "matched-dense-1793020381049.json",
+    "sha256": "6345864158e589aa245fa6928f6ddf14d8d541ee508b42a2b2c3c6c99501cb96",
+    "measurementKind": "cpu-attribution",
+    "interactionMode": "quiet",
+    "completeSamples": 2,
+    "orderedUpdatesVerified": 3600,
+    "mainHandle": 53346,
+    "mainExitCode": 0,
+    "samplerHandle": 22864,
+    "samplerExitCode": 0,
+    "auditHandle": 48946,
+    "auditExitCode": 0,
+    "sourceFilesVerified": 1953,
+    "sourcePatchEmpty": true,
+    "profiles": [
+      {
+        "arm": "baseline",
+        "path": "matched-dense-1793020381049.json.baseline-1x-0.cpuprofile",
+        "sha256": "60e61ce1249a19f541aa2175a9b98b54267e0cb2ad42d6981525a2d7806da3ca",
+        "sampledDurationMs": 61910.293,
+        "samples": 57481,
+        "ariaSnapshotFrameNodes": 0,
+        "selectedMappedFunctions": [
+          {
+            "label": "Selection guard",
+            "mappedSource": "apps/web/components/shared/chat-markdown-motion.tsx",
+            "bundle": "route-panel-mouse-down-B8fazbXM.js",
+            "functionName": "iq",
+            "lineNumber": 480,
+            "columnNumber": 4128,
+            "selfSampledMs": 3125.361,
+            "inclusiveSampledMs": 3127.489
+          },
+          {
+            "label": "React context propagation",
+            "mappedSource": "bundled React",
+            "bundle": "route-panel-mouse-down-B8fazbXM.js",
+            "functionName": "Gi",
+            "lineNumber": 8,
+            "columnNumber": 33951,
+            "selfSampledMs": 1121.12,
+            "inclusiveSampledMs": 1121.12
+          },
+          {
+            "label": "Generic panel scrollTop listener",
+            "mappedSource": "apps/packages/ui/src/pannel-session.tsx",
+            "bundle": "route-panel-mouse-down-B8fazbXM.js",
+            "functionName": "t",
+            "lineNumber": 326,
+            "columnNumber": 11679,
+            "selfSampledMs": 2347.836,
+            "inclusiveSampledMs": 2347.836
+          }
+        ]
+      },
+      {
+        "arm": "candidate",
+        "path": "matched-dense-1793020381049.json.candidate-1x-0.cpuprofile",
+        "sha256": "d41ac5f3ce74438611a0978d2baedf2097e722bce5d9df1b952720a2ce334e4a",
+        "sampledDurationMs": 61059.742,
+        "samples": 56746,
+        "ariaSnapshotFrameNodes": 0,
+        "selectedMappedFunctions": [
+          {
+            "label": "Selection guard",
+            "mappedSource": "apps/web/components/shared/chat-markdown-motion.tsx",
+            "bundle": "route-panel-mouse-down-c5IdK9IL.js",
+            "functionName": "aq",
+            "lineNumber": 465,
+            "columnNumber": 4129,
+            "selfSampledMs": 4199.151,
+            "inclusiveSampledMs": 4203.392
+          },
+          {
+            "label": "Generic panel scrollTop listener",
+            "mappedSource": "apps/packages/ui/src/pannel-session.tsx",
+            "bundle": "route-panel-mouse-down-c5IdK9IL.js",
+            "functionName": "t",
+            "lineNumber": 318,
+            "columnNumber": 11663,
+            "selfSampledMs": 2067.997,
+            "inclusiveSampledMs": 2067.997
+          },
+          {
+            "label": "Transcript row lookup",
+            "mappedSource": "apps/web/components/task/chat/message-list-native-scroll.ts",
+            "bundle": "route-panel-mouse-down-c5IdK9IL.js",
+            "functionName": "E2",
+            "lineNumber": 541,
+            "columnNumber": 34968,
+            "selfSampledMs": 419.117,
+            "inclusiveSampledMs": 2138.787
+          }
+        ]
+      }
+    ],
+    "candidateRowLookupCallers": [
+      {
+        "label": "Edge update",
+        "inclusiveSampledMs": 947.614,
+        "callerFunctions": [
+          "XRe",
+          "g",
+          ""
+        ]
+      },
+      {
+        "label": "Edge setup",
+        "inclusiveSampledMs": 605.487,
+        "callerFunctions": [
+          "",
+          "vl",
+          "yl"
+        ]
+      },
+      {
+        "label": "Pagination anchor",
+        "inclusiveSampledMs": 585.686,
+        "callerFunctions": [
+          "D2",
+          "o",
+          "(root)"
+        ]
+      }
+    ],
+    "guard": {
+      "rejected": true,
+      "error": "Error: Diagnostic attribution runs are excluded from timing comparisons",
+      "inputUnmodified": true
+    },
+    "cleanup": {
+      "fixtureRootRemoved": true,
+      "ownedProcesses": []
+    }
+  },
+  "scriptedProfileFailure": {
+    "recordedAt": "2026-10-26T12:52:28.575021+00:00",
+    "sourceRevision": "2f3c343e04bda7aac01e4352f74959173c185522",
+    "sourceFilesVerified": 1953,
+    "sourcePatchEmpty": true,
+    "helpersAndLockfilesVerified": true,
+    "backendLogsVerified": 2,
+    "fixtureRootRemoved": true,
+    "remainingOwnedProcesses": [],
+    "mainHandle": 38293,
+    "mainExitCode": 1,
+    "samplerHandle": 89726,
+    "samplerExitCode": 0,
+    "report": "matched-dense-1793018778690.json",
+    "reportSha256": "d1c65150b4671d1beb05795f434fbc8286b461e0d2e289f3fb603130162f601e",
+    "originalProfileSaved": true,
+    "candidateProfileSaved": false,
+    "originalVerifiedOrderedUpdates": 1800,
+    "candidateFailure": {
+      "action": "return-bottom",
+      "upwardReadingMaximumAdvancePx": 0,
+      "heldReadingMaximumAdvancePx": 0,
+      "nativeWheel": {
+        "scrollTop": 52900,
+        "scrollHeight": 54407,
+        "clientHeight": 164,
+        "gap": 1343,
+        "observedAt": 1793018958196,
+        "isTrusted": true,
+        "withinTranscript": true,
+        "defaultPrevented": false,
+        "ctrlKey": false,
+        "deltaY": 500000,
+        "deltaMode": 0
+      },
+      "bottomHit": null,
+      "current": {
+        "scrollTop": 54137,
+        "scrollHeight": 54998,
+        "clientHeight": 164,
+        "gap": 697
+      },
+      "deadlineMs": 5000,
+      "cause": "Unconfirmed; profile adds load. No paired timing or completed candidate profile."
+    }
+  },
+  "scriptedFailureGuard": {
+    "rejected": true,
+    "error": "Error: Diagnostic attribution runs are excluded from timing comparisons",
+    "inputUnmodified": true
+  },
+  "browserSelectionSource": {
+    "recordedAt": "2026-10-26T13:58:37.229590+00:00",
+    "browserSource": "https://raw.githubusercontent.com/chromium/chromium/149.0.7827.55/third_party/blink/renderer/core/editing/dom_selection.cc",
+    "browserVersion": "149.0.7827.55",
+    "finding": "rangeCount updates style and layout when there is no cached document range. Retaining the Selection object does not bypass this read. getComposedRanges also calls PrimaryRangeOrNull, which calls rangeCount.",
+    "decision": "Do not implement a cached Selection-object shortcut on this evidence. Preserve synchronous selection behavior.",
+    "scope": "Source inspection, not a product timing measurement."
+  },
+  "limits": [
+    "Sampled duration is not a CDP CPU counter or a function-call count. Inclusive durations overlap.",
+    "The quiet profile validates ordered delivery and identifies work; it does not establish a speed gain or replace the failed scripted profile.",
+    "The failed scripted run saved only the original profile. The cause of its missed bottom observation remains unconfirmed.",
+    "The later isolated row-reference comparison passes both unprofiled C4 controls; this does not erase the profiled failure.",
+    "Linux Chromium measurements do not establish M2 Air, INP, battery or memory-leak outcomes."
+  ],
+  "nextLead": "Test whether the generic panel scroll listener duplicates native transcript retention. Preserve hide/show and reader-position behavior until a failing ownership test supports a change."
+}
