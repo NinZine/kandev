@@ -502,8 +502,8 @@ no Codex review result is claimed.
   phone assignment/recovery subset is rerun before publication. Fresh synthetic
   images replace affected evidence. No real endpoint connection was tested.
 - Catalog/spec/public-doc checks passed. Incoming main's harness change also
-  passed harness and spec validator tests/lint. Normal commit hooks and exact-head
-  remote CI/review recheck remain delivery steps, not completed local evidence.
+  passed harness and spec validator tests/lint. Normal hook receipts and exact-head
+  remote CI/review results are recorded separately with publication.
 
 Commands and logs: focused Vitest results are recorded in
 `/tmp/pr4760-fixup-unit-final.log` and `/tmp/pr4760-fixup-guards-final.log`;
@@ -513,5 +513,43 @@ host mode, one shard and sequential projects (`/tmp/kandev-run.e2e.YETxqUNT.log`
 main `b4e9cf5ede3545ca6a8e58165e580ad7c4988afa`.
 
 Final-binary phone assignment/recovery subset passed all nine journeys, with no
-retries (`/tmp/kandev-run.e2e.peMTAxLe.log`). Hook/remote review evidence remains
-pending until the remediation commit is published and checked.
+retries (`/tmp/kandev-run.e2e.peMTAxLe.log`). Hook/remote review evidence is recorded
+separately for each published remediation head.
+
+## CI synchronization follow-up (2026-10-26)
+
+Historical head `dcc10726bec22c8d1b845ed742031cae833838f8` finished with
+85 passed, 13 skipped, 1 neutral, 3 failed checks and no pending checks or
+unresolved review threads. Both frontend test shards and the backend gates
+passed. The remaining failures were normal E2E shards 3 and 21 and their
+aggregate, from three first-attempt failures that passed on CI retry.
+
+The three exact cases passed three local runs before changes. A controlled
+250 ms Office PATCH delay then reproduced the persisted-status assertion
+reading `created` while the optimistic UI already displayed In Progress.
+The assertion now awaits that successful PATCH before reading persistence.
+Task mention restoration now explicitly foregrounds the public conversation
+surface after reload, instead of assuming dockview hydration has completed.
+The CI screenshot showed the correct chips after the assertion timed out.
+Capacity cancellation now waits for persisted attempt 6 after advancing five
+retry ticks; the previous driver returned immediately after advancing tick 5.
+The same barrier covers success/restart journeys. The helper's eleven-attempt
+exhaustion behavior is preserved. No product behavior, UI, timeout budget or
+assertion threshold changed.
+
+After fixes, all nine exact-case repetitions passed with retries disabled.
+Typecheck, affected lint and 53 message/mention/rich-output tests passed.
+The original CI process groups 3-3, 21-1 and 21-4 are also being replayed locally
+from the downloaded manifest, sequentially with one worker and zero retries.
+Their final results and the new head's remote checks remain delivery evidence
+in the PR, not a claim that the failed historical head was green.
+
+Main advanced to `7fb28fc022d5320922608bf57cc9fd9351a8b8da`. The old published
+assignment tip is preserved at
+`backup/clarify-mcp-assignment-before-e2e-followup-20261026`; only assignment
+commits were rebased. Incoming rich-output parsing changes have focused test
+coverage and are not fixes for these E2E races. This follow-up changes tests
+and this plan only. Durable requirements/design and public behavior need no
+additional update. Existing MCP screenshots remain valid because the rendered
+feature source did not change. Normal hook receipts and exact-head CI/review
+results are recorded with publication. No merge is authorized.

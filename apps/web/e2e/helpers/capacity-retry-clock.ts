@@ -25,20 +25,28 @@ export async function driveCapacityRetries(
   count: number,
 ) {
   for (let attempt = 1; attempt <= count; attempt++) {
-    const notice = await pollUntil(
-      async () => {
-        const { messages } = await apiClient.listSessionMessages(sessionId);
-        return messages.find(
-          (message) =>
-            message.metadata?.retrying === true &&
-            message.metadata.recovery_phase === "waiting" &&
-            message.metadata.attempt === attempt,
-        );
-      },
-      (value) => value !== undefined,
-      30_000,
-      `waiting for capacity retry ${attempt}`,
-    );
+    const notice = await waitForCapacityRetry(apiClient, sessionId, attempt);
     await advanceCapacityRetries(backend, Number(notice!.metadata!.retry_in_seconds));
   }
+}
+
+export async function waitForCapacityRetry(
+  apiClient: ApiClient,
+  sessionId: string,
+  attempt: number,
+) {
+  return pollUntil(
+    async () => {
+      const { messages } = await apiClient.listSessionMessages(sessionId);
+      return messages.find(
+        (message) =>
+          message.metadata?.retrying === true &&
+          message.metadata.recovery_phase === "waiting" &&
+          message.metadata.attempt === attempt,
+      );
+    },
+    (value) => value !== undefined,
+    30_000,
+    `waiting for capacity retry ${attempt}`,
+  );
 }
