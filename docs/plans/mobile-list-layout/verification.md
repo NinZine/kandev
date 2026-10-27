@@ -136,6 +136,23 @@ Focused regressions ran on 2026-10-27 after the review fixes:
   repetitions and the complete session-tab-restart spec passed all 5 tests.
   These local replays do not clear the failed CI result; a fresh PR run must
   verify the pushed fix.
+- PR head `064b4593af59fa4b002d8b545990b954cafdd847` run
+  `40464156388` ended with 85 checks passed, 11 skipped, and six failed checks
+  (five E2E shard leaves plus the aggregate). The five test cases failed only
+  on their first attempt and passed on retry; the workflow marks retry-only
+  flakes as failures. Exact zero-retry replays of shards 2, 15, 17, 18, and 21
+  on the same merge tree passed each of those five original cases. Shards 17,
+  18, and 21 passed; shards 2 and 15 each exposed a different single test
+  failure during replay.
+- The two replay-only failures were the archive-link retry case in
+  `mobile-task-list-filters.spec.ts` and the session-name assertion in
+  `mobile-session-menu-gesture.spec.ts`. In fresh 2-CPU/4-GiB containers, the
+  archive-link retry case passed five focused repetitions and the complete
+  mobile List filters spec passed twice; the session-menu spec passed three
+  repetitions. The original five CI-failing cases each passed two focused
+  repetitions in fresh 2-CPU/4-GiB containers. These replays did not change the
+  GitHub check result. A fresh PR run is still required to clear the failed
+  E2E check.
 
 These browser tests do not replace the UI-01 through UI-09 screenshot review or
 real-device proof. The Default workspace-label blur remains pending on actual
