@@ -245,3 +245,15 @@ for its route refresh response, and the turn-changes geometry test reloads
 after backend finalization and waits for the page history response. Each test
 passed three targeted runs with retries disabled. A fresh PR run is required;
 the real-iPhone Safari/PWA Default-label gate remains pending.
+
+PR run `40480462861` on head `4ba96f070ec2ae2d5a297798752ae7f28ebb182b`
+reached the 45-minute wait deadline with three E2E shard leaves failed and the
+backend and aggregate checks pending. The failed scenarios were mobile Stats
+recovery, mobile terminal shell setup, and active-task storage maintenance.
+Their fixtures now wait for an explicit Retry action or use an available
+`mock-agent` / `mock-fast` profile. All three affected scenarios passed twice
+in targeted managed E2E runs with retries disabled, as did both terminal shell
+scroll cases. The PR branch merged current `main` locally and
+needs a fresh GitHub run after the fixup commit is pushed. Keep this work order
+in progress until that CI run and the real-iPhone Safari/PWA blur evidence are
+complete.

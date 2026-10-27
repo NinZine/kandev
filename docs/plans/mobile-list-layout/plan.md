@@ -504,6 +504,16 @@ response that supplies their asserted state; each passed three targeted local
 runs with retries disabled. The next PR run must verify these synchronization
 fixes. The real-iPhone Safari/PWA gate remains pending.
 
+PR run `40480462861` reached the 45-minute wait deadline with 86 checks passed,
+11 skipped, three E2E shard leaves failed, and backend plus E2E aggregate checks
+pending. The mobile Stats retry route now stays failed until explicit recovery;
+the terminal and storage test fixtures now use an available `mock-agent` /
+`mock-fast` profile. Each affected scenario passed twice in focused managed
+runs with retries disabled; both terminal shell scroll cases passed in those
+repetitions. Current `main` was merged locally to resolve two locale
+conflicts. A fresh PR run after pushing the merge and fixes is required. The
+actual iPhone Safari and installed-PWA Default-label blur check remains pending.
+
 ## Package reference preflight
 
 Run from the repository root. The existing validator receives a representative

@@ -183,6 +183,21 @@ Focused regressions ran on 2026-10-27 after the review fixes:
   more repetitions each in fresh managed runs, all with retries disabled. A
   new PR run is required to verify these fixes on GitHub.
 
+- PR head `4ba96f070ec2ae2d5a297798752ae7f28ebb182b` run `40480462861` reached
+  the 45-minute `pr-await` deadline with 86 checks passed, 11 skipped, three
+  E2E shard leaves failed, and the backend plus E2E aggregate still pending.
+  The failures were the mobile Stats recovery route accepting an uncontrolled
+  retry, the terminal shell fixture using an unavailable default agent type,
+  and the active-task storage test timing out with that same default profile.
+  The Stats route now stays failed until Retry is tapped, and both task fixtures
+  create an explicit `mock-agent` / `mock-fast` profile. Each affected scenario
+  passed twice in focused managed E2E runs with retries disabled; both terminal
+  shell scroll cases passed in those same repetitions. The PR branch also
+  merged current `main` locally to resolve the two Traditional Chinese locale
+  conflicts; the merge commit and these fixes require a fresh PR run after push.
+  This run does not clear the CI result. The real-iPhone Safari/PWA Default-label
+  check remains pending.
+
 These browser tests do not replace the UI-01 through UI-09 screenshot review or
 real-device proof. The Default workspace-label blur remains pending on actual
 iPhone Safari and the installed PWA, as recorded below.
