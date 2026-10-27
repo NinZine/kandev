@@ -9,6 +9,32 @@ Final matrix, stress, owner retention and streaming task-time gates remain open.
 The branch is `feature/evaluate-live-thread-bc0`; the frozen baseline is
 `595df36ed5c1cf02fd90cb972b623ad6edc53df8`.
 
+## Message-local selector: unqualified after confirmation
+
+The selector prototype passes 105 related unit tests, strict lint, web types,
+the production build, three desktop checks and two phone checks. A separate
+300-update probe reduces observed turn/model searches from 767,193 to 702.
+These intrusive counts do not establish time savings.
+
+Two full-density alternating pairs pass all four samples and 7,200 ordered
+updates. Streaming script work per second falls 4.55% and 3.18%, while the
+main-thread task-time rate is unchanged overall. These results are preliminary.
+
+The separate six-pair confirmation executes all twelve planned attempts.
+Eleven samples pass and verify 19,800 ordered updates. One candidate attempt
+fails the native return-bottom check. Its observer records a trusted downward
+wheel and one scroll event, but no bottom hit within five seconds. A later
+state snapshot has a 697 px gap. This does not establish the selector as the
+cause. The original summary rejects the full report; no passed-only summary
+is used.
+
+Source, builds, fixture, all twelve backend logs and cleanup pass integrity
+checks. The prototype and its build are preserved, and exact app source plus
+`9e20f26b` assets are restored. Next: diagnose native bottom-return on the control
+before changing scroll policy. Keep stale-gesture and reader-position guards.
+The 20% task-time target and original-baseline matrix remain open. See
+[the complete evidence](evidence/message-selector-unqualified.json).
+
 ## Current message-action input attribution
 
 A fresh quiet-stream profile on the retained `9e20f26b` build passes both arms
@@ -17,8 +43,8 @@ and contain no ARIA inspection stacks. They remain excluded from speed results.
 A separate 300-update input probe observes 717 store publications and 767,193
 turn/model searches, while the selected turn arrays, model snapshots and feature
 inputs remain unchanged. The temporary observer is archived and removed.
-Next: test a message-local selector that invalidates on every relevant input
-change, then compare frozen builds. No speed gain is accepted from these counts.
+The input-cached prototype and its failed confirmation are recorded above.
+No speed gain is accepted from these counts.
 See [the attribution evidence](evidence/message-action-input-attribution.json).
 
 ## Native frame cancellation after rejecting batching

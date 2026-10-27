@@ -7,6 +7,17 @@ builds, fixtures, and probes; they do not automatically verify the final build.
 
 ## Latest build checkpoint
 
+The message-local selector remains unqualified. It passes 105 related unit tests
+and five desktop/phone checks. Two preliminary pairs reduce streaming script
+work per second, but not overall main-thread task-time rate. The separate
+six-pair attempt executes all twelve attempts: eleven pass, one candidate
+return-bottom check fails, and 19,800 ordered updates are verified. The original
+summary rejects the failed report. Source, runtime, fixture, twelve backend logs
+and cleanup remain intact. Exact app source and `9e20f26b` assets are restored;
+the prototype and build are preserved. Next: diagnose native bottom-return on
+the control. No speed acceptance follows. See
+[the complete evidence](evidence/message-selector-unqualified.json).
+
 The complete C4-to-batching confirmation passes all twelve samples and verifies
 21,600 ordered updates. It does not confirm the large preliminary gain.
 Streaming main-thread work is flat; p95 frame gaps are mixed. The store-scoped
@@ -20,8 +31,8 @@ and contain no ARIA inspection stacks. They remain excluded from speed results.
 A separate 300-update input probe observes 717 store publications and 767,193
 turn/model searches, while the selected turn arrays, model snapshots and feature
 inputs remain unchanged. The temporary observer is archived and removed.
-Next: test a message-local selector that invalidates on every relevant input
-change, then compare frozen builds. No speed gain is accepted from these counts.
+The input-cached prototype and its failed confirmation are recorded above.
+No speed gain is accepted from these counts.
 See [the attribution evidence](evidence/message-action-input-attribution.json).
 
 The current `9e20f26b` assets keep per-transcript persistence and add guarded

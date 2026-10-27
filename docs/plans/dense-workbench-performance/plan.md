@@ -43,8 +43,15 @@ and contain no ARIA inspection stacks. They remain excluded from speed results.
 A separate 300-update input probe observes 717 store publications and 767,193
 turn/model searches, while the selected turn arrays, model snapshots and feature
 inputs remain unchanged. The temporary observer is archived and removed.
-Next: test a message-local selector that invalidates on every relevant input
-change, then compare frozen builds. No speed gain is accepted from these counts.
+The prototype passes 105 related unit tests and five desktop/phone checks.
+Two preliminary pairs reduce streaming script work per second, while overall
+main-thread task-time rate is unchanged. The separate six-pair attempt executes
+all twelve attempts: eleven pass and one candidate return-bottom check fails.
+Its 19,800 verified ordered updates and full failure remain preserved. The
+original summary rejects the report. Exact app source and `9e20f26b` assets are
+restored; the prototype and build are preserved. Next: diagnose native
+bottom-return on the control. No speed gain is accepted. See
+[the confirmation evidence](evidence/message-selector-unqualified.json).
 See [the attribution evidence](evidence/message-action-input-attribution.json).
 
 The current `9e20f26b` assets keep per-transcript persistence and add guarded

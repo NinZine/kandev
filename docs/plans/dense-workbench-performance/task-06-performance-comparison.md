@@ -1076,7 +1076,8 @@ See [the correction evidence](evidence/transcript-frame-cancellation.json).
 
 ## Candidate: message-local turn and usage selection
 
-Status: proposed from fresh measured input reuse. Production remains `9e20f26b`.
+Status: unqualified after a failed confirmation attempt. Production remains
+`9e20f26b`; exact app source and assets are restored.
 The quiet profile passes both full-density samples and 3,600 ordered updates.
 The separate input probe passes 300 ordered updates. Its 717 store publications
 trigger 767,193 turn/model searches without changing the selected inputs.
@@ -1094,3 +1095,39 @@ and phone. Test actual store actions as well as independent snapshots. Freeze
 the passing build, repeat the count probe separately, then run unchanged dense
 paired timing. Reject a candidate whose gain does not repeat. See
 [the source and count evidence](evidence/message-action-input-attribution.json).
+
+Prototype validation: assets `40b18668` pass 105 related unit tests across four
+files, strict lint, full web types and production build. The meaningful RED
+first observes 20 extra reads of each unchanged input across 20 unrelated store
+publications; all 14 selector tests then pass. Three desktop and two phone
+checks preserve metadata overflow, timestamps and non-initial-session turn data.
+The separate 300-update count probe falls from 767,193 searches to 702; all ordered
+updates still pass. Root publication counts differ, so this is not a speed result.
+The temporary observer is archived and removed. Two alternating full-density
+pairs against the preserved `9e20f26b` control pass all four samples and 7,200
+ordered updates. Streaming script work per second falls 4.55% and 3.18%, while
+overall main-thread task-time rate is unchanged. These preliminary results do
+not establish a repeatable gain.
+
+The separate six-pair confirmation executes all twelve planned attempts.
+Eleven samples pass and verify 19,800 ordered updates. Candidate pair four
+fails the native return-bottom check: a trusted downward wheel and one scroll
+event are observed, but no bottom hit occurs within the unchanged five-second
+deadline. A later state snapshot is 697 px from the bottom. The source of this
+failure is unresolved. A 250 ms production wheel-intent lifetime is one
+hypothesis; do not treat it as the established cause or remove stale-intent
+protection without a reproduction.
+
+The original summary rejects the complete failed report. Do not filter the
+failed attempt or pool the earlier pairs. Source, both runtimes, fixture,
+twelve backend logs, failure image and cleanup pass integrity checks. Preserve
+the prototype, patch and exact build, then restore the verified app source and
+`9e20f26b` assets before focused diagnosis on the control.
+
+Restoration is complete. Next: reproduce the native bottom-return failure,
+then test the established cause. Preserve reversed-wheel, stale-gesture,
+explicit reader-position, hidden-panel and session-ownership protections.
+Keep native-v2 inputs, deadlines and reference workload unchanged. A retained
+selector still requires complete matched timing. The 20% task-time target and
+original-baseline final matrix remain open. See
+[the complete evidence](evidence/message-selector-unqualified.json).
