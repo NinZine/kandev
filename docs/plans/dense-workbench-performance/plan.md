@@ -28,6 +28,36 @@ legacy_specs: []
 
 # Implementation plan: Dense workbench performance
 
+## Plan editor marks: correctness fix, no speed acceptance
+
+Both plan renderers register Link and Underline through StarterKit and again
+explicitly. Red tests reproduce both duplicate registrations and a real side
+effect: the default Link handler opens a new tab in the editable plan despite
+the explicit `openOnClick: false`. Disable these two StarterKit marks and retain
+the explicitly configured marks. Link/underline Markdown round trips remain
+covered. This changes no markup, class, style, animation or user-facing copy.
+All four CSS files and their three gzip siblings remain byte-identical.
+
+All 66 editor tests, lint, types, production build, 17 desktop and three phone
+plan checks pass. Six balanced 1x pairs on the frozen 1,000-task fixture also
+pass: 576 replacements, 576 insert dispatches and twelve native insert controls.
+The plans contain 20 and 400 steps (3,724 and 75,988 input bytes). Editor plugins
+fall from 104 to 98, Link plugins from six to three, and candidate duplicate
+warnings disappear. These counts do not establish a latency improvement.
+
+Timing is mixed. Dense insertion has a 1.10% median paired reduction, with
+three faster and three slower pairs. Dense replacement has a 2.36% median
+paired increase, with four slower pairs. Short-plan synchronous median results
+also worsen in their median paired comparison. Retain the independent
+correctness fix, with no performance credit. All sixteen rows, operation
+observations, startup bounds and attempts remain preserved. These browser
+engine timings do not measure streaming, construction time, INP or M2 behavior.
+
+The 20% streaming target and original-baseline final matrix remain open.
+Next: inspect forced layout and invalidation evidence in the preserved normal
+production trace before choosing another optimization. See
+[the complete evidence](evidence/plan-editor-extension-registration.json).
+
 ## Animation visibility attribution
 
 The normal-build probe verifies 300 ordered updates and calibrates visible,
