@@ -124,8 +124,18 @@ Focused regressions ran on 2026-10-27 after the review fixes:
   result gets a longer async deadline, and the plugin navigation test only
   toggles its disclosure when that control is present. The Quick Terminal
   drawer-close assertion allows for the mobile drawer transition. All five
-  affected tests passed in focused one-worker reruns; a new full PR run is
-  required to confirm the fix at CI scale.
+  affected tests passed in focused one-worker reruns.
+- Follow-up PR run `40458512805` reported two retry-only E2E flakes in the
+  completed-session-resume and session-tab-restart specs. Both tests passed
+  after the CI retry. Exact zero-retry replays in the CI runtime image passed
+  shard 10 (142 passed, 1 skipped) and shard 11 (145 passed). Each failed test
+  also passed four constrained repetitions at 2 CPUs and 4 GiB of memory. The
+  restart case's initial two-idle-session poll had Playwright's default 5
+  second timeout; it now uses the same bounded 30 second readiness wait as the
+  adjacent restart cases. With retries disabled, the changed test passed four
+  repetitions and the complete session-tab-restart spec passed all 5 tests.
+  These local replays do not clear the failed CI result; a fresh PR run must
+  verify the pushed fix.
 
 These browser tests do not replace the UI-01 through UI-09 screenshot review or
 real-device proof. The Default workspace-label blur remains pending on actual
