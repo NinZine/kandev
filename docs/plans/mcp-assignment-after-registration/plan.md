@@ -795,3 +795,23 @@ the reported phone case and neighbouring MCP selection/recovery scenarios.
 The temporary describe override was restored. This fixture-only correction
 preserves all existing pagination and conversation assertions and requires a
 new exact-head CI result after publication.
+
+### Office session fixture isolation (2026-10-27)
+
+The current CI run left the seeded original session RUNNING after reassignment.
+The unmodified isolated case, full lifecycle file, and original 15-file process
+passed locally. The process replay completed 54 checks under two CPUs, one
+worker and zero retries. Its diagnostic snapshots nevertheless showed a real
+assignment wake creating another session for the old agent after the seeded
+row completed. The test was mixing a synthetic RUNNING row with normal
+executor admission.
+
+The row-lifecycle case now pauses the original agent before task creation and
+the initial assignment, verifies that assignment has created no session, seeds
+the artificial row, and reassigns through the same real PATCH. It preserves
+the exact original-session terminal assertion and restores the agent to idle
+in finally. It does not change Office production termination, capacity guards,
+or runtime behavior. The corrected full lifecycle file passed three
+repetitions (12 checks), including all three reassignment cases, after a fresh
+managed build. Affected ESLint and web typecheck passed. Exact-head CI remains
+pending publication of the collected fixes.
