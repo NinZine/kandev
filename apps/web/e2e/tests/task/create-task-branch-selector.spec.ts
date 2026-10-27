@@ -6,6 +6,7 @@ import { expectWebkitDialogMotion } from "../../helpers/dialog-webkit-metrics";
 import { useRegularMode } from "../../helpers/regular-mode";
 import { KanbanPage } from "../../pages/kanban-page";
 import { makeGitEnv } from "../../helpers/git-helper";
+import { waitForFiniteAnimations } from "../../helpers/animations";
 
 test.use({ trace: "retain-on-failure" });
 
@@ -304,6 +305,7 @@ test.describe("Fresh-branch flow", () => {
       .getByRole("option", { name: new RegExp(`^${escapeRe(repoName)}\\b`, "i") })
       .first()
       .click();
+    await expect(testPage.getByTestId("repo-chip-trigger").first()).toBeFocused();
     await testPage.getByTestId("executor-profile-selector").click();
     await testPage
       .getByRole("option", { name: new RegExp(`^${escapeRe(profileName)}\\b`, "i") })
@@ -592,6 +594,7 @@ test.describe("Fresh-branch flow", () => {
         .getByRole("option", { name: new RegExp(`^${setup.repoName}\\b`, "i") })
         .first()
         .click();
+      await expect(testPage.getByTestId("repo-chip-trigger").first()).toBeFocused();
 
       const executorSelector = testPage.getByTestId("executor-profile-selector");
       await executorSelector.click();
@@ -660,7 +663,10 @@ test.describe("Branch refresh + filter", () => {
     await expect(repoSelector).toBeFocused();
     // Worktree executor → branch selector enabled and refresh button visible.
     await testPage.getByTestId("executor-profile-selector").click();
-    await testPage.getByRole("option", { name: worktreeProfileName }).click();
+    const worktreeOption = testPage.getByRole("option", { name: worktreeProfileName });
+    await expect(worktreeOption).toBeVisible();
+    await waitForFiniteAnimations(worktreeOption);
+    await worktreeOption.click();
     await expect(testPage.getByTestId("executor-profile-selector")).toBeFocused();
 
     const branchSelector = testPage.getByTestId("branch-chip-trigger").first();

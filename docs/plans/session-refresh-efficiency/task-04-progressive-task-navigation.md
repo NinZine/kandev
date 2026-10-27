@@ -197,3 +197,14 @@ A fifth regression confirms unavailable-list recovery still applies a fresh
 empty list and its loaded state. The tests live in
 `lib/ssr/session-page-enrichment-membership.test.ts`; the original SSR test file
 is unchanged. No global hydrator policy, boot contract, or model rule changes.
+
+
+### Main integration, 2026-10-27
+
+The common-result enrichment assembly from main preserves selection and
+membership for already-resolved identities with or without an initial session.
+Previously unavailable identity lists retain their authoritative recovery
+exception, including selection clear on an accepted empty list. The existing
+recovery test fails against unconditional selection omission (stale session-1
+remains selected). The integration preserves that regression and incoming
+selection tests; no global empty-snapshot rejection is introduced.

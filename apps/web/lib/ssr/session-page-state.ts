@@ -440,28 +440,35 @@ export async function fetchTaskNavigationEnrichment(
   const loadAgentList = options.store
     ? () => getAgentListResourceScope(options.store!).ensure()
     : () => listAgents({ cache: "no-store" });
+  let data: FetchedSessionData;
   if (!sessionId) {
-    const result = await fetchTaskDataOnly(task, allSessionsResponse, loadAgentList, options.store);
-    if (!identity.sessionListUnavailable) {
-      // The shell already applied this identity; optional data does not own live selection.
-      delete result.initialState.tasks;
-      delete result.initialState.taskSessions;
-      delete result.initialState.taskSessionsByTask;
-    }
-    return result;
+    data = await fetchTaskDataOnly(task, allSessionsResponse, loadAgentList, options.store);
+  } else {
+    const optionalHydration = beginOptionalHydration();
+    const { fetchTaskSession } = await import("@/lib/api");
+    const activeSessionResponse = optionalHydration.load("active session snapshot", () =>
+      fetchTaskSession(sessionId, { cache: "no-store" }),
+    );
+    data = await fetchSessionDataFromTask(task, sessionId, allSessionsResponse, {
+      activeSessionResponse,
+      optionalHydration,
+      loadAgentList,
+      store: options.store,
+    });
   }
-
-  const optionalHydration = beginOptionalHydration();
-  const { fetchTaskSession } = await import("@/lib/api");
-  const activeSessionResponse = optionalHydration.load("active session snapshot", () =>
-    fetchTaskSession(sessionId, { cache: "no-store" }),
-  );
-  return fetchSessionDataFromTask(task, sessionId, allSessionsResponse, {
-    activeSessionResponse,
-    optionalHydration,
-    loadAgentList,
-    store: options.store,
-  });
+  // Only recovery of an unavailable identity list owns new selection/membership.
+  return {
+    ...data,
+    initialState: {
+      ...data.initialState,
+      tasks: identity.sessionListUnavailable ? data.initialState.tasks : undefined,
+      taskSessions:
+        !sessionId && !identity.sessionListUnavailable ? undefined : data.initialState.taskSessions,
+      taskSessionsByTask: identity.sessionListUnavailable
+        ? data.initialState.taskSessionsByTask
+        : undefined,
+    },
+  };
 }
 
 /**

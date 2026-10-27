@@ -1407,3 +1407,26 @@ cases, release/E2E/walkthrough contracts, action pinning, harness checks and
 tests pass. All nine desktop and four phone browser cases pass with retries disabled.
 The earlier automated walkthrough remains a no-output deadline, separately
 from browser correctness. New-head CI has not run yet.
+
+
+## Main f150 navigation and transcript integration (2026-10-27)
+
+After the normal-hook merge commit 93cf43a61ad4, main f150e6accd66 adds
+transcript segment identity, presentation and upload fixes. Five conflicts
+preserve the isolated offline PR fixture and cleanup, optional executor input,
+actual-click sidebar recovery with held successful reads, turn-change source
+inventory and both navigation ownership contracts. A controlled existing
+regression fails when main's unconditional selection omission leaves a stale
+session selected after authoritative empty recovery. Conditional recovery
+preserves that exception and all incoming selection-preservation tests.
+
+Current checks pass rebuilt web/backend/helper/delivery/plugin artifacts,
+41 enrichment/presentation tests,17 subscription tests, full typecheck,
+zero-warning scoped lint and targeted SQLite canonical-delivery, lifecycle
+notification and exact-upload race tests. No new capture, subscription or
+runtime semantics are introduced by conflict resolution. Independent review
+finds no remaining actionable merge issue. All four rebuilt desktop cases pass: retained first-turn history, three isolated
+PR layouts, non-auto-start admission and keep-both upload. Both phone cases
+pass: historical diff and held sidebar recovery. Retries are disabled.
+Documentation coverage passes528 changed paths,34 work orders,110 documents.
+Docs validate409 decisions and1,762 specifications; size limits are preserved.
