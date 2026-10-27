@@ -1197,3 +1197,45 @@ historical evidence. The new Claude request completed eight turns with three
 permission denials and no buffered inline comments or posted report. It is
 incomplete review coverage, not a clear current-head review. The earlier partial
 backend report and its fixed collation concern remain recorded separately.
+
+### Landed notification contract reconciliation (2026-10-27)
+
+During final fixture verification, main advanced to 9a6a14314 through merged
+PR #4863. It independently lands versioned application-update localization and
+explicitly retains provider copy for legacy events without a version. This
+landed contract supersedes the unconditional application-notice translation in
+the preceding correction. Main also adds deleted-session read cancellation.
+
+Backed up local fixture tip dc470fc33 at
+`backup/clarify-mcp-before-localized-notice-main-20261027` and merged current
+main into the assignment branch. Resolved the hook with main's version-aware
+behavior, retained its pseudo/native and versionless regressions, and kept the
+distinct Portuguese full-payload regression. Removed the duplicated local
+pseudo case. Main's deterministic pseudo-locale WebSocket case and initial
+locale-cookie setup are retained. The landed notification design owns the
+contract; removed the duplicate note from the general i18n design and linked
+that authority from the engineering guide. Own assignment/CAS behavior and
+initial-cookie desktop/phone fixture correction are preserved.
+
+Affected verification passed: 236 frontend cases, a final 58-case notification
+rerun after separating the Portuguese test group, full typecheck with CI's
+8192 MB heap, the backend handler package under the race detector, affected
+ESLint, i18n, documentation catalog and full specification lint. All 28 staged
+incoming Go files are gofmt clean. Only the two tested Git-handler files differ
+from the previously PostgreSQL-validated backend tree.
+
+The first fresh-build desktop batch passed 33 cases and found one selector
+collision in main's new pseudo-notification test: both the injected and real
+release shared a title. Preserved the failure under
+`/tmp/pr4760-main-pseudo-selector-red`. Scope that test to the injected version,
+assert exactly one toast, and separately assert the localized title and body.
+The corrected desktop batch passed all 34 cases, including all 23 pseudo
+cases, eight assignment journeys, the Portuguese notice and both deleted-task
+cases. The phone batch passed nine cases, including all eight assignment
+journeys. All browser runs used one worker and zero retries.
+
+The older published notification head completed CI with 86 passed, 15 skipped,
+zero neutral, failed or pending checks; its all-terminal helper exit 1 records
+the main-branch merge conflict, not a test failure. That result remains
+historical. Normal merge hooks, immutable publication and fresh exact-head
+CI/review remain pending for the reconciliation.
