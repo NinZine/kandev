@@ -238,3 +238,10 @@ now covered by a longer, explicitly running pause fixture, a retried Monaco
 hover action, and subpixel-tolerant 44px geometry checks. Each scenario passed
 three times locally with Playwright retries disabled. The fresh PR run remains
 required. This does not clear the actual iPhone Safari/PWA Default-label gate.
+
+PR run `40476223800` on head `a43fd70cd4c16767d3b6765a518c32babbeee13d`
+reported two E2E failures that passed on retry. The workflow import now waits
+for its route refresh response, and the turn-changes geometry test reloads
+after backend finalization and waits for the page history response. Each test
+passed three targeted runs with retries disabled. A fresh PR run is required;
+the real-iPhone Safari/PWA Default-label gate remains pending.

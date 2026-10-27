@@ -498,6 +498,12 @@ shared LSP, pause/resume, and mobile workflow-target tests. Their focused fixes
 passed three local repetitions each with retries disabled. A fresh PR run must
 validate the pushed fixes; the device acceptance gate remains pending.
 
+PR run `40476223800` then reported first-attempt failures in workflow import
+refresh and turn-change history rendering. Both tests now wait for the page
+response that supplies their asserted state; each passed three targeted local
+runs with retries disabled. The next PR run must verify these synchronization
+fixes. The real-iPhone Safari/PWA gate remains pending.
+
 ## Package reference preflight
 
 Run from the repository root. The existing validator receives a representative

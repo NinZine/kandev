@@ -172,6 +172,16 @@ Focused regressions ran on 2026-10-27 after the review fixes:
     build:vite` passed. The managed E2E run also rebuilt the backend and
     `build:e2e` assets. Documentation validation and `git diff --check` passed.
   A fresh PR run is required to validate these fixes on GitHub.
+- PR head `a43fd70cd4c16767d3b6765a518c32babbeee13d` run `40476223800` ended
+  with 88 checks passed, 11 skipped, and three failed checks (two E2E shard
+  leaves plus the aggregate). The workflow-import test's five-second card poll
+  could expire before the route refresh returned; it now waits for that refresh
+  response before checking the card. The turn-changes test observed finalized
+  backend history while the page still held its earlier history snapshot; it
+  now reloads after finalization and waits for the page history response before
+  measuring the card. Both tests passed one targeted no-retry run and then two
+  more repetitions each in fresh managed runs, all with retries disabled. A
+  new PR run is required to verify these fixes on GitHub.
 
 These browser tests do not replace the UI-01 through UI-09 screenshot review or
 real-device proof. The Default workspace-label blur remains pending on actual
