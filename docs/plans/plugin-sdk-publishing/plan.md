@@ -1273,3 +1273,38 @@ Normal rename and save-refresh scenarios pass three repetitions: six cases,
 retries disabled. Formatting, zero-warning scoped lint, full typecheck, and
 documentation/specification checks pass. Independent review finds no actionable
 issue. Normal hooks, delivery, and fresh CI remain required.
+
+## Three browser-fixture follow-ups (2026-10-27)
+
+The Save-correction head's terminal CI snapshot has 88 passing checks, three
+failed browser shards and their aggregate, plus an automated walkthrough
+generator deadline. All 118 blob reports were audited: 4,323 attempts,
+4,280 passed, 40 skipped, three failed, two retries, zero parse errors.
+Reports share CI merge 55cb2cb715a1 and event base d549fa694b7d.
+
+- Phone Tasks entry now observes its exact opening animation before the
+  single filter-gear tap. Five unchanged repetitions and three slowed
+  opening probes passed. CI captured parent motion, but the historical
+  event-delivery cause remains unresolved. This is fixture readiness hardening.
+- Phone survivor validation holds a real mock turn through reattachment
+  assertions. The failed trace proves the previous 12-second turn completed
+  normally before the running assertion. Explicit release preserves the
+  completion, idle and follow-up checks without a larger timeout.
+- Canvas reuses the existing 0.01-pixel touch-target precision helper after
+  finite owned animations. The reported value was 43.99993896484375 pixels;
+  production styles and the 44-pixel requirement remain unchanged.
+
+The owning work orders record evidence and limits. The automated walkthrough
+generator returned no response in either bounded 600-second attempt. No
+provider, privacy, protected setting, timeout or skip change was made. Native
+proposal walkthrough and SDK publication prerequisites remain intact.
+Focused checks and current-head CI remain required. NOTIFICATION_GUIDE.md
+stays untracked. No SDK or external plugin publication was performed.
+
+Three Canvas cases and three phone filter cases passed. The first gated
+survivor run exposed an exact-text locator that failed when streamed chunks
+combined. Assistant-scoped substring matching retains genuine completion
+proof without matching the user script. All three corrected survivor cases
+then passed. All runs disable retries. Full typecheck, scoped zero-warning
+lint, docs catalog, spec lint and trusted local coverage pass (31 work orders,
+99 linked documents). Normal hooks and main-conflict resolution follow.
