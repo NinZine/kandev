@@ -881,15 +881,18 @@ test.describe("i18n pseudo-locale coverage", () => {
     if (!screen) throw new Error("The appearance screen is missing");
     await activatePseudo(testPage, backend.frontendUrl, screen.url);
     await waitForScreen(testPage, screen);
-    await runtime.emit("system.update_available", {
-      version: "v1.2.3",
-      occurrence_id: "pseudo-update-v1.2.3",
-      title: "Kandev update available",
-      body: "Kandev v1.2.3 is available. Open Settings > System > Updates to review it.",
-    });
+    for (const version of ["v0.98.0", "v1.2.3"]) {
+      await runtime.emit("system.update_available", {
+        version,
+        occurrence_id: `pseudo-update-${version}`,
+        title: "Kandev update available",
+        body: `Kandev ${version} is available. Open Settings > System > Updates to review it.`,
+      });
+    }
     const toast = testPage
       .getByTestId("toast-message")
-      .filter({ hasText: "Ķàńďēv ũƥďàţē àvàĩĺàƀĺē" });
+      .filter({ hasText: "Ķàńďēv ũƥďàţē àvàĩĺàƀĺē" })
+      .filter({ hasText: "v1.2.3" });
     await expect(toast).toContainText("Ķàńďēv v1.2.3 ĩś àvàĩĺàƀĺē");
   });
 

@@ -1516,3 +1516,32 @@ The owning legacy work order and plan now declare their requirement, acceptance
 and design links in the current format. Direct documentation coverage passes
 535 changed paths, 35 work orders and 115 linked documents without changing
 the validator.
+
+### Reconcile the landed localization and accessibility fixes
+
+Head 3ee4e17e6ac1 finished exact-head CI with 93 passed checks, no failures
+and no pending checks. The waiter returned exit 1 only because main advanced
+to 04c4d5d02291 and introduced a release-toast conflict. Main now owns the
+same versioned localization correction plus an explicit unversioned legacy
+fallback, deleted-session read cleanup and executor-card keyboard access.
+
+The new rebase preserves merge topology and the upstream compatibility guard.
+Its pre-consolidation tree exactly matches the precomputed combination
+e24d489285fa. The redundant native-only locale test is covered by the retained
+browser/native delivery-time matrix; main's legacy fallback test and controlled
+WebSocket pseudo-locale case remain. Localization authority is consolidated
+into the landed requirement/design/work order, removing the temporary parallel
+amendments while preserving the chosen @kdlbs SDK namespace. Focused rebase
+validation and normal checkpoint hooks precede the next leased push.
+
+Rebase validation passed 126 frontend tests across ten files, backend
+session/Git race checks, all 29 freshly rebuilt desktop browser cases and
+both phone cases, with retries disabled. Typecheck, scoped lint, localization
+and docs/spec validation passed (410 decisions and 1,767 specifications).
+Direct documentation coverage passed 532 changed paths, 35 work orders and
+114 linked documents. A two-release WebSocket control reproduced an ambiguous
+title-only toast locator; version scoping passes while retaining localized
+title/body assertions. Standard release producers include the version, and
+main's unversioned legacy fallback remains intact. SDK and protected release
+files are unchanged from the prior 93-check green head. The next commit and
+leased push still require fresh exact-head CI; prior results are historical.

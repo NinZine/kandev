@@ -8,14 +8,7 @@ depends_on:
   - "02-update-replay-and-wiring"
   - "03-native-permission-bridge"
 plan: "plan.md"
-requirements:
-  - REQ-PLATFORM-NOTIFICATIONS-001
-  - REQ-PLATFORM-I18N-001
-acceptance_criteria:
-  - AC-PLATFORM-NOTIFICATIONS-001.5
-  - AC-PLATFORM-I18N-001.1
-system_design:
-  - ../../specs/platform/system-design/i18n.md
+spec: "../../specs/platform/requirements/notifications.md"
 ---
 
 # Task 04: Use Provider Settings and Preserve the In-App Update Indication
@@ -27,10 +20,6 @@ system_design:
 - A delivered Local update occurrence always shows an in-app toast and attempts
   native/browser delivery only without prompting; denied, unsupported, and
   command-failure paths retain the toast.
-- Local Kandev release copy uses the active application catalog even when the
-  backend supplies English title/body values. The same localized strings reach
-  the toast and selected native/browser transport; version and occurrence ID
-  remain unchanged (`AC-PLATFORM-NOTIFICATIONS-001.5`, `AC-PLATFORM-I18N-001.1`).
 - The Notifications permission control uses the native permission bridge in
   Tauri and the Web Notification API elsewhere, exposing denied/unsupported
   state in the existing UI.
@@ -92,27 +81,3 @@ pnpm run typecheck
 
 Report deleted orphan surfaces, event registration, fallback behavior,
 permission UI behavior, tests/typecheck, risk tags, and task status update.
-
-## CI localization correction
-
-PR #4534 head b5e5644407f6 exhausted all retries on 19 pseudo-locale cases
-because the release toast preferred populated backend English copy. Two new
-hook cases reproduce this after a delivery-time locale switch, through both
-browser and native paths. Reuse the existing catalog keys; add no translations,
-backend payload changes, notification policy or test allowlist.
-
-Mobile exemplar and rendered check: the update toast in
-`e2e/tests/chat/mobile-clarification.spec.ts`, in the `Auto-run ON` case. Its
-existing notification/composer containment assertions remain unchanged. Run it
-after the shared copy correction, together with the full pseudo-coverage spec.
-The hook cases separately prove translated content for both delivery transports.
-Public documentation impact is one clarification of Local alert language in
-the operations guide.
-
-Verification: both new hook cases fail on the original English payload
-precedence. After the two-line correction, 57 hook/bridge/notification tests,
-all 22 rebuilt pseudo-locale browser cases and the phone `Auto-run ON` case
-pass. Browser retries are disabled. Full typecheck (6 GiB Node heap), scoped
-zero-warning lint, localization checks and docs/spec validation pass. The
-existing pseudo-locale assertions, notification policy and phone geometry
-assertions are unchanged.
