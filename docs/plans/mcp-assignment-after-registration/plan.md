@@ -961,3 +961,37 @@ restored immediately afterward; no retry-policy change is committed.
 Affected ESLint, web typecheck, documentation catalog, full specification
 lint and whitespace checks passed. All temporary focus probes were restored.
 Fresh exact-head CI and bot review remain external delivery gates.
+
+### Sidebar geometry precision (2026-10-27)
+
+CodeRabbit completed its review of published head
+7440148ef0345a6324cb74a6879ab7491505e2e4 with no actionable comments and
+minimal reported merge risk. The current-head snapshot had no unresolved or
+hidden review threads. Its docstring-analysis and optional description notes
+are informational; they do not establish complete coverage. The separately
+requested Claude run ended with two permission denials and no review report,
+so workflow success is not counted as a completed review.
+
+A later failed shard at that head reported the coarse-pointer sidebar action
+height as 43.9999 CSS pixels after four-decimal rounding, against a 44-pixel
+minimum. The existing fixture already accounts for drift between transformed
+DOMRect endpoints, but its rounding precision was too fine for that observed
+value. Both height checks now round to three decimal places. Width, locale,
+breakpoint, containment, navigation and action assertions remain unchanged.
+The spec retains its first failed attempt's trace. No application code, target
+size or retry setting changes.
+
+The first local baseline stopped at a different assertion because the Nix
+host had no Japanese font and rendered missing-glyph boxes. The width check
+was preserved. A task-local Fontconfig file loads Noto Sans CJK from the Nix
+store for these isolated browser processes; it does not change the system
+font configuration or another runtime. The unmodified full spec then passed
+both cases with that prerequisite present. The exact CI height drift was not
+reproduced locally. The corrected desktop/coarse-pointer spec and neighboring
+phone overflow spec passed all three cases with two CPUs, one worker and no
+retries. The original 49-case CI process then passed in full under the same
+CPU, worker, font and retry settings. Affected ESLint, documentation catalog
+and whitespace checks passed. The application's touch control remains 44 CSS
+pixels, and a 43.99-pixel measured height still fails this assertion. Public
+documentation and UI captures require no change. Fresh exact-head CI remains
+pending; the current published run is still collecting its complete result.
