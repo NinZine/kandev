@@ -67,8 +67,12 @@ func normalizedMCPSelectionIDs(ids []string) []string {
 }
 
 func checkMCPSelectionCondition(snapshot mcpconfig.SelectionSnapshot, condition mcpconfig.SelectionCondition) error {
-	if condition.ExpectedDefinitionIDs != nil && !slices.Equal(snapshot.DefinitionIDs, normalizedMCPSelectionIDs(*condition.ExpectedDefinitionIDs)) {
-		return mcpconfig.ErrMCPSelectionConflict
+	if condition.ExpectedDefinitionIDs != nil {
+		savedIDs := slices.Clone(snapshot.DefinitionIDs)
+		slices.Sort(savedIDs)
+		if !slices.Equal(savedIDs, normalizedMCPSelectionIDs(*condition.ExpectedDefinitionIDs)) {
+			return mcpconfig.ErrMCPSelectionConflict
+		}
 	}
 	revision := int64(0)
 	if snapshot.State != nil {

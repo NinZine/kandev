@@ -1115,3 +1115,33 @@ phone Stats recovery cases then passed with two CPUs, one worker and zero
 retries. This is a test-only correction with no public documentation or UI
 capture impact. It will be published with the collected CI fix batch; current
 ac7f350ed CI remains in progress, and the remote thread is not yet resolved.
+
+### Membership ordering review correction (2026-10-27)
+
+Claude posted a partial backend review at issue comment 6450588132. Its run
+40559059721 used trusted main dad660099 and completed with one permission
+denial; a posted report exists despite the lack of buffered inline comments.
+It reviewed only the backend selection path and explicitly did not cover the
+frontend or tests. It found no blockers but raised a low-confidence database
+collation concern. This supersedes the earlier outstanding-request note; it
+is not counted as a full current-head review.
+
+The concern is valid. checkMCPSelectionCondition compared Go-sorted client IDs
+against the database-ordered snapshot. Both a focused unit regression and an
+isolated PostgreSQL 17 numeric-ICU regression failed before the correction.
+The PostgreSQL case uses ordinary UUIDs, confirms the database returns a
+different order, and reproduces a false conflict for unchanged membership.
+The existing design already requires normalized set comparison rather than
+order comparison; no new API or product policy is introduced.
+
+The comparator now sorts a clone of the saved IDs before checking membership.
+It preserves the original snapshot and rejects missing or different members.
+No SQL query, schema, lock, revision, notification or legacy-omission behavior
+changes. The system design and WO01 now state the collation invariant. The
+focused race regressions pass, including real PostgreSQL without an ICU skip.
+The broader MCP/Selection/Effective/Usage/ImportStatus race command passed in
+mcpconfig, settings store, settings handlers and backend app composition with
+PostgreSQL enabled. SQL guard passed, and the race-enabled persistence
+conformance suite passed with PostgreSQL enabled. Normal hooks and immutable
+publication remain in progress. Public docs and UI captures have no impact
+because the existing membership contract and rendered UI are unchanged.

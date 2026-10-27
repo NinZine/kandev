@@ -224,8 +224,10 @@ legacy caller behavior; null or malformed values are rejected. Updated web
 editors always send the field for profile/workspace, repository and task scopes.
 This common-hook change does not add task assignment UI.
 
-Compare normalized sets, not order. The condition concerns direct membership,
-not inherited membership, definition revisions, health, or runtime status.
+Compare normalized sets, not order. Sort copies of the saved and expected IDs
+in Go. Database collation must not affect admission or mutate the returned
+snapshot's order. The condition concerns direct membership, not inherited
+membership, definition revisions, health, or runtime status.
 An A-to-B-to-A membership change is equivalent to A for this operation. A
 definition revision remains a separate catalog concern. No new revision table
 or migration is required for this membership condition.

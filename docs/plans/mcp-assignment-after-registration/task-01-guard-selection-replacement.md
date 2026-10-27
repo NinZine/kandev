@@ -244,3 +244,16 @@ backend race in `/tmp/pr4760-review-backend-green.log`; browser runs used manage
 host mode, one shard and sequential projects (`/tmp/kandev-run.e2e.YETxqUNT.log`,
 `/tmp/kandev-run.e2e.RhOn7ji6.log`). Authoritative base for this remediation is
 main `b4e9cf5ede3545ca6a8e58165e580ad7c4988afa`.
+
+### Review correction: database collation (2026-10-27)
+
+The existing set-comparison contract also applies when PostgreSQL returns IDs
+in non-bytewise collation order. A partial Claude backend review identified
+this concern. The regression reproduces a false conflict with normal UUIDs
+under PostgreSQL 17 numeric ICU collation. Comparison now sorts a copy of the
+saved IDs in Go, preserving the saved response order. Expected membership,
+owner locking, session revisions, conflict/no-notify and legacy omission
+semantics are unchanged. Unit coverage checks permutation equivalence, stale
+membership rejection and input immutability; an isolated real-PostgreSQL test
+checks numeric collation and rejected-write preservation. Focused RED/GREEN
+passed; broader race validation and delivery are recorded in the plan ledger.
