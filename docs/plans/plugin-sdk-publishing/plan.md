@@ -1243,3 +1243,33 @@ ownership. Earlier repetitions add 27 phone and nine restart passes.
 Normal merge hooks, push, and fresh exact-head CI remain required. The original
 healthy-sibling startup cause is still unresolved, and no release publication
 or external migration was performed. Keep NOTIFICATION_GUIDE.md untracked.
+
+## Final Save observation correction (2026-10-27)
+
+Head `3e4a5a3aff7f` completed with 92 passing checks, one failed browser shard,
+and its failed aggregate. All 118 reports from 34 blob artifacts were audited:
+4,322 attempts, 4,281 passed, 40 skipped, one failed attempt/retry, zero parse
+errors. All reports use the same CI merge commit `0b4653c83ebb` and event base
+`d549fa694b7d`. No additional failing attempt is hidden by a successful retry.
+
+The only failure is the desktop open-editor rename test added on main. It
+acknowledges rename and verifies the destination, then reads disk immediately
+after the final Save click without waiting for that Save's result. ENOENT
+aborts its polling callback immediately. The failed attempt has no trace; its
+retry trace cannot establish the original write timing. Backend update success
+is returned after Git apply and the updated-file read.
+
+A temporary Git wrapper pauses the real unlink/recreate operation for 500 ms.
+The original test reproduces ENOENT. The corrected test waits for the matching
+renamed-path/session update receipt, requires success, and reads exact bytes.
+Under the same pause, it passes all original disk, editor, tab, and reopen
+assertions. The observation budget remains five seconds. Instrumentation is
+removed and the worker launcher restored. First-failure tracing remains.
+This proves the missing completion boundary, not the exact historical syscall
+sequence. Normal repeated checks and fresh CI follow. No SDK or production
+behavior changes. The owning editor-continuity work order records the proof.
+
+Normal rename and save-refresh scenarios pass three repetitions: six cases,
+retries disabled. Formatting, zero-warning scoped lint, full typecheck, and
+documentation/specification checks pass. Independent review finds no actionable
+issue. Normal hooks, delivery, and fresh CI remain required.
