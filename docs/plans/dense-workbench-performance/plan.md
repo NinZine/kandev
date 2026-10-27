@@ -28,6 +28,38 @@ legacy_specs: []
 
 # Implementation plan: Dense workbench performance
 
+## Forced layout attribution and task-busy limits
+
+The first diagnostic adds stack and invalidation detail. Both ten-second dense
+captures fill their buffers, fail the data-loss guard and remain preserved.
+They do not qualify for cost or speed conclusions. A second probe keeps native
+layout call stacks and observes three seconds within each ten-second stream.
+Positive and negative calibration pass. Both cases pass without data loss and
+verify 600 ordered updates after the observation windows. Exact source, assets,
+helpers, fixture, attachments, logs and cleanup are audited.
+
+With no selection, the `selection.rangeCount` check triggers 76 observed style
+records and 72 layout records. The saved-scroll read triggers 36 style and 31
+layout records. With a focused composer, the selection check disappears from
+forced layout call sites, and all 47 layout records have no JavaScript stack.
+This shift does not prove that removing a getter removes the underlying work.
+The source maps match all 1,253 runtime assets exactly. Two maps and five source
+contents used for call-site lookup are verified. No new production change follows.
+
+A separate audit uses all twelve normal-streaming windows in the existing
+rejected shared-scroll comparison. Renderer task duration occupies 98.06% to
+98.68% of elapsed time. This fixed-window cap can hide smaller work reductions
+while the renderer stays busy. It does not establish that a rejected candidate
+is faster or replace the independent latency and correctness controls. The
+recorded comparison uses `9e20` and `59e1`, not the current `b7c3` build.
+
+No native input policy, app source or benchmark deadline changes are retained.
+The temporary probes are removed. The 20% streaming target and original-baseline
+final matrix remain open. Next: identify the browser or desktop app used on the
+M2 Air before choosing a browser-specific candidate. The connected frontend
+bundle has no client browser identity. See
+[the complete evidence](evidence/forced-layout-callsite-attribution.json).
+
 ## Plan editor marks: correctness fix, no speed acceptance
 
 Both plan renderers register Link and Underline through StarterKit and again

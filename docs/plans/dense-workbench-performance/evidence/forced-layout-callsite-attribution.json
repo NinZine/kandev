@@ -1,0 +1,2599 @@
+{
+  "recordedAt": "2026-10-27T17:11:44.556595+00:00",
+  "status": "Attribution complete. No new production candidate or speed acceptance.",
+  "sourceRevision": "c5ed714af358d94b864852b86314e2a4de2a6473",
+  "assetsSha256": "b7c3fa9b16366da506d501e612df926f3cf3b73b1021401a4fa4fd49b673ebe4",
+  "diagnosticsRoot": ".kandev/diagnostics/dense-workbench-performance",
+  "failedCapture": {
+    "receipt": {
+      "recordedAt": "2026-10-27T17:02:28.638104+00:00",
+      "status": "failed",
+      "mainHandle": 30769,
+      "mainExitCode": 1,
+      "report": "forced-layout-attribution-1793120342114.json",
+      "reportSha256": "d0397c2fd56c244d1760ac80504c20f3e189f97a48064a3a14fb39c244bc94cb",
+      "sourceRevision": "c5ed714af358d94b864852b86314e2a4de2a6473",
+      "assetsSha256": "b7c3fa9b16366da506d501e612df926f3cf3b73b1021401a4fa4fd49b673ebe4",
+      "harnessFilesVerified": 1957,
+      "testedSourceFilesVerified": 11,
+      "untrackedFilesVerified": 1,
+      "sourcePatchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceReportAndSnapshotUnchanged": true,
+      "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+      "playwrightAttachmentByteMatches": true,
+      "resultAndLogArchivesByteVerified": true,
+      "newWorkerRoots": ["/tmp/kandev-e2e-0-Q1JgCj"],
+      "newWorkerRootsRemoved": true,
+      "savedFixturePreserved": true,
+      "remainingOwnedProcesses": [],
+      "temporarySourceRemoved": true,
+      "allCasesPassed": false,
+      "verifiedOrderedUpdates": 0,
+      "caseStatuses": [
+        {
+          "mode": "no-selection",
+          "status": "failed",
+          "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m",
+          "finishError": null,
+          "closeError": null
+        },
+        {
+          "mode": "focused-composer",
+          "status": "failed",
+          "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m",
+          "finishError": null,
+          "closeError": null
+        }
+      ],
+      "traceCompletions": [
+        {
+          "path": "forced-layout-attribution-1793120342114.calibration.negative.trace-complete.json",
+          "dataLossOccurred": false,
+          "stream": "2",
+          "traceFormat": "json",
+          "streamCompression": "none"
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.calibration.positive.trace-complete.json",
+          "dataLossOccurred": false,
+          "stream": "1",
+          "traceFormat": "json",
+          "streamCompression": "none"
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.focused-composer.trace-complete.json",
+          "dataLossOccurred": true,
+          "stream": "4",
+          "traceFormat": "json",
+          "streamCompression": "none"
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.no-selection.trace-complete.json",
+          "dataLossOccurred": true,
+          "stream": "3",
+          "traceFormat": "json",
+          "streamCompression": "none"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "forced-layout-attribution-1793120342114.calibration.negative.categories.json",
+          "sha256": "690f72a61f2665ec0c8289d6f32c1bb6e37f1bd4ecb759596b068e941d659fde",
+          "bytes": 8367
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.calibration.negative.cpuprofile",
+          "sha256": "991b185a9b7cfc424acef39458731c0408448e6766e0680fe4c545f986eda281",
+          "bytes": 8225
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.calibration.negative.trace-complete.json",
+          "sha256": "8cab476cf4ce466754c59bd8ab79786cdf56a50a1b8eea0935d12d322f062d80",
+          "bytes": 104
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.calibration.negative.trace.json",
+          "sha256": "3ef16eabf7cbca01c39c513e1d0d7c15e9dcd42ac63aac72caa4ae34565c080e",
+          "bytes": 417866
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.calibration.positive.categories.json",
+          "sha256": "690f72a61f2665ec0c8289d6f32c1bb6e37f1bd4ecb759596b068e941d659fde",
+          "bytes": 8367
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.calibration.positive.cpuprofile",
+          "sha256": "6cd8a00de65b89fc044b80b3bcddfb512b98864a93a21ff6856c545929c814e8",
+          "bytes": 10912
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.calibration.positive.trace-complete.json",
+          "sha256": "6c8a83ffee02012f5efe2c9947cfae4ac3dcc23ee07f03d17dd341596a760b85",
+          "bytes": 104
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.calibration.positive.trace.json",
+          "sha256": "e9760a76646a4c397e71d9a1d0d29e32d3ffedf73418796e464257cd195af249",
+          "bytes": 381158
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.focused-composer.backend.log",
+          "sha256": "9e4b56b204d682e58d58d02e8503f183fbcc718f59f72711eee801eb5cbb05b0",
+          "bytes": 34536
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.focused-composer.categories.json",
+          "sha256": "690f72a61f2665ec0c8289d6f32c1bb6e37f1bd4ecb759596b068e941d659fde",
+          "bytes": 8367
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.focused-composer.cpuprofile",
+          "sha256": "7e6e7e7e2140eed053c9bef2cd70859a5906a431931c1ebc6352b038c74822f9",
+          "bytes": 1987820
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.focused-composer.trace-complete.json",
+          "sha256": "f9ce79827656c02890eac2abfc00bd8638dcb884718e55d0872c73533340c83f",
+          "bytes": 103
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.focused-composer.trace.json",
+          "sha256": "c8f86f0285e46d0d30555f93e8f31224d9296511c0057e83745940a34802bc35",
+          "bytes": 280603794
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.json",
+          "sha256": "d0397c2fd56c244d1760ac80504c20f3e189f97a48064a3a14fb39c244bc94cb",
+          "bytes": 188471
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.no-selection.backend.log",
+          "sha256": "66726ccde351adc7d0ef6d8e428a37614b10bf1f3af2a292eee3f1727028536c",
+          "bytes": 18113
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.no-selection.categories.json",
+          "sha256": "690f72a61f2665ec0c8289d6f32c1bb6e37f1bd4ecb759596b068e941d659fde",
+          "bytes": 8367
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.no-selection.cpuprofile",
+          "sha256": "abf5b5c9ef16433bdc3d33cff297fb4654017337c6bac0d5303e6cc8bd12041f",
+          "bytes": 2176854
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.no-selection.trace-complete.json",
+          "sha256": "432a58a0caf003445e65713a9a7438d107701ccc3fd3463b666ccbb3503e4216",
+          "bytes": 103
+        },
+        {
+          "path": "forced-layout-attribution-1793120342114.no-selection.trace.json",
+          "sha256": "c86d4dedec1bcd86375eae40e382075c77e6fee22682b697e666d7bfbd0f2f36",
+          "bytes": 279138587
+        }
+      ]
+    },
+    "archiveAuditHandle": 30409,
+    "archiveAuditExitCode": 0,
+    "interpretation": "Both ten-second stack-plus-invalidation captures filled their buffers. Their partial data is preserved and excluded. Calibration passed, but neither dense case has verified ordered updates in that failed report."
+  },
+  "successfulCapture": {
+    "receipt": {
+      "recordedAt": "2026-10-27T17:06:39.080492+00:00",
+      "status": "captured",
+      "mainHandle": 29011,
+      "mainExitCode": 0,
+      "report": "forced-layout-attribution-1793120692991.json",
+      "reportSha256": "0ce0620261408f80ec9dbf72b0854b5b919c7743bf0cf1e142fa42c5e821a3ef",
+      "sourceRevision": "c5ed714af358d94b864852b86314e2a4de2a6473",
+      "assetsSha256": "b7c3fa9b16366da506d501e612df926f3cf3b73b1021401a4fa4fd49b673ebe4",
+      "harnessFilesVerified": 1957,
+      "testedSourceFilesVerified": 11,
+      "untrackedFilesVerified": 1,
+      "sourcePatchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceReportAndSnapshotUnchanged": true,
+      "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+      "playwrightAttachmentByteMatches": true,
+      "resultAndLogArchivesByteVerified": true,
+      "newWorkerRoots": ["/tmp/kandev-e2e-0-Fvotwy"],
+      "newWorkerRootsRemoved": true,
+      "savedFixturePreserved": true,
+      "remainingOwnedProcesses": [],
+      "temporarySourceRemoved": true,
+      "allCasesPassed": true,
+      "verifiedOrderedUpdates": 600,
+      "caseStatuses": [
+        {
+          "mode": "no-selection",
+          "status": "passed",
+          "error": null,
+          "finishError": null,
+          "closeError": null
+        },
+        {
+          "mode": "focused-composer",
+          "status": "passed",
+          "error": null,
+          "finishError": null,
+          "closeError": null
+        }
+      ],
+      "traceCompletions": [
+        {
+          "path": "forced-layout-attribution-1793120692991.calibration.negative.trace-complete.json",
+          "dataLossOccurred": false,
+          "stream": "2",
+          "traceFormat": "json",
+          "streamCompression": "none"
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.calibration.positive.trace-complete.json",
+          "dataLossOccurred": false,
+          "stream": "1",
+          "traceFormat": "json",
+          "streamCompression": "none"
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.focused-composer.trace-complete.json",
+          "dataLossOccurred": false,
+          "stream": "4",
+          "traceFormat": "json",
+          "streamCompression": "none"
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.no-selection.trace-complete.json",
+          "dataLossOccurred": false,
+          "stream": "3",
+          "traceFormat": "json",
+          "streamCompression": "none"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "forced-layout-attribution-1793120692991.calibration.negative.categories.json",
+          "sha256": "690f72a61f2665ec0c8289d6f32c1bb6e37f1bd4ecb759596b068e941d659fde",
+          "bytes": 8367
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.calibration.negative.cpuprofile",
+          "sha256": "0be0587ca0fe82466cc143e8a7198e4af384042e216bbf5f79243c13e9877f87",
+          "bytes": 8447
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.calibration.negative.trace-complete.json",
+          "sha256": "8cab476cf4ce466754c59bd8ab79786cdf56a50a1b8eea0935d12d322f062d80",
+          "bytes": 104
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.calibration.negative.trace.json",
+          "sha256": "11b2680d603c4697dfd88a5115a2aad298313b7ce4b4bd6dab4934f7aed7311f",
+          "bytes": 404325
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.calibration.positive.categories.json",
+          "sha256": "690f72a61f2665ec0c8289d6f32c1bb6e37f1bd4ecb759596b068e941d659fde",
+          "bytes": 8367
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.calibration.positive.cpuprofile",
+          "sha256": "95123df492fa605314b67a008d21185d86fb9c46fd6c6029110be788a50fdc97",
+          "bytes": 8612
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.calibration.positive.trace-complete.json",
+          "sha256": "6c8a83ffee02012f5efe2c9947cfae4ac3dcc23ee07f03d17dd341596a760b85",
+          "bytes": 104
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.calibration.positive.trace.json",
+          "sha256": "10c452233a2f1b4d48043018c6f1858bdec2f0e624c62b368e27850f5b51fbe2",
+          "bytes": 368919
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.focused-composer.backend.log",
+          "sha256": "f4fad567420fac48a943d7fc4ec0aca904d858e1d24d520228f6cf14c74e451c",
+          "bytes": 11685
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.focused-composer.categories.json",
+          "sha256": "690f72a61f2665ec0c8289d6f32c1bb6e37f1bd4ecb759596b068e941d659fde",
+          "bytes": 8367
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.focused-composer.cpuprofile",
+          "sha256": "ca60d9a58edecf7cf8337163c39cc8fb49eef07fd0ad720dddcc5fe04f41e2b5",
+          "bytes": 1560430
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.focused-composer.trace-complete.json",
+          "sha256": "8a3eb644a4f3c66b500fe8bca85f4ebce0105c338bac5f7b062eb4c79abf53a0",
+          "bytes": 104
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.focused-composer.trace.json",
+          "sha256": "3a13d5262ff8ed0d6c25ccd29d8b2b6a850884a8218f1cf1cb5cda4fd32dd1b8",
+          "bytes": 33725822
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.json",
+          "sha256": "0ce0620261408f80ec9dbf72b0854b5b919c7743bf0cf1e142fa42c5e821a3ef",
+          "bytes": 861318
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.no-selection.backend.log",
+          "sha256": "dc84083d9c2921a2564fa9f8198784bc1f9e1246e636920f942b65feabe921f1",
+          "bytes": 6687
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.no-selection.categories.json",
+          "sha256": "690f72a61f2665ec0c8289d6f32c1bb6e37f1bd4ecb759596b068e941d659fde",
+          "bytes": 8367
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.no-selection.cpuprofile",
+          "sha256": "1824487ab2376d852651b2c9680b887b7a833cc421dd67a50a9e949f1abdde85",
+          "bytes": 1476301
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.no-selection.trace-complete.json",
+          "sha256": "4c696dbaf4f3a1246840a17970e332eaac6f972b63755a181db6c65a96c8a766",
+          "bytes": 104
+        },
+        {
+          "path": "forced-layout-attribution-1793120692991.no-selection.trace.json",
+          "sha256": "da2cbbfcdf9eed7f68e2d7ab9fbda07eabe62539fe755c4b1ef06fdc50768346",
+          "bytes": 35492146
+        }
+      ]
+    },
+    "archiveAuditHandle": 77686,
+    "archiveAuditExitCode": 0,
+    "observationWindowMs": 3000,
+    "producerWindowMs": 10000,
+    "scheduledUpdatesPerCase": 300,
+    "verifiedOrderedUpdatesTotal": 600,
+    "harnessAndAppSourceUnchanged": true,
+    "source": {
+      "path": "forced-layout-attribution-b7c3-stack-r2-source.ts",
+      "sha256": "036bf6c6a8426d05658df70acdf7deb5d009d93f4a1eeebd6baf4af6a01eaf2b",
+      "sourceText": "import fs from \"node:fs\";\nimport path from \"node:path\";\nimport type { Browser, CDPSession, Page } from \"@playwright/test\";\nimport type { AppState } from \"@/lib/state/app-state-types\";\nimport type { StoreApi } from \"zustand\";\nimport { test, expect } from \"../../fixtures/test-base\";\nimport { prepareDenseComparisonFixture } from \"../../helpers/dense-comparison-fixture\";\nimport { prepareDenseStream } from \"../../helpers/dense-canonical-stream\";\nimport { verifyDenseThreadsFiles } from \"../../helpers/dense-threads-fixture\";\nimport { loadDenseCold } from \"../../helpers/dense-cold-load\";\nimport { captureDenseTraffic } from \"../../helpers/dense-measurement\";\nimport { dwell } from \"../../helpers/causal-waits\";\nimport { sha256File } from \"../../helpers/dense-snapshot\";\n\ntype CausalData = {\n  stackTrace?: Array<{\n    functionName?: string;\n    url?: string;\n    lineNumber?: number;\n    columnNumber?: number;\n  }>;\n  sampleTraceId?: number;\n};\ntype TraceEvent = {\n  name: string;\n  cat?: string;\n  ph: string;\n  pid: number;\n  tid: number;\n  ts: number;\n  dur?: number;\n  args?: { beginData?: CausalData; data?: CausalData };\n};\ntype TraceComplete = {\n  dataLossOccurred: boolean;\n  stream?: string;\n  traceFormat?: string;\n  streamCompression?: string;\n};\ntype CpuProfile = {\n  startTime: number;\n  endTime: number;\n  nodes: unknown[];\n  samples?: number[];\n  timeDeltas?: number[];\n};\nconst categories = [\n  \"toplevel\",\n  \"devtools.timeline\",\n  \"blink.user_timing\",\n  \"disabled-by-default-devtools.timeline\",\n  \"disabled-by-default-devtools.timeline.stack\",\n];\nconst directory = path.resolve(\n  process.cwd(),\n  \"../../.kandev/diagnostics/dense-workbench-performance\",\n);\n\nfunction writeJson(file: string, value: unknown) {\n  fs.writeFileSync(file, JSON.stringify(value, null, 2), { flag: \"wx\" });\n  const descriptor = fs.openSync(file, \"r\");\n  fs.fsyncSync(descriptor);\n  fs.closeSync(descriptor);\n}\n\nasync function saveTrace(cdp: CDPSession, prefix: string) {\n  const complete = new Promise<TraceComplete>((resolve) =>\n    cdp.once(\"Tracing.tracingComplete\", resolve),\n  );\n  await cdp.send(\"Tracing.end\");\n  const result = await complete;\n  writeJson(prefix + \".trace-complete.json\", result);\n  expect(result.stream).toBeTruthy();\n  const file = prefix + \".trace.json\";\n  const descriptor = fs.openSync(file, \"wx\");\n  try {\n    let eof = false;\n    while (!eof) {\n      const chunk = await cdp.send(\"IO.read\", { handle: result.stream!, size: 1_048_576 });\n      fs.writeSync(descriptor, Buffer.from(chunk.data, chunk.base64Encoded ? \"base64\" : \"utf8\"));\n      eof = chunk.eof;\n    }\n    fs.fsyncSync(descriptor);\n  } finally {\n    fs.closeSync(descriptor);\n    await cdp.send(\"IO.close\", { handle: result.stream! });\n  }\n  expect(result.dataLossOccurred).toBe(false);\n  expect(result.traceFormat).toBe(\"json\");\n  expect(result.streamCompression).toBe(\"none\");\n  const parsed = JSON.parse(fs.readFileSync(file, \"utf8\")) as { traceEvents: TraceEvent[] };\n  expect(parsed.traceEvents.length).toBeGreaterThan(0);\n  return { file, events: parsed.traceEvents, complete: result };\n}\n\nfunction markerWindow(events: TraceEvent[], names: { start: string; end: string }) {\n  const start = events.filter((event) => event.name === names.start);\n  const end = events.filter((event) => event.name === names.end);\n  expect(start).toHaveLength(1);\n  expect(end).toHaveLength(1);\n  expect(start[0].pid).toBe(end[0].pid);\n  expect(start[0].tid).toBe(end[0].tid);\n  expect(end[0].ts).toBeGreaterThan(start[0].ts);\n  return {\n    pid: start[0].pid,\n    tid: start[0].tid,\n    startUs: start[0].ts,\n    endUs: end[0].ts,\n    elapsedMs: (end[0].ts - start[0].ts) / 1000,\n    names,\n  };\n}\n\nasync function profileWindow(page: Page, prefix: string, stimulus: () => Promise<void>) {\n  const cdp = await page.context().newCDPSession(page);\n  const available = await cdp.send(\"Tracing.getCategories\");\n  writeJson(prefix + \".categories.json\", available);\n  expect(categories.every((category) => available.categories.includes(category))).toBe(true);\n  const frame = await cdp.send(\"Page.getFrameTree\");\n  await cdp.send(\"Profiler.enable\");\n  await cdp.send(\"Profiler.start\");\n  const names = { start: path.basename(prefix) + \":start\", end: path.basename(prefix) + \":end\" };\n  let tracing = false;\n  let profile: CpuProfile | undefined;\n  let trace: Awaited<ReturnType<typeof saveTrace>> | undefined;\n  try {\n    await cdp.send(\"Tracing.start\", {\n      traceConfig: {\n        includedCategories: categories,\n        recordMode: \"recordUntilFull\",\n        traceBufferSizeInKb: 262_144,\n      },\n      transferMode: \"ReturnAsStream\",\n      streamFormat: \"json\",\n      streamCompression: \"none\",\n    });\n    tracing = true;\n    await page.evaluate((name) => performance.mark(name), names.start);\n    await stimulus();\n    await page.evaluate((name) => performance.mark(name), names.end);\n  } finally {\n    const stopped = await cdp.send(\"Profiler.stop\");\n    profile = stopped.profile as CpuProfile;\n    writeJson(prefix + \".cpuprofile\", profile);\n    if (tracing) trace = await saveTrace(cdp, prefix);\n    await cdp.detach();\n  }\n  expect(trace).toBeDefined();\n  const window = markerWindow(trace!.events, names);\n  expect(profile.startTime).toBeLessThanOrEqual(window.startUs);\n  expect(profile.endTime).toBeGreaterThanOrEqual(window.endUs);\n  expect(profile.samples?.length).toBeGreaterThan(0);\n  expect(profile.samples?.length).toBe(profile.timeDeltas?.length);\n  const causalStacks = trace!.events\n    .filter(\n      (event) =>\n        [\"Layout\", \"UpdateLayoutTree\"].includes(event.name) &&\n        event.pid === window.pid &&\n        event.tid === window.tid &&\n        event.ts >= window.startUs &&\n        event.ts < window.endUs,\n    )\n    .map((event) => ({ name: event.name, data: event.args?.beginData ?? event.args?.data }))\n    .filter((event) => event.data?.stackTrace?.length);\n  return {\n    causalStacks,\n    prefix,\n    frame: frame.frameTree.frame,\n    window,\n    categories,\n    trace: { path: trace!.file, sha256: sha256File(trace!.file), events: trace!.events.length },\n    profile: {\n      path: prefix + \".cpuprofile\",\n      sha256: sha256File(prefix + \".cpuprofile\"),\n      startTime: profile.startTime,\n      endTime: profile.endTime,\n      samples: profile.samples?.length,\n      nodes: profile.nodes.length,\n    },\n    observedEvents: [\n      ...new Set(\n        trace!.events\n          .filter((event) => event.pid === window.pid && event.tid === window.tid)\n          .map((event) => event.name),\n      ),\n    ].sort(),\n  };\n}\n\nasync function calibrate(browser: Browser, prefix: string) {\n  const context = await browser.newContext();\n  const page = await context.newPage();\n  const code =\n    'window.forcedLayoutPositive = function forcedLayoutPositive(width) {\\n  const probe = document.getElementById(\"probe\");\\n  probe.style.width = width + \"px\";\\n  return probe.getBoundingClientRect().width;\\n};\\nwindow.forcedLayoutNegative = function forcedLayoutNegative(width) {\\n  const probe = document.getElementById(\"probe\");\\n  probe.style.width = width + \"px\";\\n  return probe.textContent;\\n};\\n//# sourceURL=kandev-forced-layout-calibration.js\\n';\n  try {\n    await page.setContent('<div id=\"probe\" style=\"width:40px;height:40px\">trace</div>');\n    await page.addScriptTag({ content: code });\n    const captures = [];\n    for (const mode of [\"positive\", \"negative\"] as const) {\n      const capture = await profileWindow(page, prefix + \".\" + mode, () =>\n        page.evaluate(async (selected) => {\n          const api = window as Window & {\n            forcedLayoutPositive: (width: number) => number;\n            forcedLayoutNegative: (width: number) => string;\n          };\n          for (let frame = 0; frame < 12; frame++) {\n            await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));\n            if (selected === \"positive\") api.forcedLayoutPositive(40 + frame);\n            else api.forcedLayoutNegative(80 + frame);\n          }\n        }, mode),\n      );\n      const stacks = capture.causalStacks.flatMap((event) => event.data?.stackTrace ?? []);\n      const matches = stacks.filter((frame) => frame.url === \"kandev-forced-layout-calibration.js\");\n      if (mode === \"positive\") {\n        expect(matches.length).toBeGreaterThan(0);\n        expect(matches.some((frame) => frame.functionName === \"forcedLayoutPositive\")).toBe(true);\n      } else expect(matches).toEqual([]);\n      captures.push({ mode, ...capture });\n    }\n    return { sourceCode: code, captures };\n  } finally {\n    await context.close();\n  }\n}\n\nasync function makeDenseContext(browser: Browser, url: string, port: number) {\n  const context = await browser.newContext({\n    baseURL: url,\n    viewport: { width: 1470, height: 956 },\n    deviceScaleFactor: 2,\n    locale: \"en-US\",\n  });\n  const page = await context.newPage();\n  await page.addInitScript((apiPort) => {\n    localStorage.setItem(\"kandev.onboarding.completed\", \"true\");\n    window.__KANDEV_API_PORT = apiPort;\n    (window as unknown as { __KANDEV_E2E_EXPOSE_STORE__: boolean }).__KANDEV_E2E_EXPOSE_STORE__ =\n      true;\n  }, String(port));\n  return { context, page };\n}\n\nasync function loadedHistory(page: Page, sessionIds: string[]) {\n  return page.evaluate((ids) => {\n    const store = (window as unknown as { __KANDEV_E2E_STORE__: StoreApi<AppState> })\n      .__KANDEV_E2E_STORE__;\n    return ids.map((sessionId) => ({\n      sessionId,\n      messages: store.getState().messages.bySession[sessionId]?.length ?? 0,\n    }));\n  }, sessionIds);\n}\n\ntype PreparedFixture = Awaited<ReturnType<typeof prepareDenseComparisonFixture>>;\ntype ProbeMode = \"no-selection\" | \"focused-composer\";\n\nasync function selectionState(page: Page) {\n  return page.evaluate(() => {\n    const selection = window.getSelection();\n    return {\n      hasFocus: document.hasFocus(),\n      rangeCount: selection?.rangeCount ?? 0,\n      collapsed: selection?.isCollapsed ?? true,\n      activeElementTag: document.activeElement?.tagName,\n      activeElementTestId: document.activeElement?.getAttribute(\"data-testid\"),\n    };\n  });\n}\n\nasync function runCase(options: {\n  mode: ProbeMode;\n  row: Record<string, unknown>;\n  browser: Browser;\n  backend: Parameters<typeof prepareDenseComparisonFixture>[2];\n  api: Parameters<typeof prepareDenseComparisonFixture>[0];\n  prepared: PreparedFixture;\n  prefix: string;\n  checkpoint: () => void;\n}) {\n  const { mode, row, browser, backend, api, prepared, prefix, checkpoint } = options;\n  let stream: Awaited<ReturnType<typeof prepareDenseStream>> | undefined;\n  let context: Awaited<ReturnType<typeof makeDenseContext>>[\"context\"] | undefined;\n  try {\n    const database = path.join(backend.tmpDir, `forced-layout-${mode}.db`);\n    fs.copyFileSync(prepared.snapshot, database);\n    expect(sha256File(database)).toBe(prepared.provenance?.databaseSha256);\n    await backend.restart(\n      {\n        KANDEV_DATABASE_PATH: database,\n        KANDEV_HOME_DIR: path.join(backend.tmpDir, `forced-layout-${mode}-home`),\n        KANDEV_WEB_DIST_DIR: path.resolve(process.cwd(), \"dist\"),\n        KANDEV_LOG_LEVEL: \"warn\",\n        ...prepared.restartEnv,\n      },\n      path.resolve(process.cwd(), \"../backend/bin/kandev\"),\n    );\n    row.filesBefore = await verifyDenseThreadsFiles(api, prepared.backend, prepared.fixture);\n    const threads = prepared.fixture.threads.slice(0, 6);\n    stream = await prepareDenseStream(\n      api,\n      prepared.seed,\n      prepared.backend,\n      threads,\n      prepared.sampleNamespace + \"forced-layout-\" + mode,\n    );\n    const target = await makeDenseContext(browser, backend.frontendUrl, backend.port);\n    context = target.context;\n    const { page } = target;\n    row.cold = await loadDenseCold({\n      page,\n      workspaceId: prepared.seed.workspaceId,\n      threads,\n      warmup: stream.warmup,\n      traffic: captureDenseTraffic(page),\n    });\n    const sessionIds = threads.map((thread) => thread.sessionId);\n    row.initialLoadedHistory = await loadedHistory(page, sessionIds);\n    expect(row.initialLoadedHistory).toEqual(\n      sessionIds.map((sessionId) => ({ sessionId, messages: 100 })),\n    );\n    if (mode === \"focused-composer\") {\n      const tile = page.getByTestId(`thread-column-${threads[0].taskId}`);\n      const editor = tile.locator('.tiptap.ProseMirror[contenteditable=\"true\"]');\n      await tile.hover();\n      await editor.click();\n      await expect(editor).toBeFocused();\n    } else {\n      await page.evaluate(() => {\n        (document.activeElement as HTMLElement | null)?.blur();\n        window.getSelection()?.removeAllRanges();\n      });\n    }\n    row.selectionBefore = await selectionState(page);\n    if (mode === \"no-selection\")\n      expect((row.selectionBefore as { rangeCount: number }).rangeCount).toBe(0);\n    else expect((row.selectionBefore as { rangeCount: number }).rangeCount).toBe(1);\n    checkpoint();\n    const activeStream = stream;\n    row.capture = await profileWindow(page, prefix + \".\" + mode, async () => {\n      activeStream.release();\n      await dwell(\n        page,\n        3_000,\n        \"clock-separation\",\n        \"record three seconds of native forced layout call sites within the fixed ten-second quiet stream; diagnostic only\",\n      );\n    });\n    checkpoint();\n    await stream.waitForVisible(page);\n    await stream.verify();\n    row.selectionAfter = await selectionState(page);\n    row.scheduledUpdates = stream.scheduledUpdates;\n    row.verificationErrors = stream.verificationErrors;\n    row.finalLoadedHistory = await loadedHistory(page, sessionIds);\n    expect(row.finalLoadedHistory).toEqual(row.initialLoadedHistory);\n    row.filesAfter = await verifyDenseThreadsFiles(api, prepared.backend, prepared.fixture);\n    expect(row.filesAfter).toEqual(row.filesBefore);\n    row.allOrderedUpdatesVerified = true;\n    row.status = \"passed\";\n  } catch (error) {\n    row.error = String(error);\n    row.status = \"failed\";\n  } finally {\n    try {\n      await stream?.finish();\n    } catch (error) {\n      row.finishError = String(error);\n      row.status = \"failed\";\n    }\n    try {\n      await context?.close();\n    } catch (error) {\n      row.closeError = String(error);\n      row.status = \"failed\";\n    }\n    const log = path.join(backend.tmpDir, \"backend-process.log\");\n    if (fs.existsSync(log)) fs.copyFileSync(log, prefix + \".\" + mode + \".backend.log\");\n    checkpoint();\n  }\n}\n\ntest(\"attributes forced layout with empty selection and a focused composer\", async ({\n  browser,\n  testPage,\n  apiClient: api,\n  seedData: seed,\n  backend,\n}, info) => {\n  test.setTimeout(600_000);\n  fs.mkdirSync(directory, { recursive: true });\n  const prefix = path.join(directory, `forced-layout-attribution-${Date.now()}`);\n  const output = prefix + \".json\";\n  const report: Record<string, unknown> = {\n    measurementKind: \"forced-layout-attribution\",\n    assetsSha256: \"b7c3fa9b16366da506d501e612df926f3cf3b73b1021401a4fa4fd49b673ebe4\",\n    limits:\n      \"Intrusive three-second traces within ten-second quiet streams. Focus is a diagnostic control. No native-v2 speed, field INP, M2 Air, battery or heap-leak claim. All ordered updates are verified after each observation window.\",\n    cases: [\n      { mode: \"no-selection\", status: \"pending\" },\n      { mode: \"focused-composer\", status: \"pending\" },\n    ],\n  };\n  const checkpoint = () => fs.writeFileSync(output, JSON.stringify(report, null, 2));\n  try {\n    report.calibration = await calibrate(browser, prefix + \".calibration\");\n    checkpoint();\n    const prepared = await prepareDenseComparisonFixture(api, seed, backend, testPage);\n    report.fixture = prepared.fixture;\n    report.fixtureReplay = prepared.provenance;\n    checkpoint();\n    for (const row of report.cases as Array<Record<string, unknown>>) {\n      await runCase({\n        mode: row.mode as ProbeMode,\n        row,\n        browser,\n        backend,\n        api,\n        prepared,\n        prefix,\n        checkpoint,\n      });\n    }\n    expect(\n      (report.cases as Array<{ status: string }>).every((row) => row.status === \"passed\"),\n    ).toBe(true);\n  } catch (error) {\n    report.error = String(error);\n    throw error;\n  } finally {\n    checkpoint();\n    const descriptor = fs.openSync(output, \"r\");\n    fs.fsyncSync(descriptor);\n    fs.closeSync(descriptor);\n    await info.attach(\"forced-layout-attribution\", {\n      path: output,\n      contentType: \"application/json\",\n    });\n  }\n});\n"
+    }
+  },
+  "mapping": {
+    "recordedAt": "2026-10-27T17:08:01.988Z",
+    "kind": "Native forced layout call-site attribution",
+    "receipt": "forced-layout-attribution-b7c3-stack-r2-receipt.json",
+    "receiptSha256": "e88bb6fe19f2720de3f0b46f30aec2feba1696a59cb5dc03f2c89743f8389b35",
+    "sourceMaps": "forced-layout-source-map-build-complete.json",
+    "sourceMapBuildSha256": "70437a3824a1311c5e107ec715054a133fe4b508dbbd0f6de824ade621cf8769",
+    "calibration": {
+      "knownCode": "window.forcedLayoutPositive = function forcedLayoutPositive(width) {\n  const probe = document.getElementById(\"probe\");\n  probe.style.width = width + \"px\";\n  return probe.getBoundingClientRect().width;\n};\nwindow.forcedLayoutNegative = function forcedLayoutNegative(width) {\n  const probe = document.getElementById(\"probe\");\n  probe.style.width = width + \"px\";\n  return probe.textContent;\n};\n//# sourceURL=kandev-forced-layout-calibration.js\n",
+      "nativeCallOneBasedLine": 4,
+      "nativeCallOneBasedColumn": 16,
+      "sourceCallZeroBasedColumn": 15,
+      "positiveStacks": 22,
+      "negativeStacks": 0,
+      "lineAndColumnConversion": "Trace call-site lines and columns are one-based. Source-map lines are one-based; columns are zero-based UTF-16."
+    },
+    "cases": [
+      {
+        "mode": "no-selection",
+        "selectionBefore": {
+          "hasFocus": true,
+          "rangeCount": 0,
+          "collapsed": true,
+          "activeElementTag": "BODY",
+          "activeElementTestId": null
+        },
+        "selectionAfter": {
+          "hasFocus": true,
+          "rangeCount": 0,
+          "collapsed": true,
+          "activeElementTag": "BODY",
+          "activeElementTestId": null
+        },
+        "window": {
+          "pid": 1531707,
+          "tid": 1531707,
+          "startUs": 27273005748,
+          "endUs": 27276044845,
+          "elapsedMs": 3039.097,
+          "names": {
+            "start": "forced-layout-attribution-1793120692991.no-selection:start",
+            "end": "forced-layout-attribution-1793120692991.no-selection:end"
+          }
+        },
+        "scheduledUpdates": 300,
+        "allOrderedUpdatesVerified": true,
+        "trace": {
+          "path": "forced-layout-attribution-1793120692991.no-selection.trace.json",
+          "sha256": "da2cbbfcdf9eed7f68e2d7ab9fbda07eabe62539fe755c4b1ef06fdc50768346",
+          "bytes": 35492146
+        },
+        "categories": [
+          {
+            "name": "UpdateLayoutTree",
+            "events": 119,
+            "wallUnionMs": 233.186,
+            "groups": [
+              {
+                "location": {
+                  "generated": {
+                    "columnNumber": 4203,
+                    "functionName": "aq",
+                    "lineNumber": 466,
+                    "scriptId": "104",
+                    "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                  },
+                  "source": "apps/web/components/shared/chat-markdown-motion.tsx",
+                  "line": 38,
+                  "column": 30,
+                  "originalName": null,
+                  "sourceLine": "  if (!selection || selection.rangeCount === 0) return false;",
+                  "mapStatus": "mapped"
+                },
+                "count": 76,
+                "wallUnionMs": 151.04,
+                "stack": [
+                  {
+                    "generated": {
+                      "columnNumber": 4203,
+                      "functionName": "aq",
+                      "lineNumber": 466,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/web/components/shared/chat-markdown-motion.tsx",
+                    "line": 38,
+                    "column": 30,
+                    "originalName": null,
+                    "sourceLine": "  if (!selection || selection.rangeCount === 0) return false;",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 4415,
+                      "functionName": "oq",
+                      "lineNumber": 466,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/web/components/shared/chat-markdown-motion.tsx",
+                    "line": 51,
+                    "column": 13,
+                    "originalName": null,
+                    "sourceLine": "      runs = hasTextSelection()",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 4886,
+                      "functionName": "Ive",
+                      "lineNumber": 466,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/web/components/shared/chat-markdown-motion.tsx",
+                    "line": 83,
+                    "column": 15,
+                    "originalName": null,
+                    "sourceLine": "  const runs = useChatTextRuns(content, enabled);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 5979,
+                      "functionName": "",
+                      "lineNumber": 466,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/web/components/shared/memoized-markdown.tsx",
+                    "line": 115,
+                    "column": 24,
+                    "originalName": null,
+                    "sourceLine": "  const motionPlugins = useChatMarkdownMotion(normalized, animateText);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 47576,
+                      "functionName": "yo",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 4351,
+                    "column": 20,
+                    "originalName": null,
+                    "sourceLine": "  nextRenderLanes = Component(props, secondArg);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 70193,
+                      "functionName": "uc",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 6497,
+                    "column": 14,
+                    "originalName": null,
+                    "sourceLine": "  Component = renderWithHooks(",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 67605,
+                      "functionName": "nc",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 6237,
+                    "column": 9,
+                    "originalName": null,
+                    "sourceLine": "  return updateFunctionComponent(",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 82938,
+                      "functionName": "Tc",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 7792,
+                    "column": 13,
+                    "originalName": null,
+                    "sourceLine": "      return updateSimpleMemoComponent(",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 116033,
+                      "functionName": "Au",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 11305,
+                    "column": 13,
+                    "originalName": null,
+                    "sourceLine": "  var next = beginWork(unitOfWork.alternate, unitOfWork, entangledRenderLanes);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 115080,
+                      "functionName": "Du",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 11182,
+                    "column": 36,
+                    "originalName": null,
+                    "sourceLine": "  for (; null !== workInProgress; ) performUnitOfWork(workInProgress);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 114913,
+                      "functionName": "Eu",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 11163,
+                    "column": 6,
+                    "originalName": null,
+                    "sourceLine": "      workLoopSync();",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 111392,
+                      "functionName": "mu",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 10690,
+                    "column": 8,
+                    "originalName": null,
+                    "sourceLine": "      : renderRootSync(root$jscomp$0, lanes, !0),",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 123532,
+                      "functionName": "sd",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 12086,
+                    "column": 2,
+                    "originalName": null,
+                    "sourceLine": "  performWorkOnRoot(root, lanes, !0);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 122085,
+                      "functionName": "rd",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 11956,
+                    "column": 16,
+                    "originalName": null,
+                    "sourceLine": "                performSyncWorkOnRoot(root$170, JSCompiler_inline_result));",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 122360,
+                      "functionName": "id",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 11990,
+                    "column": 4,
+                    "originalName": null,
+                    "sourceLine": "    flushSyncWorkAcrossRoots_impl(syncTransitionLanes, !1);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 123587,
+                      "functionName": "",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 12095,
+                    "column": 8,
+                    "originalName": null,
+                    "sourceLine": "      : processRootScheduleInMicrotask();",
+                    "mapStatus": "mapped"
+                  }
+                ]
+              },
+              {
+                "location": {
+                  "generated": {
+                    "columnNumber": 11693,
+                    "functionName": "t",
+                    "lineNumber": 319,
+                    "scriptId": "104",
+                    "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                  },
+                  "source": "apps/packages/ui/src/pannel-session.tsx",
+                  "line": 76,
+                  "column": 41,
+                  "originalName": null,
+                  "sourceLine": "          savedScrollTopRef.current = el.scrollTop;",
+                  "mapStatus": "mapped"
+                },
+                "count": 36,
+                "wallUnionMs": 72.805,
+                "stack": [
+                  {
+                    "generated": {
+                      "columnNumber": 11693,
+                      "functionName": "t",
+                      "lineNumber": 319,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/packages/ui/src/pannel-session.tsx",
+                    "line": 76,
+                    "column": 41,
+                    "originalName": null,
+                    "sourceLine": "          savedScrollTopRef.current = el.scrollTop;",
+                    "mapStatus": "mapped"
+                  }
+                ]
+              },
+              {
+                "location": {
+                  "generated": {
+                    "columnNumber": 9137,
+                    "functionName": "u",
+                    "lineNumber": 319,
+                    "scriptId": "104",
+                    "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                  },
+                  "source": "apps/web/components/task/chat/chat-scroll-motion.ts",
+                  "line": 133,
+                  "column": 43,
+                  "originalName": null,
+                  "sourceLine": "    const nextTarget = Math.max(0, element.scrollHeight - element.clientHeight);",
+                  "mapStatus": "mapped"
+                },
+                "count": 4,
+                "wallUnionMs": 8.101,
+                "stack": [
+                  {
+                    "generated": {
+                      "columnNumber": 9137,
+                      "functionName": "u",
+                      "lineNumber": 319,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/web/components/task/chat/chat-scroll-motion.ts",
+                    "line": 133,
+                    "column": 43,
+                    "originalName": null,
+                    "sourceLine": "    const nextTarget = Math.max(0, element.scrollHeight - element.clientHeight);",
+                    "mapStatus": "mapped"
+                  }
+                ]
+              },
+              {
+                "location": {
+                  "mapStatus": "no-js-stack"
+                },
+                "count": 3,
+                "wallUnionMs": 1.24,
+                "stack": []
+              }
+            ]
+          },
+          {
+            "name": "Layout",
+            "events": 109,
+            "wallUnionMs": 110.984,
+            "groups": [
+              {
+                "location": {
+                  "generated": {
+                    "columnNumber": 4203,
+                    "functionName": "aq",
+                    "lineNumber": 466,
+                    "scriptId": "104",
+                    "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                  },
+                  "source": "apps/web/components/shared/chat-markdown-motion.tsx",
+                  "line": 38,
+                  "column": 30,
+                  "originalName": null,
+                  "sourceLine": "  if (!selection || selection.rangeCount === 0) return false;",
+                  "mapStatus": "mapped"
+                },
+                "count": 72,
+                "wallUnionMs": 71.594,
+                "stack": [
+                  {
+                    "generated": {
+                      "columnNumber": 4203,
+                      "functionName": "aq",
+                      "lineNumber": 466,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/web/components/shared/chat-markdown-motion.tsx",
+                    "line": 38,
+                    "column": 30,
+                    "originalName": null,
+                    "sourceLine": "  if (!selection || selection.rangeCount === 0) return false;",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 4415,
+                      "functionName": "oq",
+                      "lineNumber": 466,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/web/components/shared/chat-markdown-motion.tsx",
+                    "line": 51,
+                    "column": 13,
+                    "originalName": null,
+                    "sourceLine": "      runs = hasTextSelection()",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 4886,
+                      "functionName": "Ive",
+                      "lineNumber": 466,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/web/components/shared/chat-markdown-motion.tsx",
+                    "line": 83,
+                    "column": 15,
+                    "originalName": null,
+                    "sourceLine": "  const runs = useChatTextRuns(content, enabled);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 5979,
+                      "functionName": "",
+                      "lineNumber": 466,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/web/components/shared/memoized-markdown.tsx",
+                    "line": 115,
+                    "column": 24,
+                    "originalName": null,
+                    "sourceLine": "  const motionPlugins = useChatMarkdownMotion(normalized, animateText);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 47576,
+                      "functionName": "yo",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 4351,
+                    "column": 20,
+                    "originalName": null,
+                    "sourceLine": "  nextRenderLanes = Component(props, secondArg);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 70193,
+                      "functionName": "uc",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 6497,
+                    "column": 14,
+                    "originalName": null,
+                    "sourceLine": "  Component = renderWithHooks(",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 67605,
+                      "functionName": "nc",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 6237,
+                    "column": 9,
+                    "originalName": null,
+                    "sourceLine": "  return updateFunctionComponent(",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 82938,
+                      "functionName": "Tc",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 7792,
+                    "column": 13,
+                    "originalName": null,
+                    "sourceLine": "      return updateSimpleMemoComponent(",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 116033,
+                      "functionName": "Au",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 11305,
+                    "column": 13,
+                    "originalName": null,
+                    "sourceLine": "  var next = beginWork(unitOfWork.alternate, unitOfWork, entangledRenderLanes);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 115080,
+                      "functionName": "Du",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 11182,
+                    "column": 36,
+                    "originalName": null,
+                    "sourceLine": "  for (; null !== workInProgress; ) performUnitOfWork(workInProgress);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 114913,
+                      "functionName": "Eu",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 11163,
+                    "column": 6,
+                    "originalName": null,
+                    "sourceLine": "      workLoopSync();",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 111392,
+                      "functionName": "mu",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 10690,
+                    "column": 8,
+                    "originalName": null,
+                    "sourceLine": "      : renderRootSync(root$jscomp$0, lanes, !0),",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 123532,
+                      "functionName": "sd",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 12086,
+                    "column": 2,
+                    "originalName": null,
+                    "sourceLine": "  performWorkOnRoot(root, lanes, !0);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 122085,
+                      "functionName": "rd",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 11956,
+                    "column": 16,
+                    "originalName": null,
+                    "sourceLine": "                performSyncWorkOnRoot(root$170, JSCompiler_inline_result));",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 122360,
+                      "functionName": "id",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 11990,
+                    "column": 4,
+                    "originalName": null,
+                    "sourceLine": "    flushSyncWorkAcrossRoots_impl(syncTransitionLanes, !1);",
+                    "mapStatus": "mapped"
+                  },
+                  {
+                    "generated": {
+                      "columnNumber": 123587,
+                      "functionName": "",
+                      "lineNumber": 9,
+                      "scriptId": "3",
+                      "url": "http://localhost:18107/assets/index-CMOPmGju.js"
+                    },
+                    "source": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+                    "line": 12095,
+                    "column": 8,
+                    "originalName": null,
+                    "sourceLine": "      : processRootScheduleInMicrotask();",
+                    "mapStatus": "mapped"
+                  }
+                ]
+              },
+              {
+                "location": {
+                  "generated": {
+                    "columnNumber": 11693,
+                    "functionName": "t",
+                    "lineNumber": 319,
+                    "scriptId": "104",
+                    "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                  },
+                  "source": "apps/packages/ui/src/pannel-session.tsx",
+                  "line": 76,
+                  "column": 41,
+                  "originalName": null,
+                  "sourceLine": "          savedScrollTopRef.current = el.scrollTop;",
+                  "mapStatus": "mapped"
+                },
+                "count": 31,
+                "wallUnionMs": 33.184,
+                "stack": [
+                  {
+                    "generated": {
+                      "columnNumber": 11693,
+                      "functionName": "t",
+                      "lineNumber": 319,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/packages/ui/src/pannel-session.tsx",
+                    "line": 76,
+                    "column": 41,
+                    "originalName": null,
+                    "sourceLine": "          savedScrollTopRef.current = el.scrollTop;",
+                    "mapStatus": "mapped"
+                  }
+                ]
+              },
+              {
+                "location": {
+                  "generated": {
+                    "columnNumber": 9137,
+                    "functionName": "u",
+                    "lineNumber": 319,
+                    "scriptId": "104",
+                    "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                  },
+                  "source": "apps/web/components/task/chat/chat-scroll-motion.ts",
+                  "line": 133,
+                  "column": 43,
+                  "originalName": null,
+                  "sourceLine": "    const nextTarget = Math.max(0, element.scrollHeight - element.clientHeight);",
+                  "mapStatus": "mapped"
+                },
+                "count": 4,
+                "wallUnionMs": 4.037,
+                "stack": [
+                  {
+                    "generated": {
+                      "columnNumber": 9137,
+                      "functionName": "u",
+                      "lineNumber": 319,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/web/components/task/chat/chat-scroll-motion.ts",
+                    "line": 133,
+                    "column": 43,
+                    "originalName": null,
+                    "sourceLine": "    const nextTarget = Math.max(0, element.scrollHeight - element.clientHeight);",
+                    "mapStatus": "mapped"
+                  }
+                ]
+              },
+              {
+                "location": {
+                  "mapStatus": "no-js-stack"
+                },
+                "count": 2,
+                "wallUnionMs": 2.169,
+                "stack": []
+              }
+            ]
+          },
+          {
+            "name": "RunTask",
+            "events": 1762,
+            "wallUnionMs": 2939.948,
+            "groups": [
+              {
+                "location": {
+                  "mapStatus": "no-js-stack"
+                },
+                "count": 1762,
+                "wallUnionMs": 2939.948,
+                "stack": []
+              }
+            ]
+          },
+          {
+            "name": "FunctionCall",
+            "events": 2747,
+            "wallUnionMs": 2338.749,
+            "groups": [
+              {
+                "location": {
+                  "mapStatus": "no-js-stack"
+                },
+                "count": 2747,
+                "wallUnionMs": 2338.749,
+                "stack": []
+              }
+            ]
+          },
+          {
+            "name": "Layerize",
+            "events": 44,
+            "wallUnionMs": 250.221,
+            "groups": [
+              {
+                "location": {
+                  "mapStatus": "no-js-stack"
+                },
+                "count": 44,
+                "wallUnionMs": 250.221,
+                "stack": []
+              }
+            ]
+          },
+          {
+            "name": "Paint",
+            "events": 593,
+            "wallUnionMs": 44.784,
+            "groups": [
+              {
+                "location": {
+                  "mapStatus": "no-js-stack"
+                },
+                "count": 593,
+                "wallUnionMs": 44.784,
+                "stack": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "focused-composer",
+        "selectionBefore": {
+          "hasFocus": true,
+          "rangeCount": 1,
+          "collapsed": true,
+          "activeElementTag": "DIV",
+          "activeElementTestId": "chat-input-editor"
+        },
+        "selectionAfter": {
+          "hasFocus": true,
+          "rangeCount": 1,
+          "collapsed": true,
+          "activeElementTag": "DIV",
+          "activeElementTestId": "chat-input-editor"
+        },
+        "window": {
+          "pid": 1534575,
+          "tid": 1534575,
+          "startUs": 27322119417,
+          "endUs": 27325170709,
+          "elapsedMs": 3051.292,
+          "names": {
+            "start": "forced-layout-attribution-1793120692991.focused-composer:start",
+            "end": "forced-layout-attribution-1793120692991.focused-composer:end"
+          }
+        },
+        "scheduledUpdates": 300,
+        "allOrderedUpdatesVerified": true,
+        "trace": {
+          "path": "forced-layout-attribution-1793120692991.focused-composer.trace.json",
+          "sha256": "3a13d5262ff8ed0d6c25ccd29d8b2b6a850884a8218f1cf1cb5cda4fd32dd1b8",
+          "bytes": 33725822
+        },
+        "categories": [
+          {
+            "name": "UpdateLayoutTree",
+            "events": 88,
+            "wallUnionMs": 124.041,
+            "groups": [
+              {
+                "location": {
+                  "mapStatus": "no-js-stack"
+                },
+                "count": 48,
+                "wallUnionMs": 106.486,
+                "stack": []
+              },
+              {
+                "location": {
+                  "generated": {
+                    "columnNumber": 11693,
+                    "functionName": "t",
+                    "lineNumber": 319,
+                    "scriptId": "104",
+                    "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                  },
+                  "source": "apps/packages/ui/src/pannel-session.tsx",
+                  "line": 76,
+                  "column": 41,
+                  "originalName": null,
+                  "sourceLine": "          savedScrollTopRef.current = el.scrollTop;",
+                  "mapStatus": "mapped"
+                },
+                "count": 34,
+                "wallUnionMs": 15.042,
+                "stack": [
+                  {
+                    "generated": {
+                      "columnNumber": 11693,
+                      "functionName": "t",
+                      "lineNumber": 319,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/packages/ui/src/pannel-session.tsx",
+                    "line": 76,
+                    "column": 41,
+                    "originalName": null,
+                    "sourceLine": "          savedScrollTopRef.current = el.scrollTop;",
+                    "mapStatus": "mapped"
+                  }
+                ]
+              },
+              {
+                "location": {
+                  "generated": {
+                    "columnNumber": 9137,
+                    "functionName": "u",
+                    "lineNumber": 319,
+                    "scriptId": "104",
+                    "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                  },
+                  "source": "apps/web/components/task/chat/chat-scroll-motion.ts",
+                  "line": 133,
+                  "column": 43,
+                  "originalName": null,
+                  "sourceLine": "    const nextTarget = Math.max(0, element.scrollHeight - element.clientHeight);",
+                  "mapStatus": "mapped"
+                },
+                "count": 6,
+                "wallUnionMs": 2.513,
+                "stack": [
+                  {
+                    "generated": {
+                      "columnNumber": 9137,
+                      "functionName": "u",
+                      "lineNumber": 319,
+                      "scriptId": "104",
+                      "url": "http://localhost:18107/assets/route-panel-mouse-down-BVyKOcdB.js"
+                    },
+                    "source": "apps/web/components/task/chat/chat-scroll-motion.ts",
+                    "line": 133,
+                    "column": 43,
+                    "originalName": null,
+                    "sourceLine": "    const nextTarget = Math.max(0, element.scrollHeight - element.clientHeight);",
+                    "mapStatus": "mapped"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Layout",
+            "events": 47,
+            "wallUnionMs": 54.109,
+            "groups": [
+              {
+                "location": {
+                  "mapStatus": "no-js-stack"
+                },
+                "count": 47,
+                "wallUnionMs": 54.109,
+                "stack": []
+              }
+            ]
+          },
+          {
+            "name": "RunTask",
+            "events": 1863,
+            "wallUnionMs": 2911.537,
+            "groups": [
+              {
+                "location": {
+                  "mapStatus": "no-js-stack"
+                },
+                "count": 1863,
+                "wallUnionMs": 2911.537,
+                "stack": []
+              }
+            ]
+          },
+          {
+            "name": "FunctionCall",
+            "events": 2964,
+            "wallUnionMs": 2023.104,
+            "groups": [
+              {
+                "location": {
+                  "mapStatus": "no-js-stack"
+                },
+                "count": 2964,
+                "wallUnionMs": 2023.104,
+                "stack": []
+              }
+            ]
+          },
+          {
+            "name": "Layerize",
+            "events": 47,
+            "wallUnionMs": 286.543,
+            "groups": [
+              {
+                "location": {
+                  "mapStatus": "no-js-stack"
+                },
+                "count": 47,
+                "wallUnionMs": 286.543,
+                "stack": []
+              }
+            ]
+          },
+          {
+            "name": "Paint",
+            "events": 624,
+            "wallUnionMs": 49.665,
+            "groups": [
+              {
+                "location": {
+                  "mapStatus": "no-js-stack"
+                },
+                "count": 624,
+                "wallUnionMs": 49.665,
+                "stack": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "mapsUsed": [
+      "assets/route-panel-mouse-down-BVyKOcdB.js",
+      "assets/index-CMOPmGju.js"
+    ],
+    "sourceChecks": [
+      {
+        "path": "apps/web/components/shared/chat-markdown-motion.tsx",
+        "sha256": "04d06c0f35586e1b6a346e7e363f29d234ad25dabe25b314c11f0fc62fb8f423"
+      },
+      {
+        "path": "apps/web/components/shared/memoized-markdown.tsx",
+        "sha256": "72b4686124cff94d8336036b95287f1d8d4d284dd47a5054657ee2b8fef0b2a3"
+      },
+      {
+        "path": "apps/node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.production.js",
+        "sha256": "3e472cce088eb5f01d931ba75ac64b27b52bd46a009e0657b56b45c97ed42044"
+      },
+      {
+        "path": "apps/web/components/task/chat/chat-scroll-motion.ts",
+        "sha256": "0d4ae99b01ec481de4cc1de9798a88c6dd6aa376129bc6e287fa568baf1c85f2"
+      },
+      {
+        "path": "apps/packages/ui/src/pannel-session.tsx",
+        "sha256": "01bfd634c138797b96cd791ea2d4996523306573cd8844582109154f775f3b3b"
+      }
+    ],
+    "limits": [
+      "Intrusive three-second captures within ten-second quiet streams. No paired speed acceptance, native-v2 equivalence, field INP, M2 Air, battery or heap-leak conclusion.",
+      "Call stacks identify binding call sites that trigger observed style/layout work. They do not prove all work is avoidable or that removing a reader removes the underlying layout.",
+      "Wall intervals are clipped to the marker window. Per-category unions avoid double counting within a category; different categories and inclusive stacks can overlap and must not be summed.",
+      "Both 300-update streams are verified after the capture windows. This does not prove all updates rendered within those windows.",
+      "The earlier stack-plus-invalidation capture filled the trace buffer in both cases. Its partial data remains preserved and is excluded from this analysis.",
+      "CPU profile sample weights are not used."
+    ]
+  },
+  "mappingCommand": {
+    "script": "kandev-map-forced-layout-5936a872.cjs",
+    "exitCode": 0,
+    "sourceMapBuildReceipt": {
+      "handle": 8396,
+      "exitCode": 0,
+      "normalAssetsByteIdentical": true,
+      "normalAssetsVerified": 1253,
+      "sourceMaps": 604,
+      "gzipSiblingsVerified": 552,
+      "normalAssetsSha256": "b7c3fa9b16366da506d501e612df926f3cf3b73b1021401a4fa4fd49b673ebe4",
+      "log": "forced-layout-source-map-build.log",
+      "logSha256": "5885b63a7e10b7705c462fddd5a4fe65eb9db544fcf17e0ca1c390dc8adf7729",
+      "scope": "For mapping forced layout binding call-site stacks. This is not a timing run or an optimization."
+    },
+    "normalAssetFilesByteIdentical": 1253,
+    "privateSourceMaps": 604
+  },
+  "caseOutcomes": [
+    {
+      "mode": "no-selection",
+      "status": "passed",
+      "selectionBefore": {
+        "hasFocus": true,
+        "rangeCount": 0,
+        "collapsed": true,
+        "activeElementTag": "BODY",
+        "activeElementTestId": null
+      },
+      "selectionAfter": {
+        "hasFocus": true,
+        "rangeCount": 0,
+        "collapsed": true,
+        "activeElementTag": "BODY",
+        "activeElementTestId": null
+      },
+      "orderedUpdates": 300,
+      "allOrderedUpdatesVerified": true,
+      "initialLoadedHistory": [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      "finalLoadedHistory": [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      "filesBefore": [
+        {
+          "taskId": "f8748d2f-b4e1-4335-bd3e-6666d4813442",
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "environmentId": "a008ab21-b7c9-4b09-ae75-b399e551cc8f",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0000_vypmi9r4/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "5ff4d53abea3ae02ad8612583653c713de322b2722e9383e0e4796703a7e5bd6"
+        },
+        {
+          "taskId": "2fb9ec34-7879-416a-a5e5-f7fbf850c09b",
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "environmentId": "999d490b-ae2e-4bc9-998a-bd5639b66a42",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0001_hvbsyqrv/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "b65a1f677b5651b41a136719f9ed760849a25d129fa808e91a25564ea54af9ff"
+        },
+        {
+          "taskId": "43555be8-f0bb-451b-b581-872a5dce6db8",
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "environmentId": "8bf2b4cf-0c08-4412-ad9b-7c50fe55e093",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0002_h8mucm3g/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "b920ca84e5b816a4852a8738a14c5eb6c98d5a01b252ab295d5a21580875cd78"
+        },
+        {
+          "taskId": "4ff066e2-dbf2-4492-ab9e-a24460634295",
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "environmentId": "e343da9f-ebea-4b06-a753-d6e44995db2a",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0003_uzndifm4/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "18f5b44265f9d8d906ad4f8f2013e83dba16592cb67828f9f57c8c63c637e2f1"
+        },
+        {
+          "taskId": "5bdfa78f-fa6b-40f9-bec1-cb0fcb99e26e",
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "environmentId": "9a2d244c-22a5-4c5c-8d70-61d9782fd54b",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0004_sbmcrr8a/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "2e9471d8c3c10ad771d81c540ca918c2ae0a383f789d7d50a45af7b1993d9091"
+        },
+        {
+          "taskId": "edc2e926-ac7f-4905-9e8f-fbbaf772e4b7",
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "environmentId": "2d84a4a1-94b0-45be-ab4c-c47183d18422",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0005_z9lzwiaf/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "7a94157b68f3000169c1b21d5dc05341979a38f5a026036e38200ea6daa53585"
+        }
+      ],
+      "filesAfter": [
+        {
+          "taskId": "f8748d2f-b4e1-4335-bd3e-6666d4813442",
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "environmentId": "a008ab21-b7c9-4b09-ae75-b399e551cc8f",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0000_vypmi9r4/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "5ff4d53abea3ae02ad8612583653c713de322b2722e9383e0e4796703a7e5bd6"
+        },
+        {
+          "taskId": "2fb9ec34-7879-416a-a5e5-f7fbf850c09b",
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "environmentId": "999d490b-ae2e-4bc9-998a-bd5639b66a42",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0001_hvbsyqrv/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "b65a1f677b5651b41a136719f9ed760849a25d129fa808e91a25564ea54af9ff"
+        },
+        {
+          "taskId": "43555be8-f0bb-451b-b581-872a5dce6db8",
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "environmentId": "8bf2b4cf-0c08-4412-ad9b-7c50fe55e093",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0002_h8mucm3g/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "b920ca84e5b816a4852a8738a14c5eb6c98d5a01b252ab295d5a21580875cd78"
+        },
+        {
+          "taskId": "4ff066e2-dbf2-4492-ab9e-a24460634295",
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "environmentId": "e343da9f-ebea-4b06-a753-d6e44995db2a",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0003_uzndifm4/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "18f5b44265f9d8d906ad4f8f2013e83dba16592cb67828f9f57c8c63c637e2f1"
+        },
+        {
+          "taskId": "5bdfa78f-fa6b-40f9-bec1-cb0fcb99e26e",
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "environmentId": "9a2d244c-22a5-4c5c-8d70-61d9782fd54b",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0004_sbmcrr8a/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "2e9471d8c3c10ad771d81c540ca918c2ae0a383f789d7d50a45af7b1993d9091"
+        },
+        {
+          "taskId": "edc2e926-ac7f-4905-9e8f-fbbaf772e4b7",
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "environmentId": "2d84a4a1-94b0-45be-ab4c-c47183d18422",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0005_z9lzwiaf/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "7a94157b68f3000169c1b21d5dc05341979a38f5a026036e38200ea6daa53585"
+        }
+      ]
+    },
+    {
+      "mode": "focused-composer",
+      "status": "passed",
+      "selectionBefore": {
+        "hasFocus": true,
+        "rangeCount": 1,
+        "collapsed": true,
+        "activeElementTag": "DIV",
+        "activeElementTestId": "chat-input-editor"
+      },
+      "selectionAfter": {
+        "hasFocus": true,
+        "rangeCount": 1,
+        "collapsed": true,
+        "activeElementTag": "DIV",
+        "activeElementTestId": "chat-input-editor"
+      },
+      "orderedUpdates": 300,
+      "allOrderedUpdatesVerified": true,
+      "initialLoadedHistory": [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      "finalLoadedHistory": [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      "filesBefore": [
+        {
+          "taskId": "f8748d2f-b4e1-4335-bd3e-6666d4813442",
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "environmentId": "a008ab21-b7c9-4b09-ae75-b399e551cc8f",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0000_vypmi9r4/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "5ff4d53abea3ae02ad8612583653c713de322b2722e9383e0e4796703a7e5bd6"
+        },
+        {
+          "taskId": "2fb9ec34-7879-416a-a5e5-f7fbf850c09b",
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "environmentId": "999d490b-ae2e-4bc9-998a-bd5639b66a42",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0001_hvbsyqrv/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "b65a1f677b5651b41a136719f9ed760849a25d129fa808e91a25564ea54af9ff"
+        },
+        {
+          "taskId": "43555be8-f0bb-451b-b581-872a5dce6db8",
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "environmentId": "8bf2b4cf-0c08-4412-ad9b-7c50fe55e093",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0002_h8mucm3g/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "b920ca84e5b816a4852a8738a14c5eb6c98d5a01b252ab295d5a21580875cd78"
+        },
+        {
+          "taskId": "4ff066e2-dbf2-4492-ab9e-a24460634295",
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "environmentId": "e343da9f-ebea-4b06-a753-d6e44995db2a",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0003_uzndifm4/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "18f5b44265f9d8d906ad4f8f2013e83dba16592cb67828f9f57c8c63c637e2f1"
+        },
+        {
+          "taskId": "5bdfa78f-fa6b-40f9-bec1-cb0fcb99e26e",
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "environmentId": "9a2d244c-22a5-4c5c-8d70-61d9782fd54b",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0004_sbmcrr8a/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "2e9471d8c3c10ad771d81c540ca918c2ae0a383f789d7d50a45af7b1993d9091"
+        },
+        {
+          "taskId": "edc2e926-ac7f-4905-9e8f-fbbaf772e4b7",
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "environmentId": "2d84a4a1-94b0-45be-ab4c-c47183d18422",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0005_z9lzwiaf/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "7a94157b68f3000169c1b21d5dc05341979a38f5a026036e38200ea6daa53585"
+        }
+      ],
+      "filesAfter": [
+        {
+          "taskId": "f8748d2f-b4e1-4335-bd3e-6666d4813442",
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "environmentId": "a008ab21-b7c9-4b09-ae75-b399e551cc8f",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0000_vypmi9r4/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "5ff4d53abea3ae02ad8612583653c713de322b2722e9383e0e4796703a7e5bd6"
+        },
+        {
+          "taskId": "2fb9ec34-7879-416a-a5e5-f7fbf850c09b",
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "environmentId": "999d490b-ae2e-4bc9-998a-bd5639b66a42",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0001_hvbsyqrv/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "b65a1f677b5651b41a136719f9ed760849a25d129fa808e91a25564ea54af9ff"
+        },
+        {
+          "taskId": "43555be8-f0bb-451b-b581-872a5dce6db8",
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "environmentId": "8bf2b4cf-0c08-4412-ad9b-7c50fe55e093",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0002_h8mucm3g/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "b920ca84e5b816a4852a8738a14c5eb6c98d5a01b252ab295d5a21580875cd78"
+        },
+        {
+          "taskId": "4ff066e2-dbf2-4492-ab9e-a24460634295",
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "environmentId": "e343da9f-ebea-4b06-a753-d6e44995db2a",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0003_uzndifm4/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "18f5b44265f9d8d906ad4f8f2013e83dba16592cb67828f9f57c8c63c637e2f1"
+        },
+        {
+          "taskId": "5bdfa78f-fa6b-40f9-bec1-cb0fcb99e26e",
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "environmentId": "9a2d244c-22a5-4c5c-8d70-61d9782fd54b",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0004_sbmcrr8a/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "2e9471d8c3c10ad771d81c540ca918c2ae0a383f789d7d50a45af7b1993d9091"
+        },
+        {
+          "taskId": "edc2e926-ac7f-4905-9e8f-fbbaf772e4b7",
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "environmentId": "2d84a4a1-94b0-45be-ab4c-c47183d18422",
+          "repoPath": "/tmp/kandev-e2e-0-nMsIqR/.kandev/tasks/dense-task-0005_z9lzwiaf/E2E-Repo",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "stateSha256": "7a94157b68f3000169c1b21d5dc05341979a38f5a026036e38200ea6daa53585"
+        }
+      ]
+    }
+  ],
+  "recordedTaskBusyAudit": {
+    "kind": "Complete recorded fixed-window task-busy audit",
+    "scope": "Both arms of the complete rejected shared-scroll six-pair comparison. Baseline 9e20; candidate 59e1. This is not a new speed result for delivered b7c3.",
+    "raw": {
+      "path": "matched-dense-1793114001836.json",
+      "sha256": "6c4a1513f451ad11bdfcbc0b30ce92e356ac2741fc0b681c4a629779fd7457c5"
+    },
+    "allAttempts": [
+      {
+        "arm": "baseline",
+        "pair": 0,
+        "cpuRate": 1,
+        "sample": "baseline-1x-0",
+        "status": "passed"
+      },
+      {
+        "arm": "candidate",
+        "pair": 0,
+        "cpuRate": 1,
+        "sample": "candidate-1x-0",
+        "status": "passed"
+      },
+      {
+        "arm": "candidate",
+        "pair": 1,
+        "cpuRate": 1,
+        "sample": "candidate-1x-1",
+        "status": "passed"
+      },
+      {
+        "arm": "baseline",
+        "pair": 1,
+        "cpuRate": 1,
+        "sample": "baseline-1x-1",
+        "status": "passed"
+      },
+      {
+        "arm": "baseline",
+        "pair": 2,
+        "cpuRate": 1,
+        "sample": "baseline-1x-2",
+        "status": "passed"
+      },
+      {
+        "arm": "candidate",
+        "pair": 2,
+        "cpuRate": 1,
+        "sample": "candidate-1x-2",
+        "status": "passed"
+      },
+      {
+        "arm": "candidate",
+        "pair": 3,
+        "cpuRate": 1,
+        "sample": "candidate-1x-3",
+        "status": "passed"
+      },
+      {
+        "arm": "baseline",
+        "pair": 3,
+        "cpuRate": 1,
+        "sample": "baseline-1x-3",
+        "status": "passed"
+      },
+      {
+        "arm": "baseline",
+        "pair": 4,
+        "cpuRate": 1,
+        "sample": "baseline-1x-4",
+        "status": "passed"
+      },
+      {
+        "arm": "candidate",
+        "pair": 4,
+        "cpuRate": 1,
+        "sample": "candidate-1x-4",
+        "status": "passed"
+      },
+      {
+        "arm": "candidate",
+        "pair": 5,
+        "cpuRate": 1,
+        "sample": "candidate-1x-5",
+        "status": "passed"
+      },
+      {
+        "arm": "baseline",
+        "pair": 5,
+        "cpuRate": 1,
+        "sample": "baseline-1x-5",
+        "status": "passed"
+      }
+    ],
+    "normalStreamingWindows": 12,
+    "allWindows": [
+      {
+        "arm": "baseline",
+        "pair": 0,
+        "sample": "baseline-1x-0",
+        "scenario": "idle",
+        "elapsedMs": 60043.03244,
+        "taskDurationSeconds": 24.467647999999997,
+        "threadTimeSeconds": 24.599930999999998,
+        "scriptDurationSeconds": 12.42341,
+        "taskTimeToElapsedPct": 40.75018700038195,
+        "threadTimeToElapsedPct": 40.970500656478826,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 0,
+        "sample": "baseline-1x-0",
+        "scenario": "streaming",
+        "elapsedMs": 60738.638875000004,
+        "taskDurationSeconds": 59.867123,
+        "threadTimeSeconds": 59.976365,
+        "scriptDurationSeconds": 41.566162,
+        "taskTimeToElapsedPct": 98.56513762714772,
+        "threadTimeToElapsedPct": 98.74499348500588,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 0,
+        "sample": "baseline-1x-0",
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": 60028.260565000004,
+        "taskDurationSeconds": 7.1527169999999956,
+        "threadTimeSeconds": 7.447935999999999,
+        "scriptDurationSeconds": 1.8626230000000064,
+        "taskTimeToElapsedPct": 11.915582648367542,
+        "threadTimeToElapsedPct": 12.407382672591686,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 0,
+        "sample": "candidate-1x-0",
+        "scenario": "idle",
+        "elapsedMs": 60028.72293700001,
+        "taskDurationSeconds": 24.675950999999998,
+        "threadTimeSeconds": 24.805652000000002,
+        "scriptDurationSeconds": 12.459057,
+        "taskTimeToElapsedPct": 41.10690648191424,
+        "threadTimeToElapsedPct": 41.32297138160588,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 0,
+        "sample": "candidate-1x-0",
+        "scenario": "streaming",
+        "elapsedMs": 61146.65861700004,
+        "taskDurationSeconds": 60.252435000000006,
+        "threadTimeSeconds": 60.366693,
+        "scriptDurationSeconds": 42.308943,
+        "taskTimeToElapsedPct": 98.53757566279931,
+        "threadTimeToElapsedPct": 98.72443460584583,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 0,
+        "sample": "candidate-1x-0",
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": 60039.83004699997,
+        "taskDurationSeconds": 6.917896999999996,
+        "threadTimeSeconds": 7.240344000000007,
+        "scriptDurationSeconds": 1.822383000000002,
+        "taskTimeToElapsedPct": 11.522179517471278,
+        "threadTimeToElapsedPct": 12.059234668606107,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 1,
+        "sample": "candidate-1x-1",
+        "scenario": "idle",
+        "elapsedMs": 60042.73953900003,
+        "taskDurationSeconds": 24.896644000000002,
+        "threadTimeSeconds": 25.006218,
+        "scriptDurationSeconds": 13.118869999999998,
+        "taskTimeToElapsedPct": 41.46487017606631,
+        "threadTimeToElapsedPct": 41.647363514713575,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 1,
+        "sample": "candidate-1x-1",
+        "scenario": "streaming",
+        "elapsedMs": 60664.45510499994,
+        "taskDurationSeconds": 59.810333,
+        "threadTimeSeconds": 59.906676000000004,
+        "scriptDurationSeconds": 40.336957,
+        "taskTimeToElapsedPct": 98.59205509466523,
+        "threadTimeToElapsedPct": 98.75086802693876,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 1,
+        "sample": "candidate-1x-1",
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": 60058.61696500005,
+        "taskDurationSeconds": 6.981223,
+        "threadTimeSeconds": 7.301788999999999,
+        "scriptDurationSeconds": 1.848316000000004,
+        "taskTimeToElapsedPct": 11.624015591415299,
+        "threadTimeToElapsedPct": 12.157770806236202,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 1,
+        "sample": "baseline-1x-1",
+        "scenario": "idle",
+        "elapsedMs": 60046.736135000014,
+        "taskDurationSeconds": 24.080734,
+        "threadTimeSeconds": 24.189111,
+        "scriptDurationSeconds": 12.013841000000003,
+        "taskTimeToElapsedPct": 40.103318764671094,
+        "threadTimeToElapsedPct": 40.2838065096775,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 1,
+        "sample": "baseline-1x-1",
+        "scenario": "streaming",
+        "elapsedMs": 60813.220065,
+        "taskDurationSeconds": 59.865061000000004,
+        "threadTimeSeconds": 59.951572,
+        "scriptDurationSeconds": 40.660358,
+        "taskTimeToElapsedPct": 98.44086686416776,
+        "threadTimeToElapsedPct": 98.58312376144687,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 1,
+        "sample": "baseline-1x-1",
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": 60073.84040799993,
+        "taskDurationSeconds": 7.263168000000007,
+        "threadTimeSeconds": 7.59966,
+        "scriptDurationSeconds": 1.8713589999999982,
+        "taskTimeToElapsedPct": 12.09040066470061,
+        "threadTimeToElapsedPct": 12.650531326756939,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 2,
+        "sample": "baseline-1x-2",
+        "scenario": "idle",
+        "elapsedMs": 60070.35271300003,
+        "taskDurationSeconds": 24.870098,
+        "threadTimeSeconds": 24.967987,
+        "scriptDurationSeconds": 13.168970999999999,
+        "taskTimeToElapsedPct": 41.40161806410998,
+        "threadTimeToElapsedPct": 41.56457532268925,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 2,
+        "sample": "baseline-1x-2",
+        "scenario": "streaming",
+        "elapsedMs": 60797.53894700005,
+        "taskDurationSeconds": 59.99721400000001,
+        "threadTimeSeconds": 60.074754,
+        "scriptDurationSeconds": 41.761596,
+        "taskTimeToElapsedPct": 98.68362278989989,
+        "threadTimeToElapsedPct": 98.8111608471025,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 2,
+        "sample": "baseline-1x-2",
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": 60059.05224800005,
+        "taskDurationSeconds": 6.223427000000001,
+        "threadTimeSeconds": 6.4901920000000075,
+        "scriptDurationSeconds": 1.7369460000000032,
+        "taskTimeToElapsedPct": 10.362179833111236,
+        "threadTimeToElapsedPct": 10.806351011335064,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 2,
+        "sample": "candidate-1x-2",
+        "scenario": "idle",
+        "elapsedMs": 60070.560408000136,
+        "taskDurationSeconds": 24.334908000000002,
+        "threadTimeSeconds": 24.490391000000002,
+        "scriptDurationSeconds": 12.189405,
+        "taskTimeToElapsedPct": 40.51053933027584,
+        "threadTimeToElapsedPct": 40.76937327313231,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 2,
+        "sample": "candidate-1x-2",
+        "scenario": "streaming",
+        "elapsedMs": 60652.83379100007,
+        "taskDurationSeconds": 59.75655499999999,
+        "threadTimeSeconds": 59.864802,
+        "scriptDurationSeconds": 39.195475,
+        "taskTimeToElapsedPct": 98.52228043608233,
+        "threadTimeToElapsedPct": 98.70075025065523,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 2,
+        "sample": "candidate-1x-2",
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": 60091.93539300002,
+        "taskDurationSeconds": 6.683374999999998,
+        "threadTimeSeconds": 7.0026320000000055,
+        "scriptDurationSeconds": 1.7937370000000001,
+        "taskTimeToElapsedPct": 11.121916703615657,
+        "threadTimeToElapsedPct": 11.653197644913476,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 3,
+        "sample": "candidate-1x-3",
+        "scenario": "idle",
+        "elapsedMs": 60065.36538000009,
+        "taskDurationSeconds": 24.493414,
+        "threadTimeSeconds": 24.615587,
+        "scriptDurationSeconds": 12.459996,
+        "taskTimeToElapsedPct": 40.77793224938169,
+        "threadTimeToElapsedPct": 40.98133232732524,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 3,
+        "sample": "candidate-1x-3",
+        "scenario": "streaming",
+        "elapsedMs": 61106.7440549999,
+        "taskDurationSeconds": 60.229745,
+        "threadTimeSeconds": 60.388563999999995,
+        "scriptDurationSeconds": 42.103622,
+        "taskTimeToElapsedPct": 98.56480807714031,
+        "threadTimeToElapsedPct": 98.82471228649739,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 3,
+        "sample": "candidate-1x-3",
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": 60106.31175599992,
+        "taskDurationSeconds": 7.044885000000008,
+        "threadTimeSeconds": 7.373031999999995,
+        "scriptDurationSeconds": 1.806438,
+        "taskTimeToElapsedPct": 11.72070751670564,
+        "threadTimeToElapsedPct": 12.266651845035234,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 3,
+        "sample": "baseline-1x-3",
+        "scenario": "idle",
+        "elapsedMs": 60105.93623599992,
+        "taskDurationSeconds": 24.537025,
+        "threadTimeSeconds": 24.69107,
+        "scriptDurationSeconds": 12.258363000000001,
+        "taskTimeToElapsedPct": 40.822964480010484,
+        "threadTimeToElapsedPct": 41.07925364152551,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 3,
+        "sample": "baseline-1x-3",
+        "scenario": "streaming",
+        "elapsedMs": 63027.660171000054,
+        "taskDurationSeconds": 62.080339,
+        "threadTimeSeconds": 61.851473999999996,
+        "scriptDurationSeconds": 43.799223,
+        "taskTimeToElapsedPct": 98.49697550499278,
+        "threadTimeToElapsedPct": 98.13385715444782,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 3,
+        "sample": "baseline-1x-3",
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": 60094.5304990001,
+        "taskDurationSeconds": 6.6225709999999935,
+        "threadTimeSeconds": 6.9437289999999905,
+        "scriptDurationSeconds": 1.8538190000000014,
+        "taskTimeToElapsedPct": 11.020255828623513,
+        "threadTimeToElapsedPct": 11.554677176678377,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 4,
+        "sample": "baseline-1x-4",
+        "scenario": "idle",
+        "elapsedMs": 60093.03053899994,
+        "taskDurationSeconds": 27.526833000000003,
+        "threadTimeSeconds": 26.726971000000002,
+        "scriptDurationSeconds": 14.631908,
+        "taskTimeToElapsedPct": 45.807030787264566,
+        "threadTimeToElapsedPct": 44.47599124270225,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 4,
+        "sample": "baseline-1x-4",
+        "scenario": "streaming",
+        "elapsedMs": 61984.8216599999,
+        "taskDurationSeconds": 60.784253,
+        "threadTimeSeconds": 60.804433,
+        "scriptDurationSeconds": 42.780728999999994,
+        "taskTimeToElapsedPct": 98.06312476530903,
+        "threadTimeToElapsedPct": 98.09568112259065,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 4,
+        "sample": "baseline-1x-4",
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": 60109.92795499996,
+        "taskDurationSeconds": 6.702837000000002,
+        "threadTimeSeconds": 7.015394999999998,
+        "scriptDurationSeconds": 1.8734239999999929,
+        "taskTimeToElapsedPct": 11.150964953772595,
+        "threadTimeToElapsedPct": 11.670942286358963,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 4,
+        "sample": "candidate-1x-4",
+        "scenario": "idle",
+        "elapsedMs": 60126.383118000114,
+        "taskDurationSeconds": 24.339241,
+        "threadTimeSeconds": 24.487606,
+        "scriptDurationSeconds": 12.823825,
+        "taskTimeToElapsedPct": 40.4801349055595,
+        "threadTimeToElapsedPct": 40.72689014395265,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 4,
+        "sample": "candidate-1x-4",
+        "scenario": "streaming",
+        "elapsedMs": 64666.381969999755,
+        "taskDurationSeconds": 63.417745,
+        "threadTimeSeconds": 63.382379,
+        "scriptDurationSeconds": 43.883407,
+        "taskTimeToElapsedPct": 98.06910958683441,
+        "threadTimeToElapsedPct": 98.01441965533894,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 4,
+        "sample": "candidate-1x-4",
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": 60120.89715800015,
+        "taskDurationSeconds": 6.878643000000011,
+        "threadTimeSeconds": 7.195087000000001,
+        "scriptDurationSeconds": 1.834302000000001,
+        "taskTimeToElapsedPct": 11.441351219231906,
+        "threadTimeToElapsedPct": 11.967697323429856,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 5,
+        "sample": "candidate-1x-5",
+        "scenario": "idle",
+        "elapsedMs": 60131.063558999915,
+        "taskDurationSeconds": 24.830452,
+        "threadTimeSeconds": 24.966217999999998,
+        "scriptDurationSeconds": 12.601889,
+        "taskTimeToElapsedPct": 41.29388460863767,
+        "threadTimeToElapsedPct": 41.519668075558705,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 5,
+        "sample": "candidate-1x-5",
+        "scenario": "streaming",
+        "elapsedMs": 60987.32539100014,
+        "taskDurationSeconds": 60.065622999999995,
+        "threadTimeSeconds": 59.912458,
+        "scriptDurationSeconds": 42.569214,
+        "taskTimeToElapsedPct": 98.48869845481673,
+        "threadTimeToElapsedPct": 98.23755610840617,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "candidate",
+        "pair": 5,
+        "sample": "candidate-1x-5",
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": 60110.91442500008,
+        "taskDurationSeconds": 6.8121129999999965,
+        "threadTimeSeconds": 7.108086,
+        "scriptDurationSeconds": 1.8803589999999986,
+        "taskTimeToElapsedPct": 11.332572570492863,
+        "threadTimeToElapsedPct": 11.824950706528853,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 5,
+        "sample": "baseline-1x-5",
+        "scenario": "idle",
+        "elapsedMs": 60145.85615699971,
+        "taskDurationSeconds": 26.064170999999998,
+        "threadTimeSeconds": 26.125319000000005,
+        "scriptDurationSeconds": 14.356821000000002,
+        "taskTimeToElapsedPct": 43.33494053516216,
+        "threadTimeToElapsedPct": 43.43660672450095,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 5,
+        "sample": "baseline-1x-5",
+        "scenario": "streaming",
+        "elapsedMs": 60678.87937900005,
+        "taskDurationSeconds": 59.799265,
+        "threadTimeSeconds": 59.908624999999994,
+        "scriptDurationSeconds": 41.650422,
+        "taskTimeToElapsedPct": 98.55037800961026,
+        "threadTimeToElapsedPct": 98.73060546456527,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      },
+      {
+        "arm": "baseline",
+        "pair": 5,
+        "sample": "baseline-1x-5",
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": 60156.483109999914,
+        "taskDurationSeconds": 7.351434000000012,
+        "threadTimeSeconds": 7.679960000000008,
+        "scriptDurationSeconds": 1.8948110000000042,
+        "taskTimeToElapsedPct": 12.220518254960904,
+        "threadTimeToElapsedPct": 12.766637281565677,
+        "selectionBefore": {
+          "rangeCount": 0,
+          "activeElementTag": "BODY",
+          "activeElementEditable": false
+        }
+      }
+    ],
+    "scenarioSummary": [
+      {
+        "scenario": "idle",
+        "windows": 12,
+        "minimumTaskBusyPct": 40.103318764671094,
+        "medianTaskBusyPct": 40.96493548096236,
+        "maximumTaskBusyPct": 45.807030787264566
+      },
+      {
+        "scenario": "streaming",
+        "windows": 12,
+        "minimumTaskBusyPct": 98.06312476530903,
+        "medianTaskBusyPct": 98.52992804944083,
+        "maximumTaskBusyPct": 98.68362278989989
+      },
+      {
+        "scenario": "reduced-motion-idle",
+        "windows": 12,
+        "minimumTaskBusyPct": 10.362179833111236,
+        "medianTaskBusyPct": 11.481765368351592,
+        "maximumTaskBusyPct": 12.220518254960904
+      }
+    ],
+    "interpretation": "Every recorded normal-streaming window is close to fully occupied on the renderer task clock (98.06% to 98.68%). A fixed window can conceal a smaller per-update work reduction while the renderer remains busy. Independent response-time and completion/throughput evidence is needed. This does not establish any rejected candidate as faster or change the 20% target.",
+    "limits": "TaskDuration is renderer task duration, not whole-machine CPU use. This audit uses existing complete Linux software-rendering captures and has no M2 Air conclusion."
+  },
+  "nativeSourceReferences": [
+    {
+      "path": "chromium-149-dom_selection.cc",
+      "sha256": "1107fb9696673b3a4f15d03c1ffcf0515b5b2cadbd1fdcc757ed74191a07c847",
+      "url": "https://raw.githubusercontent.com/chromium/chromium/3188f8a607ae7e067593be8aab7f02d2451fec07/third_party/blink/renderer/core/editing/dom_selection.cc"
+    },
+    {
+      "path": "chromium-149-inspector_trace_events.cc",
+      "sha256": "1671c0a94cf3cf68c48ad297b3420d74d68b68e22880a22d9a8425795c9ea35b",
+      "url": "https://raw.githubusercontent.com/chromium/chromium/3188f8a607ae7e067593be8aab7f02d2451fec07/third_party/blink/renderer/core/inspector/inspector_trace_events.cc"
+    },
+    {
+      "path": "chromium-149-inspector_performance_agent.cc",
+      "sha256": "be9269895534c7210d8e3b249163fe20496eef9b2c52f01f89a6ca25f07abcc5",
+      "url": "https://raw.githubusercontent.com/chromium/chromium/3188f8a607ae7e067593be8aab7f02d2451fec07/third_party/blink/renderer/core/inspector/inspector_performance_agent.cc"
+    },
+    {
+      "path": "chromium-149-source_location.cc",
+      "sha256": "dc094212d6e601972bd6b344b8710068d5e28162711857baff19282b8e6f7ae0",
+      "url": "https://raw.githubusercontent.com/chromium/chromium/3188f8a607ae7e067593be8aab7f02d2451fec07/third_party/blink/renderer/platform/bindings/source_location.cc"
+    }
+  ],
+  "interpretation": [
+    "The positive control produces 22 stack-bearing style/layout records at the known geometry-read call site. The negative textContent control produces none. Trace call-site coordinates are calibrated as one-based lines and columns; source-map columns are zero-based UTF-16.",
+    "In the no-selection capture, selection.rangeCount triggers 76 observed style events and 72 layout events. The generic saved-scrollTop read triggers another 36 style and 31 layout events. The motion target calculation triggers four of each.",
+    "In the focused-composer capture, the selection getter no longer appears as a forced layout call site. All 47 observed layout records have no JavaScript stack, while style work also shifts toward frame processing. This is a diagnostic control, not a paired speed comparison.",
+    "Removing one getter can move work to another binding read or to frame processing. These call-site records do not establish how much work a production change would remove.",
+    "The full existing reference run is close to fully occupied during all twelve normal-streaming windows. Keep the independent latency, native-input and correctness controls. Do not use the task-busy cap to accept rejected candidates."
+  ],
+  "limits": [
+    "Stack capture and CPU profiling change scheduling. No timing comparison, native-v2 equivalence, field INP, M2 Air, battery or memory-leak claim follows.",
+    "Per-category wall unions are clipped to the markers. Different categories and inclusive stacks overlap and must not be summed. Durations include instrumentation effects.",
+    "All 600 updates are verified after the trace windows. This does not prove all of them rendered within those windows.",
+    "The main reference comparison quoted for the task-busy audit is the existing rejected shared-scroll run. Its assets differ from the delivered b7c3 build.",
+    "No production source, native interaction policy or benchmark deadline changes are retained. All temporary browser sources are removed.",
+    "The 20% normal-streaming target and original-baseline final matrix remain open."
+  ],
+  "nextAction": "Identify the browser or desktop app used on the M2 Air before choosing a browser-specific production candidate. The connected frontend bundle does not contain that identity. Keep current app behavior and all original benchmark controls.",
+  "artifacts": [
+    {
+      "path": "forced-layout-artifact-kandev-build-forced-layout-source-maps-5936a872.cjs",
+      "sha256": "68d072a7b73ffc48c5efb929d03fa26e43be648a3aa723f4a7803a77b3be70c8",
+      "bytes": 4560
+    },
+    {
+      "path": "forced-layout-artifact-kandev-exec-forced-layout-attribution-5936a872.py",
+      "sha256": "a7a6c40825ef6873c0d3820e74768f2f16dbeec723495b77bf3390f13c026d25",
+      "bytes": 6580
+    },
+    {
+      "path": "forced-layout-artifact-kandev-exec-forced-layout-stack-r2-5936a872.py",
+      "sha256": "24bd51cb61bdb0e1772b3d6adff9ceccfc65a90937c42d3336a2c825dc715fee",
+      "bytes": 6644
+    },
+    {
+      "path": "forced-layout-artifact-kandev-capture-forced-layout-attribution-5936a872.py",
+      "sha256": "5a6e78823172312a3e898bdf832652b922489501eea0f30799cea03ebaf829e5",
+      "bytes": 6889
+    },
+    {
+      "path": "forced-layout-artifact-kandev-map-forced-layout-5936a872.cjs",
+      "sha256": "e87be653209998b5a6172ce7ccf7c49ca2726c7c3220a4d67ccb10fb9314dc3c",
+      "bytes": 7220
+    },
+    {
+      "path": "forced-layout-artifact-kandev-forced-layout-calibration-source-5936a872.txt",
+      "sha256": "ce9b96addbdbf6ad16756f69fc8b5b136f0e883e23fdf5fbd9f890e0bd041b14",
+      "bytes": 440
+    }
+  ]
+}
