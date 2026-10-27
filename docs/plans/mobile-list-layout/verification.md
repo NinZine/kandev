@@ -118,6 +118,14 @@ Focused regressions ran on 2026-10-27 after the review fixes:
 - Both preview capture specs now resolve evidence paths relative to their
   source files. They keep routine captures in Playwright output and update
   committed files only during an explicit `CAPTURE_PR_ASSETS=true` run.
+- The PR run at `adde3d19407` reported five E2E shards failing on retry-only
+  flakes. The selected-filter assertion now waits for the current option set,
+  the phone retry target allows subpixel rounding at 44px, the GitHub page
+  result gets a longer async deadline, and the plugin navigation test only
+  toggles its disclosure when that control is present. The Quick Terminal
+  drawer-close assertion allows for the mobile drawer transition. All five
+  affected tests passed in focused one-worker reruns; a new full PR run is
+  required to confirm the fix at CI scale.
 
 These browser tests do not replace the UI-01 through UI-09 screenshot review or
 real-device proof. The Default workspace-label blur remains pending on actual
