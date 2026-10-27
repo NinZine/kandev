@@ -995,3 +995,58 @@ and whitespace checks passed. The application's touch control remains 44 CSS
 pixels, and a 43.99-pixel measured height still fails this assertion. Public
 documentation and UI captures require no change. Fresh exact-head CI remains
 pending; the current published run is still collecting its complete result.
+
+### Remaining CI fixture contracts (2026-10-27)
+
+The published 7440148ef0345a6324cb74a6879ab7491505e2e4 run finished with
+83 passed, 12 skipped, five failed and no pending checks. Four E2E shards
+contained six failed cases; their aggregate was the fifth failed check.
+The sidebar precision correction is recorded above. The remaining fixtures
+now establish their own identity, timing and transition preconditions:
+
+- Profile deletion uses the ready seed profile's stable ID through the existing
+  API helper. The list-row target uses its profile-specific action ID. New
+  disposable profiles inherit that seed profile's agent and model. A registered
+  agent family may legitimately have no profiles and may appear first in the
+  list; array position does not establish a test owner.
+- Restart response waits use the existing restart client's 30-second launch
+  budget instead of the WebSocket helper's unrelated 15-second default. The
+  live-sibling cases correlate Stop and Resume to the exact target, require
+  Resume intent, and arm after the context menu is ready. Existing draft,
+  sibling, history, workspace and readiness assertions remain.
+- Palette input, scope-strip and dialog rectangles are read in one synchronous
+  browser evaluation. Separate protocol calls could sample a moving surface
+  at different positions. The strict below-field and width inequalities remain
+  unchanged; no extra overlap tolerance is introduced.
+- Both branch regression files share a repository-popup exit wait before the
+  executor picker opens. The branch-refresh failure's first trace again showed
+  the executor popup already closed immediately after its trigger click.
+  Existing selected-repository, branch, refresh-request and focus assertions
+  remain. The helper observes closure and does not repeat a click.
+
+The four newly reported cases passed an unmodified local baseline; their exact
+CI timing failures were not reproduced. The changes enforce observed fixture
+contracts rather than claiming a captured production focus bug. First-failure
+traces are retained for the affected files. The complete four-spec check passed
+23 cases. After extracting the shared close wait, both full branch suites
+passed 20 cases. All runs used two CPUs, one worker and zero retries.
+Original process 2-2 passed 33 cases with one existing skip, and process 22-2
+passed 30 cases with two existing skips. Process 22-4 passed 36 cases but
+exposed a neighboring launch-recovery fixture defect: changing the origin to
+an unresolved remote retained the old origin/HEAD cache. The worktree manager
+correctly used that cached default, so the test no longer exercised its claimed
+missing-base condition. The fixture now deletes only that cached symbolic ref;
+both local and remote-tracking main branches remain. A real-Git regression
+failed against the no-op implementation and passed with the correction. All
+four Git fixture unit tests pass, including the existing origin-restore suite.
+The interrupted follow-up run has no terminal result and is not counted as a
+pass. A fresh complete desktop/phone launch-recovery run passed all seven
+cases with one worker and no retries. Existing describe-level retry overrides
+were restored. Application code,
+public documentation and published UI rendering are unchanged.
+
+The user requested current main's E2E policy. Verified main
+9c7359d3aa9ea3920d01fca2fc0e2794e4a900c0 removes E2E_FAIL_ON_FLAKY from
+both browser and container CI jobs. This upstream policy will be integrated
+with its fixture corrections; the assignment branch does not introduce a
+separate bypass or change application behavior.

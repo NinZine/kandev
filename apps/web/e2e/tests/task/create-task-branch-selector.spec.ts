@@ -6,6 +6,7 @@ import { expectWebkitDialogMotion } from "../../helpers/dialog-webkit-metrics";
 import { useRegularMode } from "../../helpers/regular-mode";
 import { KanbanPage } from "../../pages/kanban-page";
 import { makeGitEnv } from "../../helpers/git-helper";
+import { waitForRepositoryPickerClose } from "../../helpers/task-create-picker";
 
 test.use({ trace: "retain-on-failure" });
 
@@ -300,14 +301,11 @@ test.describe("Fresh-branch flow", () => {
     await testPage.getByTestId("task-title-input").fill("Fresh Branch Test");
     await testPage.getByTestId("task-description-input").fill("testing fresh branch");
     await testPage.getByTestId("repo-chip-trigger").first().click();
-    const repositoryPicker = testPage.locator('[data-slot="popover-content"]').filter({
-      has: testPage.getByPlaceholder("Search repositories...", { exact: true }),
-    });
     await testPage
       .getByRole("option", { name: new RegExp(`^${escapeRe(repoName)}\\b`, "i") })
       .first()
       .click();
-    await expect(repositoryPicker).toHaveCount(0);
+    await waitForRepositoryPickerClose(testPage);
     await expect(testPage.getByTestId("repo-chip-trigger").first()).toContainText(repoName);
     await testPage.getByTestId("executor-profile-selector").click();
     await testPage
@@ -597,6 +595,7 @@ test.describe("Fresh-branch flow", () => {
         .getByRole("option", { name: new RegExp(`^${setup.repoName}\\b`, "i") })
         .first()
         .click();
+      await waitForRepositoryPickerClose(testPage);
 
       const executorSelector = testPage.getByTestId("executor-profile-selector");
       await executorSelector.click();
@@ -661,6 +660,7 @@ test.describe("Branch refresh + filter", () => {
     // Repository names are not unique after earlier specs register additional
     // worktrees. cmdk's stable data-value is the repository ID.
     await testPage.locator(`[cmdk-item][data-value="${seedData.repositoryId}"]`).click();
+    await waitForRepositoryPickerClose(testPage);
     // Worktree executor → branch selector enabled and refresh button visible.
     await testPage.getByTestId("executor-profile-selector").click();
     await testPage.getByRole("option", { name: worktreeProfileName }).click();
@@ -751,6 +751,7 @@ test.describe("Branch refresh + filter", () => {
       .getByRole("option", { name: new RegExp(`^${repoName}\\b`, "i") })
       .first()
       .click();
+    await waitForRepositoryPickerClose(testPage);
     await testPage.getByTestId("executor-profile-selector").click();
     await testPage.getByRole("option", { name: worktreeProfileName }).click();
     // Finish the executor popover's focus restoration before opening the next picker.

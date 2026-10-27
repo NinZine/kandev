@@ -5,6 +5,7 @@ import { test, expect } from "../../fixtures/test-base";
 import { useRegularMode } from "../../helpers/regular-mode";
 import { KanbanPage } from "../../pages/kanban-page";
 import { makeGitEnv } from "../../helpers/git-helper";
+import { waitForRepositoryPickerClose } from "../../helpers/task-create-picker";
 
 /**
  * Regression suite for the "new branch on local executor empties the changes
@@ -138,6 +139,7 @@ test.describe("Local executor branch split", () => {
       .getByRole("option", { name: new RegExp(`^${escapeRe(opts.repoName)}\\b`, "i") })
       .first()
       .click();
+    await waitForRepositoryPickerClose(testPage);
 
     const executorProfileSelector = testPage.getByTestId("executor-profile-selector");
     await executorProfileSelector.click();

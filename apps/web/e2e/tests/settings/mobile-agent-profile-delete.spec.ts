@@ -1,6 +1,8 @@
 import { test, expect } from "../../fixtures/test-base";
 import { waitForFiniteAnimations } from "../../helpers/animations";
 
+test.use({ trace: "retain-on-failure" });
+
 function longProfileDeleteConflict() {
   return {
     active_sessions: Array.from({ length: 40 }, (_, index) => ({
@@ -19,16 +21,15 @@ test.describe("Agent profile deletion on mobile", () => {
   test("keeps list-row deletion controls above the row link and returns focus on cancel", async ({
     testPage,
     apiClient,
+    seedData,
   }) => {
-    const { agents } = await apiClient.listAgents();
-    const agent = agents[0];
-    const profile = agent.profiles[0];
+    const profile = await apiClient.getAgentProfile(seedData.agentProfileId);
 
     await testPage.goto("/settings/agents");
 
-    const row = testPage.getByTestId("agent-profile-row").filter({ hasText: profile.name });
+    const trigger = testPage.getByTestId(`profile-actions-menu-${profile.id}`);
+    const row = testPage.getByTestId("agent-profile-row").filter({ has: trigger });
     await expect(row).toBeVisible({ timeout: 15_000 });
-    const trigger = row.getByTestId(`profile-actions-menu-${profile.id}`);
     await trigger.tap();
     await expect(trigger).toHaveAttribute("aria-expanded", "true");
     const menu = testPage.locator('[data-slot="dropdown-menu-content"]:visible');
@@ -64,15 +65,15 @@ test.describe("Agent profile deletion on mobile", () => {
   test("opens simple deletion in a sheet with touch-sized cancel and delete actions", async ({
     testPage,
     apiClient,
+    seedData,
     prCapture,
   }) => {
-    const { agents } = await apiClient.listAgents();
-    const agent = agents[0];
-    const profile = await apiClient.createAgentProfile(agent.id, "Mobile Delete Me", {
-      model: agent.profiles[0].model,
+    const seedProfile = await apiClient.getAgentProfile(seedData.agentProfileId);
+    const profile = await apiClient.createAgentProfile(seedProfile.agentId, "Mobile Delete Me", {
+      model: seedProfile.model,
     });
 
-    await testPage.goto(`/settings/agents/${agent.name}/profiles/${profile.id}`);
+    await testPage.goto(`/settings/agents/${seedProfile.agentId}/profiles/${profile.id}`);
     await expect(testPage.getByText("Delete profile", { exact: true })).toBeVisible({
       timeout: 15_000,
     });
@@ -118,14 +119,21 @@ test.describe("Agent profile deletion on mobile", () => {
     await expect(testPage).toHaveURL(/\/settings\/agents$/, { timeout: 15_000 });
   });
 
-  test("keeps conflict actions visible with many tasks", async ({ testPage, apiClient }) => {
+  test("keeps conflict actions visible with many tasks", async ({
+    testPage,
+    apiClient,
+    seedData,
+  }) => {
     test.setTimeout(60_000);
 
-    const { agents } = await apiClient.listAgents();
-    const agent = agents[0];
-    const profile = await apiClient.createAgentProfile(agent.id, "Mobile Overflow Profile", {
-      model: agent.profiles[0].model,
-    });
+    const seedProfile = await apiClient.getAgentProfile(seedData.agentProfileId);
+    const profile = await apiClient.createAgentProfile(
+      seedProfile.agentId,
+      "Mobile Overflow Profile",
+      {
+        model: seedProfile.model,
+      },
+    );
     await testPage.route(`**/api/v1/agent-profiles/${profile.id}**`, async (route) => {
       if (route.request().method() !== "DELETE") {
         await route.continue();
@@ -138,7 +146,7 @@ test.describe("Agent profile deletion on mobile", () => {
       });
     });
 
-    await testPage.goto(`/settings/agents/${agent.name}/profiles/${profile.id}`);
+    await testPage.goto(`/settings/agents/${seedProfile.agentId}/profiles/${profile.id}`);
     await expect(testPage.getByText("Delete profile", { exact: true })).toBeVisible({
       timeout: 15_000,
     });
