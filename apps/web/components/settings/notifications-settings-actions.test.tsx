@@ -568,3 +568,29 @@ describe("webhook provider drafts", () => {
     expect(result.current.state.providers[0]?.config.url).toBe(GOCLAW_CLARIFICATION_URL);
   });
 });
+
+describe("notification save reconciliation", () => {
+  it("saves when a provider has no enabled subscriptions (null events)", async () => {
+    const noEventsProvider = {
+      ...savedProvider,
+      id: "provider-no-events",
+      events: null as unknown as string[],
+    };
+    notificationProviders = [noEventsProvider];
+    mocks.updateNotificationProvider.mockResolvedValueOnce({
+      ...noEventsProvider,
+      name: "Renamed provider",
+      events: [],
+    });
+    const { result } = renderHook(useHarness);
+
+    act(() => {
+      result.current.actions.handleAppriseNameEdit(noEventsProvider.id, "Renamed provider");
+    });
+    await act(() => result.current.saveRequest.run());
+
+    expect(mocks.updateNotificationProvider).toHaveBeenCalledWith(noEventsProvider.id, {
+      name: "Renamed provider",
+    });
+  });
+});

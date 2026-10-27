@@ -2,13 +2,20 @@ import type { NotificationProvider } from "@/lib/types/http";
 import type { NotificationsState } from "./notifications-settings-actions";
 
 function reconcileEvents(
-  current: string[] = [],
-  submitted: string[] = [],
-  accepted: string[] = [],
+  current: string[] | null = [],
+  submitted: string[] | null = [],
+  accepted: string[] | null = [],
 ) {
-  const removed = new Set(submitted.filter((event) => !current.includes(event)));
-  const added = current.filter((event) => !submitted.includes(event));
-  return [...new Set([...accepted.filter((event) => !removed.has(event)), ...added])];
+  // Older payloads serialize a provider with no enabled subscriptions as
+  // `events: null`, so normalize before filtering.
+  const currentEvents = current ?? [];
+  const submittedEvents = submitted ?? [];
+  const acceptedEvents = accepted ?? [];
+  const removed = new Set(submittedEvents.filter((event) => !currentEvents.includes(event)));
+  const added = currentEvents.filter((event) => !submittedEvents.includes(event));
+  return [
+    ...new Set([...acceptedEvents.filter((event) => !removed.has(event)), ...added]),
+  ];
 }
 
 function reconcileProvider(
