@@ -1188,3 +1188,36 @@ assertions, and timeouts remain intact. Owning work orders record the evidence.
 No product, SDK, or release behavior changes. Scoped lint/format, full docs/spec
 checks, and trusted linked-document validation pass. Independent review found
 no actionable issue. Normal hooks, push, and fresh-head CI follow.
+
+## Restart and drawer recovery fixture correction (2026-10-27)
+
+Published head `0bbebdcf6afa` ended with 92 passing checks, two failed browser
+shards, and their aggregate. All 118 reports were audited: 4,321 attempts, 4,277
+passed, 40 skipped, four failed attempts/retries, and no parse errors. Earlier
+drag, navigation, startup, and locale corrections passed this run.
+
+The drawer recovery fixture now keeps reads unavailable until its actual Retry
+click. A shared stable-owner latch serves the drawer and menu fixtures. A real
+foreground-refresh control reproduces premature recovery under the former
+fixture; the corrected probe passes. Both full phone specifications pass three
+repetitions: 27 cases with retries disabled.
+
+Both failed restart-activity traces contain a competing exact session read
+outside the held list route. Its full snapshot correctly removes the synthetic
+activity. Independent gates isolate that read until list recovery proves
+clearance. A controlled individual-read release reproduces the original UI
+precondition failure; isolated list recovery passes. The existing list and
+reconciler unit suites pass all 47 tests. All three affected ACP restart scenarios pass three repetitions: nine cases,
+retries disabled.
+
+Healthy-sibling setup failed before the slow-restore assertions, without an
+initial-attempt trace. Five local attempts completed successfully across an
+interrupted run and a fresh run. Preserve the unknown cause. Add failure-only
+sibling/backend capture before cleanup and retain first-failure traces. No
+product budget, action, assertion, or timeout changes.
+
+Owning work orders record these boundaries. The background-liveness plan/work
+order use canonical requirement/design frontmatter without changing their
+existing scope or status. Full docs/spec checks and trusted local documentation
+coverage pass. Independent review, remaining browser checks, normal hooks,
+current-main combined validation, push, and fresh CI remain delivery gates.

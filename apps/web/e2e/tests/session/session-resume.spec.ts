@@ -204,12 +204,18 @@ test.describe("Session resume (ACP mode)", () => {
 
     const sessionsPath = `/api/v1/tasks/${task.id}/sessions`;
     const matchesSessions = (url: URL) => url.pathname === sessionsPath;
+    const sessionPath = `/api/v1/task-sessions/${sessionId}`;
+    const matchesSession = (url: URL) => url.pathname === sessionPath;
     const releaseResponse = Promise.withResolvers<void>();
-    const holdSessionResponse = async (route: Route) => {
-      await releaseResponse.promise;
+    const releaseSessionResponse = Promise.withResolvers<void>();
+    const holdUntil = (released: Promise<void>) => async (route: Route) => {
+      await released;
       await route.continue();
     };
+    const holdSessionResponse = holdUntil(releaseResponse.promise);
+    const holdIndividualResponse = holdUntil(releaseSessionResponse.promise);
     await testPage.route(matchesSessions, holdSessionResponse);
+    await testPage.route(matchesSession, holdIndividualResponse);
     try {
       const refreshRequested = testPage.waitForRequest(
         (request) => request.method() === "GET" && matchesSessions(new URL(request.url())),
@@ -235,7 +241,8 @@ test.describe("Session resume (ACP mode)", () => {
       await expect(session.anyIdleInput()).toBeVisible();
     } finally {
       releaseResponse.resolve();
-      await testPage.unroute(matchesSessions, holdSessionResponse);
+      releaseSessionResponse.resolve();
+      await testPage.unrouteAll({ behavior: "wait" });
     }
   });
 

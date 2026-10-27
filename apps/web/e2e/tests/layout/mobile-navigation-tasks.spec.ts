@@ -1,5 +1,9 @@
 import { test, expect } from "../../fixtures/test-base";
 import { waitForHttp } from "../../helpers/causal-waits";
+import {
+  armWorkspaceContextRetry,
+  workspaceContextRetryRequested,
+} from "../../helpers/workspace-context-retry";
 import { assertNoDocumentHorizontalOverflow } from "../../helpers/layout-assertions";
 
 test.use({ trace: "retain-on-failure" });
@@ -85,9 +89,7 @@ for (const status of [503, 403]) {
       workflow_step_id: seedData.startStepId,
     });
     await testPage.route("**/api/v1/workflows?*", async (route) => {
-      const recoveryRequested = await testPage.evaluate(
-        () => document.documentElement.dataset.e2eNavigationRetry === "requested",
-      );
+      const recoveryRequested = await workspaceContextRetryRequested(testPage);
       if (!recoveryRequested) await route.fulfill({ status, json: { error: "unavailable" } });
       else await route.continue();
     });
@@ -99,19 +101,7 @@ for (const status of [503, 403]) {
     if (status === 403)
       await expect(menu.getByText("Workspace-scoped task", { exact: true })).toHaveCount(0);
     const retry = menu.getByRole("button", { name: "Retry", exact: true });
-    await menu.evaluate((element) => {
-      const allowRetry = (event: Event) => {
-        const button = event.target instanceof Element ? event.target.closest("button") : null;
-        if (
-          button?.textContent?.trim() !== "Retry" ||
-          !button.closest('[data-testid="sidebar-task-load-error"]')
-        )
-          return;
-        document.documentElement.dataset.e2eNavigationRetry = "requested";
-        element.removeEventListener("click", allowRetry, true);
-      };
-      element.addEventListener("click", allowRetry, true);
-    });
+    await armWorkspaceContextRetry(menu);
     const recoveredWorkflowRead = waitForHttp(testPage, "GET", /^\/api\/v1\/workflows$/, {
       predicate: (response) => response.ok(),
     });
