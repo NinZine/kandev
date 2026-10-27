@@ -9,6 +9,56 @@ Final matrix, stress, owner retention and streaming task-time gates remain open.
 The branch is `feature/evaluate-live-thread-bc0`; the frozen baseline is
 `595df36ed5c1cf02fd90cb972b623ad6edc53df8`.
 
+## Saved-offset layout owner: rejected
+
+All four full-density reference samples pass and verify 7,200 ordered updates.
+Streaming script time per second falls 0.19% and 10.32%. The first pair is nearly
+flat, so the useful gain does not repeat. Streaming main-thread task-time rate
+is mixed and approximately flat. Style time per second increases 5.03% and
+10.08%; layout time increases 13.63% and 1.32%. Normal idle main-thread work
+increases in both pairs. Reduced-motion idle work is mixed.
+
+The removed bookkeeping publications do not override these timing results.
+The candidate is rejected without a six-pair acceptance claim. Its exact build,
+patch, source and all seventy comparison rows remain preserved. Exact app
+source and `9e20f26b` assets are restored. Next: fresh rendering timeline
+attribution on the verified build. The 20% target and final matrix remain open.
+See [the complete results](evidence/rejected-layout-offset-owner-two-pair-1x.json).
+
+## Control diagnosis and scroll publication attribution
+
+The restored `9e20f26b` build passes two normal-speed input samples and one
+warm 4x sample, verifying 5,400 ordered updates. The other warm 4x sample fails
+composer readiness before any wheel is sent. Its later open-composer snapshot
+and screenshot timeout remain preserved. The three recorded bottom returns
+reach their first scroll event in 39 to 83 ms, within the current 250 ms intent
+lifetime. The earlier bottom-return failure is not reproduced. No gesture
+policy or benchmark deadline changes follow.
+
+A separate 10-second probe verifies all 300 ordered updates and counts 542
+store publications. Of these, 238 change only saved transcript offsets. The
+offsets are read by native restoration; the toggle uses its separate preference
+field. The temporary observer is removed, and source, runtime, fixture and
+cleanup checks pass. These intrusive counts are not speed results.
+
+The offset candidate passes 267 related unit tests, strict lint, web types, the
+production build, 42 desktop checks and 24 phone checks. Four captures are
+inspected. A meaningful RED reproduces native scrolling calling the app-store
+writer; the layout owner then passes that regression. Reading stays fixed,
+and real PageDown remains within one pixel after further growth.
+
+The corrected candidate count probe verifies 300 ordered updates and records
+zero saved-offset app-store publications, compared with 238 on the control.
+Other publication counts differ, so these counts are not time savings. The
+first candidate probe has a wrong launch asset label and remains preserved
+with its metadata rejection. The corrected run uses the same app, observer
+and workload; its source, runtime, fixture, attachment and cleanup audit passes.
+
+The two-pair result and rejection are recorded above. This count reduction
+does not establish a retained gain. The selector also remains unqualified.
+The 20% task-time target and final matrix remain open. See
+[the control and publication evidence](evidence/viewport-scroll-publication-attribution.json).
+
 ## Message-local selector: unqualified after confirmation
 
 The selector prototype passes 105 related unit tests, strict lint, web types,

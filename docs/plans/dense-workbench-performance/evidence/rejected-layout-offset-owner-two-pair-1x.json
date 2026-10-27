@@ -1,0 +1,2453 @@
+{
+  "recordedAt": "2026-10-27T03:46:56.075588+00:00",
+  "status": "Rejected after mixed two-pair reference timing. Verified 9e20 app source and assets restored.",
+  "decision": {
+    "recordedAt": "2026-10-27T03:42:08.811412+00:00",
+    "decision": "reject; no repeatable gain in the two-pair screen",
+    "report": "matched-dense-1793071259107.json",
+    "reportSha256": "c7898e8c0633be730277c445f5266e8ad42e31fd170f216eeca420fd7f04bf03",
+    "auditHandle": 82814,
+    "auditExitCode": 0,
+    "sourcePatchSha256": "03fe730c42f1360475da926fa6dd9bc53a6b5575d44b2f8e66ddd16f8afba39d",
+    "harnessSha256": "ba6f36d2b22493b408db5894b5da8ce87840d1df1172f39ecf550f89034e6fc2",
+    "candidateAssetsSha256": "f468765a3ca8342848e202c0e0b07d0f1d724c51e2a84c95936855d7305191cf",
+    "controlAssetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+    "completeSamples": 4,
+    "verifiedOrderedUpdates": 7200,
+    "summaryRows": 70,
+    "normalizedStreaming": [
+      {
+        "pair": 0,
+        "baseline": {
+          "scriptMsPerSecond": 637.8187265704573,
+          "rendererCpuMsPerSecond": 1203.5188718061913,
+          "mainCpuMsPerSecond": 983.701128776388,
+          "styleMsPerSecond": 85.79483352936526,
+          "layoutMsPerSecond": 15.685252747004057,
+          "elapsedMs": 61760.56042099999
+        },
+        "candidate": {
+          "scriptMsPerSecond": 636.581812862516,
+          "rendererCpuMsPerSecond": 1221.7602352411418,
+          "mainCpuMsPerSecond": 986.6594496488027,
+          "styleMsPerSecond": 90.11220922095524,
+          "layoutMsPerSecond": 17.822948653318175,
+          "elapsedMs": 60674.752592000004
+        },
+        "normalizedReductionPercent": {
+          "scriptMsPerSecond": 0.19392872244315962,
+          "rendererCpuMsPerSecond": -1.5156690819126517,
+          "mainCpuMsPerSecond": -0.3007337072078453,
+          "styleMsPerSecond": -5.032209416330713,
+          "layoutMsPerSecond": -13.628699140486766
+        }
+      },
+      {
+        "pair": 1,
+        "candidate": {
+          "scriptMsPerSecond": 610.4328761300263,
+          "rendererCpuMsPerSecond": 1219.4040172497594,
+          "mainCpuMsPerSecond": 982.9587754564246,
+          "styleMsPerSecond": 94.83677326395693,
+          "layoutMsPerSecond": 17.728479081399225,
+          "elapsedMs": 60652.58023900003
+        },
+        "baseline": {
+          "scriptMsPerSecond": 680.6884705313394,
+          "rendererCpuMsPerSecond": 1245.5294530145038,
+          "mainCpuMsPerSecond": 988.0265852215125,
+          "styleMsPerSecond": 86.1552038522903,
+          "layoutMsPerSecond": 17.496655337381323,
+          "elapsedMs": 60986.113026999985
+        },
+        "normalizedReductionPercent": {
+          "scriptMsPerSecond": 10.32125523537546,
+          "rendererCpuMsPerSecond": 2.097536569810865,
+          "mainCpuMsPerSecond": 0.5129224092640827,
+          "styleMsPerSecond": -10.076662840413952,
+          "layoutMsPerSecond": -1.3249603398348686
+        }
+      }
+    ],
+    "interpretation": [
+      "Streaming script time per second is nearly flat in pair zero and lower in pair one. The reduction does not repeat at a useful size.",
+      "Streaming main-thread task-time rate is mixed and approximately flat; the 20% target remains unmet.",
+      "Streaming style and layout time per second increase in both pairs. Normal idle main-thread work also increases in both pairs. Reduced-motion idle work is mixed.",
+      "The earlier removal of saved-offset app-store publications is a work-count result and does not override timing.",
+      "Do not run a six-pair confirmation or retain this prototype on these preliminary results. Preserve the exact build, patch, source and all seventy rows, then restore verified 9e20 source and assets."
+    ],
+    "nextAction": "Fresh rendering timeline attribution on the restored build, with no speculative gesture-policy or selector changes.",
+    "limits": [
+      "Two pairs on Linux Chromium do not establish device-level confidence or M2 Air gains.",
+      "All complete raw attempts and metric rows remain preserved. No failure or adverse metric is removed."
+    ]
+  },
+  "audit": {
+    "recordedAt": "2026-10-27T03:36:18.211281+00:00",
+    "report": "matched-dense-1793071259107.json",
+    "reportSha256": "c7898e8c0633be730277c445f5266e8ad42e31fd170f216eeca420fd7f04bf03",
+    "measurementKind": "reference-workload",
+    "sourceRevision": "85327f30ca3e88873923e585372e456f494f21ff",
+    "productionRevision": "85327f30ca3e88873923e585372e456f494f21ff",
+    "sourcePatchSha256": "03fe730c42f1360475da926fa6dd9bc53a6b5575d44b2f8e66ddd16f8afba39d",
+    "harnessSha256": "ba6f36d2b22493b408db5894b5da8ce87840d1df1172f39ecf550f89034e6fc2",
+    "harnessFilesVerified": 1956,
+    "testedSourceFilesVerified": 11,
+    "experimentalProductionFilesVerified": 0,
+    "untrackedFilesVerified": 2,
+    "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+    "backendLogsVerified": 4,
+    "mainHandle": 49832,
+    "mainExitCode": 0,
+    "samplerHandle": 80827,
+    "samplerExitCode": 0,
+    "completeSamples": 4,
+    "verifiedOrderedUpdates": 7200,
+    "allAttemptsPassed": true,
+    "error": null,
+    "newWorkerRoots": ["/tmp/kandev-e2e-0-bKyaHJ"],
+    "newWorkerRootsRemoved": true,
+    "savedFixtureRoot": "/tmp/kandev-e2e-0-nMsIqR",
+    "savedFixturePreserved": true,
+    "sourceReportAndSnapshotUnchanged": true,
+    "sampleNamespace": "replay-1793071259107-",
+    "remainingOwnedProcesses": [],
+    "initialLoadedHistory": [
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ]
+    ],
+    "finalLoadedHistory": [
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ],
+      [
+        {
+          "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+          "messages": 100
+        },
+        {
+          "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+          "messages": 100
+        },
+        {
+          "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+          "messages": 100
+        },
+        {
+          "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+          "messages": 100
+        },
+        {
+          "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+          "messages": 100
+        },
+        {
+          "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+          "messages": 100
+        }
+      ]
+    ],
+    "artifacts": [
+      {
+        "path": "matched-dense-1793071259107.json",
+        "sha256": "c7898e8c0633be730277c445f5266e8ad42e31fd170f216eeca420fd7f04bf03"
+      },
+      {
+        "path": "matched-dense-1793071259107.json.backend.log",
+        "sha256": "2fc42015ac7d15f57445a306cceed6320f88c0223f15c5be3cde2e848f4ddafa"
+      },
+      {
+        "path": "matched-dense-1793071259107.json.baseline-1x-0.backend.log",
+        "sha256": "60be4dfee64fa66d8bfbc1e6f2abb76b40b348930b4e6fddd66f25d64565b9f4"
+      },
+      {
+        "path": "matched-dense-1793071259107.json.baseline-1x-1.backend.log",
+        "sha256": "2fc42015ac7d15f57445a306cceed6320f88c0223f15c5be3cde2e848f4ddafa"
+      },
+      {
+        "path": "matched-dense-1793071259107.json.candidate-1x-0.backend.log",
+        "sha256": "1d8c377561479201bb9b0a2934832fdb140cb8c6e93be9c6c3b976f12c13710d"
+      },
+      {
+        "path": "matched-dense-1793071259107.json.candidate-1x-1.backend.log",
+        "sha256": "efdca3a307171ee11809a3d03e93706cbaefa6537ac50b7557f1b9fc9800edc7"
+      }
+    ]
+  },
+  "summary": {
+    "measurementKind": "reference-workload",
+    "fixtureProtocol": "threads-files-v1",
+    "attemptProtocol": "continue-and-fail-v1",
+    "comparisonPlan": {
+      "pairs": 2,
+      "rates": [1],
+      "candidateFirst": false
+    },
+    "finalVisibilityProbe": "boolean-poll",
+    "layout": "grid",
+    "extraBusyHeaders": 0,
+    "interactionMode": "scripted-scroll-v2",
+    "throttleAfterLoad": false,
+    "machine": {
+      "revision": "85327f30ca3e88873923e585372e456f494f21ff",
+      "cpu": "11th Gen Intel(R) Core(TM) i7-11700T @ 1.40GHz",
+      "cores": 16,
+      "load": [4.07, 3.12, 2.74],
+      "totalMemory": 33303568384,
+      "freeMemory": 25107460096,
+      "platform": "linux 6.18.49"
+    },
+    "builds": {
+      "baseline": {
+        "binary": "/tmp/kandev-before-message-selector-5936a872/apps/backend/bin/kandev",
+        "assets": "/tmp/kandev-before-message-selector-5936a872/apps/web/dist",
+        "binarySha256": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+        "assetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa"
+      },
+      "candidate": {
+        "binary": "/tmp/kandev-perf-delivery-5936a872/apps/backend/bin/kandev",
+        "assets": "/tmp/kandev-perf-delivery-5936a872/apps/web/dist",
+        "binarySha256": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+        "assetsSha256": "f468765a3ca8342848e202c0e0b07d0f1d724c51e2a84c95936855d7305191cf"
+      }
+    },
+    "sampleCount": 4,
+    "comparisons": [
+      {
+        "group": "1x/cold",
+        "metric": "readyMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 18538.872668000007,
+          "min": 14542.586352000013,
+          "max": 22535.158984,
+          "values": [22535.158984, 14542.586352000013]
+        },
+        "candidate": {
+          "median": 14982.353780000005,
+          "min": 14568.241603000031,
+          "max": 15396.465956999979,
+          "values": [15396.465956999979, 14568.241603000031]
+        },
+        "pairedAbsoluteReduction": [7138.693027000023, -25.655251000018325],
+        "pairedPercentReduction": [31.678023803020455, -0.176414637527595],
+        "medianPairedPercentReduction": 15.75080458274643
+      },
+      {
+        "group": "1x/cold",
+        "metric": "documentMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 11901.900018000008,
+          "min": 8612.514817000018,
+          "max": 15191.285218999998,
+          "values": [15191.285218999998, 8612.514817000018]
+        },
+        "candidate": {
+          "median": 8695.649785000016,
+          "min": 8358.312783000001,
+          "max": 9032.98678700003,
+          "values": [8358.312783000001, 9032.98678700003]
+        },
+        "pairedAbsoluteReduction": [6832.972435999996, -420.47197000001324],
+        "pairedPercentReduction": [44.97955464264395, -4.882104460012709],
+        "medianPairedPercentReduction": 20.048725091315617
+      },
+      {
+        "group": "1x/cold",
+        "metric": "assetEncodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 4165573,
+          "min": 4165573,
+          "max": 4165573,
+          "values": [4165573, 4165573]
+        },
+        "candidate": {
+          "median": 4165531,
+          "min": 4165531,
+          "max": 4165531,
+          "values": [4165531, 4165531]
+        },
+        "pairedAbsoluteReduction": [42, 42],
+        "pairedPercentReduction": [
+          0.0010082646493051496, 0.0010082646493051496
+        ],
+        "medianPairedPercentReduction": 0.0010082646493051496
+      },
+      {
+        "group": "1x/cold",
+        "metric": "assetDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 14688615,
+          "min": 14688615,
+          "max": 14688615,
+          "values": [14688615, 14688615]
+        },
+        "candidate": {
+          "median": 14688600,
+          "min": 14688600,
+          "max": 14688600,
+          "values": [14688600, 14688600]
+        },
+        "pairedAbsoluteReduction": [15, 15],
+        "pairedPercentReduction": [
+          0.00010211990715258042, 0.00010211990715258042
+        ],
+        "medianPairedPercentReduction": 0.00010211990715258042
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60048.52967999996,
+          "min": 60030.941783999995,
+          "max": 60066.11757599993,
+          "values": [60030.941783999995, 60066.11757599993]
+        },
+        "candidate": {
+          "median": 60041.187820500025,
+          "min": 60034.19020000001,
+          "max": 60048.18544100004,
+          "values": [60034.19020000001, 60048.18544100004]
+        },
+        "pairedAbsoluteReduction": [-3.248416000016732, 17.932134999893606],
+        "pairedPercentReduction": [-0.005411236111712194, 0.029853993771454583],
+        "medianPairedPercentReduction": 0.012221378829871194
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 24273.556,
+          "min": 24252.713,
+          "max": 24294.399,
+          "values": [24294.399, 24252.713]
+        },
+        "candidate": {
+          "median": 24879.1575,
+          "min": 24611.5,
+          "max": 25146.815,
+          "values": [25146.815, 24611.5]
+        },
+        "pairedAbsoluteReduction": [-852.4159999999974, -358.78700000000026],
+        "pairedPercentReduction": [-3.508693505857039, -1.4793685143596111],
+        "medianPairedPercentReduction": -2.494031010108325
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 404.2324485965309,
+          "min": 403.76694846830645,
+          "max": 404.69794872475535,
+          "values": [404.69794872475535, 403.76694846830645]
+        },
+        "candidate": {
+          "median": 414.3687014820183,
+          "min": 409.8625099035153,
+          "max": 418.8748930605213,
+          "values": [418.8748930605213, 409.8625099035153]
+        },
+        "pairedAbsoluteReduction": [-14.176944335765938, -6.095561435208822],
+        "pairedPercentReduction": [-3.50309270912762, -1.5096732058759115],
+        "medianPairedPercentReduction": -2.5063829575017658
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 24389.461000000003,
+          "min": 24377.035,
+          "max": 24401.887000000002,
+          "values": [24401.887000000002, 24377.035]
+        },
+        "candidate": {
+          "median": 24994.372,
+          "min": 24790.683,
+          "max": 25198.060999999998,
+          "values": [25198.060999999998, 24790.683]
+        },
+        "pairedAbsoluteReduction": [-796.1739999999954, -413.64800000000105],
+        "pairedPercentReduction": [-3.262755868019532, -1.696875768525586],
+        "medianPairedPercentReduction": -2.479815818272559
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 35590,
+          "min": 35429.99999999999,
+          "max": 35750,
+          "values": [35429.99999999999, 35750]
+        },
+        "candidate": {
+          "median": 36130,
+          "min": 35640,
+          "max": 36620,
+          "values": [36620, 35640]
+        },
+        "pairedAbsoluteReduction": [-1190.0000000000073, 110],
+        "pairedPercentReduction": [-3.3587355348574865, 0.3076923076923077],
+        "medianPairedPercentReduction": -1.5255216135825895
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 12829.048,
+          "min": 12784.468,
+          "max": 12873.628,
+          "values": [12873.628, 12784.468]
+        },
+        "candidate": {
+          "median": 13091.188000000002,
+          "min": 12204.973,
+          "max": 13977.403000000002,
+          "values": [13977.403000000002, 12204.973]
+        },
+        "pairedAbsoluteReduction": [-1103.7750000000015, 579.4950000000008],
+        "pairedPercentReduction": [-8.573923372649896, 4.532804963022324],
+        "medianPairedPercentReduction": -2.020559204813786
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 2621.4664999999995,
+          "min": 2613.1989999999996,
+          "max": 2629.734,
+          "values": [2613.1989999999996, 2629.734]
+        },
+        "candidate": {
+          "median": 2731.375,
+          "min": 2661.575,
+          "max": 2801.1749999999997,
+          "values": [2661.575, 2801.1749999999997]
+        },
+        "pairedAbsoluteReduction": [-48.376000000000204, -171.4409999999998],
+        "pairedPercentReduction": [-1.8512176072316042, -6.519328570874461],
+        "medianPairedPercentReduction": -4.185273089053033
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 121.28400000000002,
+          "min": 120.75500000000002,
+          "max": 121.813,
+          "values": [121.813, 120.75500000000002]
+        },
+        "candidate": {
+          "median": 125.269,
+          "min": 109.57700000000001,
+          "max": 140.961,
+          "values": [109.57700000000001, 140.961]
+        },
+        "pairedAbsoluteReduction": [12.23599999999999, -20.20599999999999],
+        "pairedPercentReduction": [10.044904895208221, -16.73305453190343],
+        "medianPairedPercentReduction": -3.344074818347605
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 3013.5,
+          "min": 3008,
+          "max": 3019,
+          "values": [3008, 3019]
+        },
+        "candidate": {
+          "median": 2997.5,
+          "min": 2928,
+          "max": 3067,
+          "values": [2928, 3067]
+        },
+        "pairedAbsoluteReduction": [80, -48],
+        "pairedPercentReduction": [2.6595744680851063, -1.5899304405432262],
+        "medianPairedPercentReduction": 0.5348220137709401
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 304,
+          "min": 303,
+          "max": 305,
+          "values": [305, 303]
+        },
+        "candidate": {
+          "median": 284.5,
+          "min": 262,
+          "max": 307,
+          "values": [262, 307]
+        },
+        "pairedAbsoluteReduction": [43, -4],
+        "pairedPercentReduction": [14.098360655737705, -1.3201320132013201],
+        "medianPairedPercentReduction": 6.389114321268193
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 16.80000000000291,
+          "min": 16.80000000000291,
+          "max": 16.80000000000291,
+          "values": [16.80000000000291, 16.80000000000291]
+        },
+        "candidate": {
+          "median": 16.80000000000291,
+          "min": 16.80000000000291,
+          "max": 16.80000000000291,
+          "values": [16.80000000000291, 16.80000000000291]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 225,
+          "min": 216.6999999999971,
+          "max": 233.3000000000029,
+          "values": [216.6999999999971, 233.3000000000029]
+        },
+        "candidate": {
+          "median": 200.04999999999927,
+          "min": 200,
+          "max": 200.09999999999854,
+          "values": [200.09999999999854, 200]
+        },
+        "pairedAbsoluteReduction": [16.599999999998545, 33.30000000000291],
+        "pairedPercentReduction": [7.660359944623336, 14.273467638235102],
+        "medianPairedPercentReduction": 10.966913791429219
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 96,
+          "min": 96,
+          "max": 96,
+          "values": [96, 96]
+        },
+        "candidate": {
+          "median": 96,
+          "min": 96,
+          "max": 96,
+          "values": [96, 96]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 9608.5,
+          "min": 9599,
+          "max": 9618,
+          "values": [9618, 9599]
+        },
+        "candidate": {
+          "median": 9796,
+          "min": 9017,
+          "max": 10575,
+          "values": [10575, 9017]
+        },
+        "pairedAbsoluteReduction": [-957, 582],
+        "pairedPercentReduction": [-9.950093574547722, 6.063131576205855],
+        "medianPairedPercentReduction": -1.9434809991709336
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 24542,
+          "min": 24542,
+          "max": 24542,
+          "values": [24542, 24542]
+        },
+        "candidate": {
+          "median": 24542,
+          "min": 24542,
+          "max": 24542,
+          "values": [24542, 24542]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 60,
+          "min": 60,
+          "max": 60,
+          "values": [60, 60]
+        },
+        "candidate": {
+          "median": 60,
+          "min": 60,
+          "max": 60,
+          "values": [60, 60]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 65,
+          "min": 64,
+          "max": 66,
+          "values": [66, 64]
+        },
+        "candidate": {
+          "median": 68,
+          "min": 67,
+          "max": 69,
+          "values": [67, 69]
+        },
+        "pairedAbsoluteReduction": [-1, -5],
+        "pairedPercentReduction": [-1.5151515151515151, -7.8125],
+        "medianPairedPercentReduction": -4.663825757575758
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 11719258.5,
+          "min": 11538917,
+          "max": 11899600,
+          "values": [11899600, 11538917]
+        },
+        "candidate": {
+          "median": 12439813,
+          "min": 12439661,
+          "max": 12439965,
+          "values": [12439661, 12439965]
+        },
+        "pairedAbsoluteReduction": [-540061, -901048],
+        "pairedPercentReduction": [-4.538480285051598, -7.808774428310733],
+        "medianPairedPercentReduction": -6.173627356681166
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 12070216,
+          "min": 11890705,
+          "max": 12249727,
+          "values": [12249727, 11890705]
+        },
+        "candidate": {
+          "median": 12790956.5,
+          "min": 12789803,
+          "max": 12792110,
+          "values": [12789803, 12792110]
+        },
+        "pairedAbsoluteReduction": [-540076, -901405],
+        "pairedPercentReduction": [-4.408881928552367, -7.580753201765581],
+        "medianPairedPercentReduction": -5.994817565158973
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [72, 72]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [72, 72]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 61373.336723999986,
+          "min": 60986.113026999985,
+          "max": 61760.56042099999,
+          "values": [61760.56042099999, 60986.113026999985]
+        },
+        "candidate": {
+          "median": 60663.66641550002,
+          "min": 60652.58023900003,
+          "max": 60674.752592000004,
+          "values": [60674.752592000004, 60652.58023900003]
+        },
+        "pairedAbsoluteReduction": [1085.807828999983, 333.53278799995314],
+        "pairedPercentReduction": [1.758092578173536, 0.5468995668772829],
+        "medianPairedPercentReduction": 1.1524960725254094
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60437.695,
+          "min": 60110.633,
+          "max": 60764.757,
+          "values": [60764.757, 60110.633]
+        },
+        "candidate": {
+          "median": 59666.526999999995,
+          "min": 59552.825999999994,
+          "max": 59780.227999999996,
+          "values": [59780.227999999996, 59552.825999999994]
+        },
+        "pairedAbsoluteReduction": [984.5290000000023, 557.807000000008],
+        "pairedPercentReduction": [1.6202302923716165, 0.9279672699504062],
+        "medianPairedPercentReduction": 1.2740987811610114
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 984.7604932902582,
+          "min": 983.8763862534284,
+          "max": 985.6446003270878,
+          "values": [983.8763862534284, 985.6446003270878]
+        },
+        "candidate": {
+          "median": 983.5625134384782,
+          "min": 981.867972728176,
+          "max": 985.2570541487802,
+          "values": [985.2570541487802, 981.867972728176]
+        },
+        "pairedAbsoluteReduction": [-1.3806678953517348, 3.776627598911773],
+        "pairedPercentReduction": [-0.14032940668586188, 0.3831632210695917],
+        "medianPairedPercentReduction": 0.12141690719186492
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60504.917,
+          "min": 60255.901,
+          "max": 60753.933000000005,
+          "values": [60753.933000000005, 60255.901]
+        },
+        "candidate": {
+          "median": 59742.152,
+          "min": 59618.986000000004,
+          "max": 59865.31799999999,
+          "values": [59865.31799999999, 59618.986000000004]
+        },
+        "pairedAbsoluteReduction": [888.6150000000125, 636.9149999999936],
+        "pairedPercentReduction": [1.4626460479521752, 1.0570168057067035],
+        "medianPairedPercentReduction": 1.2598314268294395
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 75145,
+          "min": 74330.00000000001,
+          "max": 75960,
+          "values": [74330.00000000001, 75960]
+        },
+        "candidate": {
+          "median": 74045,
+          "min": 73960.00000000001,
+          "max": 74130,
+          "values": [74130, 73960.00000000001]
+        },
+        "pairedAbsoluteReduction": [200.00000000001455, 1999.9999999999854],
+        "pairedPercentReduction": [0.2690703618996563, 2.632964718272756],
+        "medianPairedPercentReduction": 1.451017540086206
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 40452.293000000005,
+          "min": 39392.042,
+          "max": 41512.54400000001,
+          "values": [39392.042, 41512.54400000001]
+        },
+        "candidate": {
+          "median": 37824.3865,
+          "min": 37024.329,
+          "max": 38624.444,
+          "values": [38624.444, 37024.329]
+        },
+        "pairedAbsoluteReduction": [767.5979999999981, 4488.215000000011],
+        "pairedPercentReduction": [1.9486118541404838, 10.811707902074154],
+        "medianPairedPercentReduction": 6.380159878107319
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 5276.504,
+          "min": 5254.271000000001,
+          "max": 5298.736999999999,
+          "values": [5298.736999999999, 5254.271000000001]
+        },
+        "candidate": {
+          "median": 5609.815500000001,
+          "min": 5467.536,
+          "max": 5752.095,
+          "values": [5467.536, 5752.095]
+        },
+        "pairedAbsoluteReduction": [-168.7990000000009, -497.8239999999996],
+        "pairedPercentReduction": [-3.1856459378904995, -9.47465404810676],
+        "medianPairedPercentReduction": -6.33014999299863
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 1017.8915000000002,
+          "min": 968.7300000000001,
+          "max": 1067.053,
+          "values": [968.7300000000001, 1067.053]
+        },
+        "candidate": {
+          "median": 1078.3404999999998,
+          "min": 1075.278,
+          "max": 1081.4029999999998,
+          "values": [1081.4029999999998, 1075.278]
+        },
+        "pairedAbsoluteReduction": [-112.67299999999966, -8.224999999999909],
+        "pairedPercentReduction": [-11.631001414222709, -0.7708145705977031],
+        "medianPairedPercentReduction": -6.200907992410206
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 3027,
+          "min": 2899,
+          "max": 3155,
+          "values": [3155, 2899]
+        },
+        "candidate": {
+          "median": 3374,
+          "min": 3238,
+          "max": 3510,
+          "values": [3238, 3510]
+        },
+        "pairedAbsoluteReduction": [-83, -611],
+        "pairedPercentReduction": [-2.6307448494453247, -21.076233183856502],
+        "medianPairedPercentReduction": -11.853489016650913
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 2235.5,
+          "min": 2202,
+          "max": 2269,
+          "values": [2202, 2269]
+        },
+        "candidate": {
+          "median": 2462,
+          "min": 2398,
+          "max": 2526,
+          "values": [2398, 2526]
+        },
+        "pairedAbsoluteReduction": [-196, -257],
+        "pairedPercentReduction": [-8.900999091734787, -11.326575583957691],
+        "medianPairedPercentReduction": -10.11378733784624
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 133.39999999999418,
+          "min": 133.39999999999418,
+          "max": 133.39999999999418,
+          "values": [133.39999999999418, 133.39999999999418]
+        },
+        "candidate": {
+          "median": 116.64999999999418,
+          "min": 100,
+          "max": 133.29999999998836,
+          "values": [133.29999999998836, 100]
+        },
+        "pairedAbsoluteReduction": [0.10000000000582077, 33.39999999999418],
+        "pairedPercentReduction": [0.07496251874499635, 25.037481259367045],
+        "medianPairedPercentReduction": 12.55622188905602
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 191.65000000000873,
+          "min": 183.30000000001746,
+          "max": 200,
+          "values": [183.30000000001746, 200]
+        },
+        "candidate": {
+          "median": 175,
+          "min": 166.60000000000582,
+          "max": 183.39999999999418,
+          "values": [183.39999999999418, 166.60000000000582]
+        },
+        "pairedAbsoluteReduction": [-0.09999999997671694, 33.39999999999418],
+        "pairedPercentReduction": [-0.054555373691602516, 16.69999999999709],
+        "medianPairedPercentReduction": 8.322722313152743
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 8.5,
+          "min": 4,
+          "max": 13,
+          "values": [4, 13]
+        },
+        "candidate": {
+          "median": 7,
+          "min": 3,
+          "max": 11,
+          "values": [11, 3]
+        },
+        "pairedAbsoluteReduction": [-7, 10],
+        "pairedPercentReduction": [-175, 76.92307692307692],
+        "medianPairedPercentReduction": -49.03846153846154
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 495.5,
+          "min": 220,
+          "max": 771,
+          "values": [220, 771]
+        },
+        "candidate": {
+          "median": 405.5,
+          "min": 194,
+          "max": 617,
+          "values": [617, 194]
+        },
+        "pairedAbsoluteReduction": [-397, 577],
+        "pairedPercentReduction": [-180.45454545454547, 74.8378728923476],
+        "medianPairedPercentReduction": -52.80833628109893
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 26380.5,
+          "min": 26378,
+          "max": 26383,
+          "values": [26378, 26383]
+        },
+        "candidate": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [26378, 26378]
+        },
+        "pairedAbsoluteReduction": [0, 5],
+        "pairedPercentReduction": [0, 0.01895159761967934],
+        "medianPairedPercentReduction": 0.00947579880983967
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 56.5,
+          "min": 52,
+          "max": 61,
+          "values": [61, 52]
+        },
+        "candidate": {
+          "median": 61,
+          "min": 61,
+          "max": 61,
+          "values": [61, 61]
+        },
+        "pairedAbsoluteReduction": [0, -9],
+        "pairedPercentReduction": [0, -17.307692307692307],
+        "medianPairedPercentReduction": -8.653846153846153
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 72.5,
+          "min": 72,
+          "max": 73,
+          "values": [73, 72]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [72, 72]
+        },
+        "pairedAbsoluteReduction": [1, 0],
+        "pairedPercentReduction": [1.36986301369863, 0],
+        "medianPairedPercentReduction": 0.684931506849315
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13354660.5,
+          "min": 13262857,
+          "max": 13446464,
+          "values": [13446464, 13262857]
+        },
+        "candidate": {
+          "median": 13264823,
+          "min": 13263493,
+          "max": 13266153,
+          "values": [13263493, 13266153]
+        },
+        "pairedAbsoluteReduction": [182971, -3296],
+        "pairedPercentReduction": [1.3607369193863903, -0.024851357441311474],
+        "medianPairedPercentReduction": 0.6679427809725395
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 36464860.5,
+          "min": 34657008,
+          "max": 38272713,
+          "values": [34657008, 38272713]
+        },
+        "candidate": {
+          "median": 37790485,
+          "min": 37355176,
+          "max": 38225794,
+          "values": [38225794, 37355176]
+        },
+        "pairedAbsoluteReduction": [-3568786, 917537],
+        "pairedPercentReduction": [-10.29744402632795, 2.3973659771649842],
+        "medianPairedPercentReduction": -3.950039024581483
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 1678.5,
+          "min": 1540,
+          "max": 1817,
+          "values": [1540, 1817]
+        },
+        "candidate": {
+          "median": 1785.5,
+          "min": 1759,
+          "max": 1812,
+          "values": [1812, 1759]
+        },
+        "pairedAbsoluteReduction": [-272, 58],
+        "pairedPercentReduction": [-17.662337662337663, 3.1920748486516235],
+        "medianPairedPercentReduction": -7.23513140684302
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60062.438399000006,
+          "min": 60039.636797000014,
+          "max": 60085.240001,
+          "values": [60039.636797000014, 60085.240001]
+        },
+        "candidate": {
+          "median": 60046.591723499994,
+          "min": 60042.920389999985,
+          "max": 60050.263057000004,
+          "values": [60042.920389999985, 60050.263057000004]
+        },
+        "pairedAbsoluteReduction": [-3.283592999971006, 34.976943999994546],
+        "pairedPercentReduction": [-0.005469042078107769, 0.05821220652428521],
+        "medianPairedPercentReduction": 0.02637158222308872
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 6406.6394999999975,
+          "min": 6031.867999999989,
+          "max": 6781.4110000000055,
+          "values": [6781.4110000000055, 6031.867999999989]
+        },
+        "candidate": {
+          "median": 7256.207000000004,
+          "min": 6406.491000000003,
+          "max": 8105.923000000004,
+          "values": [6406.491000000003, 8105.923000000004]
+        },
+        "pairedAbsoluteReduction": [374.9200000000028, -2074.0550000000158],
+        "pairedPercentReduction": [5.528642932864598, -34.384953384258736],
+        "medianPairedPercentReduction": -14.428155225697068
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 106.66870791866779,
+          "min": 100.3885147150881,
+          "max": 112.94890112224748,
+          "values": [112.94890112224748, 100.3885147150881]
+        },
+        "candidate": {
+          "median": 120.84208055805937,
+          "min": 106.69852429541368,
+          "max": 134.98563682070505,
+          "values": [106.69852429541368, 134.98563682070505]
+        },
+        "pairedAbsoluteReduction": [6.250376826833801, -34.59712210561695],
+        "pairedPercentReduction": [5.53380932858201, -34.46322739588964],
+        "medianPairedPercentReduction": -14.464709033653815
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 6720.289500000007,
+          "min": 6331.92600000001,
+          "max": 7108.653000000004,
+          "values": [7108.653000000004, 6331.92600000001]
+        },
+        "candidate": {
+          "median": 7583.821499999992,
+          "min": 6723.469999999992,
+          "max": 8444.172999999992,
+          "values": [6723.469999999992, 8444.172999999992]
+        },
+        "pairedAbsoluteReduction": [385.1830000000118, -2112.246999999981],
+        "pairedPercentReduction": [5.418508963653333, -33.3586810711303],
+        "medianPairedPercentReduction": -13.970086053738482
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 11940.000000000004,
+          "min": 11420.000000000002,
+          "max": 12460.000000000007,
+          "values": [12460.000000000007, 11420.000000000002]
+        },
+        "candidate": {
+          "median": 12764.999999999993,
+          "min": 11409.999999999996,
+          "max": 14119.99999999999,
+          "values": [11409.999999999996, 14119.99999999999]
+        },
+        "pairedAbsoluteReduction": [1050.000000000011, -2699.999999999989],
+        "pairedPercentReduction": [8.426966292134914, -23.642732049036677],
+        "medianPairedPercentReduction": -7.607882878450882
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 1762.6115000000018,
+          "min": 1653.7760000000005,
+          "max": 1871.4470000000033,
+          "values": [1871.4470000000033, 1653.7760000000005]
+        },
+        "candidate": {
+          "median": 1931.2239999999967,
+          "min": 1742.886999999996,
+          "max": 2119.5609999999974,
+          "values": [1742.886999999996, 2119.5609999999974]
+        },
+        "pairedAbsoluteReduction": [128.56000000000722, -465.7849999999969],
+        "pairedPercentReduction": [6.869550673890684, -28.164938903454683],
+        "medianPairedPercentReduction": -10.647694114781999
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 19.756499999999733,
+          "min": 19.384999999999764,
+          "max": 20.1279999999997,
+          "values": [20.1279999999997, 19.384999999999764]
+        },
+        "candidate": {
+          "median": 16.75700000000102,
+          "min": 14.40400000000075,
+          "max": 19.110000000001293,
+          "values": [14.40400000000075, 19.110000000001293]
+        },
+        "pairedAbsoluteReduction": [5.723999999998952, 0.2749999999984709],
+        "pairedPercentReduction": [28.43799682034498, 1.4186226463681932],
+        "medianPairedPercentReduction": 14.928309733356587
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 125.44100000000003,
+          "min": 122.83299999999997,
+          "max": 128.0490000000001,
+          "values": [128.0490000000001, 122.83299999999997]
+        },
+        "candidate": {
+          "median": 160.2100000000001,
+          "min": 134.83500000000004,
+          "max": 185.58500000000012,
+          "values": [134.83500000000004, 185.58500000000012]
+        },
+        "pairedAbsoluteReduction": [-6.7859999999999445, -62.75200000000015],
+        "pairedPercentReduction": [-5.299533772227772, -51.08724854070174],
+        "medianPairedPercentReduction": -28.193391156464756
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 3.5,
+          "min": 3,
+          "max": 4,
+          "values": [4, 3]
+        },
+        "candidate": {
+          "median": 2.5,
+          "min": 2,
+          "max": 3,
+          "values": [2, 3]
+        },
+        "pairedAbsoluteReduction": [2, 0],
+        "pairedPercentReduction": [50, 0],
+        "medianPairedPercentReduction": 25
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 358.5,
+          "min": 358,
+          "max": 359,
+          "values": [359, 358]
+        },
+        "candidate": {
+          "median": 340,
+          "min": 319,
+          "max": 361,
+          "values": [319, 361]
+        },
+        "pairedAbsoluteReduction": [40, -3],
+        "pairedPercentReduction": [11.142061281337048, -0.8379888268156425],
+        "medianPairedPercentReduction": 5.1520362272607025
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 16.75,
+          "min": 16.70000000001164,
+          "max": 16.79999999998836,
+          "values": [16.79999999998836, 16.70000000001164]
+        },
+        "candidate": {
+          "median": 16.75,
+          "min": 16.70000000001164,
+          "max": 16.79999999998836,
+          "values": [16.79999999998836, 16.70000000001164]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 75.04999999998836,
+          "min": 66.69999999998254,
+          "max": 83.39999999999418,
+          "values": [83.39999999999418, 66.69999999998254]
+        },
+        "candidate": {
+          "median": 58.35000000000582,
+          "min": 50,
+          "max": 66.70000000001164,
+          "values": [50, 66.70000000001164]
+        },
+        "pairedAbsoluteReduction": [33.39999999999418, -2.9103830456733704e-11],
+        "pairedPercentReduction": [40.04796163069126, -4.363392872075161e-11],
+        "medianPairedPercentReduction": 20.023980815323814
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 26380.5,
+          "min": 26378,
+          "max": 26383,
+          "values": [26378, 26383]
+        },
+        "candidate": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [26378, 26378]
+        },
+        "pairedAbsoluteReduction": [0, 5],
+        "pairedPercentReduction": [0, 0.01895159761967934],
+        "medianPairedPercentReduction": 0.00947579880983967
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 74,
+          "min": 73,
+          "max": 75,
+          "values": [75, 73]
+        },
+        "candidate": {
+          "median": 72.5,
+          "min": 72,
+          "max": 73,
+          "values": [73, 72]
+        },
+        "pairedAbsoluteReduction": [2, 1],
+        "pairedPercentReduction": [2.6666666666666665, 1.36986301369863],
+        "medianPairedPercentReduction": 2.018264840182648
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13911002,
+          "min": 13722991,
+          "max": 14099013,
+          "values": [14099013, 13722991]
+        },
+        "candidate": {
+          "median": 13628563.5,
+          "min": 13534513,
+          "max": 13722614,
+          "values": [13722614, 13534513]
+        },
+        "pairedAbsoluteReduction": [376399, 188478],
+        "pairedPercentReduction": [2.6696833317339306, 1.3734469402479386],
+        "medianPairedPercentReduction": 2.021565135990935
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13939541,
+          "min": 13751377,
+          "max": 14127705,
+          "values": [14127705, 13751377]
+        },
+        "candidate": {
+          "median": 13656951.5,
+          "min": 13562900,
+          "max": 13751003,
+          "values": [13751003, 13562900]
+        },
+        "pairedAbsoluteReduction": [376702, 188477],
+        "pairedPercentReduction": [2.6664061855764967, 1.3706045583653186],
+        "medianPairedPercentReduction": 2.0185053719709076
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [72, 72]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [72, 72]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      }
+    ],
+    "notes": [
+      "mainThreadMs and mainThreadMsPerSecond use TaskDuration with timeTicks: elapsed time in main-thread tasks, not thread CPU time. Script, style, and layout durations use the same elapsed-time domain.",
+      "mainThreadCpuMs uses ThreadTime (renderer main-thread CPU). rendererCpuMs uses ProcessTime (renderer-process CPU); it excludes separate browser, GPU, and backend processes.",
+      "Positive reduction means a lower candidate value. Counts such as mounted editors are observations, not optimization scores.",
+      "Frame gaps and driver DOM readiness are not INP. Linux CPU throttling is not an M2 Air simulation.",
+      "Extra busy headers are backend-seeded status rows, not additional live executions. The six canonical stream producers remain unchanged. Busy-header variants must not be pooled with the default workload.",
+      "Final-content probe versions must not be pooled. Locator-assertion retries can collect page-wide ARIA snapshots; boolean polling retains the same visibility gate without those snapshots.",
+      "Scripted input variants have a separate mode and window prefix. Their later idle windows can retain composer state changed by those inputs. Action timestamps preserve late execution; they do not imply that all inputs completed on schedule.",
+      "Streaming duration includes the wait for final visible content. Fixed-deadline traffic is retained in the raw report.",
+      "History decoded bytes include captured requests and responses. They are not compressed network transfer."
+    ]
+  },
+  "sourceScope": "Saved transcript offsets and their writer moved to the existing layout store. No native input policy, markup, style or persisted key changes. This experiment was reverted.",
+  "correctness": {
+    "unitTests": 267,
+    "unitFiles": 12,
+    "strictLint": "passed",
+    "webTypes": "passed",
+    "productionBuild": {
+      "recordedAt": "2026-10-27T02:40:51.416Z",
+      "root": "/tmp/kandev-perf-delivery-5936a872",
+      "sourceParent": "85327f30ca3e88873923e585372e456f494f21ff",
+      "source": "Experimental layout-owned saved transcript offsets. Notification scope changes; persistence keys, native guards and lifecycle timing remain.",
+      "sourceFiles": [
+        {
+          "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+          "sha256": "33c9c83f80e5cb7778545934299073ebf0e70dadb70fe9662a2ed9673f6737bb"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+          "sha256": "49e360c6c9cb6b80247393bc98200186cdb86ff60bacb7625e77332c9ef7b23a"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+          "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+          "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+        },
+        {
+          "path": "apps/web/e2e/tests/chat/auto-scroll-toggle.spec.ts",
+          "sha256": "316034942492ea8f7012deda563b679da3e42f3324836f0698dfa39d25cfc016"
+        },
+        {
+          "path": "apps/web/lib/state/app-state-types.ts",
+          "sha256": "e43fad0e2a14dc8ed58547bf9a5173662d63038786e317586c247c8daba697d3"
+        },
+        {
+          "path": "apps/web/lib/state/dockview-store.ts",
+          "sha256": "f652f08c892d4c25cef282f64e6e9a40b5d0009bea3b879216af53159bf93333"
+        },
+        {
+          "path": "apps/web/lib/state/dockview-transcript-scroll.test.ts",
+          "sha256": "45170feb6c325a8d391afe404bfc9dd8ef5aede9dd8d58fd7eb773588a35c4fa"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+          "sha256": "295a739508c1fb10ad98a180d1824135ade90d71cd7f2dcf1c504fd1078c72f3"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/types.ts",
+          "sha256": "856a63ec75e11a99484a767f654003d05bb8b90e4cd3efa01d8bf8284d4fd889"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+          "sha256": "0e648356718631d4c3487b449272e43a2f0f3a1b7e1a88528fc223478b0ab661"
+        }
+      ],
+      "deletedSourceFiles": [
+        "apps/web/components/task/chat/transcript-scroll-persistence.test.ts",
+        "apps/web/components/task/chat/transcript-scroll-persistence.ts"
+      ],
+      "sourcePatchSha256": "d41052be4c5d7a370f6a842a7fa9a51fac7987c611875b068ed1b7942afc77ef",
+      "assetsSha256": "f468765a3ca8342848e202c0e0b07d0f1d724c51e2a84c95936855d7305191cf",
+      "assetFiles": 1253,
+      "gzipSiblingsVerified": 552,
+      "generatedMetadataUnchanged": true,
+      "generated": [
+        {
+          "path": "apps/web/generated/changelog.json",
+          "sha256": "8552e9fd1aa79fe07d0eaaa8d05179548ae1c5555b3206a2842c09cec4bfdd43"
+        },
+        {
+          "path": "apps/web/generated/release-notes.json",
+          "sha256": "3391126f01051873eebb779dece251225037923b7e96794855a11af2135c0a37"
+        }
+      ],
+      "checks": [
+        {
+          "name": "meaningful-native-red",
+          "handle": 7599,
+          "exitCode": 1,
+          "passed": 111,
+          "failed": 1,
+          "log": "layout-offset-native-red.log",
+          "sha256": "42d6054781502d5527d8fea539212864b6f6fd23baa41608e8eae45494ce31fb"
+        },
+        {
+          "name": "initial-green-test-setup",
+          "handle": 86336,
+          "exitCode": 1,
+          "passed": 152,
+          "failed": 2,
+          "note": "Storage prototype mocks did not intercept the test storage object; no production change was needed.",
+          "log": "layout-offset-initial-green.log",
+          "sha256": "addc6ab76d515b7ac295696d3fafb24b014b8b605a57faf8d51c26cd162de265"
+        },
+        {
+          "name": "green",
+          "handle": 73841,
+          "exitCode": 0,
+          "passed": 154,
+          "log": "layout-offset-green.log",
+          "sha256": "e3a392274b7dcd216050221a71fb2f8903f8e08c1db46f862d2cd918399dd9fc"
+        },
+        {
+          "name": "related-units",
+          "handle": 76720,
+          "exitCode": 0,
+          "passed": 267,
+          "files": 12,
+          "log": "layout-offset-related-units.log",
+          "sha256": "4085853e14a8a76ebcdf51f3d6abef3ce3364ab295376912c9d40564d5d31348"
+        },
+        {
+          "name": "strict-lint",
+          "handle": 49414,
+          "exitCode": 0,
+          "log": "layout-offset-lint.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "web-types",
+          "handle": 11376,
+          "exitCode": 0,
+          "log": "layout-offset-types.log",
+          "sha256": "369ea74c64e1df20db8b8a6bcf59b9433ca7a9303c5057308182163b3818b5a6"
+        }
+      ],
+      "build": {
+        "handle": 14164,
+        "exitCode": 0,
+        "log": "layout-offset-production-build.log",
+        "logSha256": "6bdc28f17509035f4aa5158f178452f55de87c707ce186c91d41042f035e1d2f"
+      },
+      "frozenControlPreservedAndVerified": true,
+      "baselineAssetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+      "speedGain": "Unmeasured; browser correctness, separate count proof and matched timing are required."
+    },
+    "qa": [
+      {
+        "recordedAt": "2026-10-27T02:48:31.803058+00:00",
+        "name": "layout-offset-desktop",
+        "project": "chromium",
+        "handle": 31018,
+        "exitCode": 0,
+        "expectedChecks": 35,
+        "passed": 35,
+        "lastRun": {
+          "status": "passed",
+          "failedTests": []
+        },
+        "log": {
+          "path": "layout-offset-desktop-logs/kandev-run.e2e.RmJjA7XK.log",
+          "sha256": "090bda3da3c332d3dcba15ac8a2d8d262be2acf809084f071381edd8faa4456a"
+        },
+        "artifacts": "layout-offset-desktop-results",
+        "ledgers": [
+          {
+            "path": "layout-offset-desktop-results/chat-native-upward-intent--d10b1-sition-through-later-growth-chromium/queued-upward-reading.json",
+            "before": {
+              "top": 2096,
+              "height": 2580
+            },
+            "heldTop": 1936,
+            "heldHeight": 2636,
+            "final": {
+              "top": 1936,
+              "height": 2691
+            },
+            "maximumAbsoluteMovementPx": 0,
+            "sampleCount": 24
+          }
+        ],
+        "readingReturnLedgers": [
+          {
+            "path": "layout-offset-desktop-results/chat-native-upward-intent--c061a--precedes-its-wheel-handler-chromium/native-reading-return.json",
+            "heldMaximumMovementPx": 0,
+            "realPageDownReachedGapPx": 0,
+            "gapAfterFurtherGrowthPx": 1,
+            "samplesAfterReturn": 24
+          }
+        ],
+        "fixtureRoots": ["/tmp/kandev-e2e-0-4m5EKn"],
+        "fixtureRootsRemoved": true,
+        "assetsSha256": "f468765a3ca8342848e202c0e0b07d0f1d724c51e2a84c95936855d7305191cf"
+      },
+      {
+        "recordedAt": "2026-10-27T02:51:32.136707+00:00",
+        "name": "layout-offset-phone",
+        "project": "mobile-chrome",
+        "handle": 51074,
+        "exitCode": 0,
+        "expectedChecks": 17,
+        "passed": 17,
+        "lastRun": {
+          "status": "passed",
+          "failedTests": []
+        },
+        "log": {
+          "path": "layout-offset-phone-logs/kandev-run.e2e.mCiHBZD7.log",
+          "sha256": "bed7767c568ff251e4b42e0ece8dc66a202baa92f55f77e00cd764db829ba3dc"
+        },
+        "artifacts": "layout-offset-phone-results",
+        "ledgers": [],
+        "readingReturnLedgers": [],
+        "fixtureRoots": ["/tmp/kandev-e2e-0-8Ki4uw"],
+        "fixtureRootsRemoved": true,
+        "assetsSha256": "f468765a3ca8342848e202c0e0b07d0f1d724c51e2a84c95936855d7305191cf"
+      },
+      {
+        "recordedAt": "2026-10-27T02:54:53.749885+00:00",
+        "name": "layout-offset-toggle-desktop",
+        "project": "chromium",
+        "handle": 97450,
+        "exitCode": 0,
+        "expectedChecks": 7,
+        "passed": 7,
+        "lastRun": {
+          "status": "passed",
+          "failedTests": []
+        },
+        "log": {
+          "path": "layout-offset-toggle-desktop-logs/kandev-run.e2e.p5eCO457.log",
+          "sha256": "86b009ec4046b694a0773df7a23c4aa1fc7c862156fb69d23c3dba466598e082"
+        },
+        "artifacts": "layout-offset-toggle-desktop-results",
+        "ledgers": [],
+        "readingReturnLedgers": [],
+        "fixtureRoots": ["/tmp/kandev-e2e-0-ycHxfs"],
+        "fixtureRootsRemoved": true,
+        "assetsSha256": "f468765a3ca8342848e202c0e0b07d0f1d724c51e2a84c95936855d7305191cf"
+      },
+      {
+        "recordedAt": "2026-10-27T03:00:19.662655+00:00",
+        "name": "layout-offset-toggle-phone",
+        "project": "mobile-chrome",
+        "handle": 28650,
+        "exitCode": 0,
+        "expectedChecks": 7,
+        "passed": 7,
+        "lastRun": {
+          "status": "passed",
+          "failedTests": []
+        },
+        "log": {
+          "path": "layout-offset-toggle-phone-logs/kandev-run.e2e.LikzegCY.log",
+          "sha256": "e9e87eb5d85c0a9ff7cea1ad7f3ee7c948b7ba42108035e1f622fbb7012f0a6f"
+        },
+        "artifacts": "layout-offset-toggle-phone-results",
+        "ledgers": [],
+        "readingReturnLedgers": [],
+        "fixtureRoots": ["/tmp/kandev-e2e-0-0Y5HAh"],
+        "fixtureRootsRemoved": true,
+        "assetsSha256": "f468765a3ca8342848e202c0e0b07d0f1d724c51e2a84c95936855d7305191cf"
+      }
+    ],
+    "visualInspection": {
+      "recordedAt": "2026-10-27T02:58:31.413322+00:00",
+      "assetsSha256": "f468765a3ca8342848e202c0e0b07d0f1d724c51e2a84c95936855d7305191cf",
+      "scope": "Focused inspection of four existing interface states. This is not a pixel-equivalence test. Production markup, styles and user-facing copy have no changes.",
+      "captures": [
+        {
+          "path": "layout-offset-desktop-results/layout-saved-layout-arrang-3c514-s-and-preserves-both-drafts-chromium/restored-2-columns.png",
+          "sha256": "e45b99d2ebd7da136161957731a5ab412dfe9ddc05c4e55ed2ffba6f44f5aaf2",
+          "inspected": true,
+          "observation": "Restored chat, Files and terminal panes remain visible, with the retained draft and composer controls."
+        },
+        {
+          "path": "layout-offset-desktop-results/task-threads-composer-disc-bd1f0-h-hover-and-keyboard-reveal-chromium/grid-revealed-draft.png",
+          "sha256": "7b536d4418e98a66c231f4d25ea1ed93562dbee6ebb3badde1e0478f67e298b1",
+          "inspected": true,
+          "observation": "Threads retains the draft, disclosure controls and existing chat composition."
+        },
+        {
+          "path": "layout-offset-phone-results/task-mobile-threads-compos-3bf33-ough-single-chat-navigation-mobile-chrome/phone-visible-composer-short-height.png",
+          "sha256": "84323b803e7a16ac9e7b32d245cb43bddad57473d5950897b8b585fc4373effb",
+          "inspected": true,
+          "observation": "The short phone viewport retains the composer controls and native cancellation action."
+        },
+        {
+          "path": "layout-offset-phone-results/task-mobile-threads-compos-d64ef-stion-by-touch-short-phone--mobile-chrome/phone-long-question-submitted.png",
+          "sha256": "afc08db03ae8b920745c446360c82393028263c61c748c942e61b57c6d85a9a6",
+          "inspected": true,
+          "observation": "The completed required-question state and composer remain visible in the short phone viewport."
+        }
+      ]
+    }
+  },
+  "workCountProof": {
+    "recordedAt": "2026-10-27T03:10:50.094016+00:00",
+    "handle": 52153,
+    "exitCode": 0,
+    "report": "root-publications-1793070487783.json",
+    "reportSha256": "1684c109ac01b2bc389526b6d39c86861de100e3d5d6954c99bc46c7d8658415",
+    "sourceRevision": "85327f30ca3e88873923e585372e456f494f21ff",
+    "sourcePatchSha256": "d41052be4c5d7a370f6a842a7fa9a51fac7987c611875b068ed1b7942afc77ef",
+    "assetsSha256": "f468765a3ca8342848e202c0e0b07d0f1d724c51e2a84c95936855d7305191cf",
+    "harnessSha256": "940fe5f08bd4f6688acf6438a85e4a8171de8e335f36a647fd0b812d7e1f0159",
+    "harnessFilesVerified": 1957,
+    "testedSourceFilesVerified": 11,
+    "untrackedFilesVerified": 3,
+    "sourceSha256": "85ced8a1539312c244b2687e8996d28bd482868b2b2e4667cce21b574ee9e81b",
+    "observerAlgorithmUnchanged": true,
+    "scheduledUpdates": 300,
+    "initialLoadedHistory": [
+      {
+        "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+        "messages": 100
+      },
+      {
+        "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+        "messages": 100
+      },
+      {
+        "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+        "messages": 100
+      },
+      {
+        "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+        "messages": 100
+      },
+      {
+        "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+        "messages": 100
+      },
+      {
+        "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+        "messages": 100
+      }
+    ],
+    "counts": {
+      "notifications": 258,
+      "noRootChange": 0,
+      "signatures": {
+        "messagePrompts+turns": 12,
+        "turns": 16,
+        "messages": 226,
+        "messagePrompts+messages+turns": 4
+      },
+      "roots": {
+        "messagePrompts": 16,
+        "turns": 32,
+        "messages": 230
+      },
+      "fieldsByRoot": {
+        "messagePrompts": {
+          "bySession+refreshGenerationBySession": 16
+        },
+        "turns": {
+          "windowCoverageBySession": 32
+        },
+        "messages": {
+          "bySession": 230
+        }
+      },
+      "examples": [
+        {
+          "at": 14614.29999999702,
+          "roots": ["messagePrompts", "turns"],
+          "fields": {
+            "messagePrompts": ["bySession", "refreshGenerationBySession"],
+            "turns": ["windowCoverageBySession"]
+          }
+        },
+        {
+          "at": 14617.29999999702,
+          "roots": ["turns"],
+          "fields": {
+            "turns": ["windowCoverageBySession"]
+          }
+        },
+        {
+          "at": 14785.699999999255,
+          "roots": ["messages"],
+          "fields": {
+            "messages": ["bySession"]
+          }
+        },
+        {
+          "at": 14799.39999999851,
+          "roots": ["messages"],
+          "fields": {
+            "messages": ["bySession"]
+          }
+        },
+        {
+          "at": 14833.599999997765,
+          "roots": ["messages"],
+          "fields": {
+            "messages": ["bySession"]
+          }
+        },
+        {
+          "at": 14845.29999999702,
+          "roots": ["messages"],
+          "fields": {
+            "messages": ["bySession"]
+          }
+        },
+        {
+          "at": 14871.5,
+          "roots": ["messages"],
+          "fields": {
+            "messages": ["bySession"]
+          }
+        },
+        {
+          "at": 14893.29999999702,
+          "roots": ["messages"],
+          "fields": {
+            "messages": ["bySession"]
+          }
+        },
+        {
+          "at": 14961.89999999851,
+          "roots": ["messages", "messagePrompts", "turns"],
+          "fields": {
+            "messages": ["bySession"],
+            "messagePrompts": ["bySession", "refreshGenerationBySession"],
+            "turns": ["windowCoverageBySession"]
+          }
+        },
+        {
+          "at": 14964.599999997765,
+          "roots": ["turns"],
+          "fields": {
+            "turns": ["windowCoverageBySession"]
+          }
+        },
+        {
+          "at": 14999.599999997765,
+          "roots": ["messages"],
+          "fields": {
+            "messages": ["bySession"]
+          }
+        },
+        {
+          "at": 15026,
+          "roots": ["messages"],
+          "fields": {
+            "messages": ["bySession"]
+          }
+        },
+        {
+          "at": 15039.79999999702,
+          "roots": ["messages"],
+          "fields": {
+            "messages": ["bySession"]
+          }
+        },
+        {
+          "at": 15052.79999999702,
+          "roots": ["messages"],
+          "fields": {
+            "messages": ["bySession"]
+          }
+        },
+        {
+          "at": 15080.29999999702,
+          "roots": ["messages"],
+          "fields": {
+            "messages": ["bySession"]
+          }
+        },
+        {
+          "at": 15102.89999999851,
+          "roots": ["messages"],
+          "fields": {
+            "messages": ["bySession"]
+          }
+        }
+      ],
+      "subscriberRemoved": true
+    },
+    "observerRemoved": true,
+    "metadataValid": true,
+    "temporarySourceRemoved": true,
+    "sourceReportAndSnapshotUnchanged": true,
+    "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+    "playwrightAttachmentByteMatches": true,
+    "newWorkerRoots": ["/tmp/kandev-e2e-0-2r44Wd"],
+    "newWorkerRootsRemoved": true,
+    "remainingOwnedProcesses": [],
+    "savedFixturePreserved": true,
+    "fileStateChecks": "The unchanged helper passed before and after streaming. Its results are not separately stored in this count report.",
+    "rejectedPriorRun": "layout-offset-publication-proof-metadata-rejection.json",
+    "limit": "Intrusive reference counts only. No elapsed-time or exact writer attribution claim."
+  },
+  "workCountLimit": "Eliminated saved-offset app-store publications do not establish elapsed-time gains. Total message-publication counts differ.",
+  "preservation": {
+    "recordedAt": "2026-10-27T03:44:00.524093+00:00",
+    "root": "/tmp/kandev-rejected-layout-offset-5936a872",
+    "sourceRevision": "85327f30ca3e88873923e585372e456f494f21ff",
+    "sourcePatchSha256": "03fe730c42f1360475da926fa6dd9bc53a6b5575d44b2f8e66ddd16f8afba39d",
+    "productionPatchSha256": "95882153c0041e9bdd674b48acd5b14352bba01c32149ce4d86a7ae5ecac334a",
+    "sourceFiles": [
+      {
+        "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "sha256": "33c9c83f80e5cb7778545934299073ebf0e70dadb70fe9662a2ed9673f6737bb"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+        "sha256": "49e360c6c9cb6b80247393bc98200186cdb86ff60bacb7625e77332c9ef7b23a"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+        "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+        "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+      },
+      {
+        "path": "apps/web/e2e/tests/chat/auto-scroll-toggle.spec.ts",
+        "sha256": "316034942492ea8f7012deda563b679da3e42f3324836f0698dfa39d25cfc016"
+      },
+      {
+        "path": "apps/web/lib/state/app-state-types.ts",
+        "sha256": "e43fad0e2a14dc8ed58547bf9a5173662d63038786e317586c247c8daba697d3"
+      },
+      {
+        "path": "apps/web/lib/state/dockview-store.ts",
+        "sha256": "f652f08c892d4c25cef282f64e6e9a40b5d0009bea3b879216af53159bf93333"
+      },
+      {
+        "path": "apps/web/lib/state/dockview-transcript-scroll.test.ts",
+        "sha256": "45170feb6c325a8d391afe404bfc9dd8ef5aede9dd8d58fd7eb773588a35c4fa"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+        "sha256": "295a739508c1fb10ad98a180d1824135ade90d71cd7f2dcf1c504fd1078c72f3"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/types.ts",
+        "sha256": "856a63ec75e11a99484a767f654003d05bb8b90e4cd3efa01d8bf8284d4fd889"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+        "sha256": "0e648356718631d4c3487b449272e43a2f0f3a1b7e1a88528fc223478b0ab661"
+      },
+      {
+        "path": "docs/plans/dense-workbench-performance/evidence/viewport-scroll-publication-attribution.json",
+        "sha256": "25da747dc2c114da4a9b1030466520ebee857dbd56657dcd0083a8900b362ac9"
+      }
+    ],
+    "assets": {
+      "sha256": "f468765a3ca8342848e202c0e0b07d0f1d724c51e2a84c95936855d7305191cf",
+      "files": 1253
+    },
+    "helpers": {
+      "kandev": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+      "agentctl": "6e768aef1a1692630fe109c25e23ac31ab461b691800c2059e6dfdd5cf0b4d0a",
+      "mock-agent": "c69f05ee9f5622cc5bce83405c2e9240b537f3e79a21da65765d9867592288c1"
+    },
+    "lockfileSha256": "9d5a03a9086f28c93752fce491f896047fbcdbc64abfafe3b3aa53261199c554",
+    "decision": "Rejected after mixed two-pair timing. No six-pair acceptance or speed claim.",
+    "report": "matched-dense-1793071259107.json",
+    "reportSha256": "c7898e8c0633be730277c445f5266e8ad42e31fd170f216eeca420fd7f04bf03",
+    "controlSourceArchive": {
+      "path": "message-selector-control-source.tar",
+      "sha256": "e9cc329e3ae853b64e2eaa77087c7129f1ce4481a203b05e2b00adae1c0c230e"
+    }
+  },
+  "restoration": {
+    "recordedAt": "2026-10-27T03:44:01.230258+00:00",
+    "restoredSourceRevision": "85327f30ca3e88873923e585372e456f494f21ff",
+    "restoredAppSourceMatchesHead": true,
+    "appSourceFilesRestored": 8,
+    "experimentalTestFilesRemoved": 1,
+    "verifiedRetainedSourceFiles": 8,
+    "restoredAssets": {
+      "sha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+      "files": 1253
+    },
+    "ownHelpersAndLockfileVerified": true,
+    "rejectedRoot": "/tmp/kandev-rejected-layout-offset-5936a872",
+    "rejectedAssets": {
+      "sha256": "f468765a3ca8342848e202c0e0b07d0f1d724c51e2a84c95936855d7305191cf",
+      "files": 1253
+    },
+    "rejectedAssetBackup": "/tmp/kandev-f468-assets-after-rejection-5936a872",
+    "noSpeedClaim": true
+  },
+  "publicDocsImpact": "None. This delivery records internal evidence and restores the existing app behavior.",
+  "remainingWork": [
+    "Fresh rendering timeline attribution on restored 9e20 before choosing another change.",
+    "The 20% normal-streaming main-thread task-time target remains unmet.",
+    "The original-baseline final matrix and device-level validation remain open."
+  ],
+  "limits": [
+    "Two matched pairs on Linux Chromium do not establish M2 Air performance, INP, battery use or heap-retention gains.",
+    "No six-pair confirmation is claimed. All seventy metrics and every raw attempt remain preserved."
+  ],
+  "artifacts": [
+    {
+      "path": ".kandev/diagnostics/dense-workbench-performance/matched-dense-1793071259107.json",
+      "sha256": "c7898e8c0633be730277c445f5266e8ad42e31fd170f216eeca420fd7f04bf03"
+    },
+    {
+      "path": ".kandev/diagnostics/dense-workbench-performance/layout-offset-two-pair-summary.json",
+      "sha256": "abdeb364661af14ffe2f85e692c2b11e203dd78a889d03622f7c503ad27905e5"
+    },
+    {
+      "path": ".kandev/diagnostics/dense-workbench-performance/layout-offset-two-pair-summary.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".kandev/diagnostics/dense-workbench-performance/layout-offset-two-pair-post-audit.json",
+      "sha256": "325c461ddfdd54accc608623e7f9ae33f8fa2a35e63fab80010ee28f6ee6f47e"
+    },
+    {
+      "path": ".kandev/diagnostics/dense-workbench-performance/layout-offset-two-pair-decision.json",
+      "sha256": "78f15ea49d4432745a09c62f9beffff2961354326cfc4bbe6a98239510dede31"
+    },
+    {
+      "path": ".kandev/diagnostics/dense-workbench-performance/layout-offset-two-pair-host-load.jsonl",
+      "sha256": "09793bb575cc65dc00701ff0685efe1b2f163669267a69e00f36a5589497ecb5"
+    },
+    {
+      "path": ".kandev/diagnostics/dense-workbench-performance/layout-offset-rejected-tracked.patch",
+      "sha256": "03fe730c42f1360475da926fa6dd9bc53a6b5575d44b2f8e66ddd16f8afba39d"
+    },
+    {
+      "path": ".kandev/diagnostics/dense-workbench-performance/layout-offset-rejected-production.patch",
+      "sha256": "95882153c0041e9bdd674b48acd5b14352bba01c32149ce4d86a7ae5ecac334a"
+    },
+    {
+      "path": ".kandev/diagnostics/dense-workbench-performance/layout-offset-rejected-preservation.json",
+      "sha256": "14f92e318752b6d974521b3b208d0004eff5a6cb3ae185e76a6d03b549310d96"
+    },
+    {
+      "path": ".kandev/diagnostics/dense-workbench-performance/layout-offset-restoration.json",
+      "sha256": "0c8d09ed1344306cab6aab705acf9c821a4d6510aea10a807c067f7c6d8d7ca8"
+    },
+    {
+      "path": ".kandev/diagnostics/dense-workbench-performance/layout-offset-native-red.json",
+      "sha256": "133be99c89ef2490f6d0c4f194eda8686f11ca3d15aba014005be251dd4e0e28"
+    },
+    {
+      "path": ".kandev/diagnostics/dense-workbench-performance/layout-offset-native-red.log",
+      "sha256": "42d6054781502d5527d8fea539212864b6f6fd23baa41608e8eae45494ce31fb"
+    }
+  ]
+}

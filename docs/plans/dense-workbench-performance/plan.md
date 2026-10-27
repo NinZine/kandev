@@ -30,6 +30,15 @@ legacy_specs: []
 
 ## Latest measured checkpoint
 
+The saved-offset layout owner is rejected after four complete reference
+samples and 7,200 verified updates. Streaming script work per second is nearly
+flat in one pair and 10.32% lower in the other. Main-thread work stays mixed
+and approximately flat; style and layout work increase in both pairs.
+The exact prototype and all seventy rows are preserved, and verified app
+source plus `9e20f26b` assets are restored. Next: fresh rendering timeline
+attribution. No speed acceptance or six-pair confirmation follows. See
+[the rejection](evidence/rejected-layout-offset-owner-two-pair-1x.json).
+
 The complete C4-to-batching confirmation passes all twelve samples and verifies
 21,600 ordered updates. It does not confirm the large preliminary gain.
 Streaming main-thread work is flat; p95 frame gaps are mixed. The store-scoped
@@ -43,6 +52,17 @@ and contain no ARIA inspection stacks. They remain excluded from speed results.
 A separate 300-update input probe observes 717 store publications and 767,193
 turn/model searches, while the selected turn arrays, model snapshots and feature
 inputs remain unchanged. The temporary observer is archived and removed.
+The control follow-up does not reproduce bottom-return failure. Three input
+samples pass; one warm 4x sample fails composer readiness before a wheel. A
+separate 300-update probe counts 542 store publications, including 238 that
+change only saved transcript offsets. The layout-owner candidate passes 267
+related unit tests, lint, types, build and 66 desktop/phone checks. Its corrected
+300-update probe records zero saved-offset app-store publications. Other
+publication counts differ, so no speed gain follows from these counts. The
+mislabeled first probe remains preserved. The two reference pairs then fail
+the repeatability screen recorded above; the candidate is removed. See
+[the new attribution](evidence/viewport-scroll-publication-attribution.json).
+
 The prototype passes 105 related unit tests and five desktop/phone checks.
 Two preliminary pairs reduce streaming script work per second, while overall
 main-thread task-time rate is unchanged. The separate six-pair attempt executes

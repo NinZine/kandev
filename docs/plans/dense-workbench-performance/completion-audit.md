@@ -7,6 +7,29 @@ builds, fixtures, and probes; they do not automatically verify the final build.
 
 ## Latest build checkpoint
 
+The saved-offset layout owner is rejected after four complete reference
+samples and 7,200 verified updates. Streaming script work per second is nearly
+flat in one pair and 10.32% lower in the other. Main-thread work stays mixed
+and approximately flat; style and layout work increase in both pairs. Normal
+idle main-thread work increases in both pairs. Exact app source and `9e20f26b`
+assets are restored; the prototype and all seventy rows remain preserved.
+Next: fresh rendering timeline attribution. The 20% task-time target and final
+matrix remain open. See
+[the rejection](evidence/rejected-layout-offset-owner-two-pair-1x.json).
+
+The control follow-up does not reproduce bottom-return failure. Three input
+samples pass and verify 5,400 ordered updates; a separate warm 4x attempt fails
+composer readiness before a wheel. The 250 ms gesture policy remains unchanged.
+A separate 300-update probe counts 542 store publications, including 238 that
+change only saved transcript offsets. The observer is removed; source, runtime,
+fixture and cleanup checks pass. The layout-owner candidate then passes 267
+related unit tests, lint, types, build and 66 desktop/phone checks. Its corrected
+300-update probe records zero saved-offset app-store publications. The original
+mislabeled probe remains preserved with its rejection. The subsequent two
+reference pairs fail the repeatability screen recorded above. No speed
+acceptance follows from the work counts. See
+[the new attribution](evidence/viewport-scroll-publication-attribution.json).
+
 The message-local selector remains unqualified. It passes 105 related unit tests
 and five desktop/phone checks. Two preliminary pairs reduce streaming script
 work per second, but not overall main-thread task-time rate. The separate

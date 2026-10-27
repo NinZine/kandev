@@ -1131,3 +1131,74 @@ Keep native-v2 inputs, deadlines and reference workload unchanged. A retained
 selector still requires complete matched timing. The 20% task-time target and
 original-baseline final matrix remain open. See
 [the complete evidence](evidence/message-selector-unqualified.json).
+
+## Candidate: layout-owned saved transcript offsets
+
+Status: rejected after mixed two-pair reference timing. Exact verified app
+source and `9e20f26b` assets are restored. The control input follow-up
+passes both 1x samples and one warm 4x sample. The other warm 4x attempt fails
+composer readiness before a wheel is sent. It does not reproduce the earlier
+bottom-return failure. Keep that unresolved failure and all gesture guards.
+
+The separate 10-second count probe verifies 300 ordered updates and records
+542 app-store publications. Of these, 238 change only the saved transcript
+offset map. Production reads of that map are imperative native restoration
+paths. The toggle reads its separate enabled preference. Source, assets,
+runtime helpers, fixture, attachment and cleanup checks pass; the temporary
+observer is archived and removed. Counts do not establish speed gains.
+
+Move the per-session offset map and its writer to the existing layout store.
+Keep enabled preferences in the app store. Preserve the sessionStorage key,
+write timing, current storage-first restore precedence and in-memory fallback.
+Do not add a global cache or a publication queue. Keep session ownership,
+unfinished-placement cancellation, synchronous outgoing-session flushes,
+hidden-panel behavior, explicit reader positions and native input guards.
+
+First reproduce native scrolling publishing through the app-store writer.
+Then test that saved offsets use the layout owner without message-model
+publication. Cover independent sessions, immutable prior snapshots, current
+values after storage failure, task switching and reload. Update browser
+assertions to observe the existing persisted user outcome.
+
+Run related units, strict lint, types, production build and desktop/phone
+checks. Freeze the passing source and assets. Repeat the count probe separately,
+then compare unchanged full-density reference workloads. Retain only a verified
+gain. The selector prototype remains preserved and unqualified; the 20% target
+and original-baseline final matrix remain open. See
+[the attribution evidence](evidence/viewport-scroll-publication-attribution.json).
+
+Validation: the ownership regression first fails with one app-store write
+for the native reader offset. The other 111 native tests pass. After moving
+the offset map and writer, all 267 related unit tests pass. Storage tests cover
+independent sessions, immutable prior snapshots, repeated-value persistence
+and blocked reads/writes. The initial storage-failure mocks target the wrong
+test-storage prototype; those two setup failures remain recorded. Correcting
+the mocks needs no production change. Strict lint, full web types and the
+production build pass.
+
+The same `f468765a` assets pass 42 desktop and 24 phone checks. Four captures
+are inspected. Held reading moves zero pixels, and real PageDown remains
+within one pixel after further growth. The existing native input policy and
+five-second benchmark deadlines remain unchanged.
+
+The corrected 300-update count probe records zero saved-offset app-store
+publications, compared with 238 on the control. Total message-publication
+counts differ, so do not infer elapsed-time gains. Its full source/runtime,
+fixture, attachment and cleanup audit passes, and the temporary observer is
+removed. The earlier candidate probe keeps its wrong launch-label rejection;
+the corrected run changes only that label and its artifact prefix.
+
+All four full-density native-v2 samples pass and verify 7,200 ordered updates.
+The integrity audit verifies source, both runtimes, the fixture, all backend
+logs and cleanup. The unmodified summary records all seventy rows.
+Streaming script time per second falls 0.19% and 10.32%, so the useful gain
+does not repeat. Main-thread task-time rate is mixed and approximately flat.
+Normalized style and layout time increase in both pairs. Normal idle main-thread
+work also increases in both pairs; reduced-motion idle work is mixed.
+
+Reject the prototype without a six-pair acceptance claim. Preservation and
+exact app-source/asset restoration are complete. The native input policy,
+deadlines and workload remain unchanged. Next: fresh rendering timeline
+attribution on restored `9e20f26b` before choosing another optimization.
+The primary 20% target and original-baseline final matrix remain open. See
+[every paired row](evidence/rejected-layout-offset-owner-two-pair-1x.json).
