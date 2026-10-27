@@ -1072,3 +1072,25 @@ are inspected. Reader movement remains zero; real PageDown stays within one
 pixel after further growth. The independent fix changes only two production
 files and their tests relative to C4. Next: fresh quiet-stream attribution.
 See [the correction evidence](evidence/transcript-frame-cancellation.json).
+
+
+## Candidate: message-local turn and usage selection
+
+Status: proposed from fresh measured input reuse. Production remains `9e20f26b`.
+The quiet profile passes both full-density samples and 3,600 ordered updates.
+The separate input probe passes 300 ordered updates. Its 717 store publications
+trigger 767,193 turn/model searches without changing the selected inputs.
+These are intrusive work counts, not a speed comparison.
+
+Create one selector closure per immutable message snapshot. Cache only the
+selected session turn-array reference, model-snapshot reference and effective
+fork flag. Recompute when any input changes. Preserve the existing output
+identity when the resolved turn reference, multiplier and fork flag are equal.
+Do not share caches across message owners or change notification timing.
+
+Use RED-GREEN tests to prove the no-rescan bound and every invalidation boundary.
+Keep metadata, duration, model fallback, copy and fork behavior current on desktop
+and phone. Test actual store actions as well as independent snapshots. Freeze
+the passing build, repeat the count probe separately, then run unchanged dense
+paired timing. Reject a candidate whose gain does not repeat. See
+[the source and count evidence](evidence/message-action-input-attribution.json).

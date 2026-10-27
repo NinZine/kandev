@@ -9,6 +9,18 @@ Final matrix, stress, owner retention and streaming task-time gates remain open.
 The branch is `feature/evaluate-live-thread-bc0`; the frozen baseline is
 `595df36ed5c1cf02fd90cb972b623ad6edc53df8`.
 
+## Current message-action input attribution
+
+A fresh quiet-stream profile on the retained `9e20f26b` build passes both arms
+and verifies 3,600 ordered updates. The profiles cover their observation windows
+and contain no ARIA inspection stacks. They remain excluded from speed results.
+A separate 300-update input probe observes 717 store publications and 767,193
+turn/model searches, while the selected turn arrays, model snapshots and feature
+inputs remain unchanged. The temporary observer is archived and removed.
+Next: test a message-local selector that invalidates on every relevant input
+change, then compare frozen builds. No speed gain is accepted from these counts.
+See [the attribution evidence](evidence/message-action-input-attribution.json).
+
 ## Native frame cancellation after rejecting batching
 
 The current `9e20f26b` assets keep per-transcript persistence and add guarded
