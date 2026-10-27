@@ -1072,5 +1072,25 @@ textual merge conflict. The integrated tree passed 120 focused frontend
 cases, full web typecheck, affected E2E ESLint, documentation catalog validation
 and whitespace checks. Race-enabled MCP/Selection/Effective checks passed in
 mcpconfig, settings store, settings handlers and backend app composition.
-Normal merge-commit hooks and the rebuilt-head browser check remain in
-progress; no remote CI success is claimed.
+The merge commit is ef86ab7fb687c06707dfac106d7020a0577c0598. Its normal
+23 hook results passed or were correctly skipped. The E2E workflow contract
+suite passed all 27 cases. A fresh managed runtime/web/plugin build completed.
+
+At that merge head, the strict desktop/phone browser check passed 32 cases,
+including all 16 assignment journeys. One neighboring phone launch-recovery
+case failed while waiting for its launch error to clear after the accepted
+repository-row repair. Its trace and snapshot were preserved. The same case
+passed in an isolated diagnostic run, then again with the original four phone
+predecessor tests (five passed). Those runs used no retries and do not establish
+a root cause or a fix for the intermittent result. Temporary log-capture probes
+were restored byte-for-byte, and no recovery assertion was changed. The failed
+33-case run remains failed evidence; it is not reported as a clean suite.
+
+A separate conflict-focused desktop/phone check passed all 10 cases: tablet
+workflow move, capacity retry/cancel/restart, 101-task pagination and oversized
+message navigation. These runs used two CPUs, one worker and zero retries.
+The local retry overrides were restored before commit. No new UI captures are
+needed for the unchanged assignment and review UI. The following documentation
+receipt changes no application, workflow or test code; its code tree matches
+the tested merge head. Fresh exact-head CI and requested bot review remain
+external delivery gates, with all reproduction limits retained in the PR body.
