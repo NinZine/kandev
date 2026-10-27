@@ -868,3 +868,36 @@ and zero retries. Affected ESLint and full web typecheck passed. These controls
 address the concrete fixture transition races; they are not presented as a
 captured reproduction of the original failed tap. Fresh CI remains the
 delivery gate for this case and the other three leaf failures.
+
+### Main reconciliation and collected CI corrections (2026-10-27)
+
+The authoritative main advanced to
+53bffc00e34b0eeb1bd3384c565a1e4d132caeb4 with the exact-label-removal fix.
+Its 13 changed paths do not overlap the assignment branch. Backup
+backup/clarify-mcp-assignment-before-main-53b-20261027 preserves the complete
+pre-rebase tip e99386cb289fedc04f1da29623fa8241866e4900.
+Only the 21 task-owned commits after
+baa92e5dcf53eca4dac223b0deba5e26c1ee08fb were replayed. No conflicts occurred,
+and range-diff reports every patch unchanged. The WO01 conditional-write
+commit maps from 63a7e82fbf1252bc3d267b0801cc50bcac0baed9 to
+f88fae0147f285b9526bb3f91eb402cc1c8795b7. The old published assignment head
+e14cef8206cf526654ff16f66569686694ded3d6 remains the prior remote boundary;
+a dependent task must preserve its actual integrated boundary when rebasing.
+
+Fresh integration verification passed 77 focused frontend cases across nine
+files, including review scrolling, MCP selection/API/new-session consumers and
+incoming label-removal consumers. Race-enabled label handler and backend
+composition tests passed. Web typecheck, documentation catalog and full
+specification lint passed. A fresh managed build then passed all 13 cases in
+the complete desktop/phone pagination, Office lifecycle, review-viewed and
+phone oversized-message files with two CPUs, one worker and zero retries.
+
+The preceding published head's terminal CI result was 83 passed, 11 skipped,
+one neutral and five failed checks, with no pending checks or unresolved
+review threads. Four E2E leaf failures caused the E2E aggregate failure.
+Their corrections and reproduction limits are recorded above. Core assignment
+rendering is unchanged; its 18 published synthetic captures remain valid.
+Fresh desktop/phone review captures verify retained manual clearing after the
+touch-input correction. The relevant rendering sources are unchanged by this
+rebase. Publication must start fresh exact-head CI and bot review; these local
+results do not mark that external delivery gate complete.
