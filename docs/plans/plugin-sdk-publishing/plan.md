@@ -1221,3 +1221,25 @@ order use canonical requirement/design frontmatter without changing their
 existing scope or status. Full docs/spec checks and trusted local documentation
 coverage pass. Independent review, remaining browser checks, normal hooks,
 current-main combined validation, push, and fresh CI remain delivery gates.
+
+## Current-main integration validation (2026-10-27)
+
+Fixture correction `09f3741730d7` passed normal hooks without bypass. Merge
+current main `d549fa694b7d5f8e1dd0d6bade40d4e2b41e71d3` without conflicts.
+Preserve incoming Quick Chat startup/recovery, the drawer's existing animation
+wait, and shared review fixture isolation. The bounded archive response
+allowance, actual-click recovery latch, stronger file membership assertion,
+and first-failure trace retention remain intact.
+
+Rebuild web, backend helpers, durable-delivery fixture, and packaged plugin from
+the combined source. Full typecheck, 90 startup/session unit tests, backend
+archive/Quick Chat tests, full docs/spec checks, and trusted exact-diff
+documentation coverage pass. The latter checks 461 changed paths and 27 work
+orders against 86 linked documents. Five desktop and five phone browser cases
+pass with retries disabled, covering restart/list recovery, worktree paths,
+uncertain Quick Chat creation, context reset, drawer recovery, and review-file
+ownership. Earlier repetitions add 27 phone and nine restart passes.
+
+Normal merge hooks, push, and fresh exact-head CI remain required. The original
+healthy-sibling startup cause is still unresolved, and no release publication
+or external migration was performed. Keep NOTIFICATION_GUIDE.md untracked.

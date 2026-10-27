@@ -136,6 +136,15 @@ export function reviewViewedTogglingScenario(mobile: boolean) {
           .getByRole("checkbox");
     await expect(header).toBeVisible();
     await expect(dialog.getByTestId("review-diff-pending")).toHaveCount(0);
+    await expect
+      .poll(() =>
+        root
+          .getByTestId("review-file-header")
+          .evaluateAll((headers) =>
+            headers.map((entry) => entry.getAttribute("data-file-path")).sort(),
+          ),
+      )
+      .toEqual([TARGET, TRAILING]);
     await expect(dialog.getByText("export const line0 = 0;", { exact: true })).toBeVisible();
     await waitForFiniteAnimations(dialog);
     await expect(checkbox).not.toBeChecked();
