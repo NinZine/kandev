@@ -1,5 +1,40 @@
 # Dense workbench performance results
 
+## Firefox reproduction and rejected rendering hint
+
+The user identifies Firefox. Local Firefox 151 passes seven existing correctness
+checks. Full-density runs use the frozen 1,000-task, 36,000-message fixture with
+six visible conversations. Firefox has no CDP CPU counters or Long Tasks API.
+These results do not measure M2 hardware, field INP, battery use, or a heap leak.
+
+The original Chromium wheel helper assumes a very large wheel reaches the bottom.
+An independent Firefox control moves only 148 px in a 164 px scroller for that
+input. A native End key reaches the bottom. The separately versioned Firefox
+protocol uses explicit focus, native End, and focus release. Its full-application
+control passes all four interactions and verifies 300 updates. The initial click
+focus assumption fails and its interrupted comparison remains preserved. The
+original Chromium helper and five-second arrival bound stay unchanged.
+
+A one-class SVG hint passes 37 units, lint, types, the production build, and five
+rendered desktop/phone checks. Its two alternating Firefox pairs do not establish
+a gain. Both old and new builds remain slow. All four samples fail native End
+return while content grows, although all 7,200 ordered updates are verified.
+The candidate is removed. Exact retained `b7c3` source and assets are restored.
+
+The apparent earlier animation signal is confounded by test order. New controls
+show frame-gap p95 near 17 ms in the first two ten-second windows, before and after
+a screenshot. The later window stalls for 54 seconds despite the inline hint.
+All four long idle samples first develop large frame gaps around 25 to 27 seconds.
+The first old-build idle window also records 84 stale sessions, 72 session-state
+updates, and 35 history reads. This is recovery activity in an aged replay, not
+an established quiet-idle cost. The correlation requires profiling before another
+candidate. No new Firefox speed gain is accepted.
+
+The 20% streaming target and original-baseline final matrix remain open. Next:
+attribute delayed state-recovery processing and cover End reaching its observed
+edge after content grows. See
+[all raw identities, attempts, controls, and limits](evidence/firefox-local-density-and-capture-controls.json).
+
 Status: earlier-build 1x comparisons for compatible tasks, incompatible layouts,
 same-environment session tabs, Dockview core, and full-plugin Dockview are
 recorded below. The `9ee2c6f5` batching experiment is rejected after complete confirmation. Its

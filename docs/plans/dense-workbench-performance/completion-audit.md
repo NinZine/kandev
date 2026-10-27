@@ -1,9 +1,14 @@
 # Dense workbench completion audit
 
-Status: incomplete. This audit preserves the approved scope in
-[the plan](plan.md) and [benchmark protocol](benchmark.md). A targeted gain does
-not complete the package. Existing results remain evidence for their recorded
-builds, fixtures, and probes; they do not automatically verify the final build.
+## Firefox checkpoint
+
+Seven existing Firefox checks pass. The rejected SVG candidate also passes 37
+units, lint, types, build, and five rendered desktop/phone checks. All four full
+Firefox End-v2 samples fail return-to-bottom while verifying 7,200 updates.
+No speed gain is accepted. Calibration refutes the earlier animation inference.
+The candidate is removed and all eleven retained source hashes and `b7c3` assets
+are restored. The 20% streaming target and final original-baseline matrix remain
+open. See [the complete Firefox evidence](evidence/firefox-local-density-and-capture-controls.json).
 
 ## Latest build checkpoint
 

@@ -28,6 +28,15 @@ legacy_specs: []
 
 # Implementation plan: Dense workbench performance
 
+## Firefox checkpoint
+
+Firefox is confirmed. Local reproduction and two balanced pairs accept no new
+optimization. The one-class SVG hint is removed and exact `b7c3` source/assets
+are restored. The delayed idle stalls coincide with recovery activity in the
+aged fixture. Next: attribute that burst and cover End reaching an input-time
+edge after content grows. The 20% streaming target and final matrix remain open.
+See [the complete Firefox evidence](evidence/firefox-local-density-and-capture-controls.json).
+
 ## Forced layout attribution and task-busy limits
 
 The first diagnostic adds stack and invalidation detail. Both ten-second dense
@@ -55,9 +64,8 @@ recorded comparison uses `9e20` and `59e1`, not the current `b7c3` build.
 
 No native input policy, app source or benchmark deadline changes are retained.
 The temporary probes are removed. The 20% streaming target and original-baseline
-final matrix remain open. Next: identify the browser or desktop app used on the
-M2 Air before choosing a browser-specific candidate. The connected frontend
-bundle has no client browser identity. See
+final matrix remain open. The user later identifies Firefox. Local reproduction and its limits are
+recorded above. See
 [the complete evidence](evidence/forced-layout-callsite-attribution.json).
 
 ## Plan editor marks: correctness fix, no speed acceptance

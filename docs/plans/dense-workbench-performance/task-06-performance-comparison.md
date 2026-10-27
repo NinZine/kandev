@@ -32,6 +32,20 @@ system_design:
 
 # Task 06: Matched comparison and regression evidence
 
+## Firefox protocol and result
+
+Firefox lacks the CDP duration counters and Long Tasks API used by Chromium.
+An independently calibrated protocol uses the original native upward wheel,
+explicit focus, a trusted End key, focus release, and the same five-second
+arrival bound. The original Chromium native-v2 helper remains unchanged.
+
+Both alternating pairs complete, but all four samples fail End return while
+content grows. All 7,200 updates are verified. No qualified speed comparison
+follows. A later control exposes delayed stalls despite an inline hint, while
+earlier short windows stay smooth. Recovery events occur during the recorded
+idle window, so it is not quiet steady state. Keep all failed/interrupted cases
+and the original fixture/deadlines. See [the complete Firefox evidence](evidence/firefox-local-density-and-capture-controls.json).
+
 ## Forced layout attribution and task-busy limits
 
 The first diagnostic adds stack and invalidation detail. Both ten-second dense

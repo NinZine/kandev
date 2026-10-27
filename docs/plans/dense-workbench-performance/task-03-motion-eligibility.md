@@ -3,7 +3,7 @@ id: "03-motion-eligibility"
 title: "Persistent motion eligibility"
 status: done
 wave: 3
-depends_on: 
+depends_on:
   - "01-dense-baseline"
 plan: "plan.md"
 requirements:
@@ -23,6 +23,15 @@ system_design:
 ---
 
 # Task 03: Persistent motion eligibility
+
+## Firefox rendering hint: rejected
+
+A one-class transform hint preserves the icon and passes 37 units plus five
+rendered checks. Its two alternating Firefox pairs do not establish a gain.
+The source and exact `b7c3` assets are restored. A calibrated time-order control
+also refutes the earlier inference that pausing rotation removed the idle cost.
+No new motion gate, wrapper, promoted-layer claim, or animation change is retained.
+The previous scoped Chromium ownership results remain separate. See [the complete Firefox evidence](evidence/firefox-local-density-and-capture-controls.json).
 
 ## Owned board visibility: retained
 

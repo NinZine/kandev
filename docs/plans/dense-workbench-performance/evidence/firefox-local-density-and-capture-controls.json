@@ -1,0 +1,1422 @@
+{
+  "recordedAt": "2026-10-27T19:09:17.575940+00:00",
+  "status": "Incomplete. Local Firefox reproduced; no new production optimization retained.",
+  "userBrowser": "Firefox, supplied by the user.",
+  "scope": "Linux Firefox 151.0, Playwright 1.61.1, 1470x956 CSS pixels, scale 2. Desktop Firefox project supplies a Windows Firefox user-agent while the real platform is Linux x86_64. Native CPU speed. No M2 equivalence, field INP, battery, heap-leak or whole-machine CPU claim.",
+  "browserMetricsUnavailable": [
+    "CDP CPU, script, style and layout counters",
+    "Long Tasks API"
+  ],
+  "eventTiming": "Advertised by this Firefox but not sampled. No INP measurement.",
+  "retainedAssetsSha256": "b7c3fa9b16366da506d501e612df926f3cf3b73b1021401a4fa4fd49b673ebe4",
+  "fixture": {
+    "tasks": 1000,
+    "threads": 30,
+    "visibleThreads": 6,
+    "savedMessages": 36000,
+    "primaryMessagesPerThread": 1000,
+    "siblingsPerThread": 2,
+    "messagesPerSibling": 100,
+    "filesPerVisibleRepository": 630,
+    "changedFilesPerVisibleRepository": 73,
+    "snapshotSha256": "493eca3be34e94315bcd3c64c13b6945ff7ab73ee648f771f1c9dc47099e5999",
+    "replayDescriptorSha256": "7b292a08688e49822e4218ec8c172c3c36750cb73c55b27940ca62f342830476"
+  },
+  "reports": [
+    {
+      "name": "firefox-local-qa",
+      "receipt": ".kandev/diagnostics/dense-workbench-performance/firefox-local-qa-receipt.json",
+      "receiptSha256": "b98b47bc394b60d6aa5066353d1aca120389d0df2f45a6f6b3bf71cb109f20d9",
+      "handle": 38725,
+      "exitCode": 0,
+      "status": "passed",
+      "sourceFilesVerified": 11,
+      "harnessFilesVerified": 1957,
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": []
+    },
+    {
+      "name": "firefox-local-full-density",
+      "receipt": ".kandev/diagnostics/dense-workbench-performance/firefox-local-full-density-receipt.json",
+      "receiptSha256": "d799ff186e21f56caab92960e0b70837a2fb8d60a84a0fe292aa6400f7d3cf8e",
+      "handle": 61699,
+      "exitCode": 1,
+      "status": "failed",
+      "sourceFilesVerified": 11,
+      "harnessFilesVerified": 1958,
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "report": ".kandev/diagnostics/dense-workbench-performance/firefox-local-dense-1793124118960.json",
+      "reportSha256": "a0157b230cde30c28efab6b129370fced738ba1dd6a5dc654e1f4fc6f0f79685",
+      "orderedUpdatesVerified": 0,
+      "samplerHandle": 42650,
+      "samplerExitCode": 0
+    },
+    {
+      "name": "firefox-motion-cause",
+      "receipt": ".kandev/diagnostics/dense-workbench-performance/firefox-motion-cause-receipt.json",
+      "receiptSha256": "1232a1fc9e5423a162f2c554622243c86e3ded79b299ff21686388b2b20b790c",
+      "handle": 10341,
+      "exitCode": 1,
+      "status": "failed",
+      "sourceFilesVerified": 11,
+      "harnessFilesVerified": 1958,
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "report": ".kandev/diagnostics/dense-workbench-performance/firefox-local-dense-1793124641291.json",
+      "reportSha256": "54e49fa58adf837c30543672e35165f005adc489f0a40af393939a8c7b8dcb80",
+      "orderedUpdatesVerified": 1800,
+      "samplerHandle": 18306,
+      "samplerExitCode": 0
+    },
+    {
+      "name": "firefox-svg-promotion",
+      "receipt": ".kandev/diagnostics/dense-workbench-performance/firefox-svg-promotion-receipt.json",
+      "receiptSha256": "0b82ccca97a7d713f2c22b3a4aa40baa8d9646d75fb18770eeea80a344d56af3",
+      "handle": 94940,
+      "exitCode": 1,
+      "status": "failed",
+      "sourceFilesVerified": 11,
+      "harnessFilesVerified": 1958,
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "report": ".kandev/diagnostics/dense-workbench-performance/firefox-local-dense-1793125093957.json",
+      "reportSha256": "0a37fdb899167e2a4d4e9dd4c7acb59f9d679bf96c04c039711580d1fbe2d257",
+      "orderedUpdatesVerified": 1800,
+      "samplerHandle": 78078,
+      "samplerExitCode": 0
+    },
+    {
+      "name": "firefox-svg-hint-two-pair",
+      "receipt": ".kandev/diagnostics/dense-workbench-performance/firefox-svg-hint-two-pair-receipt.json",
+      "receiptSha256": "509310d48f578372316db42efb88220d5dc6de48ff1a9cee144adb4cfa520f20",
+      "handle": 88924,
+      "exitCode": 130,
+      "status": "interrupted",
+      "sourceFilesVerified": 12,
+      "harnessFilesVerified": 1959,
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "report": ".kandev/diagnostics/dense-workbench-performance/firefox-paired-dense-1793126039588.json",
+      "reportSha256": "6a22366b3a2c670a47d9fc4a9a9ffcc8e7b530d3e1c1fce2686df42a88f14cb4",
+      "orderedUpdatesVerified": 1800,
+      "samplerHandle": 64237,
+      "samplerExitCode": 0
+    },
+    {
+      "name": "firefox-native-end-v2-control",
+      "receipt": ".kandev/diagnostics/dense-workbench-performance/firefox-native-end-v2-control-receipt.json",
+      "receiptSha256": "9877c20477310c0c51d543de4328a59aa1003b8cb0f50dfed95415f2a6848971",
+      "handle": 13221,
+      "exitCode": 0,
+      "status": "passed",
+      "sourceFilesVerified": 12,
+      "harnessFilesVerified": 1959,
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "report": ".kandev/diagnostics/dense-workbench-performance/firefox-native-end-control-1793126528759.json",
+      "reportSha256": "fb828b540d9874c01dfa0ebfc1d0f59601933bd059f683d1681064c10735ea1c",
+      "orderedUpdatesVerified": 300,
+      "samplerHandle": null,
+      "samplerExitCode": null
+    },
+    {
+      "name": "firefox-svg-hint-two-pair-end-v2",
+      "receipt": ".kandev/diagnostics/dense-workbench-performance/firefox-svg-hint-two-pair-end-v2-receipt.json",
+      "receiptSha256": "19affcbe6745669b2f3d1d63777ee1a1d850f77823b82c80f66e94a428af217d",
+      "handle": 78481,
+      "exitCode": 1,
+      "status": "failed",
+      "sourceFilesVerified": 12,
+      "harnessFilesVerified": 1959,
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "report": ".kandev/diagnostics/dense-workbench-performance/firefox-paired-dense-1793126652421.json",
+      "reportSha256": "4c8feabe279f25b990897ae929e7cfde9d0fb4559b5868370a65987aa9168aa1",
+      "orderedUpdatesVerified": 7200,
+      "samplerHandle": 32594,
+      "samplerExitCode": 0
+    },
+    {
+      "name": "firefox-capture-control",
+      "receipt": ".kandev/diagnostics/dense-workbench-performance/firefox-capture-control-receipt.json",
+      "receiptSha256": "6aef605de36b98d0b57e67cad5ab9a18e360b0e05d004e2e8e17c14beee133e3",
+      "handle": 60783,
+      "exitCode": 0,
+      "status": "passed",
+      "sourceFilesVerified": 11,
+      "harnessFilesVerified": 1959,
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "report": ".kandev/diagnostics/dense-workbench-performance/firefox-capture-control-1793127620236.json",
+      "reportSha256": "4e33bd8da1fdadfc0c3c799e96b8c57fca2b34887f600738db25a2a1038db434",
+      "orderedUpdatesVerified": 0,
+      "samplerHandle": null,
+      "samplerExitCode": null
+    }
+  ],
+  "initialCorrectness": {
+    "recordedAt": "2026-10-27T18:00:01.863911+00:00",
+    "name": "firefox-local-qa",
+    "project": "firefox-dense-local",
+    "handle": 38725,
+    "exitCode": 0,
+    "expectedChecks": 7,
+    "passed": 7,
+    "status": "passed",
+    "lastRun": {
+      "status": "passed",
+      "failedTests": []
+    },
+    "log": "kandev-run.e2e.WrlaIIrN.log",
+    "logSha256": "3d2fc3c10c03e8480420a1419371a3055c626c0d9cb7a46b54e94712cc7a870c",
+    "results": "firefox-local-qa-results",
+    "workerRoots": ["/tmp/kandev-e2e-0-XL3m1H"],
+    "workerRootsRemoved": true,
+    "remainingOwnedProcesses": [],
+    "sourceFilesVerified": 11,
+    "harnessFilesVerified": 1957,
+    "sourcePatchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "assetsSha256": "b7c3fa9b16366da506d501e612df926f3cf3b73b1021401a4fa4fd49b673ebe4",
+    "runtimeAndPluginFilesVerified": true,
+    "ledgers": [
+      {
+        "path": "firefox-local-qa-results/chat-native-upward-intent--d10b1-sition-through-later-growth-firefox-dense-local/queued-upward-reading.json",
+        "maximumAbsoluteMovementPx": 0,
+        "sampleCount": 24
+      }
+    ],
+    "readingReturnLedgers": [
+      {
+        "path": "firefox-local-qa-results/chat-native-upward-intent--c061a--precedes-its-wheel-handler-firefox-dense-local/native-reading-return.json",
+        "heldMaximumMovementPx": 0,
+        "realPageDownReachedGapPx": 0,
+        "gapAfterFurtherGrowthPx": 1
+      }
+    ]
+  },
+  "nativeWheelControl": {
+    "handle": 69977,
+    "exitCode": 0,
+    "source": "kandev-firefox-native-wheel-control-5936a872.cjs",
+    "log": "kandev-firefox-native-wheel-control-5936a872.log",
+    "logSha256": "27edb2766dc4d1e4d2f7b7d9a1a6e6c316dc737b287b660fe2f60b14184802d8",
+    "result": {
+      "protocol": "firefox-native-wheel-control-v1",
+      "browser": "151.0",
+      "before": {
+        "top": 0,
+        "height": 5000,
+        "client": 164,
+        "gap": 4836,
+        "focused": false,
+        "events": []
+      },
+      "afterHugeWheel": {
+        "top": 148,
+        "height": 5000,
+        "client": 164,
+        "gap": 4688,
+        "focused": false,
+        "events": [
+          {
+            "type": "wheel",
+            "isTrusted": true,
+            "deltaY": 1000000,
+            "deltaMode": 0
+          }
+        ]
+      },
+      "afterEnd": {
+        "top": 4836,
+        "height": 5000,
+        "client": 164,
+        "gap": 0,
+        "focused": true,
+        "events": [
+          {
+            "type": "wheel",
+            "isTrusted": true,
+            "deltaY": 1000000,
+            "deltaMode": 0
+          },
+          {
+            "type": "keydown",
+            "isTrusted": true,
+            "key": "End",
+            "ctrlKey": false
+          }
+        ]
+      }
+    }
+  },
+  "nativeEndProtocolControl": {
+    "protocol": "firefox-native-end-v2",
+    "kind": "Protocol calibration, not performance acceptance",
+    "handle": 13221,
+    "exitCode": 0,
+    "orderedUpdatesVerified": 300,
+    "allActions": ["scroll-up", "return-bottom", "leave-tile", "hover-tile"],
+    "keyCount": 1,
+    "trusted": true,
+    "focused": true,
+    "bottomGapPx": 3,
+    "inputToBottomMs": 190,
+    "heldReadingMaximumAdvancePx": 0,
+    "focusSetup": "Programmatic focus and release bracket a native End key. The scroller click precondition failed in v1.",
+    "deadlineMs": 5000,
+    "originalChromiumNativeV2": "Unchanged. The Firefox protocol is separate.",
+    "interruptedV1": "Source and partial raw report preserved. Exit130. Raw report remains running with three pending attempts, no attachment. No speed acceptance."
+  },
+  "rejectedCandidate": {
+    "source": "Add motion-safe:will-change-transform to the existing Threads status SVG.",
+    "assetsSha256": "77537429b8423f1a98f8b9e89760bca6156d6304720eff185d11f26b2713ec4b",
+    "sourcePatch": "firefox-svg-hint-rejected.patch",
+    "sourcePatchSha256": "f45036d4b4edec320ef8216f5ee45c92b818ee39c2b828e28d43118e149dec4d",
+    "unitChecks": {
+      "handle": 63574,
+      "exitCode": 0,
+      "tests": 37,
+      "files": 4
+    },
+    "lint": {
+      "handle": 79358,
+      "exitCode": 0
+    },
+    "types": {
+      "handle": 27144,
+      "exitCode": 0
+    },
+    "build": {
+      "handle": 83691,
+      "exitCode": 0,
+      "files": 1253,
+      "gzipSiblingsVerified": 552
+    },
+    "renderedChecks": {
+      "mainHandle": 30438,
+      "exitCode": 0,
+      "chromium": 2,
+      "firefox": 2,
+      "phoneChromium": 1
+    },
+    "retention": "Rejected. No useful full packaged result. Source and exact b7c3 assets restored.",
+    "restoration": {
+      "recordedAt": "2026-10-27T18:56:51.734419+00:00",
+      "status": "Rejected. Full packaged candidate does not reproduce the inline diagnostic signal. All four End-v2 attempts failed correctness. No speed acceptance.",
+      "sourceRestoredFrom": "/tmp/kandev-before-firefox-svg-5936a872",
+      "rejectedSourceAndAssets": "/tmp/kandev-rejected-firefox-svg-hint-5936a872",
+      "retainedAssetsSha256": "b7c3fa9b16366da506d501e612df926f3cf3b73b1021401a4fa4fd49b673ebe4",
+      "rejectedAssetsSha256": "77537429b8423f1a98f8b9e89760bca6156d6304720eff185d11f26b2713ec4b",
+      "sourceFilesVerified": 11,
+      "productionChanged": false,
+      "receipt": "firefox-svg-hint-two-pair-end-v2-receipt.json"
+    }
+  },
+  "pairedAttemptProtocol": "Two alternating pairs. Fixed nominal 60s idle and stream windows. Actual elapsed times are retained. All four failed End return, all 7,200 ordered updates verified. No qualified speed comparison.",
+  "pairedRows": [
+    {
+      "arm": "baseline",
+      "pair": 0,
+      "cpuRate": 1,
+      "sample": "baseline-1x-0",
+      "status": "failed",
+      "error": "AggregateError: Firefox arm has failed correctness checks",
+      "coldReadyMs": 18619.511234999998,
+      "statusIcons": [
+        {
+          "willChange": "auto",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "auto",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "auto",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "auto",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "auto",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "auto",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        }
+      ],
+      "pageErrors": [],
+      "runs": [
+        {
+          "scenario": "idle",
+          "elapsedMs": 71851,
+          "frameSummary": {
+            "count": 1752,
+            "medianMs": 17.080000000001746,
+            "p95Ms": 300.679999999993,
+            "p99Ms": 367,
+            "maxMs": 433.40000000000873,
+            "gapsOver50Ms": 171,
+            "gapsOver100Ms": 170
+          },
+          "messagePublications": 0,
+          "domNodes": 24542,
+          "editors": 6,
+          "animations": {
+            "running": 60,
+            "paused": 60
+          }
+        },
+        {
+          "scenario": "streaming",
+          "elapsedMs": 60723,
+          "frameSummary": {
+            "count": 701,
+            "medianMs": 83.48000000001048,
+            "p95Ms": 100.60000000000582,
+            "p99Ms": 116.69999999999709,
+            "maxMs": 250.2800000000134,
+            "gapsOver50Ms": 653,
+            "gapsOver100Ms": 170
+          },
+          "messagePublications": 1776,
+          "domNodes": 26356,
+          "editors": 6,
+          "animations": {
+            "running": 52,
+            "paused": 68
+          }
+        }
+      ]
+    },
+    {
+      "arm": "candidate",
+      "pair": 0,
+      "cpuRate": 1,
+      "sample": "candidate-1x-0",
+      "status": "failed",
+      "error": "AggregateError: Firefox arm has failed correctness checks",
+      "coldReadyMs": 19797.85695699998,
+      "statusIcons": [
+        {
+          "willChange": "transform",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "transform",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "transform",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "transform",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "transform",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "transform",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        }
+      ],
+      "pageErrors": [],
+      "runs": [
+        {
+          "scenario": "idle",
+          "elapsedMs": 71674,
+          "frameSummary": {
+            "count": 1682,
+            "medianMs": 17.07999999999811,
+            "p95Ms": 316.68000000000757,
+            "p99Ms": 383.23999999999796,
+            "maxMs": 417.29999999998836,
+            "gapsOver50Ms": 170,
+            "gapsOver100Ms": 169
+          },
+          "messagePublications": 0,
+          "domNodes": 24542,
+          "editors": 6,
+          "animations": {
+            "running": 60,
+            "paused": 60
+          }
+        },
+        {
+          "scenario": "streaming",
+          "elapsedMs": 61373,
+          "frameSummary": {
+            "count": 734,
+            "medianMs": 83.46000000002095,
+            "p95Ms": 116.5800000000163,
+            "p99Ms": 116.68000000000757,
+            "maxMs": 266.5,
+            "gapsOver50Ms": 649,
+            "gapsOver100Ms": 175
+          },
+          "messagePublications": 1770,
+          "domNodes": 26369,
+          "editors": 6,
+          "animations": {
+            "running": 52,
+            "paused": 68
+          }
+        }
+      ]
+    },
+    {
+      "arm": "candidate",
+      "pair": 1,
+      "cpuRate": 1,
+      "sample": "candidate-1x-1",
+      "status": "failed",
+      "error": "AggregateError: Firefox arm has failed correctness checks",
+      "coldReadyMs": 18580.68280000001,
+      "statusIcons": [
+        {
+          "willChange": "transform",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "transform",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "transform",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "transform",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "transform",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "transform",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        }
+      ],
+      "pageErrors": [],
+      "runs": [
+        {
+          "scenario": "idle",
+          "elapsedMs": 71912,
+          "frameSummary": {
+            "count": 1747,
+            "medianMs": 17.07999999999811,
+            "p95Ms": 316.61999999999534,
+            "p99Ms": 367.0799999999872,
+            "maxMs": 417.25999999999476,
+            "gapsOver50Ms": 169,
+            "gapsOver100Ms": 169
+          },
+          "messagePublications": 0,
+          "domNodes": 24542,
+          "editors": 6,
+          "animations": {
+            "running": 60,
+            "paused": 60
+          }
+        },
+        {
+          "scenario": "streaming",
+          "elapsedMs": 61890,
+          "frameSummary": {
+            "count": 702,
+            "medianMs": 83.5,
+            "p95Ms": 116.52000000000407,
+            "p99Ms": 116.70000000001164,
+            "maxMs": 266.5200000000041,
+            "gapsOver50Ms": 664,
+            "gapsOver100Ms": 172
+          },
+          "messagePublications": 1808,
+          "domNodes": 26369,
+          "editors": 6,
+          "animations": {
+            "running": 52,
+            "paused": 68
+          }
+        }
+      ]
+    },
+    {
+      "arm": "baseline",
+      "pair": 1,
+      "cpuRate": 1,
+      "sample": "baseline-1x-1",
+      "status": "failed",
+      "error": "AggregateError: Firefox arm has failed correctness checks",
+      "coldReadyMs": 19131.310720000067,
+      "statusIcons": [
+        {
+          "willChange": "auto",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "auto",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "auto",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "auto",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "auto",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        },
+        {
+          "willChange": "auto",
+          "animationName": "spin",
+          "width": "14px",
+          "height": "14px"
+        }
+      ],
+      "pageErrors": [],
+      "runs": [
+        {
+          "scenario": "idle",
+          "elapsedMs": 71857,
+          "frameSummary": {
+            "count": 1701,
+            "medianMs": 17.07999999999811,
+            "p95Ms": 316.6800000000003,
+            "p99Ms": 383.1600000000035,
+            "maxMs": 433.3799999999974,
+            "gapsOver50Ms": 169,
+            "gapsOver100Ms": 169
+          },
+          "messagePublications": 0,
+          "domNodes": 24542,
+          "editors": 6,
+          "animations": {
+            "running": 60,
+            "paused": 60
+          }
+        },
+        {
+          "scenario": "streaming",
+          "elapsedMs": 60476,
+          "frameSummary": {
+            "count": 684,
+            "medianMs": 83.52000000000407,
+            "p95Ms": 116.61999999999534,
+            "p99Ms": 132.75999999999476,
+            "maxMs": 266.5200000000041,
+            "gapsOver50Ms": 637,
+            "gapsOver100Ms": 190
+          },
+          "messagePublications": 1722,
+          "domNodes": 26328,
+          "editors": 6,
+          "animations": {
+            "running": 52,
+            "paused": 68
+          }
+        }
+      ]
+    }
+  ],
+  "nativeEndFailures": [
+    {
+      "sample": "baseline-1x-0",
+      "failedAction": "return-bottom",
+      "nativeObservation": {
+        "protocol": "firefox-native-end-v2",
+        "command": "programmatically focused transcript End key",
+        "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+        "live": true,
+        "keyCount": 1,
+        "key": {
+          "observedAt": 1793126791138,
+          "isTrusted": true,
+          "withinTranscript": true,
+          "focused": true,
+          "key": "End",
+          "defaultPrevented": false
+        },
+        "current": {
+          "top": 53684,
+          "height": 54503,
+          "client": 164,
+          "gap": 655
+        },
+        "bottomHit": null
+      },
+      "heldReadingMaximumAdvancePx": 0,
+      "steps": [
+        {
+          "name": "read-before",
+          "startedMs": 23999.54437599999,
+          "value": {
+            "observedAt": 1793126786496,
+            "scrollTop": 52114,
+            "scrollHeight": 53362,
+            "clientHeight": 164,
+            "composer": "open",
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b"
+          },
+          "finishedMs": 24524.461679000015
+        },
+        {
+          "name": "hover-before-disclosure",
+          "startedMs": 24524.497487,
+          "finishedMs": 25540.031770999994
+        },
+        {
+          "name": "wait-composer-open",
+          "startedMs": 25540.048427999995,
+          "finishedMs": 25678.595324999987
+        },
+        {
+          "name": "hover-after-disclosure",
+          "startedMs": 25678.59990700001,
+          "finishedMs": 27173.728841999997
+        },
+        {
+          "name": "verify-held-reading",
+          "startedMs": 27173.73156500001,
+          "value": {
+            "checkedAt": 1793126789305,
+            "observation": {
+              "protocol": "native-observed-scroll-v2",
+              "direction": "up",
+              "command": {
+                "deltaX": 0,
+                "deltaY": -160
+              },
+              "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+              "live": true,
+              "disposed": false,
+              "wheelCount": 1,
+              "scrollEvents": 2,
+              "wheel": {
+                "scrollTop": 52262,
+                "scrollHeight": 52432,
+                "clientHeight": 164,
+                "gap": 6,
+                "observedAt": 1793126777460,
+                "isTrusted": true,
+                "withinTranscript": true,
+                "defaultPrevented": false,
+                "ctrlKey": false,
+                "deltaY": -160,
+                "deltaMode": 0
+              },
+              "origin": {
+                "scrollTop": 52262,
+                "scrollHeight": 52432,
+                "clientHeight": 164,
+                "gap": 6,
+                "observedAt": 1793126777460,
+                "source": "wheel"
+              },
+              "firstMovedAt": 1793126777596,
+              "lowestTop": 52114,
+              "maximumAdvancePx": 0,
+              "current": {
+                "scrollTop": 52114,
+                "scrollHeight": 53658,
+                "clientHeight": 164,
+                "gap": 1380
+              },
+              "bottomHit": null
+            }
+          },
+          "finishedMs": 27330.201363000015
+        },
+        {
+          "name": "focus-return-transcript",
+          "startedMs": 27418.48239199999,
+          "finishedMs": 28000.92536899999
+        },
+        {
+          "name": "verify-return-focus",
+          "startedMs": 28000.930324,
+          "finishedMs": 28257.17287600001
+        },
+        {
+          "name": "native-end-key",
+          "startedMs": 28984.33833700001,
+          "finishedMs": 29340.354041
+        },
+        {
+          "name": "wait-bottom",
+          "startedMs": 29340.35888,
+          "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+          "finishedMs": 34108.710064
+        }
+      ]
+    },
+    {
+      "sample": "candidate-1x-0",
+      "failedAction": "return-bottom",
+      "nativeObservation": {
+        "protocol": "firefox-native-end-v2",
+        "command": "programmatically focused transcript End key",
+        "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+        "live": true,
+        "keyCount": 1,
+        "key": {
+          "observedAt": 1793126971368,
+          "isTrusted": true,
+          "withinTranscript": true,
+          "focused": true,
+          "key": "End",
+          "defaultPrevented": false
+        },
+        "current": {
+          "top": 53874,
+          "height": 54693,
+          "client": 164,
+          "gap": 655
+        },
+        "bottomHit": null
+      },
+      "heldReadingMaximumAdvancePx": 0,
+      "steps": [
+        {
+          "name": "read-before",
+          "startedMs": 23999.31325799995,
+          "value": {
+            "observedAt": 1793126964660,
+            "scrollTop": 52057,
+            "scrollHeight": 53362,
+            "clientHeight": 164,
+            "composer": "open",
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b"
+          },
+          "finishedMs": 24520.474642999994
+        },
+        {
+          "name": "hover-before-disclosure",
+          "startedMs": 24520.504447999992,
+          "finishedMs": 25947.309879999957
+        },
+        {
+          "name": "wait-composer-open",
+          "startedMs": 25947.312930999964,
+          "finishedMs": 26332.721366999962
+        },
+        {
+          "name": "hover-after-disclosure",
+          "startedMs": 26332.724057999963,
+          "finishedMs": 28456.852324999985
+        },
+        {
+          "name": "verify-held-reading",
+          "startedMs": 28456.85856699996,
+          "value": {
+            "checkedAt": 1793126968774,
+            "observation": {
+              "protocol": "native-observed-scroll-v2",
+              "direction": "up",
+              "command": {
+                "deltaX": 0,
+                "deltaY": -160
+              },
+              "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+              "live": true,
+              "disposed": false,
+              "wheelCount": 1,
+              "scrollEvents": 3,
+              "wheel": {
+                "scrollTop": 52205,
+                "scrollHeight": 52369,
+                "clientHeight": 164,
+                "gap": 0,
+                "observedAt": 1793126955131,
+                "isTrusted": true,
+                "withinTranscript": true,
+                "defaultPrevented": false,
+                "ctrlKey": false,
+                "deltaY": -160,
+                "deltaMode": 0
+              },
+              "origin": {
+                "scrollTop": 52205,
+                "scrollHeight": 52369,
+                "clientHeight": 164,
+                "gap": 0,
+                "observedAt": 1793126955131,
+                "source": "wheel"
+              },
+              "firstMovedAt": 1793126955187,
+              "lowestTop": 52057,
+              "maximumAdvancePx": 0,
+              "current": {
+                "scrollTop": 52057,
+                "scrollHeight": 53785,
+                "clientHeight": 164,
+                "gap": 1564
+              },
+              "bottomHit": null
+            }
+          },
+          "finishedMs": 28632.482095999992
+        },
+        {
+          "name": "focus-return-transcript",
+          "startedMs": 28730.176615999953,
+          "finishedMs": 29493.767044999986
+        },
+        {
+          "name": "verify-return-focus",
+          "startedMs": 29493.773455999966,
+          "finishedMs": 29723.050581999996
+        },
+        {
+          "name": "native-end-key",
+          "startedMs": 31003.600246999995,
+          "finishedMs": 31546.741402999964
+        },
+        {
+          "name": "wait-bottom",
+          "startedMs": 31546.74903799995,
+          "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+          "finishedMs": 35754.09739199997
+        }
+      ]
+    },
+    {
+      "sample": "candidate-1x-1",
+      "failedAction": "return-bottom",
+      "nativeObservation": {
+        "protocol": "firefox-native-end-v2",
+        "command": "programmatically focused transcript End key",
+        "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+        "live": true,
+        "keyCount": 1,
+        "key": {
+          "observedAt": 1793127149642,
+          "isTrusted": true,
+          "withinTranscript": true,
+          "focused": true,
+          "key": "End",
+          "defaultPrevented": false
+        },
+        "current": {
+          "top": 53938,
+          "height": 54884,
+          "client": 164,
+          "gap": 782
+        },
+        "bottomHit": null
+      },
+      "heldReadingMaximumAdvancePx": 0,
+      "steps": [
+        {
+          "name": "read-before",
+          "startedMs": 23999.868255000038,
+          "value": {
+            "observedAt": 1793127142335,
+            "scrollTop": 52184,
+            "scrollHeight": 53383,
+            "clientHeight": 164,
+            "composer": "open",
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b"
+          },
+          "finishedMs": 24755.43524900003
+        },
+        {
+          "name": "hover-before-disclosure",
+          "startedMs": 24755.450811000017,
+          "finishedMs": 26289.19851800002
+        },
+        {
+          "name": "wait-composer-open",
+          "startedMs": 26289.202159000037,
+          "finishedMs": 26548.139873000036
+        },
+        {
+          "name": "hover-after-disclosure",
+          "startedMs": 26548.142775000015,
+          "finishedMs": 28322.996474999993
+        },
+        {
+          "name": "verify-held-reading",
+          "startedMs": 28323.000982000027,
+          "value": {
+            "checkedAt": 1793127146260,
+            "observation": {
+              "protocol": "native-observed-scroll-v2",
+              "direction": "up",
+              "command": {
+                "deltaX": 0,
+                "deltaY": -160
+              },
+              "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+              "live": true,
+              "disposed": false,
+              "wheelCount": 1,
+              "scrollEvents": 3,
+              "wheel": {
+                "scrollTop": 52332,
+                "scrollHeight": 52496,
+                "clientHeight": 164,
+                "gap": 0,
+                "observedAt": 1793127134103,
+                "isTrusted": true,
+                "withinTranscript": true,
+                "defaultPrevented": false,
+                "ctrlKey": false,
+                "deltaY": -160,
+                "deltaMode": 0
+              },
+              "origin": {
+                "scrollTop": 52332,
+                "scrollHeight": 52496,
+                "clientHeight": 164,
+                "gap": 0,
+                "observedAt": 1793127134103,
+                "source": "wheel"
+              },
+              "firstMovedAt": 1793127134284,
+              "lowestTop": 52184,
+              "maximumAdvancePx": 0,
+              "current": {
+                "scrollTop": 52184,
+                "scrollHeight": 53785,
+                "clientHeight": 164,
+                "gap": 1437
+              },
+              "bottomHit": null
+            }
+          },
+          "finishedMs": 28680.10115100001
+        },
+        {
+          "name": "focus-return-transcript",
+          "startedMs": 28881.491922000016,
+          "finishedMs": 29664.17579000001
+        },
+        {
+          "name": "verify-return-focus",
+          "startedMs": 29664.18011200003,
+          "finishedMs": 29961.009452000028
+        },
+        {
+          "name": "native-end-key",
+          "startedMs": 31345.872366000025,
+          "finishedMs": 32088.931003000005
+        },
+        {
+          "name": "wait-bottom",
+          "startedMs": 32088.936423000006,
+          "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+          "finishedMs": 37088.967762000044
+        }
+      ]
+    },
+    {
+      "sample": "baseline-1x-1",
+      "failedAction": "return-bottom",
+      "nativeObservation": {
+        "protocol": "firefox-native-end-v2",
+        "command": "programmatically focused transcript End key",
+        "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+        "live": true,
+        "keyCount": 1,
+        "key": {
+          "observedAt": 1793127324418,
+          "isTrusted": true,
+          "withinTranscript": true,
+          "focused": true,
+          "key": "End",
+          "defaultPrevented": false
+        },
+        "current": {
+          "top": 53536,
+          "height": 54313,
+          "client": 164,
+          "gap": 613
+        },
+        "bottomHit": null
+      },
+      "heldReadingMaximumAdvancePx": 0,
+      "steps": [
+        {
+          "name": "read-before",
+          "startedMs": 23999.526895000017,
+          "value": {
+            "observedAt": 1793127320987,
+            "scrollTop": 52055,
+            "scrollHeight": 53362,
+            "clientHeight": 164,
+            "composer": "open",
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b"
+          },
+          "finishedMs": 24447.492534000077
+        },
+        {
+          "name": "hover-before-disclosure",
+          "startedMs": 24447.51273399999,
+          "finishedMs": 25089.863445000025
+        },
+        {
+          "name": "wait-composer-open",
+          "startedMs": 25089.867591000046,
+          "finishedMs": 25207.69457400008
+        },
+        {
+          "name": "hover-after-disclosure",
+          "startedMs": 25207.699704000028,
+          "finishedMs": 25881.799210999976
+        },
+        {
+          "name": "verify-held-reading",
+          "startedMs": 25881.804231000016,
+          "value": {
+            "checkedAt": 1793127322560,
+            "observation": {
+              "protocol": "native-observed-scroll-v2",
+              "direction": "up",
+              "command": {
+                "deltaX": 0,
+                "deltaY": -160
+              },
+              "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+              "live": true,
+              "disposed": false,
+              "wheelCount": 1,
+              "scrollEvents": 2,
+              "wheel": {
+                "scrollTop": 52203,
+                "scrollHeight": 52369,
+                "clientHeight": 164,
+                "gap": 2,
+                "observedAt": 1793127311623,
+                "isTrusted": true,
+                "withinTranscript": true,
+                "defaultPrevented": false,
+                "ctrlKey": false,
+                "deltaY": -160,
+                "deltaMode": 0
+              },
+              "origin": {
+                "scrollTop": 52203,
+                "scrollHeight": 52369,
+                "clientHeight": 164,
+                "gap": 2,
+                "observedAt": 1793127311623,
+                "source": "wheel"
+              },
+              "firstMovedAt": 1793127311791,
+              "lowestTop": 52055,
+              "maximumAdvancePx": 0,
+              "current": {
+                "scrollTop": 52055,
+                "scrollHeight": 53531,
+                "clientHeight": 164,
+                "gap": 1312
+              },
+              "bottomHit": null
+            }
+          },
+          "finishedMs": 26017.668531000032
+        },
+        {
+          "name": "focus-return-transcript",
+          "startedMs": 26095.156432999996,
+          "finishedMs": 26521.48594699998
+        },
+        {
+          "name": "verify-return-focus",
+          "startedMs": 26521.49201200006,
+          "finishedMs": 26715.302977000014
+        },
+        {
+          "name": "native-end-key",
+          "startedMs": 27692.811875000014,
+          "finishedMs": 28063.591437000083
+        },
+        {
+          "name": "wait-bottom",
+          "startedMs": 28063.596797000035,
+          "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+          "finishedMs": 32086.01381200005
+        }
+      ]
+    }
+  ],
+  "idleTimelines": [
+    {
+      "sample": "baseline-1x-0",
+      "firstGapOver100AtMs": 26649.9,
+      "lastGapOver100AtMs": 71833.56,
+      "gapsOver100By10SecondBin": {
+        "2": 14,
+        "3": 38,
+        "4": 39,
+        "5": 35,
+        "6": 37,
+        "7": 7
+      }
+    },
+    {
+      "sample": "candidate-1x-0",
+      "firstGapOver100AtMs": 25467.839999999997,
+      "lastGapOver100AtMs": 71600.76,
+      "gapsOver100By10SecondBin": {
+        "2": 17,
+        "3": 41,
+        "4": 33,
+        "5": 37,
+        "6": 35,
+        "7": 6
+      }
+    },
+    {
+      "sample": "candidate-1x-1",
+      "firstGapOver100AtMs": 26583.0,
+      "lastGapOver100AtMs": 71882.66,
+      "gapsOver100By10SecondBin": {
+        "2": 14,
+        "3": 39,
+        "4": 36,
+        "5": 37,
+        "6": 36,
+        "7": 7
+      }
+    },
+    {
+      "sample": "baseline-1x-1",
+      "firstGapOver100AtMs": 25770.22,
+      "lastGapOver100AtMs": 71821.12,
+      "gapsOver100By10SecondBin": {
+        "2": 16,
+        "3": 40,
+        "4": 34,
+        "5": 36,
+        "6": 36,
+        "7": 7
+      }
+    }
+  ],
+  "captureCalibration": {
+    "protocol": "firefox-capture-control-v1",
+    "handle": 60783,
+    "exitCode": 0,
+    "windows": [
+      {
+        "scenario": "before-capture",
+        "elapsedMs": 10006,
+        "frameSummary": {
+          "count": 577,
+          "medianMs": 17.06000000000131,
+          "p95Ms": 17.140000000003056,
+          "p99Ms": 49.29999999999927,
+          "maxMs": 116.65999999999985,
+          "gapsOver50Ms": 5,
+          "gapsOver100Ms": 2
+        },
+        "messagePublications": 0,
+        "animations": {
+          "running": 60,
+          "paused": 60
+        }
+      },
+      {
+        "scenario": "after-capture",
+        "elapsedMs": 10003,
+        "frameSummary": {
+          "count": 598,
+          "medianMs": 17.06000000000131,
+          "p95Ms": 17.12000000000262,
+          "p99Ms": 17.239999999997963,
+          "maxMs": 34.18000000000029,
+          "gapsOver50Ms": 0,
+          "gapsOver100Ms": 0
+        },
+        "messagePublications": 0,
+        "animations": {
+          "running": 60,
+          "paused": 60
+        }
+      },
+      {
+        "scenario": "after-inline-hint",
+        "elapsedMs": 53948,
+        "frameSummary": {
+          "count": 412,
+          "medianMs": 17.12000000000262,
+          "p95Ms": 416.1999999999971,
+          "p99Ms": 466.6399999999994,
+          "maxMs": 533.9799999999959,
+          "gapsOver50Ms": 168,
+          "gapsOver100Ms": 168
+        },
+        "messagePublications": 0,
+        "animations": {
+          "running": 60,
+          "paused": 60
+        }
+      }
+    ],
+    "interpretation": "The early 10s windows are smooth with or without a screenshot. The later window stalls despite the inline hint. This refutes the previous animation-cause inference from ordered sequential windows. It does not prove that every capture is free of timing effects.",
+    "lint": "The calibration was launched despite two unused-import lint warnings. The exact source and failed lint log are preserved. Correct the private import and rerun strict lint before cleanup. No production source or acceptance gate was bypassed.",
+    "privateLintCorrection": {
+      "handle": 34848,
+      "exitCode": 0,
+      "change": "Remove the unused sha256File import. No runtime logic changes.",
+      "receipt": ".kandev/diagnostics/dense-workbench-performance/firefox-private-harness-cleanup.json"
+    }
+  },
+  "recoveryBurstCorrelation": {
+    "scope": "First baseline idle window only. Correlation, not causal attribution.",
+    "backendLog": ".kandev/diagnostics/dense-workbench-performance/firefox-paired-dense-1793126652421.json.baseline-1x-0.backend.log",
+    "backendLogSha256": "19f3ebcbca6553400b83fc3f6daa7db03e414d051931de5da58b6fe88834c700",
+    "stalledTasks": 30,
+    "stalledSessions": 84,
+    "firstLogAt": "2026-10-27T18:45:16.507Z",
+    "lastLogAt": "2026-10-27T18:45:19.415Z",
+    "capturedWebSocketTraffic": {
+      "frameCount": 416,
+      "byteCount": 6648189,
+      "sentFrameCount": 67,
+      "sentByteCount": 11825,
+      "receivedFrameCount": 349,
+      "receivedByteCount": 6636364,
+      "byAction": {
+        "session.conversation.changed": {
+          "sent": 0,
+          "received": 42,
+          "bytes": 15492
+        },
+        "message.list": {
+          "sent": 35,
+          "received": 35,
+          "bytes": 6310309
+        },
+        "github.task_pr.sync": {
+          "sent": 30,
+          "received": 30,
+          "bytes": 9958
+        },
+        "automation.list": {
+          "sent": 2,
+          "received": 2,
+          "bytes": 610
+        },
+        "task.updated": {
+          "sent": 0,
+          "received": 72,
+          "bytes": 109840
+        },
+        "task.status_summary.updated": {
+          "sent": 0,
+          "received": 24,
+          "bytes": 11346
+        },
+        "office.task.updated": {
+          "sent": 0,
+          "received": 72,
+          "bytes": 110346
+        },
+        "session.state_changed": {
+          "sent": 0,
+          "received": 72,
+          "bytes": 80288
+        }
+      }
+    },
+    "interpretation": "The aged replay emits session and task recovery updates around the delayed idle stalls. A quiet steady-state interpretation is not justified. Attribute the event processing cost before changing animation ownership or retaining another candidate."
+  },
+  "openWork": [
+    "Attribute the delayed recovery burst and ordinary streaming cost in Firefox.",
+    "Add a regression for End reaching the input-time bottom after content grows. Existing End coverage only lands at the current bottom.",
+    "Retain all failed and interrupted cases. Do not change the original fixture, native wheel inputs or deadlines to pass.",
+    "The 20% streaming target and original-baseline final matrix remain open."
+  ],
+  "performanceAccepted": false,
+  "evaluatedSourceRevision": "fcbe2cccc7c8de72c1c67abfcb3fe48ab39854ff",
+  "privateHarnessCleanup": {
+    "recordedAt": "2026-10-27T19:11:23.932893+00:00",
+    "privateSources": [
+      {
+        "path": "apps/web/e2e/playwright.firefox-dense.local.config.ts",
+        "archive": "firefox-private-final-playwright.firefox-dense.local.config.ts",
+        "sha256": "fa1951ce0329903f926ab0fc0762ed1a8c12d1141431754d16b2db019efc423d"
+      },
+      {
+        "path": "apps/web/e2e/tests/performance/firefox-dense-interactions.local.ts",
+        "archive": "firefox-private-final-firefox-dense-interactions.local.ts",
+        "sha256": "4bb678d76a0575b46a9aa74695ee075bd79fd85c2bc0a3fc10ef408562d22ac9"
+      },
+      {
+        "path": "apps/web/e2e/tests/performance/firefox-dense-reproduction.local.spec.ts",
+        "archive": "firefox-private-final-firefox-dense-reproduction.local.spec.ts",
+        "sha256": "5865c57f8a54921fd1e15fe4f3176430f4a7a3a3269f99bcfdd55dc78f61cfa7"
+      }
+    ],
+    "removedOnlyOwnedPrivateFiles": true,
+    "lint": {
+      "handle": 34848,
+      "exitCode": 0,
+      "log": "kandev-firefox-private-final-lint-5936a872.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "assetsSha256": "b7c3fa9b16366da506d501e612df926f3cf3b73b1021401a4fa4fd49b673ebe4",
+    "assetBytesVerified": true,
+    "productionSourceChanged": false
+  }
+}
