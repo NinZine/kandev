@@ -115,6 +115,43 @@ describe("useUpdateAvailableToast delivery", () => {
     expect(mockClearNotification).toHaveBeenCalledWith(null);
   });
 
+  // @covers AC-PLATFORM-I18N-001.1
+  it.each([
+    [
+      "pt-pt",
+      "Atualização do Kandev disponível",
+      "O Kandev v1.2.3 está disponível. Abra Definições > Sistema > Atualizações para o rever.",
+    ],
+    [
+      "pseudo",
+      "Ķàńďēv ũƥďàţē àvàĩĺàƀĺē",
+      "Ķàńďēv v1.2.3 ĩś àvàĩĺàƀĺē. Ōƥēń Śēţţĩńĝś > Śŷśţēḿ > Ũƥďàţēś ţō ŕēvĩēŵ ĩţ.",
+    ],
+  ])(
+    "localizes application release copy for toast and native delivery in %s",
+    async (locale, title, body) => {
+      const { activateLocale } = await import("@/lib/i18n");
+      await activateLocale(locale);
+      mockNotification = {
+        ...updateNotification(),
+        body: "Kandev v1.2.3 is available. Open Settings > System > Updates to review it.",
+      };
+      mockNativeIsAvailable.mockReturnValue(true);
+      const { unmount } = renderHook(() => useUpdateAvailableToast());
+      try {
+        expect(mockToast).toHaveBeenCalledWith(
+          expect.objectContaining({ title, description: body, placement: "top" }),
+        );
+        expect(mockNativeShow).toHaveBeenCalledWith(
+          expect.objectContaining({ eventId: "system.update_available:v1.2.3", title, body }),
+        );
+      } finally {
+        unmount();
+        await activateLocale("en");
+      }
+    },
+  );
+
   it("also attempts native delivery without replacing the toast", () => {
     mockNotification = updateNotification();
     mockNativeIsAvailable.mockReturnValue(true);

@@ -1145,3 +1145,38 @@ PostgreSQL enabled. SQL guard passed, and the race-enabled persistence
 conformance suite passed with PostgreSQL enabled. Normal hooks and immutable
 publication remain in progress. Public docs and UI captures have no impact
 because the existing membership contract and rendered UI are unchanged.
+
+### Application-update notification localization (2026-10-27)
+
+The subsequent exact-head CI run completed with 84 passed, 14 skipped, two
+failed checks and no pending checks. The failures are E2E shard 25/28 and its
+dependent final gate in run 40568606681, attempt 1. All 21 failing browser
+cases report the same application-update title/body rendered in English under
+the pseudo locale. These are deterministic localization failures, not the
+strict flaky-test flag, which remains removed as on main.
+
+The notification hook preferred backend provider text over existing localized
+application-update messages. Two new hook regressions failed on the actual
+English payload in Portuguese and pseudo before the two-line correction.
+The correction uses the existing translation keys and payload version for
+in-app and browser/native delivery. Occurrence identity, provider transport,
+runtime notifications, subscriptions and deduplication are unchanged. This
+restores AC-PLATFORM-I18N-001.1; no new product policy or API is introduced.
+
+The hook, bridge and WebSocket notification suites pass all 57 cases. A fresh
+managed production build passed all 22 pseudo-locale coverage cases without
+retries. The first new desktop probe found an entrance-animation measurement
+in its viewport assertion; it now uses the existing finite-animation helper
+before measuring, with no timeout or geometry relaxation. The corrected
+desktop and phone cases each pass without retries. They inject the real wire
+shape and assert localized text and viewport containment. Affected ESLint,
+i18n checks, full typecheck with CI's 8192 MB Node heap, documentation catalog
+and full specification lint pass.
+
+Commands and logs are retained under `/tmp/pr4760-update-copy-*`; the initial
+22-pass/one-probe-failure browser log remains recorded separately from the
+corrected cases. Post-commit checks, UI evidence publication, normal hooks and
+fresh remote CI remain pending. The i18n design and
+engineering guide now document frontend ownership of this copy. Public
+workflow documentation is unchanged because the existing language and
+notification controls retain their behavior.

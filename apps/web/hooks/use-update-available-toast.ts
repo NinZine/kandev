@@ -56,8 +56,8 @@ function runtimeNotificationCopy(notification: UpdateAvailableNotification) {
 function kandevNotificationCopy(notification: UpdateAvailableNotification) {
   return {
     runtime: false,
-    title: notification.title || t("task:kandevUpdateAvailable"),
-    body: notification.body || t("task:updateAvailableToast", { version: notification.version }),
+    title: t("task:kandevUpdateAvailable"),
+    body: t("task:updateAvailableToast", { version: notification.version }),
     action: undefined,
   };
 }

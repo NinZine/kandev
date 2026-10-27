@@ -1,7 +1,12 @@
 import { test } from "../../fixtures/test-base";
 import { managedFallbackAwareness } from "./agent-runtime-fallback-helpers";
 import { backendRuntimeUpdateSummary } from "./agent-runtime-summary-backend-helpers";
-import { runtimeAwareness } from "./agent-runtime-notifications-helpers";
+import { localizedReleaseNotice, runtimeAwareness } from "./agent-runtime-notifications-helpers";
+
+// @covers AC-PLATFORM-I18N-001.1
+test("application release notices use the active language", async ({ testPage, prCapture }) => {
+  await localizedReleaseNotice(testPage, prCapture);
+});
 
 test("backend startup and reconnect deliver one delayed runtime summary", async ({
   testPage,
