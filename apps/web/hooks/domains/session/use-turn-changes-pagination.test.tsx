@@ -71,9 +71,10 @@ vi.mock("@/lib/api/domains/turn-changes-api", () => ({
   getTurnChangeHistoryItem: (...args: unknown[]) => mockHistory.getItem(...args),
 }));
 
-vi.mock("@/lib/ws/connection", () => ({
-  getWebSocketClient: () => ({ subscribeSessionWithReady: mockHistory.subscribe }),
-}));
+vi.mock("@/lib/ws/connection", () => {
+  const client = { subscribeSessionWithReady: mockHistory.subscribe };
+  return { useWebSocketClient: () => client };
+});
 
 import { clearTurnChangeRequestsForTest, useSessionTurnChanges } from "./use-turn-changes";
 

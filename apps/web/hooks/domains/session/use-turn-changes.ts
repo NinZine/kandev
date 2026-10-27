@@ -2,12 +2,12 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useAppStore, useAppStoreApi } from "@/components/state-provider";
-import { getWebSocketClient } from "@/lib/ws/connection";
 import {
   getTurnChangeHistoryItem,
   listTurnChangeHistory,
 } from "@/lib/api/domains/turn-changes-api";
 import type { TurnChangeHistoryPage, TurnChangeSetSummary } from "@/lib/types/turn-changes";
+import { useWebSocketClient } from "@/lib/ws/connection";
 
 const PAGE_SIZE = 50;
 const EMPTY_SUMMARIES: TurnChangeSetSummary[] = [];
@@ -60,11 +60,10 @@ function useTurnChangeSubscription(
   store: ReturnType<typeof useAppStoreApi>,
   setError: (error: unknown) => void,
 ) {
+  const client = useWebSocketClient();
   const connectionStatus = useAppStore((state) => state.connection.status);
   useEffect(() => {
-    if (!sessionId || connectionStatus !== "connected") return;
-    const client = getWebSocketClient();
-    if (!client) return;
+    if (!sessionId || !client || connectionStatus !== "connected") return;
     const subscription = client.subscribeSessionWithReady(sessionId);
     let active = true;
     void subscription.ready
@@ -82,7 +81,7 @@ function useTurnChangeSubscription(
       active = false;
       subscription.unsubscribe();
     };
-  }, [sessionId, connectionStatus, store, setError]);
+  }, [sessionId, client, connectionStatus, store, setError]);
 }
 
 export function useSessionTurnChanges(

@@ -1308,3 +1308,37 @@ proof without matching the user script. All three corrected survivor cases
 then passed. All runs disable retries. Full typecheck, scoped zero-warning
 lint, docs catalog, spec lint and trusted local coverage pass (31 work orders,
 99 linked documents). Normal hooks and main-conflict resolution follow.
+
+## Current-main conflict reconciliation (2026-10-27)
+
+Main d27d8e59302f advances the integrated base and overlaps five paths.
+The resolution preserves the real cancellation-pending observation, both
+owned drag/drop rows, and the actual Retry-click latch. Stats retains main's
+clock-driven automatic-retry proof while keeping requests unavailable until
+the click event. SSH combines the incoming successful PATCH receipt and
+baseline-name cleanup with the existing final Saved-status check.
+
+Changed-file reconciliation combines incoming reactive client identity with
+background-only snapshot loading and post-await session ownership. Its real
+store regression proves that a client installed or replaced at unchanged
+connected status acquires a fresh lease and snapshot. Singleton-only lookup
+fails that regression. Three automatically duplicated detailActive declarations
+are removed while preserving chat and historical-viewer demand gating.
+Fresh combined builds, scoped tests and review remain required. Docker is not
+installed locally; the SSH container case requires real container CI.
+
+Combined-source validation passes fresh E2E web/backend/helper/delivery/plugin
+builds, 125 focused web tests, full typecheck, zero-warning scoped lint,
+backend broker/plugin race checks, 27 E2E workflow contracts and 10 SDK CI
+contracts. Seven phone cases pass with retries disabled, covering all three
+new corrections plus cancellation, Stats recovery and historical changed files.
+Desktop drag/drop, dirty-editor Save and historical-capture checks remain in
+progress. Independent review finds no remaining actionable merge issue.
+
+All four desktop integration cases pass with retries disabled: captured-turn
+history, dirty-editor Save, single-file drag/drop, and directory descendants.
+All seven phone cases also pass. The final merged source passes full
+typecheck, 125 focused units, backend broker/plugin race tests, workflow
+contracts, zero-warning scoped lint, and docs/spec checks (406 decisions,
+1,755 specifications). No unresolved merge paths or whitespace errors remain.
+Normal merge hooks, exact-head push and fresh CI remain required.
