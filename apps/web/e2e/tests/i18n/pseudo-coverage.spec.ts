@@ -3,6 +3,8 @@ import { type Page } from "@playwright/test";
 import pseudoSettings from "../../../src/locales/pseudo/settings.json";
 import { test, expect } from "../../fixtures/test-base";
 
+test.use({ trace: "retain-on-failure" });
+
 /**
  * Pseudo-locale coverage oracle.
  *
@@ -499,17 +501,47 @@ const ACCENTED = /[À-ɏ]/;
 
 async function activatePseudo(page: Page, url: string) {
   await page.goto(url);
-  await page.evaluate(() => {
+  const assignedCookie = await page.evaluate(() => {
     document.cookie = "kandev_locale=pseudo; path=/; max-age=31536000; SameSite=Lax";
+    return (
+      document.cookie
+        .split(";")
+        .map((cookie) => cookie.trim())
+        .find((cookie) => cookie.startsWith("kandev_locale=")) ?? null
+    );
   });
-  await page.reload();
+  const response = await page.reload();
   // `<html lang>` proves the SHELL is on the pseudo locale and nothing more: the
   // Go shell writes it from the cookie, so it is already correct in the HTML the
   // browser parses, before any script has run. Every stronger fact — the route
   // rendered, and the catalog reached its copy — is `waitForScreen`'s job, and
   // it is per-screen precisely because anything generic enough to assert here is
   // something the app shell alone satisfies.
-  await expect(page.locator("html")).toHaveAttribute("lang", "pseudo", { timeout: 15_000 });
+  try {
+    await expect(page.locator("html")).toHaveAttribute("lang", "pseudo", { timeout: 15_000 });
+  } catch (error) {
+    const html = response ? await response.text().catch(() => null) : null;
+    const actualLanguage = await page
+      .locator("html")
+      .getAttribute("lang")
+      .catch(() => null);
+    await test
+      .info()
+      .attach("pseudo-locale-navigation", {
+        body: JSON.stringify({
+          requestedUrl: url,
+          currentUrl: page.url(),
+          assignedCookie,
+          reloadUrl: response?.url(),
+          reloadStatus: response?.status(),
+          serverLanguage: html?.match(/<html\b[^>]*\blang=["']([^"']+)["']/i)?.[1] ?? null,
+          actualLanguage,
+        }),
+        contentType: "application/json",
+      })
+      .catch(() => undefined);
+    throw error;
+  }
 }
 
 /**

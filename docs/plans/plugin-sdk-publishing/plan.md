@@ -1133,3 +1133,31 @@ Independent review found no actionable issue in the two fixture corrections.
 Changed-file lint/format and full docs/spec checks pass. Temporary probes are
 outside the repository. These are test-only changes; no product/release contract
 or SDK bytes changed. Normal hooks, delivery, and fresh-head CI follow.
+
+## Documentation coverage and locale diagnostics (2026-10-27)
+
+Head `3fa49bd631a` completed with 91 passing checks, two failed E2E shards,
+a failed E2E aggregate, and invalid documentation coverage. The full 118-report
+audit found 4,324 attempts: 4,277 passed, 40 skipped, seven failed/retried, and
+no parse errors. Six failures are backend fixture readiness timeouts in shard
+11; the other is pseudo-locale activation in shard 22. No other browser
+failure is hidden by a passing retry. Startup cancellation logs are cleanup
+evidence, not proof of the initial delay. Resource records show no OOM kill
+or CPU throttling. No startup budget or product behavior is changed.
+
+The trusted documentation evaluator rejects the legacy `spec` frontmatter in
+the changed remote-contribution work order. Its header and sibling plan now
+reference the existing task requirement, exact acceptance criteria, and system
+design. The trusted-base evaluator accepts the local document closure with
+status `covered` and no errors. Full documentation catalog and specification
+checks pass; the validator itself is unchanged.
+
+The pseudo-locale failure has no initial-attempt trace. Five unchanged local
+repetitions pass. Retain first-failure tracing and attach failure-only locale
+metadata: the locale cookie pair, requested/current/reload URLs, response
+status, and server/current HTML language. Do not attach other cookies or the
+HTML body. A deliberate English-cookie negative control retains the original
+assertion failure and produces the expected metadata. A normal diagnostic run
+passes. Independent review finds no actionable issue. Original actions,
+assertions, and timeouts remain unchanged; locale causality is unresolved.
+Normal hooks, delivery, and fresh-head CI remain required.

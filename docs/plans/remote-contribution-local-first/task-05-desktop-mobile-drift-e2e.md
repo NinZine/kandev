@@ -8,7 +8,14 @@ depends_on:
   - "03-desktop-local-first-contribution-ui"
   - "04-mobile-contribution-version-choices"
 plan: "plan.md"
-spec: "../../specs/tasks/system-design/remote-contribution-tasks.md"
+requirements:
+  - REQ-TASKS-REMOTE-CONTRIBUTION-TASKS-001
+acceptance_criteria:
+  - AC-TASKS-REMOTE-CONTRIBUTION-TASKS-001.4
+  - AC-TASKS-REMOTE-CONTRIBUTION-TASKS-001.5
+  - AC-TASKS-REMOTE-CONTRIBUTION-TASKS-001.6
+system_design:
+  - ../../specs/tasks/system-design/remote-contribution-tasks.md
 ---
 
 # Task 05: Desktop and Mobile Drift E2E
