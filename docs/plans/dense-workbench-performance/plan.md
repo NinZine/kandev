@@ -28,6 +28,25 @@ legacy_specs: []
 
 # Implementation plan: Dense workbench performance
 
+## Shared scroll capture: confirmation pending
+
+Calibrated React costs and byte-identical normal source maps identify generic
+scroll capture as a measured lead. A candidate shares the native observed
+offset and keeps generic hide/show restoration. All 307 units, strict lint,
+types, build, 35 desktop and 17 phone checks pass. All CSS assets match.
+
+Four native-v2 attempts pass with 7,200 ordered updates. Streaming p95 improves
+11.07% in both pairs and normal idle work falls. Streaming task-time rate is
+slightly worse in both pairs; script rate is mixed, and style rate increases.
+Reduced-motion idle renderer CPU is also worse in both pairs. All seventy
+rows and failures remain preserved. No performance acceptance follows.
+
+Preserve the exact candidate for six-pair confirmation and restore verified
+`9e20f26b` source/assets for this documentation checkpoint. The 20% streaming
+target and original-baseline final matrix remain open. See
+[the attribution](evidence/react-cost-and-source-map-attribution.json) and
+[the complete preliminary screen](evidence/shared-scroll-capture-two-pair-1x-preliminary.json).
+
 ## Latest measured checkpoint
 
 The lazy PR menu candidate is rejected after four complete reference attempts
@@ -465,7 +484,6 @@ matrix stay open. See [results.md](results.md) for ranges, errors, and limits.
 
 The [completion audit](completion-audit.md) tracks the remaining scenario,
 artifact, correctness, and delivery proof against the full approved scope.
-
 
 ## Editor subscription lifecycle follow-up
 

@@ -9,6 +9,37 @@ Final matrix, stress, owner retention and streaming task-time gates remain open.
 The branch is `feature/evaluate-live-thread-bc0`; the frozen baseline is
 `595df36ed5c1cf02fd90cb972b623ad6edc53df8`.
 
+## React costs and shared scroll capture: confirmation pending
+
+A private production-mode React profiling build passes independent render and
+effect calibration and verifies 300 ordered updates. Inclusive component spans
+are kept separate from scheduler unions and root render durations. Browser
+metadata confirms software rendering in Linux Headless Chrome. A separate
+hidden-map build matches all 1,253 normal asset bytes, adds only 604 maps and
+maps the preserved normal CPU sample counts to source. Negative time deltas
+still prohibit duration weighting. All failed metadata, build and audit attempts
+remain recorded. See [the attribution](evidence/react-cost-and-source-map-attribution.json).
+
+The candidate shares the native scroll handler's observed offset with generic
+panel restoration. Generic hide/show restoration, viewport retention and
+per-producer persistence remain active. All 307 related units, strict lint,
+web types, 35 desktop cases and 17 phone cases pass. Held reading moves zero
+pixels; real PageDown remains within one pixel after further growth. All seven
+CSS assets match the control, and four scoped captures are inspected.
+
+Four unchanged native-v2 reference attempts pass and verify 7,200 ordered
+updates. Streaming p95 falls from 150 to 133.4 ms in both pairs. Normal idle
+task-time rate falls 3.31% and 7.72%. Streaming task-time rate is 0.85% and
+0.18% worse. Script rate is mixed; streaming style rate is 6.68% and 3.06%
+worse. Reduced-motion idle renderer CPU rate is worse in both pairs. Cold
+readiness improves 6.26% and 0.43%. Causes remain unconfirmed.
+
+All seventy comparison rows remain preserved. No speed acceptance follows
+from two pairs. The exact candidate and tests are preserved for six-pair
+confirmation; this checkpoint restores verified `9e20f26b` source and assets.
+The 20% streaming task-time target and original-baseline final matrix remain
+open. See [the complete preliminary result](evidence/shared-scroll-capture-two-pair-1x-preliminary.json).
+
 ## External-store checks and rejected lazy PR menu
 
 A private observer wraps React external-store queue checks and preserves their
@@ -957,16 +988,16 @@ tick-count checks. These are Linux Chromium results, not M2 Air measurements.
 The table gives per-arm medians and ranges. Percentage changes are the median
 of the six paired changes, not the percentage difference between the medians.
 
-| Metric | Baseline median (range) | Candidate median (range) | Median paired result |
-| --- | --- | --- | --- |
-| Cold JS/CSS encoded bytes | 18,607,703 (constant) | 4,164,838 (constant) | 77.62% lower |
-| Cold chat readiness, ms | 18,203 (15,589–24,408) | 16,432 (14,290–26,650) | 7.31% lower; mixed |
-| Streaming history requests | 792 (652–826) | 72.5 (72–76) | 90.85% fewer |
-| Streaming decoded history bytes | 145,658,902 (119,682,683–151,882,268) | 13,355,280 (12,374,478–14,005,129) | 90.83% lower |
-| Normal idle main-thread task time, ms | 15,543 (15,290–18,466) | 15,497 (14,844–16,436) | 0.58% lower; mixed |
-| Streaming main-thread task time, ms | 61,989 (61,551–63,699) | 61,900 (60,295–84,271) | 0.05% higher; no gain |
-| Streaming frame-gap p95, ms | 83.4 (83.3–100.1) | 141.7 (116.7–183.3) | 59.93% higher; regression |
-| Reduced-motion idle main-thread task time, ms | 15,885 (14,592–17,299) | 8,747 (7,780–9,917) | 42.93% lower |
+| Metric                                        | Baseline median (range)               | Candidate median (range)           | Median paired result      |
+| --------------------------------------------- | ------------------------------------- | ---------------------------------- | ------------------------- |
+| Cold JS/CSS encoded bytes                     | 18,607,703 (constant)                 | 4,164,838 (constant)               | 77.62% lower              |
+| Cold chat readiness, ms                       | 18,203 (15,589–24,408)                | 16,432 (14,290–26,650)             | 7.31% lower; mixed        |
+| Streaming history requests                    | 792 (652–826)                         | 72.5 (72–76)                       | 90.85% fewer              |
+| Streaming decoded history bytes               | 145,658,902 (119,682,683–151,882,268) | 13,355,280 (12,374,478–14,005,129) | 90.83% lower              |
+| Normal idle main-thread task time, ms         | 15,543 (15,290–18,466)                | 15,497 (14,844–16,436)             | 0.58% lower; mixed        |
+| Streaming main-thread task time, ms           | 61,989 (61,551–63,699)                | 61,900 (60,295–84,271)             | 0.05% higher; no gain     |
+| Streaming frame-gap p95, ms                   | 83.4 (83.3–100.1)                     | 141.7 (116.7–183.3)                | 59.93% higher; regression |
+| Reduced-motion idle main-thread task time, ms | 15,885 (14,592–17,299)                | 8,747 (7,780–9,917)                | 42.93% lower              |
 
 The candidate had zero reset notifications during every streaming window;
 baseline had 1,572–1,738 per window. Baseline streaming had 59 HTTP 503 errors
@@ -1113,17 +1144,17 @@ but those checks do not justify a performance tradeoff. Raw evidence:
 
 ## Implemented and pushed
 
-| Commit        | Change                                                       | User-visible effect                                                             |
-| ------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------- |
-| `de1c61bfa5b` | Preserve conversation receipts through JSON transport        | Fewer unnecessary history resets when the receipt is complete                   |
-| `e7180040058` | Respect reduced motion in persistent indicators              | The same status remains visible; animation stops when reduced motion is enabled |
-| `4fbc42edcfa` | Precompress assets and defer Monaco imports                  | Smaller cold downloads; editor resources load on first use                      |
-| `7196cdf7d95` | Carry committed canonical stream receipts into notifications | Streamed content can update incrementally without reset-and-reload              |
-| `51272eb39d5` | Defer hidden file-tree touch action hooks | Controls and actions stay unchanged; hidden hooks no longer mount |
-| `4544d15b977` | Cache status scans, coalesce edge geometry, and stabilize history actions | Removes repeated work while preserving scroll controls and session ownership |
-| `bf3b89bf22e` | Read required table metadata through the existing reader pool | Preserves health checks while avoiding a demonstrated writer-queue dependency |
-| `12bf1c266f3` | Preserve the Markdown element-tree boundary | Keeps unchanged paragraphs and code blocks mounted during text motion |
-| `36695134b36` | Read the live selection range without a second layout flush | Preserves synchronous text-selection behavior; improves the measured focused-composer workload |
+| Commit        | Change                                                                    | User-visible effect                                                                            |
+| ------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `de1c61bfa5b` | Preserve conversation receipts through JSON transport                     | Fewer unnecessary history resets when the receipt is complete                                  |
+| `e7180040058` | Respect reduced motion in persistent indicators                           | The same status remains visible; animation stops when reduced motion is enabled                |
+| `4fbc42edcfa` | Precompress assets and defer Monaco imports                               | Smaller cold downloads; editor resources load on first use                                     |
+| `7196cdf7d95` | Carry committed canonical stream receipts into notifications              | Streamed content can update incrementally without reset-and-reload                             |
+| `51272eb39d5` | Defer hidden file-tree touch action hooks                                 | Controls and actions stay unchanged; hidden hooks no longer mount                              |
+| `4544d15b977` | Cache status scans, coalesce edge geometry, and stabilize history actions | Removes repeated work while preserving scroll controls and session ownership                   |
+| `bf3b89bf22e` | Read required table metadata through the existing reader pool             | Preserves health checks while avoiding a demonstrated writer-queue dependency                  |
+| `12bf1c266f3` | Preserve the Markdown element-tree boundary                               | Keeps unchanged paragraphs and code blocks mounted during text motion                          |
+| `36695134b36` | Read the live selection range without a second layout flush               | Preserves synchronous text-selection behavior; improves the measured focused-composer workload |
 
 Default layout, colors, spacing, and controls are preserved. The file-tree change mounts touch-action hooks only while touch actions are visible. It preserves desktop context menus and native phone actions.
 
@@ -1367,7 +1398,6 @@ not establish a reduction in intermittent 503 errors, since the control had none
 Raw: `matched-dense-1792765209649.json`; summary: `health-first-pair-summary.json`.
 The repair was committed and pushed as `bf3b89bf22e`, with normal hooks passing.
 
-
 ### Markdown content stability
 
 The static and animated Markdown paths previously changed the React component
@@ -1386,7 +1416,6 @@ or a measured M2 improvement. Raw: `matched-dense-1792770884505.json`; summary:
 `markdown-stable-child-two-pair-summary.json`, under the diagnostic directory.
 The earlier inline-render attempt is retained as an unsuccessful experiment
 in `matched-dense-1792769340783.json`; it repeated parsing during render retry.
-
 
 ### Rejected row-lookup experiments and long-history limit
 
@@ -1411,7 +1440,6 @@ Raw records: `matched-dense-1792775033729.json` (attribute queries),
 `matched-dense-1792776438660.json` (indexed IDs), and
 `matched-dense-1792774416275.json` (long-history setup failure).
 
-
 The corrected tree-identity experiment is rejected. Both alternating pairs
 regressed (`matched-navigation-1792782036354.json`): driver-to-file-marker
 p50 was 974 versus 1,162 ms and 1,008 versus 1,080 ms; p95 was 1,160 versus
@@ -1424,7 +1452,6 @@ checks had passed. The production and test changes are restored to HEAD;
 are retained, not attributed to an established cause. The summary is
 `tree-identity-navigation-two-pair-summary.json`; the log is
 `/tmp/kandev-run.e2e.2vm17ekT.log` (9.2 minutes).
-
 
 ### Focused-composer selection check: retained
 
@@ -1464,7 +1491,6 @@ plus three phone checks. The browser regression selects text and appends a
 message in the same script, then verifies the selected text and static tail.
 The diagnostic helper has three tests for duplicate ticks, empty streams,
 scripted user prompts, and failed reads; the summary helper has four tests.
-
 
 ### Composer subscription experiment: rejected
 
@@ -1792,7 +1818,6 @@ per-producer persistence, then resume attribution. The original-baseline final
 matrix remains open. See
 [every paired measure and the integrity audit](evidence/rejected-scroll-position-batching-six-pair-1x.json).
 
-
 ## Store-scoped scroll-position publication: preliminary result, later rejected
 
 Assets `9ee2c6f5` group already-deferred native position captures per app store
@@ -1810,12 +1835,12 @@ and documentation files, both asset trees, runtime helpers, packaged fixtures,
 file-state identities and four backend logs pass the post-run audit. The
 disposable root is removed, with no owned process remaining.
 
-| Streaming measure | Control, pair 1 | Candidate, pair 1 | Control, pair 2 | Candidate, pair 2 |
-| --- | ---: | ---: | ---: | ---: |
-| Frame-gap p95 (ms) | 150.0 | 66.7 | 150.0 | 100.0 |
-| Maximum frame gap (ms) | 349.9 | 116.7 | 250.0 | 183.3 |
-| Main-thread work (ms/s) | 949.7 | 922.2 | 919.2 | 944.9 |
-| Observation duration (s) | 61.9 | 64.4 | 72.9 | 61.1 |
+| Streaming measure        | Control, pair 1 | Candidate, pair 1 | Control, pair 2 | Candidate, pair 2 |
+| ------------------------ | --------------: | ----------------: | --------------: | ----------------: |
+| Frame-gap p95 (ms)       |           150.0 |              66.7 |           150.0 |             100.0 |
+| Maximum frame gap (ms)   |           349.9 |             116.7 |           250.0 |             183.3 |
+| Main-thread work (ms/s)  |           949.7 |             922.2 |           919.2 |             944.9 |
+| Observation duration (s) |            61.9 |              64.4 |            72.9 |              61.1 |
 
 The p95 frame gap improves 55.5% and 33.3%; maximum streaming gaps improve
 in both pairs. Main-thread work per second is mixed. Per-window script totals

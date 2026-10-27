@@ -32,6 +32,25 @@ system_design:
 
 # Task 06: Matched comparison and regression evidence
 
+## Shared scroll capture: confirmation pending
+
+Calibrated React costs and byte-identical normal source maps identify generic
+scroll capture as a measured lead. A candidate shares the native observed
+offset and keeps generic hide/show restoration. All 307 units, strict lint,
+types, build, 35 desktop and 17 phone checks pass. All CSS assets match.
+
+Four native-v2 attempts pass with 7,200 ordered updates. Streaming p95 improves
+11.07% in both pairs and normal idle work falls. Streaming task-time rate is
+slightly worse in both pairs; script rate is mixed, and style rate increases.
+Reduced-motion idle renderer CPU is also worse in both pairs. All seventy
+rows and failures remain preserved. No performance acceptance follows.
+
+Preserve the exact candidate for six-pair confirmation and restore verified
+`9e20f26b` source/assets for this documentation checkpoint. The 20% streaming
+target and original-baseline final matrix remain open. See
+[the attribution](evidence/react-cost-and-source-map-attribution.json) and
+[the complete preliminary screen](evidence/shared-scroll-capture-two-pair-1x-preliminary.json).
+
 ## External-store attribution and rejected lazy PR menu
 
 Independent fixture counters calibrate twenty unchanged and twenty changing
@@ -391,7 +410,6 @@ fresh browser streaming checks before comparing dense availability again.
 This is a bounded repair of a measured test and page disruption; it does not
 permit masking health failures or extending timeouts to make a benchmark pass.
 
-
 ### Health repair validation
 
 The table probe now uses the reader pool. The regression failed before the
@@ -413,7 +431,6 @@ evidence. Since neither arm reproduced the intermittent availability failure,
 it does not establish an availability improvement rate. Raw evidence:
 `.kandev/diagnostics/dense-workbench-performance/matched-dense-1792765209649.json`;
 summary: `health-first-pair-summary.json` in the same directory.
-
 
 ### Retained-build correctness pass
 
@@ -724,7 +741,6 @@ or failed attempt plans. All original wheel actions and thresholds remain.
 three healthy callers, 47 Node checks, and strict lint. The scripted candidate
 21px failure remains preserved and has separate repair evidence.
 
-
 ### Native wheel follow after streamed growth
 
 A downward wheel can reach the bottom observed at input, then arrive above a
@@ -739,7 +755,6 @@ to zero pixels from the bottom; its frozen baseline fails at 21 pixels. The
 eight-column rehearsal passes both arms. These short checks establish correctness,
 not a speed gain. Full dense comparisons remain open. See
 [the build and check evidence](evidence/native-wheel-bottom-follow.json).
-
 
 ### Verified Threads reference file state
 
@@ -1120,7 +1135,6 @@ lockfiles and packaged fixtures remain unchanged; the new worker is removed.
 The fresh six-pair reference report completes all full 60-second windows.
 See [the recovery evidence](evidence/fixture-replay-recovery.json).
 
-
 ## Confirmation decision and independent detach cancellation
 
 The complete six-pair confirmation passes all twelve attempts and verifies
@@ -1147,7 +1161,6 @@ are inspected. Reader movement remains zero; real PageDown stays within one
 pixel after further growth. The independent fix changes only two production
 files and their tests relative to C4. Next: fresh quiet-stream attribution.
 See [the correction evidence](evidence/transcript-frame-cancellation.json).
-
 
 ## Candidate: message-local turn and usage selection
 

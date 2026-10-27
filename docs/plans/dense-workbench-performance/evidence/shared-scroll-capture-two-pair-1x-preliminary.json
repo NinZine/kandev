@@ -1,0 +1,2496 @@
+{
+  "recordedAt": "2026-10-27T15:09:22.768346+00:00",
+  "status": "Preliminary. Six-pair confirmation pending. No performance acceptance.",
+  "sourceRevision": "00de21eb884e37869cca2d620aaa655a3c9c82eb",
+  "diagnosticsRoot": ".kandev/diagnostics/dense-workbench-performance",
+  "candidate": {
+    "scope": "Share one native scrollTop observation with generic hide/show retention. Keep viewport resize retention and deferred persistence.",
+    "assetsSha256": "59e1ee10fcc09ef36211b49a69fa1fd632e822b8a8d4d338d93a7ba30aac5484",
+    "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+    "sourcePatch": "diff --git a/apps/packages/ui/src/pannel-session.tsx b/apps/packages/ui/src/pannel-session.tsx\nindex 24a280a579fb..af82b6709919 100644\n--- a/apps/packages/ui/src/pannel-session.tsx\n+++ b/apps/packages/ui/src/pannel-session.tsx\n@@ -1,4 +1,4 @@\n-import type { ReactNode } from \"react\";\n+import type { ReactNode, RefObject } from \"react\";\n import { forwardRef, useRef, useEffect, useCallback } from \"react\";\n import { cn } from \"./lib/utils\";\n \n@@ -18,14 +18,11 @@ interface SessionPanelContentProps {\n   wrapperClassName?: string;\n   sessionId?: string;\n   tabIndex?: number;\n+  /** Reuses the caller's scroll capture while retaining hide/show restoration. */\n+  scrollPositionRef?: RefObject<number>;\n }\n \n-export function SessionPanel({\n-  children,\n-  borderSide = \"none\",\n-  margin = \"none\",\n-  className,\n-}: SessionPanelProps) {\n+export function SessionPanel({ children, margin = \"none\", className }: SessionPanelProps) {\n   return (\n     <div\n       className={cn(\n@@ -45,7 +42,7 @@ export function SessionPanel({\n \n export const SessionPanelContent = forwardRef<HTMLDivElement, SessionPanelContentProps>(\n   function SessionPanelContent(\n-    { children, className, wrapperClassName, sessionId, tabIndex },\n+    { children, className, wrapperClassName, sessionId, tabIndex, scrollPositionRef },\n     ref,\n   ) {\n     const internalRef = useRef<HTMLDivElement>(null);\n@@ -53,7 +50,8 @@ export const SessionPanelContent = forwardRef<HTMLDivElement, SessionPanelConten\n      * Continuously updated by the scroll listener so we always have\n      * the latest good scrollTop before the browser resets it on display:none.\n      */\n-    const savedScrollTopRef = useRef(0);\n+    const internalScrollTopRef = useRef(0);\n+    const savedScrollTopRef = scrollPositionRef ?? internalScrollTopRef;\n     const isHiddenRef = useRef(false);\n \n     // Merge forwarded ref with internal ref\n@@ -68,6 +66,7 @@ export const SessionPanelContent = forwardRef<HTMLDivElement, SessionPanelConten\n \n     // Save scrollTop on every scroll event so it's always up-to-date\n     useEffect(() => {\n+      if (scrollPositionRef) return;\n       const el = internalRef.current;\n       if (!el) return;\n \n@@ -79,7 +78,7 @@ export const SessionPanelContent = forwardRef<HTMLDivElement, SessionPanelConten\n \n       el.addEventListener(\"scroll\", onScroll);\n       return () => el.removeEventListener(\"scroll\", onScroll);\n-    }, []);\n+    }, [scrollPositionRef, savedScrollTopRef]);\n \n     // Detect hide/show via ResizeObserver and restore scroll position\n     useEffect(() => {\n@@ -113,7 +112,7 @@ export const SessionPanelContent = forwardRef<HTMLDivElement, SessionPanelConten\n \n       observer.observe(el);\n       return () => observer.disconnect();\n-    }, []);\n+    }, [savedScrollTopRef]);\n \n     return (\n       <div\ndiff --git a/apps/web/components/task/chat/message-list-native-scroll.ts b/apps/web/components/task/chat/message-list-native-scroll.ts\nindex f4684aa776d0..37087847be8b 100644\n--- a/apps/web/components/task/chat/message-list-native-scroll.ts\n+++ b/apps/web/components/task/chat/message-list-native-scroll.ts\n@@ -671,35 +671,38 @@ function useFollowIntent({\n   wheelBottomRef: React.RefObject<number | null>;\n   cancelMotion: () => void;\n }) {\n-  const resyncIsNearBottom = useCallback(() => {\n-    const el = scrollRef.current;\n-    if (!el || !isVisibleRef.current || isAnimating()) return;\n-    const scrollTop = el.scrollTop;\n-    const gap = el.scrollHeight - scrollTop - el.clientHeight;\n-    const pending = pendingUpwardScrollRef.current;\n-    // Keep fresh upward intent while a queued scroll still reports the old edge.\n-    if (\n-      pending &&\n-      userReading.current &&\n-      pending.sessionId === sessionIdRef.current &&\n-      scrollTop >= pending.scrollTop &&\n-      gap < 3\n-    ) {\n-      isNearBottomRef.current = false;\n-      return;\n-    }\n-    pendingUpwardScrollRef.current = null;\n-    isNearBottomRef.current = gap < (userReading.current ? 3 : 100);\n-    if (isNearBottomRef.current) userReading.current = false;\n-  }, [\n-    scrollRef,\n-    isAnimating,\n-    userReading,\n-    pendingUpwardScrollRef,\n-    sessionIdRef,\n-    isVisibleRef,\n-    isNearBottomRef,\n-  ]);\n+  const resyncIsNearBottom = useCallback(\n+    (observedScrollTop?: number) => {\n+      const el = scrollRef.current;\n+      if (!el || !isVisibleRef.current || isAnimating()) return;\n+      const scrollTop = observedScrollTop ?? el.scrollTop;\n+      const gap = el.scrollHeight - scrollTop - el.clientHeight;\n+      const pending = pendingUpwardScrollRef.current;\n+      // Keep fresh upward intent while a queued scroll still reports the old edge.\n+      if (\n+        pending &&\n+        userReading.current &&\n+        pending.sessionId === sessionIdRef.current &&\n+        scrollTop >= pending.scrollTop &&\n+        gap < 3\n+      ) {\n+        isNearBottomRef.current = false;\n+        return;\n+      }\n+      pendingUpwardScrollRef.current = null;\n+      isNearBottomRef.current = gap < (userReading.current ? 3 : 100);\n+      if (isNearBottomRef.current) userReading.current = false;\n+    },\n+    [\n+      scrollRef,\n+      isAnimating,\n+      userReading,\n+      pendingUpwardScrollRef,\n+      sessionIdRef,\n+      isVisibleRef,\n+      isNearBottomRef,\n+    ],\n+  );\n   const markNotNearBottom = useCallback(() => {\n     wheelBottomRef.current = null;\n     cancelMotion();\n@@ -710,6 +713,7 @@ function useFollowIntent({\n \n type AutoScrollParams = {\n   scrollRef: React.RefObject<HTMLDivElement | null>;\n+  scrollPositionRef?: React.RefObject<number>;\n   messages: Message[];\n   isWorking: boolean;\n   sessionId: string | null;\n@@ -832,6 +836,7 @@ export function useAutoScroll(params: AutoScrollParams) {\n // eslint-disable-next-line max-lines-per-function -- persisted placement coordinates user intent, session resets, and layout recovery.\n function usePersistedTranscriptScroll({\n   scrollRef,\n+  scrollPositionRef,\n   sessionId,\n   storeApi,\n   resyncIsNearBottom,\n@@ -846,9 +851,10 @@ function usePersistedTranscriptScroll({\n   initialPlacementPending,\n }: {\n   scrollRef: React.RefObject<HTMLDivElement | null>;\n+  scrollPositionRef?: React.RefObject<number>;\n   sessionId: string | null;\n   storeApi: ReturnType<typeof useAppStoreApi>;\n-  resyncIsNearBottom: () => void;\n+  resyncIsNearBottom: (observedScrollTop?: number) => void;\n   followBottom: () => void;\n   wheelBottomRef: React.RefObject<number | null>;\n   pendingUpwardScrollRef: React.RefObject<PendingUpwardScroll | null>;\n@@ -933,24 +939,26 @@ function usePersistedTranscriptScroll({\n      * coalesced persistence of the scroll position. */\n     const onScroll = () => {\n       if (!isVisibleRef.current || latestSessionIdRef.current !== sessionId) return;\n+      const scrollTop = el.scrollTop;\n+      if (scrollPositionRef) scrollPositionRef.current = scrollTop;\n       const hasUserScrollIntent = userScrollIntentUntilRef.current >= Date.now();\n       const wheelBottom = wheelBottomRef.current;\n       // Resume only a recent wheel that reached its observed edge.\n-      if (hasUserScrollIntent && wheelBottom !== null && wheelBottom - el.scrollTop < 3) {\n+      if (hasUserScrollIntent && wheelBottom !== null && wheelBottom - scrollTop < 3) {\n         wheelBottomRef.current = null;\n         followBottom();\n       } else {\n-        resyncIsNearBottom();\n+        resyncIsNearBottom(scrollTop);\n       }\n       // A layout change can clamp a disabled transcript's scrollTop and emit a\n       // native scroll event. Only adopt an offset when a recent user gesture\n       // explains the movement; otherwise the layout effect must restore the\n       // frozen offset on the next render.\n       if (!enabled && hasUserScrollIntent) {\n-        frozenScrollTopRef.current = { sessionId, scrollTop: el.scrollTop };\n+        frozenScrollTopRef.current = { sessionId, scrollTop };\n       }\n       if (sessionId && (enabled || hasUserScrollIntent)) {\n-        rememberSessionScrollTop(sessionId, el.scrollTop);\n+        rememberSessionScrollTop(sessionId, scrollTop);\n       }\n       coalescer.schedule();\n     };\n@@ -987,6 +995,7 @@ function usePersistedTranscriptScroll({\n     };\n   }, [\n     scrollRef,\n+    scrollPositionRef,\n     sessionId,\n     storeApi,\n     resyncIsNearBottom,\n@@ -2053,6 +2062,7 @@ function useInitialScrollPosition({\n \n type NativeScrollManagementParams = {\n   scrollRef: React.RefObject<HTMLDivElement | null>;\n+  scrollPositionRef?: React.RefObject<number>;\n   items: RenderItem[];\n   messages: Message[];\n   isWorking: boolean;\ndiff --git a/apps/web/components/task/chat/message-list-native.test.tsx b/apps/web/components/task/chat/message-list-native.test.tsx\nindex ddd44ca3afeb..8761778a9b0c 100644\n--- a/apps/web/components/task/chat/message-list-native.test.tsx\n+++ b/apps/web/components/task/chat/message-list-native.test.tsx\n@@ -230,6 +230,7 @@ function AutoScrollHarness({\n   isVisible = true,\n   sessionId = null,\n   initialPlacementPending = false,\n+  scrollPositionRef,\n   metrics,\n }: {\n   isWorking: boolean;\n@@ -241,6 +242,7 @@ function AutoScrollHarness({\n   isVisible?: boolean;\n   sessionId?: string | null;\n   initialPlacementPending?: boolean;\n+  scrollPositionRef?: { current: number };\n   metrics?: NativeScrollMetrics;\n }) {\n   const scrollRef = useRef<HTMLDivElement>(null);\n@@ -258,6 +260,7 @@ function AutoScrollHarness({\n     isProgrammaticScrollLocked: NEVER_LOCKED,\n     isVisible,\n     initialPlacementPending,\n+    scrollPositionRef,\n   });\n   useNativeScrollMetrics(scrollRef, metrics);\n   if (markRef) markRef.current = markNotNearBottom;\n@@ -3913,3 +3916,51 @@ describe(\"missing prompt row scope\", () => {\n     view.unmount();\n   });\n });\n+\n+describe(\"native scroll capture shared with its panel\", () => {\n+  it.each([true, false])(\"shares the observed offset with auto-follow %s\", (enabled) => {\n+    vi.stubGlobal(\"requestAnimationFrame\", () => 1);\n+    const position = { current: 0 };\n+    render(\n+      <AutoScrollHarness\n+        isWorking={false}\n+        hasUnreadDivider={false}\n+        sessionId=\"shared-scroll-session\"\n+        enabled={enabled}\n+        scrollPositionRef={position}\n+      />,\n+    );\n+    const container = screen.getByTestId(AUTO_SCROLL_CONTAINER_TEST_ID);\n+    setScrollMetrics(container);\n+    container.scrollTop = 184;\n+    act(() => container.dispatchEvent(new KeyboardEvent(\"keydown\", { key: \"PageUp\" })));\n+    const read = vi.spyOn(container, \"scrollTop\", \"get\");\n+\n+    act(() => container.dispatchEvent(new Event(\"scroll\")));\n+\n+    expect(position.current).toBe(184);\n+    // Enabled transcripts also record their viewport for resize retention.\n+    expect(read.mock.calls.length).toBeGreaterThan(0);\n+    expect(read.mock.calls.length).toBeLessThanOrEqual(enabled ? 2 : 1);\n+  });\n+\n+  it(\"keeps the last visible offset when hidden scroll events report zero geometry\", () => {\n+    const position = { current: 184 };\n+    render(\n+      <AutoScrollHarness\n+        isWorking={false}\n+        hasUnreadDivider={false}\n+        sessionId=\"shared-scroll-session\"\n+        isVisible={false}\n+        scrollPositionRef={position}\n+      />,\n+    );\n+    const container = screen.getByTestId(AUTO_SCROLL_CONTAINER_TEST_ID);\n+    const read = vi.spyOn(container, \"scrollTop\", \"get\");\n+\n+    act(() => container.dispatchEvent(new Event(\"scroll\")));\n+\n+    expect(position.current).toBe(184);\n+    expect(read).not.toHaveBeenCalled();\n+  });\n+});\ndiff --git a/apps/web/components/task/chat/message-list-native.tsx b/apps/web/components/task/chat/message-list-native.tsx\nindex 9551d359fc39..0150a402ff07 100644\n--- a/apps/web/components/task/chat/message-list-native.tsx\n+++ b/apps/web/components/task/chat/message-list-native.tsx\n@@ -169,6 +169,7 @@ export function useTranscriptEdgeTracking(\n \n type NativeMessageListScrollParams = {\n   scrollRef: React.RefObject<HTMLDivElement | null>;\n+  scrollPositionRef: React.RefObject<number>;\n   ref: React.ForwardedRef<MessageListHandle>;\n   items: RenderItem[];\n   messages: Message[];\n@@ -310,6 +311,7 @@ function applyInitialDividerPosition(params: {\n function useNativeMessageListScroll(params: NativeMessageListScrollParams) {\n   const {\n     scrollRef,\n+    scrollPositionRef,\n     ref,\n     items,\n     messages,\n@@ -346,6 +348,7 @@ function useNativeMessageListScroll(params: NativeMessageListScrollParams) {\n     showRecovery,\n   } = useNativeScrollManagement({\n     scrollRef,\n+    scrollPositionRef,\n     items,\n     messages,\n     isWorking,\n@@ -779,6 +782,7 @@ export const NativeMessageList = memo(\n     ref,\n   ) {\n     const scrollRef = useRef<HTMLDivElement>(null);\n+    const scrollPositionRef = useRef(0);\n \n     const visibleItems = useMemo(\n       () =>\n@@ -824,6 +828,7 @@ export const NativeMessageList = memo(\n     const { handleScrollToMessage, sentinelRef, retryLoadMore, showRecovery } =\n       useNativeMessageListScroll({\n         scrollRef,\n+        scrollPositionRef,\n         ref,\n         items: visibleItems,\n         messages: visibleMessages,\n@@ -859,6 +864,7 @@ export const NativeMessageList = memo(\n     return (\n       <SessionPanelContent\n         ref={scrollRef}\n+        scrollPositionRef={scrollPositionRef}\n         sessionId={sessionId ?? undefined}\n         tabIndex={-1}\n         className={`relative chat-message-list p-0 ${\ndiff --git a/apps/web/components/task/session-panel-content.test.tsx b/apps/web/components/task/session-panel-content.test.tsx\nindex 3e6e88aeb0e5..02de0f3b6ca5 100644\n--- a/apps/web/components/task/session-panel-content.test.tsx\n+++ b/apps/web/components/task/session-panel-content.test.tsx\n@@ -32,9 +32,9 @@ function flushFrame() {\n   act(() => callback(0));\n }\n \n-function renderScrollContainer() {\n+function renderScrollContainer(scrollPositionRef?: { current: number }) {\n   const result = render(\n-    <SessionPanelContent>\n+    <SessionPanelContent scrollPositionRef={scrollPositionRef}>\n       <div />\n     </SessionPanelContent>,\n   );\n@@ -91,3 +91,29 @@ describe(\"SessionPanelContent scroll restoration\", () => {\n     expect(scrollContainer.scrollTop).toBe(263);\n   });\n });\n+\n+describe(\"SessionPanelContent shared scroll capture\", () => {\n+  it.each([false, true])(\"reads scroll events only when no caller owns capture (%s)\", (shared) => {\n+    const position = shared ? { current: 184 } : undefined;\n+    const { scrollContainer } = renderScrollContainer(position);\n+    const read = vi.spyOn(scrollContainer, \"scrollTop\", \"get\");\n+\n+    act(() => scrollContainer.dispatchEvent(new Event(\"scroll\")));\n+\n+    expect(read).toHaveBeenCalledTimes(shared ? 0 : 1);\n+  });\n+\n+  it(\"restores the caller's captured offset after a hidden panel is shown\", () => {\n+    const position = { current: 184 };\n+    const { scrollContainer } = renderScrollContainer(position);\n+    scrollContainer.scrollTop = 71;\n+    act(() => scrollContainer.dispatchEvent(new Event(\"scroll\")));\n+\n+    emitResize(0, 0);\n+    scrollContainer.scrollTop = 0;\n+    emitResize(100, 100);\n+    flushFrame();\n+\n+    expect(scrollContainer.scrollTop).toBe(184);\n+  });\n+});\n",
+    "sourceFiles": [
+      {
+        "path": "apps/packages/ui/src/pannel-session.tsx",
+        "sha256": "0fe87e9058b4aa000e7ca6e52c37f4f5a20a51a1b631e15f790805d788f3dbbb"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "sha256": "4cccbcc78213c25a440188ae9afe0332f0c66c451b61fcdcab7af657ca27338a"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+        "sha256": "40426afe1a5c3ce41a82038fd41bc3e4e62dab8c9a39b51aad3a831ecd5d8066"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.tsx",
+        "sha256": "679ddcf1a13f810f8fdd9a42bd191ae9360e513111913c0d9d97b4e27e0ac33d"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+        "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+        "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+      },
+      {
+        "path": "apps/web/components/task/session-panel-content.test.tsx",
+        "sha256": "c660b441d333b9e868c1eb8e9ecdf5bd2a81fe041a1cfc7f34bb01fe40d5d958"
+      },
+      {
+        "path": "apps/web/lib/state/app-state-types.ts",
+        "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+        "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/types.ts",
+        "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+        "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+      }
+    ],
+    "pendingRoot": "/tmp/kandev-pending-shared-scroll-5936a872",
+    "productionChangesDelivered": false,
+    "aestheticChange": false
+  },
+  "attribution": "react-cost-and-source-map-attribution.json",
+  "validation": {
+    "build": {
+      "recordedAt": "2026-10-27T14:38:06.261Z",
+      "sourceParent": "00de21eb884e37869cca2d620aaa655a3c9c82eb",
+      "source": "Share one native scrollTop observation with generic hide/show retention. Keep viewport resize retention and deferred persistence.",
+      "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+      "sourceFiles": [
+        {
+          "path": "apps/packages/ui/src/pannel-session.tsx",
+          "sha256": "0fe87e9058b4aa000e7ca6e52c37f4f5a20a51a1b631e15f790805d788f3dbbb"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+          "sha256": "4cccbcc78213c25a440188ae9afe0332f0c66c451b61fcdcab7af657ca27338a"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+          "sha256": "40426afe1a5c3ce41a82038fd41bc3e4e62dab8c9a39b51aad3a831ecd5d8066"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.tsx",
+          "sha256": "679ddcf1a13f810f8fdd9a42bd191ae9360e513111913c0d9d97b4e27e0ac33d"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+          "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+          "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+        },
+        {
+          "path": "apps/web/components/task/session-panel-content.test.tsx",
+          "sha256": "c660b441d333b9e868c1eb8e9ecdf5bd2a81fe041a1cfc7f34bb01fe40d5d958"
+        },
+        {
+          "path": "apps/web/lib/state/app-state-types.ts",
+          "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+          "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/types.ts",
+          "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+          "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+        }
+      ],
+      "changedFiles": [
+        "apps/packages/ui/src/pannel-session.tsx",
+        "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "apps/web/components/task/chat/message-list-native.test.tsx",
+        "apps/web/components/task/chat/message-list-native.tsx",
+        "apps/web/components/task/session-panel-content.test.tsx"
+      ],
+      "deletedSourceFiles": [
+        "apps/web/components/task/chat/transcript-scroll-persistence.test.ts",
+        "apps/web/components/task/chat/transcript-scroll-persistence.ts"
+      ],
+      "generatedBefore": [
+        {
+          "path": "apps/web/generated/changelog.json",
+          "sha256": "8552e9fd1aa79fe07d0eaaa8d05179548ae1c5555b3206a2842c09cec4bfdd43"
+        },
+        {
+          "path": "apps/web/generated/release-notes.json",
+          "sha256": "3391126f01051873eebb779dece251225037923b7e96794855a11af2135c0a37"
+        }
+      ],
+      "checks": [
+        {
+          "check": "red",
+          "handle": 13229,
+          "exitCode": 1,
+          "passed": 115,
+          "log": "shared-scroll-red.log",
+          "logSha256": "553966234108158ec8a387c0b2372799415133c34725f9683461ab4fabd34f95"
+        },
+        {
+          "check": "related",
+          "handle": 3234,
+          "exitCode": 0,
+          "passed": 307,
+          "log": "shared-scroll-related.log",
+          "logSha256": "49fffc793ed1b26878a0a8d37318c447bc3352f2279d195818d99136187e523a"
+        },
+        {
+          "check": "final-web-lint",
+          "handle": 9191,
+          "exitCode": 0,
+          "passed": null,
+          "log": "shared-scroll-final-web-lint.log",
+          "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "check": "final-ui-lint",
+          "handle": 97635,
+          "exitCode": 0,
+          "passed": null,
+          "log": "shared-scroll-final-ui-lint.log",
+          "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "check": "final-types",
+          "handle": 52918,
+          "exitCode": 0,
+          "passed": null,
+          "log": "shared-scroll-final-types.log",
+          "logSha256": "369ea74c64e1df20db8b8a6bcf59b9433ca7a9303c5057308182163b3818b5a6"
+        }
+      ],
+      "baselineAssetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+      "cssControlRoot": "/tmp/kandev-before-message-selector-5936a872",
+      "visualContract": "No markup, class, style, animation or input-policy changes. Require all CSS assets byte-identical to the normal control.",
+      "root": "/tmp/kandev-perf-delivery-5936a872",
+      "assetsSha256": "59e1ee10fcc09ef36211b49a69fa1fd632e822b8a8d4d338d93a7ba30aac5484",
+      "assetFiles": 1253,
+      "gzipSiblingsVerified": 552,
+      "build": {
+        "handle": 7304,
+        "exitCode": 0,
+        "log": "shared-scroll-production-build.log",
+        "logSha256": "d89a065a03108de08bc40fce42e282a4d389be1f66708d075068b18b762913b9"
+      },
+      "generatedMetadataUnchanged": true,
+      "buildEnv": {
+        "KANDEV_I18N_BUNDLE_PSEUDO": "1"
+      }
+    },
+    "desktop": {
+      "recordedAt": "2026-10-27T14:44:39.032376+00:00",
+      "name": "shared-scroll-desktop",
+      "project": "chromium",
+      "handle": 46666,
+      "exitCode": 0,
+      "expectedChecks": 35,
+      "passed": 35,
+      "status": "passed",
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": "kandev-run.e2e.pNRgXOli.log",
+      "logSha256": "f333097a313ca54e597f730505a4973e830959fb616bc65349d8025550caab57",
+      "results": "shared-scroll-desktop-results",
+      "workerRoots": ["/tmp/kandev-e2e-0-9OjIg3"],
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "sourceFilesVerified": 11,
+      "harnessFilesVerified": 1956,
+      "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+      "assetsSha256": "59e1ee10fcc09ef36211b49a69fa1fd632e822b8a8d4d338d93a7ba30aac5484",
+      "runtimeAndPluginFilesVerified": true,
+      "ledgers": [
+        {
+          "path": "shared-scroll-desktop-results/chat-native-upward-intent--d10b1-sition-through-later-growth-chromium/queued-upward-reading.json",
+          "maximumAbsoluteMovementPx": 0,
+          "sampleCount": 24
+        }
+      ],
+      "readingReturnLedgers": [
+        {
+          "path": "shared-scroll-desktop-results/chat-native-upward-intent--c061a--precedes-its-wheel-handler-chromium/native-reading-return.json",
+          "heldMaximumMovementPx": 0,
+          "realPageDownReachedGapPx": 0,
+          "gapAfterFurtherGrowthPx": 1
+        }
+      ]
+    },
+    "desktopAuditHandle": 5139,
+    "desktopAuditExitCode": 0,
+    "phone": {
+      "recordedAt": "2026-10-27T14:47:46.378859+00:00",
+      "name": "shared-scroll-phone",
+      "project": "mobile-chrome",
+      "handle": 63896,
+      "exitCode": 0,
+      "expectedChecks": 17,
+      "passed": 17,
+      "status": "passed",
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": "kandev-run.e2e.QigELGbv.log",
+      "logSha256": "34af391f37d8e7396f79480a6e73b3142cc98539e56204f2f694f9e0e3a21eee",
+      "results": "shared-scroll-phone-results",
+      "workerRoots": ["/tmp/kandev-e2e-0-468OdH"],
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "sourceFilesVerified": 11,
+      "harnessFilesVerified": 1956,
+      "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+      "assetsSha256": "59e1ee10fcc09ef36211b49a69fa1fd632e822b8a8d4d338d93a7ba30aac5484",
+      "runtimeAndPluginFilesVerified": true,
+      "ledgers": [],
+      "readingReturnLedgers": []
+    },
+    "phoneAuditHandle": 30013,
+    "phoneAuditExitCode": 0,
+    "relatedUnitTests": 307,
+    "relatedUnitFiles": 14,
+    "newContractCases": 6,
+    "initialFailures": {
+      "firstGreen": {
+        "handle": 16370,
+        "exitCode": 1,
+        "reason": "Enabled useAutoScroll also has an independent viewport-resize scroll listener. The first read budget incorrectly counted only the persistence listener. Preserve that listener, allow its one additional read and still require the shared value and a positive read."
+      },
+      "readStackDiagnostic": {
+        "handle": 2801,
+        "exitCode": 1,
+        "reason": "Temporary getter wrapper tried an unavailable original mock implementation. Its preserved stack identifies the viewport-resize listener. Wrapper removed."
+      },
+      "firstLint": {
+        "handle": 68457,
+        "exitCode": 1,
+        "reason": "UI package lies outside web config base path. Use explicit web config from repository root for that file."
+      },
+      "uiLintPrelaunch": {
+        "exitCode": 127,
+        "reason": "ESLint executable is in apps/web, not apps root."
+      },
+      "uiLint": {
+        "exitCode": 1,
+        "reason": "Existing unused borderSide destructuring in SessionPanel fails strict lint when this package is explicitly checked. Remove only that unused binding; the accepted prop type remains."
+      },
+      "types": {
+        "handle": 87754,
+        "exitCode": 0
+      }
+    },
+    "visualAssets": {
+      "recordedAt": "2026-10-27T14:38:24.018743+00:00",
+      "allCSSAssetsByteIdentical": true,
+      "files": [
+        {
+          "path": "apps/web/dist/assets/canvas-lifecycle-Bg6yURNV.css",
+          "sha256": "d8193629d6df394f304cca31bb296f7202df1fb6859acc51a32bcede104e47f7"
+        },
+        {
+          "path": "apps/web/dist/assets/editor-Br_kD0ds.css",
+          "sha256": "6eebd659b4bf63fdc64facd7a96cd559dbe85d55e6c648f58ceaa5d554b043a4"
+        },
+        {
+          "path": "apps/web/dist/assets/editor-Br_kD0ds.css.gz",
+          "sha256": "e538ee3d8d5a710fd10c70e209bff8f6a7658a82c23453901a5d1f0117d0286a"
+        },
+        {
+          "path": "apps/web/dist/assets/index-LgKi2lxL.css",
+          "sha256": "c03b4e659ac3585d3b67eb7a3f1e1daa51bb12fc767bca74a379cef62a29ec8c"
+        },
+        {
+          "path": "apps/web/dist/assets/index-LgKi2lxL.css.gz",
+          "sha256": "95b44f2002831ecd4fc6d44b44f67b4e82eb26260388fc9cfc509c3b76dc6a72"
+        },
+        {
+          "path": "apps/web/dist/assets/pty-terminal-view-BrP-ENHg.css",
+          "sha256": "0e5386f16cb4be78a2fe911e014a810da76ea2db47d8c8b2a966516b2fd5270b"
+        },
+        {
+          "path": "apps/web/dist/assets/pty-terminal-view-BrP-ENHg.css.gz",
+          "sha256": "7c43e28bf28c9342d22782c4d7dce0c2d67362b0d61947f25ce0f96827a20741"
+        }
+      ],
+      "newDOMStylesOrClasses": false,
+      "scope": "Source diff and complete production CSS identity. Browser behavior and captures are separate checks."
+    },
+    "captureReview": {
+      "recordedAt": "2026-10-27T14:48:33.242776+00:00",
+      "capturesViewed": [
+        {
+          "path": "shared-scroll-desktop-results/layout-saved-layout-arrang-3c514-s-and-preserves-both-drafts-chromium/restored-2-columns.png",
+          "sha256": "bfa8b128572a15c84e73c93df87dcd11599ca9f3c0fa1f0b485d4994084e1068"
+        },
+        {
+          "path": "shared-scroll-desktop-results/task-threads-composer-disc-bd1f0-h-hover-and-keyboard-reveal-chromium/grid-revealed-draft.png",
+          "sha256": "7b536d4418e98a66c231f4d25ea1ed93562dbee6ebb3badde1e0478f67e298b1"
+        },
+        {
+          "path": "shared-scroll-phone-results/task-mobile-threads-compos-3bf33-ough-single-chat-navigation-mobile-chrome/phone-visible-composer-short-height.png",
+          "sha256": "f243cb7a0b98b5fb9d188f1eb9ed3e7e3932b2f46511c7b2aacb28f0ef46ef93"
+        },
+        {
+          "path": "shared-scroll-phone-results/task-mobile-threads-compos-d64ef-stion-by-touch-short-phone--mobile-chrome/phone-long-question-submitted.png",
+          "sha256": "e6e1d64dd4c758f40684edf4c124605155abe308a1ab543fb52c0d247fd59c6c"
+        }
+      ],
+      "observations": [
+        "Desktop Dockview retains two columns, a readable transcript and the saved composer draft.",
+        "Threads Grid retains the revealed draft and separate conversation tiles.",
+        "The short-phone composer and its action controls remain visible. The long required question completes through touch input."
+      ],
+      "cssAudit": "shared-scroll-visual-asset-audit.json",
+      "limits": "Four scoped captures viewed. No new pixel-equivalence or animation-panel inspection is claimed; existing motion cases are included in the browser receipts."
+    }
+  },
+  "comparison": {
+    "audit": {
+      "recordedAt": "2026-10-27T15:03:45.239455+00:00",
+      "report": "matched-dense-1793112539458.json",
+      "reportSha256": "3aead10f5014577ecd4c345fc725995f75d5401d23eb6e803d2b20c708fa45c8",
+      "measurementKind": "reference-workload",
+      "sourceRevision": "00de21eb884e37869cca2d620aaa655a3c9c82eb",
+      "productionRevision": "00de21eb884e37869cca2d620aaa655a3c9c82eb",
+      "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+      "harnessSha256": "bb030173237f664ddda3686fd7306b01554f07920d4f3ebe51f4999679e1eaa8",
+      "harnessFilesVerified": 1956,
+      "testedSourceFilesVerified": 11,
+      "experimentalProductionFilesVerified": 0,
+      "untrackedFilesVerified": 0,
+      "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+      "playwrightAttachmentByteMatches": true,
+      "resultAndLogArchivesByteVerified": true,
+      "backendLogsVerified": 4,
+      "mainHandle": 32091,
+      "mainExitCode": 0,
+      "samplerHandle": 58376,
+      "samplerExitCode": 0,
+      "completeSamples": 4,
+      "verifiedOrderedUpdates": 7200,
+      "allAttemptsPassed": true,
+      "error": null,
+      "newWorkerRoots": ["/tmp/kandev-e2e-0-0yMHtw"],
+      "newWorkerRootsRemoved": true,
+      "savedFixtureRoot": "/tmp/kandev-e2e-0-nMsIqR",
+      "savedFixturePreserved": true,
+      "sourceReportAndSnapshotUnchanged": true,
+      "sampleNamespace": "replay-1793112539457-",
+      "remainingOwnedProcesses": [],
+      "initialLoadedHistory": [
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ]
+      ],
+      "finalLoadedHistory": [
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ]
+      ],
+      "artifacts": [
+        {
+          "path": "matched-dense-1793112539458.json",
+          "sha256": "3aead10f5014577ecd4c345fc725995f75d5401d23eb6e803d2b20c708fa45c8"
+        },
+        {
+          "path": "matched-dense-1793112539458.json.backend.log",
+          "sha256": "81901d112b1502ee7bd65fe7dfcad5f6e76a37c9550d4d7f1c9efdf7683d65d8"
+        },
+        {
+          "path": "matched-dense-1793112539458.json.baseline-1x-0.backend.log",
+          "sha256": "c8cf552bc879c18adb0457ac49355a69cd80ee71431b35698e727577ba2795a8"
+        },
+        {
+          "path": "matched-dense-1793112539458.json.baseline-1x-1.backend.log",
+          "sha256": "81901d112b1502ee7bd65fe7dfcad5f6e76a37c9550d4d7f1c9efdf7683d65d8"
+        },
+        {
+          "path": "matched-dense-1793112539458.json.candidate-1x-0.backend.log",
+          "sha256": "722e7fda25bb962d5566a37766f3f93cd1254fc5cc57781fcb386fb35323bfc0"
+        },
+        {
+          "path": "matched-dense-1793112539458.json.candidate-1x-1.backend.log",
+          "sha256": "d1daddd53b8e7cd3dfe8a7cd8cb36b95cbdfa70be3da6e9fee6c941110c46001"
+        }
+      ]
+    },
+    "auditHandle": 77962,
+    "auditExitCode": 0,
+    "summaryExitCode": 0,
+    "analysisExitCode": 0,
+    "allSummaryRows": [
+      {
+        "group": "1x/cold",
+        "metric": "readyMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 15055.587500500014,
+          "min": 14783.251854000031,
+          "max": 15327.923146999998,
+          "values": [15327.923146999998, 14783.251854000031]
+        },
+        "candidate": {
+          "median": 14543.949683000013,
+          "min": 14368.459959,
+          "max": 14719.439407000027,
+          "values": [14368.459959, 14719.439407000027]
+        },
+        "pairedAbsoluteReduction": [959.4631879999979, 63.812447000003885],
+        "pairedPercentReduction": [6.259577235600802, 0.4316536553000523],
+        "medianPairedPercentReduction": 3.345615445450427
+      },
+      {
+        "group": "1x/cold",
+        "metric": "documentMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 8434.272933500028,
+          "min": 8200.81309,
+          "max": 8667.732777000056,
+          "values": [8200.81309, 8667.732777000056]
+        },
+        "candidate": {
+          "median": 8559.682243500007,
+          "min": 8471.734062000003,
+          "max": 8647.63042500001,
+          "values": [8647.63042500001, 8471.734062000003]
+        },
+        "pairedAbsoluteReduction": [-446.81733500001064, 195.99871500005247],
+        "pairedPercentReduction": [-5.448451636397564, 2.261245472635447],
+        "medianPairedPercentReduction": -1.5936030818810587
+      },
+      {
+        "group": "1x/cold",
+        "metric": "assetEncodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 4165573,
+          "min": 4165573,
+          "max": 4165573,
+          "values": [4165573, 4165573]
+        },
+        "candidate": {
+          "median": 4165636,
+          "min": 4165636,
+          "max": 4165636,
+          "values": [4165636, 4165636]
+        },
+        "pairedAbsoluteReduction": [-63, -63],
+        "pairedPercentReduction": [
+          -0.0015123969739577244, -0.0015123969739577244
+        ],
+        "medianPairedPercentReduction": -0.0015123969739577244
+      },
+      {
+        "group": "1x/cold",
+        "metric": "assetDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 14688615,
+          "min": 14688615,
+          "max": 14688615,
+          "values": [14688615, 14688615]
+        },
+        "candidate": {
+          "median": 14688773,
+          "min": 14688773,
+          "max": 14688773,
+          "values": [14688773, 14688773]
+        },
+        "pairedAbsoluteReduction": [-158, -158],
+        "pairedPercentReduction": [
+          -0.0010756630220071803, -0.0010756630220071803
+        ],
+        "medianPairedPercentReduction": -0.0010756630220071803
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60038.092718500004,
+          "min": 60023.19910400001,
+          "max": 60052.98633300001,
+          "values": [60023.19910400001, 60052.98633300001]
+        },
+        "candidate": {
+          "median": 60033.273389499984,
+          "min": 60032.154494999966,
+          "max": 60034.392284,
+          "values": [60032.154494999966, 60034.392284]
+        },
+        "pairedAbsoluteReduction": [-8.95539099995949, 18.594049000006635],
+        "pairedPercentReduction": [-0.014919882868027097, 0.030962738300641227],
+        "medianPairedPercentReduction": 0.008021427716307065
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 25539.837,
+          "min": 24767.368,
+          "max": 26312.306,
+          "values": [24767.368, 26312.306]
+        },
+        "candidate": {
+          "median": 24113.038500000002,
+          "min": 23952.032000000003,
+          "max": 24274.045000000002,
+          "values": [23952.032000000003, 24274.045000000002]
+        },
+        "pairedAbsoluteReduction": [815.3359999999957, 2038.2609999999986],
+        "pairedPercentReduction": [3.291976765556985, 7.74641720873875],
+        "medianPairedPercentReduction": 5.519196987147867
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 425.3907109522104,
+          "min": 412.6299225918712,
+          "max": 438.15149931254956,
+          "values": [412.6299225918712, 438.15149931254956]
+        },
+        "candidate": {
+          "median": 401.66118131032374,
+          "min": 398.98671306216323,
+          "max": 404.3356495584843,
+          "values": [398.98671306216323, 404.3356495584843]
+        },
+        "pairedAbsoluteReduction": [13.643209529707974, 33.815849754065255],
+        "pairedPercentReduction": [3.3064033369199834, 7.717844126317407],
+        "medianPairedPercentReduction": 5.512123731618695
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 25626.250499999995,
+          "min": 24919.930999999997,
+          "max": 26332.569999999996,
+          "values": [24919.930999999997, 26332.569999999996]
+        },
+        "candidate": {
+          "median": 24302.195,
+          "min": 24128.565000000002,
+          "max": 24475.825,
+          "values": [24128.565000000002, 24475.825]
+        },
+        "pairedAbsoluteReduction": [791.3659999999945, 1856.7449999999953],
+        "pairedPercentReduction": [3.1756347960995344, 7.051134773400377],
+        "medianPairedPercentReduction": 5.113384784749956
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 37135,
+          "min": 35830,
+          "max": 38440,
+          "values": [35830, 38440]
+        },
+        "candidate": {
+          "median": 34650,
+          "min": 34629.99999999999,
+          "max": 34670,
+          "values": [34629.99999999999, 34670]
+        },
+        "pairedAbsoluteReduction": [1200.0000000000073, 3770],
+        "pairedPercentReduction": [3.3491487580240227, 9.807492195629553],
+        "medianPairedPercentReduction": 6.5783204768267876
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 13838.6035,
+          "min": 12789.432999999999,
+          "max": 14887.774,
+          "values": [12789.432999999999, 14887.774]
+        },
+        "candidate": {
+          "median": 11921.835500000001,
+          "min": 11907.720000000001,
+          "max": 11935.951,
+          "values": [11935.951, 11907.720000000001]
+        },
+        "pairedAbsoluteReduction": [853.482, 2980.0539999999983],
+        "pairedPercentReduction": [6.673337277735456, 20.016786928657023],
+        "medianPairedPercentReduction": 13.34506210319624
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 2720.7554999999998,
+          "min": 2713.4429999999998,
+          "max": 2728.0679999999998,
+          "values": [2713.4429999999998, 2728.0679999999998]
+        },
+        "candidate": {
+          "median": 2710.2455,
+          "min": 2670.7960000000003,
+          "max": 2749.695,
+          "values": [2670.7960000000003, 2749.695]
+        },
+        "pairedAbsoluteReduction": [42.64699999999948, -21.627000000000407],
+        "pairedPercentReduction": [1.5716932325462332, -0.7927588315247424],
+        "medianPairedPercentReduction": 0.3894672005107454
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 128.42149999999998,
+          "min": 125.76499999999999,
+          "max": 131.078,
+          "values": [131.078, 125.76499999999999]
+        },
+        "candidate": {
+          "median": 133.43,
+          "min": 131.21300000000002,
+          "max": 135.64700000000002,
+          "values": [131.21300000000002, 135.64700000000002]
+        },
+        "pairedAbsoluteReduction": [-0.13500000000001933, -9.882000000000033],
+        "pairedPercentReduction": [-0.10299211156717322, -7.857512026398469],
+        "medianPairedPercentReduction": -3.980252068982821
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 2939.5,
+          "min": 2861,
+          "max": 3018,
+          "values": [3018, 2861]
+        },
+        "candidate": {
+          "median": 3082,
+          "min": 3081,
+          "max": 3083,
+          "values": [3081, 3083]
+        },
+        "pairedAbsoluteReduction": [-63, -222],
+        "pairedPercentReduction": [-2.0874751491053676, -7.75952464173366],
+        "medianPairedPercentReduction": -4.923499895419514
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 299,
+          "min": 296,
+          "max": 302,
+          "values": [302, 296]
+        },
+        "candidate": {
+          "median": 311,
+          "min": 310,
+          "max": 312,
+          "values": [310, 312]
+        },
+        "pairedAbsoluteReduction": [-8, -16],
+        "pairedPercentReduction": [-2.6490066225165565, -5.405405405405405],
+        "medianPairedPercentReduction": -4.027206013960981
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 16.80000000000291,
+          "min": 16.80000000000291,
+          "max": 16.80000000000291,
+          "values": [16.80000000000291, 16.80000000000291]
+        },
+        "candidate": {
+          "median": 16.80000000000291,
+          "min": 16.80000000000291,
+          "max": 16.80000000000291,
+          "values": [16.80000000000291, 16.80000000000291]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 225,
+          "min": 200,
+          "max": 250,
+          "values": [200, 250]
+        },
+        "candidate": {
+          "median": 183.34999999999854,
+          "min": 183.3000000000029,
+          "max": 183.39999999999418,
+          "values": [183.3000000000029, 183.39999999999418]
+        },
+        "pairedAbsoluteReduction": [16.69999999999709, 66.60000000000582],
+        "pairedPercentReduction": [8.349999999998545, 26.640000000002328],
+        "medianPairedPercentReduction": 17.495000000000438
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 96,
+          "min": 96,
+          "max": 96,
+          "values": [96, 96]
+        },
+        "candidate": {
+          "median": 96,
+          "min": 96,
+          "max": 96,
+          "values": [96, 96]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 10465,
+          "min": 9563,
+          "max": 11367,
+          "values": [9563, 11367]
+        },
+        "candidate": {
+          "median": 8801,
+          "min": 8790,
+          "max": 8812,
+          "values": [8812, 8790]
+        },
+        "pairedAbsoluteReduction": [751, 2577],
+        "pairedPercentReduction": [7.853184147234131, 22.670889416732646],
+        "medianPairedPercentReduction": 15.262036781983388
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 24542,
+          "min": 24542,
+          "max": 24542,
+          "values": [24542, 24542]
+        },
+        "candidate": {
+          "median": 24542,
+          "min": 24542,
+          "max": 24542,
+          "values": [24542, 24542]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 60,
+          "min": 60,
+          "max": 60,
+          "values": [60, 60]
+        },
+        "candidate": {
+          "median": 60,
+          "min": 60,
+          "max": 60,
+          "values": [60, 60]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 64,
+          "min": 63,
+          "max": 65,
+          "values": [65, 63]
+        },
+        "candidate": {
+          "median": 68,
+          "min": 67,
+          "max": 69,
+          "values": [69, 67]
+        },
+        "pairedAbsoluteReduction": [-4, -4],
+        "pairedPercentReduction": [-6.153846153846154, -6.349206349206349],
+        "medianPairedPercentReduction": -6.2515262515262515
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 11628993.5,
+          "min": 11358708,
+          "max": 11899279,
+          "values": [11899279, 11358708]
+        },
+        "candidate": {
+          "median": 12349759,
+          "min": 12079421,
+          "max": 12620097,
+          "values": [12620097, 12079421]
+        },
+        "pairedAbsoluteReduction": [-720818, -720713],
+        "pairedPercentReduction": [-6.05766114064558, -6.345026212488252],
+        "medianPairedPercentReduction": -6.201343676566916
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 11979968.5,
+          "min": 11710536,
+          "max": 12249401,
+          "values": [12249401, 11710536]
+        },
+        "candidate": {
+          "median": 12702431,
+          "min": 12430406,
+          "max": 12974456,
+          "values": [12974456, 12430406]
+        },
+        "pairedAbsoluteReduction": [-725055, -719870],
+        "pairedPercentReduction": [-5.919105758722406, -6.147199410855318],
+        "medianPairedPercentReduction": -6.033152584788862
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [72, 72]
+        },
+        "candidate": {
+          "median": 75,
+          "min": 72,
+          "max": 78,
+          "values": [78, 72]
+        },
+        "pairedAbsoluteReduction": [-6, 0],
+        "pairedPercentReduction": [-8.333333333333334, 0],
+        "medianPairedPercentReduction": -4.166666666666667
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 61930.022896500006,
+          "min": 60931.74906900001,
+          "max": 62928.296724,
+          "values": [62928.296724, 60931.74906900001]
+        },
+        "candidate": {
+          "median": 60886.69112949999,
+          "min": 60865.166535999975,
+          "max": 60908.215723,
+          "values": [60865.166535999975, 60908.215723]
+        },
+        "pairedAbsoluteReduction": [2063.1301880000246, 23.53334600001108],
+        "pairedPercentReduction": [3.2785412849306863, 0.03862246917179674],
+        "medianPairedPercentReduction": 1.6585818770512415
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60683.3065,
+          "min": 59911.121999999996,
+          "max": 61455.491,
+          "values": [61455.491, 59911.121999999996]
+        },
+        "candidate": {
+          "median": 59971.377,
+          "min": 59946.780000000006,
+          "max": 59995.973999999995,
+          "values": [59946.780000000006, 59995.973999999995]
+        },
+        "pairedAbsoluteReduction": [1508.7109999999957, -84.85199999999895],
+        "pairedPercentReduction": [2.454965334179814, -0.1416297962171347],
+        "medianPairedPercentReduction": 1.1566677689813396
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 979.9225804445437,
+          "min": 976.5954935907507,
+          "max": 983.2496672983367,
+          "values": [976.5954935907507, 983.2496672983367]
+        },
+        "candidate": {
+          "median": 984.9669063457743,
+          "min": 984.9111308114672,
+          "max": 985.0226818800813,
+          "values": [984.9111308114672, 985.0226818800813]
+        },
+        "pairedAbsoluteReduction": [-8.31563722071644, -1.7730145817446328],
+        "pairedPercentReduction": [-0.8514924833557717, -0.18032191016309454],
+        "medianPairedPercentReduction": -0.5159071967594331
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60775.439999999995,
+          "min": 59926.13,
+          "max": 61624.74999999999,
+          "values": [61624.74999999999, 59926.13]
+        },
+        "candidate": {
+          "median": 60130.3315,
+          "min": 60099.808999999994,
+          "max": 60160.85400000001,
+          "values": [60099.808999999994, 60160.85400000001]
+        },
+        "pairedAbsoluteReduction": [1524.940999999999, -234.72400000000926],
+        "pairedPercentReduction": [2.474559328841089, -0.3916889009852785],
+        "medianPairedPercentReduction": 1.0414352139279053
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 76110,
+          "min": 75230,
+          "max": 76990,
+          "values": [76990, 75230]
+        },
+        "candidate": {
+          "median": 74530,
+          "min": 74490.00000000001,
+          "max": 74570,
+          "values": [74490.00000000001, 74570]
+        },
+        "pairedAbsoluteReduction": [2499.9999999999854, 660],
+        "pairedPercentReduction": [3.2471749577867066, 0.8773095839425761],
+        "medianPairedPercentReduction": 2.0622422708646413
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 42802.061,
+          "min": 41744.011,
+          "max": 43860.111000000004,
+          "values": [43860.111000000004, 41744.011]
+        },
+        "candidate": {
+          "median": 41655.8845,
+          "min": 41475.278000000006,
+          "max": 41836.490999999995,
+          "values": [41475.278000000006, 41836.490999999995]
+        },
+        "pairedAbsoluteReduction": [2384.8329999999987, -92.47999999999593],
+        "pairedPercentReduction": [5.437361980228455, -0.2215407618592184],
+        "medianPairedPercentReduction": 2.6079106091846183
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 5121.0055,
+          "min": 5071.828,
+          "max": 5170.183,
+          "values": [5170.183, 5071.828]
+        },
+        "candidate": {
+          "median": 5279.7029999999995,
+          "min": 5224.869,
+          "max": 5334.537,
+          "values": [5334.537, 5224.869]
+        },
+        "pairedAbsoluteReduction": [-164.35400000000027, -153.04099999999926],
+        "pairedPercentReduction": [-3.1788816759484195, -3.0174722013443525],
+        "medianPairedPercentReduction": -3.098176938646386
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 1090.107,
+          "min": 1059.088,
+          "max": 1121.1259999999997,
+          "values": [1121.1259999999997, 1059.088]
+        },
+        "candidate": {
+          "median": 1082.0275000000001,
+          "min": 1076.33,
+          "max": 1087.7250000000001,
+          "values": [1076.33, 1087.7250000000001]
+        },
+        "pairedAbsoluteReduction": [44.79599999999982, -28.63700000000017],
+        "pairedPercentReduction": [3.9956258261783093, -2.7039301738854724],
+        "medianPairedPercentReduction": 0.6458478261464184
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 2644,
+          "min": 2612,
+          "max": 2676,
+          "values": [2612, 2676]
+        },
+        "candidate": {
+          "median": 2872,
+          "min": 2846,
+          "max": 2898,
+          "values": [2898, 2846]
+        },
+        "pairedAbsoluteReduction": [-286, -170],
+        "pairedPercentReduction": [-10.949464012251148, -6.352765321375187],
+        "medianPairedPercentReduction": -8.651114666813168
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 2123,
+          "min": 2123,
+          "max": 2123,
+          "values": [2123, 2123]
+        },
+        "candidate": {
+          "median": 2288.5,
+          "min": 2274,
+          "max": 2303,
+          "values": [2303, 2274]
+        },
+        "pairedAbsoluteReduction": [-180, -151],
+        "pairedPercentReduction": [-8.478568064060292, -7.112576542628356],
+        "medianPairedPercentReduction": -7.795572303344324
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 150,
+          "min": 150,
+          "max": 150,
+          "values": [150, 150]
+        },
+        "candidate": {
+          "median": 133.40000000000873,
+          "min": 133.40000000000873,
+          "max": 133.40000000000873,
+          "values": [133.40000000000873, 133.40000000000873]
+        },
+        "pairedAbsoluteReduction": [16.59999999999127, 16.59999999999127],
+        "pairedPercentReduction": [11.066666666660845, 11.066666666660845],
+        "medianPairedPercentReduction": 11.066666666660845
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 175.00000000001455,
+          "min": 166.70000000001164,
+          "max": 183.30000000001746,
+          "values": [183.30000000001746, 166.70000000001164]
+        },
+        "candidate": {
+          "median": 175.00000000000728,
+          "min": 166.60000000000582,
+          "max": 183.40000000000873,
+          "values": [183.40000000000873, 166.60000000000582]
+        },
+        "pairedAbsoluteReduction": [-0.09999999999126885, 0.10000000000582077],
+        "pairedPercentReduction": [-0.05455537369954137, 0.05998800240300767],
+        "medianPairedPercentReduction": 0.0027163143517331505
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 5.5,
+          "min": 5,
+          "max": 6,
+          "values": [6, 5]
+        },
+        "candidate": {
+          "median": 3,
+          "min": 3,
+          "max": 3,
+          "values": [3, 3]
+        },
+        "pairedAbsoluteReduction": [3, 2],
+        "pairedPercentReduction": [50, 40],
+        "medianPairedPercentReduction": 45
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 303.5,
+          "min": 289,
+          "max": 318,
+          "values": [318, 289]
+        },
+        "candidate": {
+          "median": 172,
+          "min": 165,
+          "max": 179,
+          "values": [179, 165]
+        },
+        "pairedAbsoluteReduction": [139, 124],
+        "pairedPercentReduction": [43.710691823899374, 42.90657439446367],
+        "medianPairedPercentReduction": 43.30863310918152
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [26378, 26378]
+        },
+        "candidate": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [26378, 26378]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 61,
+          "min": 61,
+          "max": 61,
+          "values": [61, 61]
+        },
+        "candidate": {
+          "median": 61,
+          "min": 61,
+          "max": 61,
+          "values": [61, 61]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 73,
+          "min": 72,
+          "max": 74,
+          "values": [74, 72]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [72, 72]
+        },
+        "pairedAbsoluteReduction": [2, 0],
+        "pairedPercentReduction": [2.7027027027027026, 0],
+        "medianPairedPercentReduction": 1.3513513513513513
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13451632,
+          "min": 13263448,
+          "max": 13639816,
+          "values": [13639816, 13263448]
+        },
+        "candidate": {
+          "median": 13264952,
+          "min": 13263258,
+          "max": 13266646,
+          "values": [13266646, 13263258]
+        },
+        "pairedAbsoluteReduction": [373170, 190],
+        "pairedPercentReduction": [2.7358873462809177, 0.001432508349261821],
+        "medianPairedPercentReduction": 1.3686599273150897
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 38193946,
+          "min": 37283258,
+          "max": 39104634,
+          "values": [39104634, 37283258]
+        },
+        "candidate": {
+          "median": 38531495,
+          "min": 38287351,
+          "max": 38775639,
+          "values": [38287351, 38775639]
+        },
+        "pairedAbsoluteReduction": [817283, -1492381],
+        "pairedPercentReduction": [2.0899901530851817, -4.002818101357987],
+        "medianPairedPercentReduction": -0.9564139741364028
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 1798.5,
+          "min": 1739,
+          "max": 1858,
+          "values": [1858, 1739]
+        },
+        "candidate": {
+          "median": 1844.5,
+          "min": 1833,
+          "max": 1856,
+          "values": [1833, 1856]
+        },
+        "pairedAbsoluteReduction": [25, -117],
+        "pairedPercentReduction": [1.3455328310010763, -6.728004600345026],
+        "medianPairedPercentReduction": -2.6912358846719746
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60039.88600900002,
+          "min": 60024.20424100003,
+          "max": 60055.56777700002,
+          "values": [60024.20424100003, 60055.56777700002]
+        },
+        "candidate": {
+          "median": 60049.489617000014,
+          "min": 60037.15801800002,
+          "max": 60061.82121600001,
+          "values": [60037.15801800002, 60061.82121600001]
+        },
+        "pairedAbsoluteReduction": [-12.953776999987895, -6.253438999992795],
+        "pairedPercentReduction": [-0.02158092250249227, -0.010412754772735205],
+        "medianPairedPercentReduction": -0.01599683863761374
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 6919.887000000002,
+          "min": 6705.764000000002,
+          "max": 7134.010000000004,
+          "values": [6705.764000000002, 7134.010000000004]
+        },
+        "candidate": {
+          "median": 7090.3849999999975,
+          "min": 7076.894999999993,
+          "max": 7103.875000000002,
+          "values": [7076.894999999993, 7103.875000000002]
+        },
+        "pairedAbsoluteReduction": [-371.1309999999912, 30.135000000002037],
+        "pairedPercentReduction": [-5.534507328322188, 0.42241320099077545],
+        "medianPairedPercentReduction": -2.556047063665706
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 115.25390878362839,
+          "min": 111.7176659781451,
+          "max": 118.79015158911169,
+          "values": [111.7176659781451, 118.79015158911169]
+        },
+        "candidate": {
+          "median": 118.07565016732494,
+          "min": 117.87524982242226,
+          "max": 118.27605051222763,
+          "values": [117.87524982242226, 118.27605051222763]
+        },
+        "pairedAbsoluteReduction": [-6.1575838442771555, 0.5141010768840601],
+        "pairedPercentReduction": [-5.511736922145992, 0.43278089135057785],
+        "medianPairedPercentReduction": -2.5394780153977075
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 7271.551499999994,
+          "min": 7064.8709999999965,
+          "max": 7478.231999999991,
+          "values": [7064.8709999999965, 7478.231999999991]
+        },
+        "candidate": {
+          "median": 7439.7139999999945,
+          "min": 7428.269999999998,
+          "max": 7451.157999999992,
+          "values": [7428.269999999998, 7451.157999999992]
+        },
+        "pairedAbsoluteReduction": [-363.39900000000125, 27.073999999998705],
+        "pairedPercentReduction": [-5.143745724444246, 0.3620374441445349],
+        "medianPairedPercentReduction": -2.3908541401498553
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 11884.99999999999,
+          "min": 11399.99999999999,
+          "max": 12369.99999999999,
+          "values": [11399.99999999999, 12369.99999999999]
+        },
+        "candidate": {
+          "median": 12384.99999999999,
+          "min": 11849.999999999995,
+          "max": 12919.999999999987,
+          "values": [11849.999999999995, 12919.999999999987]
+        },
+        "pairedAbsoluteReduction": [-450.00000000000364, -549.9999999999964],
+        "pairedPercentReduction": [-3.9473684210526665, -4.446240905416304],
+        "medianPairedPercentReduction": -4.196804663234485
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 1841.645500000002,
+          "min": 1758.2540000000008,
+          "max": 1925.0370000000032,
+          "values": [1758.2540000000008, 1925.0370000000032]
+        },
+        "candidate": {
+          "median": 1840.1115000000025,
+          "min": 1775.432000000002,
+          "max": 1904.791000000003,
+          "values": [1904.791000000003, 1775.432000000002]
+        },
+        "pairedAbsoluteReduction": [-146.53700000000208, 149.60500000000116],
+        "pairedPercentReduction": [-8.334233847896948, 7.771538936654252],
+        "medianPairedPercentReduction": -0.281347455621348
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 19.72350000000045,
+          "min": 18.870000000001497,
+          "max": 20.5769999999994,
+          "values": [18.870000000001497, 20.5769999999994]
+        },
+        "candidate": {
+          "median": 14.04399999999928,
+          "min": 13.245999999998759,
+          "max": 14.8419999999998,
+          "values": [14.8419999999998, 13.245999999998759]
+        },
+        "pairedAbsoluteReduction": [4.028000000001697, 7.331000000000643],
+        "pairedPercentReduction": [21.34605193429453, 35.62715653399842],
+        "medianPairedPercentReduction": 28.486604234146476
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 156.76349999999994,
+          "min": 151.66299999999987,
+          "max": 161.864,
+          "values": [151.66299999999987, 161.864]
+        },
+        "candidate": {
+          "median": 154.30949999999999,
+          "min": 152.80099999999996,
+          "max": 155.818,
+          "values": [155.818, 152.80099999999996]
+        },
+        "pairedAbsoluteReduction": [-4.155000000000143, 9.063000000000045],
+        "pairedPercentReduction": [-2.739626672293273, 5.5991449612020245],
+        "medianPairedPercentReduction": 1.4297591444543758
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 3,
+          "min": 3,
+          "max": 3,
+          "values": [3, 3]
+        },
+        "candidate": {
+          "median": 2.5,
+          "min": 2,
+          "max": 3,
+          "values": [3, 2]
+        },
+        "pairedAbsoluteReduction": [0, 1],
+        "pairedPercentReduction": [0, 33.333333333333336],
+        "medianPairedPercentReduction": 16.666666666666668
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 359,
+          "min": 358,
+          "max": 360,
+          "values": [360, 358]
+        },
+        "candidate": {
+          "median": 359.5,
+          "min": 359,
+          "max": 360,
+          "values": [360, 359]
+        },
+        "pairedAbsoluteReduction": [0, -1],
+        "pairedPercentReduction": [0, -0.27932960893854747],
+        "medianPairedPercentReduction": -0.13966480446927373
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 16.75,
+          "min": 16.70000000001164,
+          "max": 16.79999999998836,
+          "values": [16.79999999998836, 16.70000000001164]
+        },
+        "candidate": {
+          "median": 16.75,
+          "min": 16.70000000001164,
+          "max": 16.79999999998836,
+          "values": [16.70000000001164, 16.79999999998836]
+        },
+        "pairedAbsoluteReduction": [0.09999999997671694, -0.09999999997671694],
+        "pairedPercentReduction": [0.595238095099918, -0.5988023950697439],
+        "medianPairedPercentReduction": -0.0017821499849129396
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 58.30000000000291,
+          "min": 50,
+          "max": 66.60000000000582,
+          "values": [50, 66.60000000000582]
+        },
+        "candidate": {
+          "median": 75,
+          "min": 66.69999999998254,
+          "max": 83.30000000001746,
+          "values": [83.30000000001746, 66.69999999998254]
+        },
+        "pairedAbsoluteReduction": [-33.30000000001746, -0.09999999997671694],
+        "pairedPercentReduction": [-66.60000000003492, -0.15015015011517746],
+        "medianPairedPercentReduction": -33.37507507507505
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [26378, 26378]
+        },
+        "candidate": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [26378, 26378]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 73,
+          "min": 72,
+          "max": 74,
+          "values": [74, 72]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [72, 72]
+        },
+        "pairedAbsoluteReduction": [2, 0],
+        "pairedPercentReduction": [2.7027027027027026, 0],
+        "medianPairedPercentReduction": 1.3513513513513513
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13722984.5,
+          "min": 13535034,
+          "max": 13910935,
+          "values": [13910935, 13535034]
+        },
+        "candidate": {
+          "median": 13534556.5,
+          "min": 13534553,
+          "max": 13534560,
+          "values": [13534560, 13534553]
+        },
+        "pairedAbsoluteReduction": [376375, 481],
+        "pairedPercentReduction": [2.705605338534038, 0.0035537406112167874],
+        "medianPairedPercentReduction": 1.3545795395726274
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13751375,
+          "min": 13563422,
+          "max": 13939328,
+          "values": [13939328, 13563422]
+        },
+        "candidate": {
+          "median": 13562945,
+          "min": 13562940,
+          "max": 13562950,
+          "values": [13562950, 13562940]
+        },
+        "pairedAbsoluteReduction": [376378, 482],
+        "pairedPercentReduction": [2.700115816200035, 0.003553675466265077],
+        "medianPairedPercentReduction": 1.35183474583315
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [72, 72]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [72, 72]
+        },
+        "pairedAbsoluteReduction": [0, 0],
+        "pairedPercentReduction": [0, 0],
+        "medianPairedPercentReduction": 0
+      }
+    ],
+    "normalizedWindows": [
+      {
+        "pair": 0,
+        "scenario": "idle",
+        "elapsedMs": {
+          "baseline": 60023.19910400001,
+          "candidate": 60032.154494999966
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 412.6299225918712,
+            "candidate": 398.98671306216323,
+            "reductionPercent": 3.3064033369199834
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 213.074830913964,
+            "candidate": 198.825964192142,
+            "reductionPercent": 6.687259429329523
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 415.1716564927195,
+            "candidate": 401.92735381519,
+            "reductionPercent": 3.190078722958719
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 596.9358603815613,
+            "candidate": 576.8575239605019,
+            "reductionPercent": 3.3635668006651995
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 45.206570801041714,
+            "candidate": 44.489424417083825,
+            "reductionPercent": 1.5863764299090866
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.1837889675437983,
+            "candidate": 2.1857119922445674,
+            "reductionPercent": -0.08805909038600986
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.031387938465852,
+            "candidate": 5.163899290434756,
+            "reductionPercent": -2.633693795619119
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 50.28055893473491,
+            "candidate": 51.322495851062854,
+            "reductionPercent": -2.072246089548039
+          }
+        }
+      },
+      {
+        "pair": 0,
+        "scenario": "streaming",
+        "elapsedMs": {
+          "baseline": 62928.296724,
+          "candidate": 60865.166535999975
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 976.5954935907507,
+            "candidate": 984.9111308114672,
+            "reductionPercent": -0.8514924833557717
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 696.9855102286973,
+            "candidate": 681.4288099494245,
+            "reductionPercent": 2.231997660061586
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 979.2852056727788,
+            "candidate": 987.425360357023,
+            "reductionPercent": -0.8312343163248149
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 1223.4559650910917,
+            "candidate": 1223.8527262706386,
+            "reductionPercent": -0.03242954310312394
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 82.15990689651325,
+            "candidate": 87.64515573689881,
+            "reductionPercent": -6.676308491068108
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 17.815927942833028,
+            "candidate": 17.683842191795897,
+            "reductionPercent": 0.741391363172113
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 33.73681015571357,
+            "candidate": 37.83773430797799,
+            "reductionPercent": -12.155636923990272
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 41.507559174151595,
+            "candidate": 47.61344074013036,
+            "reductionPercent": -14.710288167898675
+          }
+        }
+      },
+      {
+        "pair": 0,
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": {
+          "baseline": 60024.20424100003,
+          "candidate": 60037.15801800002
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 111.7176659781451,
+            "candidate": 117.87524982242226,
+            "reductionPercent": -5.511736922145992
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 29.292416654796916,
+            "candidate": 31.72686820766764,
+            "reductionPercent": -8.310859365275544
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 117.70036919830214,
+            "candidate": 123.72787528971465,
+            "reductionPercent": -5.12105963003169
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 189.92338414397716,
+            "candidate": 197.37776389160845,
+            "reductionPercent": -3.9249404601911873
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 0.31437318059624,
+            "candidate": 0.24721356723031346,
+            "reductionPercent": 21.3630225194629
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.5266973867919305,
+            "candidate": 2.5953593598365114,
+            "reductionPercent": -2.717459297005843
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.997580551915073,
+            "candidate": 5.996286497972918,
+            "reductionPercent": 0.021576266145222747
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 0.04997983793262561,
+            "candidate": 0.04996905414977432,
+            "reductionPercent": 0.021576266145216266
+          }
+        }
+      },
+      {
+        "pair": 1,
+        "scenario": "idle",
+        "elapsedMs": {
+          "candidate": 60034.392284,
+          "baseline": 60052.98633300001
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 438.15149931254956,
+            "candidate": 404.3356495584843,
+            "reductionPercent": 7.717844126317407
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 247.91063540863325,
+            "candidate": 198.34830581225978,
+            "reductionPercent": 19.99201426541441
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 438.48893465485924,
+            "candidate": 407.69672297529274,
+            "reductionPercent": 7.0223463458213535
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 640.1013895769685,
+            "candidate": 577.5023062778639,
+            "reductionPercent": 9.77955747611721
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 45.42768256140638,
+            "candidate": 45.80199607905137,
+            "reductionPercent": -0.8239766955732736
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.094233903749933,
+            "candidate": 2.2594881840113477,
+            "reductionPercent": -7.890918008991756
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 4.928980523277384,
+            "candidate": 5.197021042938954,
+            "reductionPercent": -5.438051913488674
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 47.64126107127229,
+            "candidate": 51.35389703647691,
+            "reductionPercent": -7.792900275352578
+          }
+        }
+      },
+      {
+        "pair": 1,
+        "scenario": "streaming",
+        "elapsedMs": {
+          "candidate": 60908.215723,
+          "baseline": 60931.74906900001
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 983.2496672983367,
+            "candidate": 985.0226818800813,
+            "reductionPercent": -0.18032191016309454
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 685.0945793912541,
+            "candidate": 686.8776322436548,
+            "reductionPercent": -0.2602637513181114
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 983.4959756717104,
+            "candidate": 987.7297058511964,
+            "reductionPercent": -0.43047763124749044
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 1234.6601098683125,
+            "candidate": 1224.301173738719,
+            "reductionPercent": 0.839011161598021
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 83.23785345890181,
+            "candidate": 85.78266393095141,
+            "reductionPercent": -3.0572754657904406
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 17.38154601143442,
+            "candidate": 17.858428244668744,
+            "reductionPercent": -2.7436122938696474
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 34.84226257145324,
+            "candidate": 37.33486481268402,
+            "reductionPercent": -7.1539620485869415
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 43.91799088139843,
+            "candidate": 46.72604452809969,
+            "reductionPercent": -6.393857256094606
+          }
+        }
+      },
+      {
+        "pair": 1,
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": {
+          "candidate": 60061.82121600001,
+          "baseline": 60055.56777700002
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 118.79015158911169,
+            "candidate": 118.27605051222763,
+            "reductionPercent": 0.43278089135057785
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 32.05426359714229,
+            "candidate": 29.5600760026078,
+            "reductionPercent": 7.781141460248209
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 124.52187660215566,
+            "candidate": 124.05814291250731,
+            "reductionPercent": 0.37241142062929883
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 205.97590627954122,
+            "candidate": 215.11169222684507,
+            "reductionPercent": -4.435366306826764
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 0.3426326777295068,
+            "candidate": 0.22053943306784254,
+            "reductionPercent": 35.633858822435904
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.6952371943437092,
+            "candidate": 2.5440620498416546,
+            "reductionPercent": 5.608973667301507
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.9611458729244795,
+            "candidate": 5.97717472983262,
+            "reductionPercent": -0.2688888554286758
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 0.04995373636528893,
+            "candidate": 0.03329902356452713,
+            "reductionPercent": 33.34027444708734
+          }
+        }
+      }
+    ],
+    "summarySha256": "e0b358a3af83da8e9b09ab4b6cac5627c9b91278106c73b7b630dd7fde4a5ced",
+    "analysisSha256": "e41d7cb53fc6e55dcf3ffb4a31223d9b7491df01d2938dc024cb8eb2ca24495f",
+    "samplerActualExitConfirmedBeforeAudit": true,
+    "host": {
+      "path": "shared-scroll-two-pair-host-load.jsonl",
+      "sha256": "46e1f628baecf522b5bb2f79528d59fb5da5026b990b04d0d6e6aa51f5505bce",
+      "samples": 30,
+      "startOffsetSeconds": -6.078915357589722,
+      "durationSeconds": 870.0143194198608,
+      "oneMinuteLoadMin": 1.6982421875,
+      "oneMinuteLoadMax": 4.474609375,
+      "availableMemoryKiBMin": 23719460
+    }
+  },
+  "decision": {
+    "accepted": false,
+    "confirmationPending": true,
+    "reason": "Streaming p95 falls from 150 to 133.4 ms in both pairs. Normal idle task rate falls 3.31% and 7.72%. These full-view signals justify confirmation. Streaming task rate is 0.85% and 0.18% worse; streaming script rate is mixed, style rate is 6.68% and 3.06% worse, and reduced-motion idle renderer CPU rate is worse in both pairs. These regressions prevent acceptance from the preliminary screen.",
+    "regressionCause": "unconfirmed",
+    "twentyPercentStreamingTaskTimeTargetMet": false,
+    "pendingPreservation": {
+      "recordedAt": "2026-10-27T15:07:31.330306+00:00",
+      "status": "Candidate preserved for six-pair confirmation. No performance acceptance.",
+      "head": "00de21eb884e37869cca2d620aaa655a3c9c82eb",
+      "root": "/tmp/kandev-pending-shared-scroll-5936a872",
+      "sourceFiles": [
+        {
+          "path": "apps/packages/ui/src/pannel-session.tsx",
+          "sha256": "0fe87e9058b4aa000e7ca6e52c37f4f5a20a51a1b631e15f790805d788f3dbbb"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+          "sha256": "4cccbcc78213c25a440188ae9afe0332f0c66c451b61fcdcab7af657ca27338a"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+          "sha256": "40426afe1a5c3ce41a82038fd41bc3e4e62dab8c9a39b51aad3a831ecd5d8066"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.tsx",
+          "sha256": "679ddcf1a13f810f8fdd9a42bd191ae9360e513111913c0d9d97b4e27e0ac33d"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+          "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+          "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+        },
+        {
+          "path": "apps/web/components/task/session-panel-content.test.tsx",
+          "sha256": "c660b441d333b9e868c1eb8e9ecdf5bd2a81fe041a1cfc7f34bb01fe40d5d958"
+        },
+        {
+          "path": "apps/web/lib/state/app-state-types.ts",
+          "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+          "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/types.ts",
+          "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+          "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+        }
+      ],
+      "changedFiles": [
+        "apps/packages/ui/src/pannel-session.tsx",
+        "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "apps/web/components/task/chat/message-list-native.test.tsx",
+        "apps/web/components/task/chat/message-list-native.tsx",
+        "apps/web/components/task/session-panel-content.test.tsx"
+      ],
+      "sourcePatch": "shared-scroll-prototype-tracked.patch",
+      "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+      "candidateAssetsSha256": "59e1ee10fcc09ef36211b49a69fa1fd632e822b8a8d4d338d93a7ba30aac5484",
+      "checkpointAssetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+      "helpers": {
+        "kandev": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+        "agentctl": "6e768aef1a1692630fe109c25e23ac31ab461b691800c2059e6dfdd5cf0b4d0a",
+        "mock-agent": "c69f05ee9f5622cc5bce83405c2e9240b537f3e79a21da65765d9867592288c1",
+        "e2e-delivery-fixture": "5ce9ae7496ad43db160092fb999d2a19573663ec5a5520cae27a26bbd2d7ed88"
+      },
+      "lockfileSha256": "9d5a03a9086f28c93752fce491f896047fbcdbc64abfafe3b3aa53261199c554",
+      "sourceAndAssetsPreserved": true,
+      "checkpointSourceAndAssetsRestored": true,
+      "nextAction": "Commit and push cost attribution and complete preliminary evidence. Then restore the byte-identical candidate and run six unchanged native-v2 pairs."
+    },
+    "nextAction": "Restore the identical candidate after this documentation checkpoint. Run six separate alternating native-v2 pairs with the same frozen fixture, own runtime helpers, all inputs and deadlines. Preserve every attempt and all seventy metrics. Reject if the full-view signal does not justify retention."
+  },
+  "limits": [
+    "Linux Chromium reference workload only. No M2 Air, field INP, battery or heap-leak claim.",
+    "Rate normalization uses each recorded window duration. Overlapping CDP metrics are separate measures and must not be added.",
+    "No results are pooled with intrusive render-count probes or other experiments.",
+    "Every attempt must pass before this comparison can support acceptance."
+  ]
+}
