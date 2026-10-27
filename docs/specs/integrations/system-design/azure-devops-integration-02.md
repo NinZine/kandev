@@ -101,6 +101,8 @@ team or board context. Detail opened from a board may additionally show the
 board column/split controls. Detail opened from search does not guess a board
 and therefore exposes assignment only.
 
+Mutation completion follows the opening/scope ownership rules below.
+
 Work-item detail exposes sanitized description plus normalized planning fields
 when Azure returns any of Effort, Story Points, Size, Remaining Work, Original
 Estimate, or Completed Work. Discussion uses Azure's paginated work-item

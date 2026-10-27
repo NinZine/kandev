@@ -274,6 +274,9 @@ SDK preparation and publication operations.
 2. Host preparation signs only the root Stable tag. After `publish-release`, a
    protected `prepare-plugin-sdk` job verifies the root tag signature, approved
    fingerprint, and exact commit. Backfill reads that commit without restamping.
+   SDK tag pushes use command-scoped Git credential helpers with `GH_TOKEN`;
+   preparation does not persist a credential helper. Signing and OIDC
+   publication retain separate protected jobs.
 3. For a new SDK, `prepare-plugin-sdk` tests and retains the candidate and signed
    receipt. It checks all existing SDK identities before any SDK mutation.
    Then it creates the missing signed `pluginsdk/v<S>` at the verified host

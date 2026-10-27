@@ -230,3 +230,14 @@ crosses that boundary. The new `sdk-release-io.test.mjs` regression failed befor
 the fix and passed after it, using real packing and isolated Go/npm consumers.
 Conflicting source digests remain rejected. This closes a gap that the earlier
 mocked release-state and separate packer tests did not detect.
+
+
+### Main integration: command-scoped SDK tag authentication
+
+The security workflow update removes persisted GitHub credential helpers.
+SDK tag pushes now clear inherited helpers and select `gh auth git-credential`
+for that command only. Preparation configures bot identity without running
+`gh auth setup-git`; signing and OIDC publication remain separate.
+The focused push-argument regression failed before the correction. Verification
+also covers the real signed-tag repository fixture and release workflow gates.
+No package publication or protected-setting change occurs during this check.

@@ -1382,3 +1382,28 @@ Main 61a96d8c9a99 has independently added a minimal Azure close guard and a
 held-assignment desktop test, plus protected-workflow input hardening. The
 next integration preserves those contracts and aligns SDK tag credentials
 with command-scoped authentication. No release or protected setup is changed.
+
+
+## Main f306 integration and release authentication (2026-10-27)
+
+The working merge integrates f30676f2a8ac over the committed Azure/profile
+corrections d5aedf613f3c. Eight conflicts preserve causal turn gates, actual
+Stats click admission, exact Office save receipts, shared touch sizing,
+opening-owned Azure detail and the system-resolved sleep timeout fixture.
+Main's held-assignment desktop regression remains intact. Duplicate selection
+mutation logic is replaced by canonical board data plus opening ownership.
+
+SDK tag authentication now uses a command-scoped GitHub credential helper.
+The focused argument regression fails against the previous push and passes
+with the correction; the real signed-tag fixture passes too. No signing/OIDC
+job separation, completion gate, registry publication or protected setting
+changes. Security scan returns the ten already reviewed upstream residuals:
+six trigger warnings, three CMD limitations and one informational suggestion.
+No new suppression is added.
+
+Current checks pass full typecheck, zero-warning scoped lint, 125 Azure unit
+cases, release/E2E/walkthrough contracts, action pinning, harness checks and
+408-decision/1,759-specification validation. Fresh web/backend/helper/delivery/plugin builds and executor/ACP/stream race
+tests pass. All nine desktop and four phone browser cases pass with retries disabled.
+The earlier automated walkthrough remains a no-output deadline, separately
+from browser correctness. New-head CI has not run yet.

@@ -6,6 +6,36 @@ import { join } from "node:path";
 import test from "node:test";
 import { SourceRepository } from "./sdk-source.mjs";
 
+test("SDK tag push uses command-scoped GitHub credentials", async () => {
+  const repository = new SourceRepository({
+    root: ".",
+    fingerprint: "fixture",
+  });
+  repository.readSDKTag = async () => null;
+  repository.text = async () => {
+    throw Object.assign(new Error("absent"), { code: 128 });
+  };
+  const calls = [];
+  repository.git = async (...args) => {
+    calls.push(args);
+    return { stdout: "", stderr: "" };
+  };
+  await repository.createSDKTag({
+    record: { sdk_version: "0.1.0" },
+    sdkTag: "pluginsdk/v0.1.0",
+    commit: "fixture-commit",
+  });
+  assert.deepEqual(calls.at(-1), [
+    "-c",
+    "credential.helper=",
+    "-c",
+    "credential.helper=!gh auth git-credential",
+    "push",
+    "origin",
+    "refs/tags/pluginsdk/v0.1.0",
+  ]);
+});
+
 // @covers AC-PLUGINS-SDK-DISTRIBUTION-003.2
 test("verifies real signed host and SDK tags and resolves reuse to the original commit", async () => {
   const root = await mkdtemp(join(tmpdir(), "sdk-signed-source-"));

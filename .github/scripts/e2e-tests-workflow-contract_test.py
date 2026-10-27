@@ -224,7 +224,7 @@ if (( count <= FAKE_DOCKER_FAILURES )); then
 fi
 if (( count <= FAKE_DOCKER_FAILURES + FAKE_DOCKER_STALLS )); then
   echo "stalled registry lookup" >&2
-  "${REAL_SLEEP}" 1
+  "$FAKE_DOCKER_SLEEP" 1
   exit 1
 fi
 if (( count <= FAKE_DOCKER_FAILURES + FAKE_DOCKER_STALLS + FAKE_DOCKER_INVALID_RESPONSES )); then
@@ -245,8 +245,8 @@ cat "${FAKE_DOCKER_MANIFEST}"
             env.update(
                 {
                     "PATH": f"{bin_dir}:{env['PATH']}",
-                    "REAL_SLEEP": shutil.which("sleep"),
                     "FAKE_DOCKER_COUNT": str(count_file),
+                    "FAKE_DOCKER_SLEEP": shutil.which("sleep"),
                     "FAKE_DOCKER_FAILURES": str(failures_before_success),
                     "FAKE_DOCKER_STALLS": str(stalls_before_success),
                     "FAKE_DOCKER_INVALID_MANIFEST": str(invalid_manifest_file),

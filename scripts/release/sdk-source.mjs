@@ -120,7 +120,15 @@ export class SourceRepository {
         source.sdkTag,
         source.commit,
       );
-    await this.git("push", "origin", `refs/tags/${source.sdkTag}`);
+    await this.git(
+      "-c",
+      "credential.helper=",
+      "-c",
+      "credential.helper=!gh auth git-credential",
+      "push",
+      "origin",
+      `refs/tags/${source.sdkTag}`,
+    );
   }
   async signReceipt(receipt, signature) {
     await exec(

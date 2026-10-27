@@ -448,6 +448,7 @@ test.describe("Mobile transcript auto-scroll toggle", () => {
     await toggle.tap();
     await expect(toggle).toHaveAttribute("aria-pressed", "false");
 
+    const frozenScrollTop = await list.evaluate((el) => el.scrollTop);
     const marker = "New content while disabled at bottom on mobile";
     const gate = mockTurnGate(backend.tmpDir, marker);
     try {
@@ -456,7 +457,7 @@ test.describe("Mobile transcript auto-scroll toggle", () => {
         activeChat.getByText("Queue blocking turn started", { exact: true }),
       ).toBeVisible();
       // Hold the response until the submitted prompt's scroll position settles.
-      const frozenScrollTop = await list.evaluate(async (el) => {
+      await list.evaluate(async (el) => {
         let previous = el.scrollTop;
         let stableFrames = 0;
         for (let frame = 0; frame < 30; frame++) {
