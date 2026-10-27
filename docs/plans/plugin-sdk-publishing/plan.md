@@ -1104,3 +1104,32 @@ Fresh host/web/plugin builds and three mid-turn restart browser repetitions
 passed with retries disabled. Independent review found no actionable issue in
 the coalescing correction. The full old-head artifact audit remains four retries;
 fresh-head CI is required after delivery.
+
+## Test completion and observation corrections (2026-10-27)
+
+Head `e0415183a79` completed with 89 passing checks, four failed E2E leaves
+(2, 11, 17, 21), and a failed aggregate. All 118 browser reports were audited:
+4,321 attempts, 4,277 passed, 40 skipped, four failed/retried, no parse errors.
+The previous four failing scenarios did not recur; the current four are below.
+
+- Mobile PR history: a controlled real pending Git-detail update removes the
+  dialog while the actual contribution request is held. The original HEAD
+  assertion fails then; the matching successful response establishes completion.
+  The normal fixture now correlates session, provider head, repository root,
+  and request ID before retaining every existing Git postcondition. Controlled
+  GREEN and six normal paired mobile cases pass. Original CI ordering is untraced.
+- Silent prompt notice: the actual failed trace proves output cleared the notice
+  during setup before its existence assertion. Two silent release gates replace
+  both fixed delays, preserving the real watchdog and RUNNING/reload checks.
+  The gate helper retains its start announcement by default. An unextended-helper
+  RED independently proves that announcements contaminate this silent scenario.
+  Five desktop, four phone, and one default-announcement caller pass.
+- Mobile oversized message and task mention: both failed attempts lack traces.
+  Each case passed five unchanged repetitions. Keep assertions, actions, and
+  timeouts; retain first-failure traces. The mention snapshot lacks the whole
+  chat panel, so it is not evidence of a broken mention identity parser.
+
+Independent review found no actionable issue in the two fixture corrections.
+Changed-file lint/format and full docs/spec checks pass. Temporary probes are
+outside the repository. These are test-only changes; no product/release contract
+or SDK bytes changed. Normal hooks, delivery, and fresh-head CI follow.

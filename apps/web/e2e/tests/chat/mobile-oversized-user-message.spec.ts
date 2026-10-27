@@ -16,6 +16,8 @@ import {
   MESSAGE_PREVIEW_MAX_LINES,
 } from "../../../lib/utils/message-preview";
 
+test.use({ trace: "retain-on-failure" });
+
 const INCIDENT_LOG_LINE_COUNT = 3_921;
 
 test.beforeEach(async ({ backend }) => {
