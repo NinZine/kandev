@@ -1,0 +1,4557 @@
+{
+  "version": 2,
+  "recordedAt": "2026-10-27T04:59:09.163480+00:00",
+  "status": "Rejected. Exact verified app source and 9e20 assets restored.",
+  "sourceParent": "653584718de543baf91546c41c09884bb58ef6e7",
+  "productionRevisionRetained": "4f078c1303434fa9cee5ee5a83280b5764fd3917",
+  "candidateAssetsSha256": "b3585039e093ff17ebad25e7a995b949afd32c483f102d7158d39c7a5b98649f",
+  "retainedAssetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+  "trigger": {
+    "source": "rendering-timeline-attribution.json",
+    "finding": "The sidebar UTF-8 comparator allocates two complete code-point arrays before it can return on the first difference.",
+    "profileEvidence": "766 inclusive sample points, 712 self sample points, in the 96222-point streaming window. Counts are diagnostic, not CPU time."
+  },
+  "implementation": {
+    "purpose": "Compare code points until the first difference without allocating full arrays. Preserve SQLite UTF-8 ordering, ASCII-only NOCASE, Unicode planes, prefixes and existing lone-surrogate order.",
+    "trackedPatch": {
+      "path": ".kandev/diagnostics/dense-workbench-performance/sidebar-comparator-rejected-tracked.patch",
+      "sha256": "32f938c7cc6585006bb655eeafdb561a5f34ffeb7b97c55237b18ee503f7db06",
+      "bytes": 1257
+    },
+    "patch": "diff --git a/apps/web/lib/sidebar/sidebar-local-order.ts b/apps/web/lib/sidebar/sidebar-local-order.ts\nindex f667a234c15..51c3b27e58f 100644\n--- a/apps/web/lib/sidebar/sidebar-local-order.ts\n+++ b/apps/web/lib/sidebar/sidebar-local-order.ts\n@@ -13,12 +13,16 @@ import { sidebarColorMatches } from \"./sidebar-color-rank\";\n /** UTF-8 BINARY order, including astral code points that differ from UTF-16 order. */\n export function sqliteBinary(left: string, right: string): number {\n   if (left === right) return 0;\n-  const a = Array.from(left, (char) => char.codePointAt(0)!);\n-  const b = Array.from(right, (char) => char.codePointAt(0)!);\n-  for (let index = 0; index < Math.min(a.length, b.length); index++) {\n-    if (a[index] !== b[index]) return a[index] - b[index];\n+  let leftIndex = 0;\n+  let rightIndex = 0;\n+  while (leftIndex < left.length && rightIndex < right.length) {\n+    const a = left.codePointAt(leftIndex)!;\n+    const b = right.codePointAt(rightIndex)!;\n+    if (a !== b) return a - b;\n+    leftIndex += a > 0xffff ? 2 : 1;\n+    rightIndex += b > 0xffff ? 2 : 1;\n   }\n-  return a.length - b.length;\n+  return left.length - leftIndex - (right.length - rightIndex);\n }\n \n export function sqliteNoCase(left: string, right: string): number {\n",
+    "testSource": "import { Buffer } from \"node:buffer\";\nimport { describe, expect, it, vi } from \"vitest\";\nimport { sqliteBinary, sqliteNoCase } from \"./sidebar-local-order\";\n\ndescribe(\"SQLite binary ordering\", () => {\n  it(\"matches UTF-8 byte ordering across prefixes and Unicode planes\", () => {\n    const values = [\n      \"\",\n      \"a\",\n      \"aa\",\n      \"z\",\n      \"\\0\",\n      \"\\0a\",\n      \"\u00e9\",\n      \"e\\u0301\",\n      \"\\ud7ff\",\n      \"\\ue000\",\n      \"\\uffff\",\n      \"\ud83d\ude00\",\n      \"\ud83d\ude01\",\n      \"\ud840\udc00\",\n      \"\\u{10ffff}\",\n      \"a\ud83d\ude00\",\n      \"a\ud83d\ude00z\",\n      \"a\\ue000\",\n    ];\n    for (const left of values) {\n      for (const right of values) {\n        expect(Math.sign(sqliteBinary(left, right)), JSON.stringify([left, right])).toBe(\n          Math.sign(Buffer.compare(Buffer.from(left, \"utf8\"), Buffer.from(right, \"utf8\"))),\n        );\n      }\n    }\n  });\n\n  it.each([\n    [\"\\ud800\", \"\\ud801\", -1],\n    [\"\\udfff\", \"\\ue000\", -1],\n    [\"\\ud800x\", \"\ud800\udc00\", -1],\n    [\"\ud83d\ude00\\ud800\", \"\ud83d\ude00\\ud801\", -1],\n    [\"\ud83d\ude00\", \"\ud83d\ude00x\", -1],\n  ])(\"preserves code-point ordering for %j and %j\", (left, right, order) => {\n    expect(Math.sign(sqliteBinary(left, right))).toBe(order);\n    expect(Math.sign(sqliteBinary(right, left))).toBe(-order);\n  });\n\n  it(\"does not inspect either suffix after the first code-point difference\", () => {\n    const left = \"b\" + \"\ud83d\ude00\".repeat(10_000);\n    const right = \"a\" + \"\\ue000\".repeat(10_000);\n    const readPoint = vi.spyOn(String.prototype, \"codePointAt\");\n    let result: number;\n    let reads: number;\n    try {\n      result = sqliteBinary(left, right);\n      reads = readPoint.mock.calls.length;\n    } finally {\n      readPoint.mockRestore();\n    }\n    expect(result).toBeGreaterThan(0);\n    expect(reads).toBeLessThanOrEqual(2);\n  });\n\n  it(\"keeps SQLite NOCASE limited to ASCII case folding\", () => {\n    expect(sqliteNoCase(\"Alpha\", \"alpha\")).toBe(0);\n    expect(sqliteNoCase(\"\u00c4\", \"\u00e4\")).toBeLessThan(0);\n    expect(sqliteNoCase(\"\ud83d\ude00A\", \"\ud83d\ude00a\")).toBe(0);\n    expect(sqliteNoCase(\"\\ufffd\", \"\ud83d\ude00\")).toBeLessThan(0);\n  });\n});\n",
+    "filesChanged": [
+      "apps/web/lib/sidebar/sidebar-local-order.ts"
+    ],
+    "experimentalTestRemoved": "apps/web/lib/sidebar/sidebar-local-order.test.ts",
+    "visualChanges": "No markup, styles, controls, gestures, localization or scroll ownership changes were proposed. The full candidate is removed."
+  },
+  "red": {
+    "handle": 62413,
+    "exitCode": 1,
+    "passed": 7,
+    "failed": 1,
+    "reason": "A difference at the first code point still caused 20,002 code-point reads.",
+    "sourcePath": "lib/sidebar/sidebar-local-order.ts",
+    "sourceSha256": "c6a443631bd44dbfdd7cde68338f8cca198c9f4918642e46e7e97855d4dd790c"
+  },
+  "checks": {
+    "sourceRevision": "653584718de543baf91546c41c09884bb58ef6e7",
+    "sourceFiles": [
+      {
+        "path": "apps/web/lib/sidebar/sidebar-local-order.ts",
+        "sha256": "0a579784d05428c4240dc3fdbeb692720c192d831f52bb6a27a9125757ee5a01"
+      },
+      {
+        "path": "apps/web/lib/sidebar/sidebar-local-order.test.ts",
+        "sha256": "bcfe046c5563f11774d8297ae977250ca8da31dc0bb17e55a38be99fbf23e2fc"
+      }
+    ],
+    "checks": [
+      {
+        "name": "green",
+        "handle": 53863,
+        "exitCode": 0,
+        "passed": 18,
+        "log": "sidebar-comparator-green.log",
+        "logSha256": "1d188eba8f58c1cb174f8a1365960a392153b08820378d9eb3e40b91dba140f8"
+      },
+      {
+        "name": "related",
+        "handle": 81647,
+        "exitCode": 0,
+        "passed": 437,
+        "log": "sidebar-comparator-related.log",
+        "logSha256": "81fe8ac5bd0eca11aece3edd46955c58762b099d749dfd191ad819221bc0c226"
+      },
+      {
+        "name": "lint",
+        "handle": 46474,
+        "exitCode": 0,
+        "passed": null,
+        "log": "sidebar-comparator-lint.log",
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "types",
+        "handle": 29873,
+        "exitCode": 0,
+        "passed": null,
+        "log": "sidebar-comparator-types.log",
+        "logSha256": "369ea74c64e1df20db8b8a6bcf59b9433ca7a9303c5057308182163b3818b5a6"
+      }
+    ],
+    "distinctUnitTestsPassed": 437,
+    "greenIncludedInRelated": true
+  },
+  "productionBuild": {
+    "recordedAt": "2026-10-27T04:19:46.111Z",
+    "sourceParent": "653584718de543baf91546c41c09884bb58ef6e7",
+    "purpose": "Uncommitted SQLite comparison prototype. Private benchmark complete; full-view qualification pending.",
+    "sourceFiles": [
+      {
+        "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "sha256": "6ce2652db1e4bd74f2a6dc4473e0239155af8816cce3436f6073fbaeb5650b3c"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+        "sha256": "47c9921c4772617fc3fff728a97086c8ee53d8ffd811c40daea4c9b70fe968b0"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+        "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+        "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+      },
+      {
+        "path": "apps/web/lib/state/app-state-types.ts",
+        "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+        "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/types.ts",
+        "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+        "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+      },
+      {
+        "path": "apps/web/lib/sidebar/sidebar-local-order.ts",
+        "sha256": "0a579784d05428c4240dc3fdbeb692720c192d831f52bb6a27a9125757ee5a01"
+      },
+      {
+        "path": "apps/web/lib/sidebar/sidebar-local-order.test.ts",
+        "sha256": "bcfe046c5563f11774d8297ae977250ca8da31dc0bb17e55a38be99fbf23e2fc"
+      }
+    ],
+    "deletedSourceFiles": [
+      "apps/web/components/task/chat/transcript-scroll-persistence.test.ts",
+      "apps/web/components/task/chat/transcript-scroll-persistence.ts"
+    ],
+    "sourcePatchSha256": "32f938c7cc6585006bb655eeafdb561a5f34ffeb7b97c55237b18ee503f7db06",
+    "checks": [
+      {
+        "name": "green",
+        "handle": 53863,
+        "exitCode": 0,
+        "passed": 18,
+        "log": "sidebar-comparator-green.log",
+        "logSha256": "1d188eba8f58c1cb174f8a1365960a392153b08820378d9eb3e40b91dba140f8"
+      },
+      {
+        "name": "related",
+        "handle": 81647,
+        "exitCode": 0,
+        "passed": 437,
+        "log": "sidebar-comparator-related.log",
+        "logSha256": "81fe8ac5bd0eca11aece3edd46955c58762b099d749dfd191ad819221bc0c226"
+      },
+      {
+        "name": "lint",
+        "handle": 46474,
+        "exitCode": 0,
+        "passed": null,
+        "log": "sidebar-comparator-lint.log",
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "types",
+        "handle": 29873,
+        "exitCode": 0,
+        "passed": null,
+        "log": "sidebar-comparator-types.log",
+        "logSha256": "369ea74c64e1df20db8b8a6bcf59b9433ca7a9303c5057308182163b3818b5a6"
+      }
+    ],
+    "generatedBefore": [
+      {
+        "path": "apps/web/generated/changelog.json",
+        "sha256": "8552e9fd1aa79fe07d0eaaa8d05179548ae1c5555b3206a2842c09cec4bfdd43"
+      },
+      {
+        "path": "apps/web/generated/release-notes.json",
+        "sha256": "3391126f01051873eebb779dece251225037923b7e96794855a11af2135c0a37"
+      }
+    ],
+    "root": "/tmp/kandev-perf-delivery-5936a872",
+    "assetsSha256": "b3585039e093ff17ebad25e7a995b949afd32c483f102d7158d39c7a5b98649f",
+    "assetFiles": 1253,
+    "gzipSiblingsVerified": 552,
+    "build": {
+      "handle": 6615,
+      "exitCode": 0,
+      "log": "sidebar-comparator-production-build.log",
+      "logSha256": "f49c735c5a4f7043745a6a1a5f43c15ae6639ef8a1d3b72afd94b3feb39e1881"
+    },
+    "baselineAssetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+    "generatedMetadataUnchanged": true,
+    "buildEnv": {
+      "KANDEV_I18N_BUNDLE_PSEUDO": "1"
+    },
+    "priorRejectedBuild": "sidebar-comparator-build-configuration-rejection.json"
+  },
+  "configurationRejection": {
+    "recordedAt": "2026-10-27T04:19:09.937Z",
+    "buildHandle": 71171,
+    "buildExitCode": 0,
+    "auditExitCode": 1,
+    "auditChunkId": "740c15",
+    "auditFailure": "Expected 1253 assets; received 1251.",
+    "assetsSha256": "2e866a5917df741bb903f7710adb0f52e4d248e540cd8fb91eeb8835b8339d82",
+    "assetFiles": 1251,
+    "preservedAssets": "/tmp/kandev-sidebar-comparator-no-pseudo-dist-5936a872",
+    "reason": "The build omitted KANDEV_I18N_BUNDLE_PSEUDO=1. Control includes i18n-pseudo.js and its gzip sibling. This build was not used for browser checks or timing.",
+    "recovery": "Repeat production build with the same pseudo-locale bundling setting as the frozen control. Keep app source unchanged."
+  },
+  "microbenchmark": {
+    "startedAt": "2026-10-27T04:16:55.531Z",
+    "completedAt": "2026-10-27T04:17:08.210Z",
+    "measurementKind": "isolated-comparator-microbenchmark",
+    "limits": "Private comparator only, not app main-thread work, frame responsiveness, INP or M2 Air performance. Unmodified production function declarations extracted with the pinned TypeScript parser and compiled identically. Full-view comparison remains pending.",
+    "inputFile": "/home/zeval/.kandev/tasks/do-some-live-evaluat_ije4iccr/kdlbs-kandev/.kandev/diagnostics/dense-workbench-performance/sidebar-comparator-benchmark-inputs.json",
+    "inputSha256": "1ba6de927235f14bf09ff82d5784fd66de1afe5838dc906b428a368b16c400ba",
+    "sourceSnapshotSha256": "493eca3be34e94315bcd3c64c13b6945ff7ab73ee648f771f1c9dc47099e5999",
+    "tasks": 1000,
+    "fields": [
+      "id",
+      "title",
+      "createdAt"
+    ],
+    "repetitions": 100,
+    "warmupRounds": 10,
+    "pairs": [
+      {
+        "pair": 0,
+        "order": [
+          "baseline",
+          "candidate"
+        ],
+        "baseline": {
+          "arm": "baseline",
+          "times": [
+            {
+              "field": "id",
+              "elapsedMs": 1678.3899219999998
+            },
+            {
+              "field": "title",
+              "elapsedMs": 108.04977800000006
+            },
+            {
+              "field": "createdAt",
+              "elapsedMs": 218.85587799999985
+            }
+          ],
+          "checksums": [
+            10800,
+            4500,
+            10488
+          ],
+          "totalMs": 2005.2955779999998
+        },
+        "candidate": {
+          "arm": "candidate",
+          "times": [
+            {
+              "field": "id",
+              "elapsedMs": 22.624018999999862
+            },
+            {
+              "field": "title",
+              "elapsedMs": 7.339488999999958
+            },
+            {
+              "field": "createdAt",
+              "elapsedMs": 9.507376000000022
+            }
+          ],
+          "checksums": [
+            10800,
+            4500,
+            10488
+          ],
+          "totalMs": 39.47088399999984
+        },
+        "reductionPercent": 98.03166752906489
+      },
+      {
+        "pair": 1,
+        "order": [
+          "candidate",
+          "baseline"
+        ],
+        "candidate": {
+          "arm": "candidate",
+          "times": [
+            {
+              "field": "id",
+              "elapsedMs": 22.968349000000217
+            },
+            {
+              "field": "title",
+              "elapsedMs": 7.412041000000045
+            },
+            {
+              "field": "createdAt",
+              "elapsedMs": 9.8113800000001
+            }
+          ],
+          "checksums": [
+            10800,
+            4500,
+            10488
+          ],
+          "totalMs": 40.19177000000036
+        },
+        "baseline": {
+          "arm": "baseline",
+          "times": [
+            {
+              "field": "id",
+              "elapsedMs": 1811.2682670000004
+            },
+            {
+              "field": "title",
+              "elapsedMs": 120.62383199999931
+            },
+            {
+              "field": "createdAt",
+              "elapsedMs": 197.27164800000082
+            }
+          ],
+          "checksums": [
+            10800,
+            4500,
+            10488
+          ],
+          "totalMs": 2129.1637470000005
+        },
+        "reductionPercent": 98.11232132537336
+      },
+      {
+        "pair": 2,
+        "order": [
+          "baseline",
+          "candidate"
+        ],
+        "baseline": {
+          "arm": "baseline",
+          "times": [
+            {
+              "field": "id",
+              "elapsedMs": 1830.3212110000004
+            },
+            {
+              "field": "title",
+              "elapsedMs": 118.93927299999996
+            },
+            {
+              "field": "createdAt",
+              "elapsedMs": 190.88966000000073
+            }
+          ],
+          "checksums": [
+            10800,
+            4500,
+            10488
+          ],
+          "totalMs": 2140.150144000001
+        },
+        "candidate": {
+          "arm": "candidate",
+          "times": [
+            {
+              "field": "id",
+              "elapsedMs": 19.984317999999803
+            },
+            {
+              "field": "title",
+              "elapsedMs": 6.414193000000523
+            },
+            {
+              "field": "createdAt",
+              "elapsedMs": 8.305551999999807
+            }
+          ],
+          "checksums": [
+            10800,
+            4500,
+            10488
+          ],
+          "totalMs": 34.70406300000013
+        },
+        "reductionPercent": 98.37842858374705
+      },
+      {
+        "pair": 3,
+        "order": [
+          "candidate",
+          "baseline"
+        ],
+        "candidate": {
+          "arm": "candidate",
+          "times": [
+            {
+              "field": "id",
+              "elapsedMs": 19.867396000000554
+            },
+            {
+              "field": "title",
+              "elapsedMs": 6.383574000000408
+            },
+            {
+              "field": "createdAt",
+              "elapsedMs": 8.627943999999843
+            }
+          ],
+          "checksums": [
+            10800,
+            4500,
+            10488
+          ],
+          "totalMs": 34.878914000000805
+        },
+        "baseline": {
+          "arm": "baseline",
+          "times": [
+            {
+              "field": "id",
+              "elapsedMs": 1695.6666569999998
+            },
+            {
+              "field": "title",
+              "elapsedMs": 111.12253899999996
+            },
+            {
+              "field": "createdAt",
+              "elapsedMs": 205.58835499999986
+            }
+          ],
+          "checksums": [
+            10800,
+            4500,
+            10488
+          ],
+          "totalMs": 2012.3775509999996
+        },
+        "reductionPercent": 98.26678080449324
+      },
+      {
+        "pair": 4,
+        "order": [
+          "baseline",
+          "candidate"
+        ],
+        "baseline": {
+          "arm": "baseline",
+          "times": [
+            {
+              "field": "id",
+              "elapsedMs": 1855.8723279999995
+            },
+            {
+              "field": "title",
+              "elapsedMs": 117.77258799999981
+            },
+            {
+              "field": "createdAt",
+              "elapsedMs": 216.98559700000078
+            }
+          ],
+          "checksums": [
+            10800,
+            4500,
+            10488
+          ],
+          "totalMs": 2190.630513
+        },
+        "candidate": {
+          "arm": "candidate",
+          "times": [
+            {
+              "field": "id",
+              "elapsedMs": 23.31152800000018
+            },
+            {
+              "field": "title",
+              "elapsedMs": 7.13975500000015
+            },
+            {
+              "field": "createdAt",
+              "elapsedMs": 9.516644999999698
+            }
+          ],
+          "checksums": [
+            10800,
+            4500,
+            10488
+          ],
+          "totalMs": 39.96792800000003
+        },
+        "reductionPercent": 98.17550573851611
+      },
+      {
+        "pair": 5,
+        "order": [
+          "candidate",
+          "baseline"
+        ],
+        "candidate": {
+          "arm": "candidate",
+          "times": [
+            {
+              "field": "id",
+              "elapsedMs": 22.683967000000848
+            },
+            {
+              "field": "title",
+              "elapsedMs": 7.184031000000687
+            },
+            {
+              "field": "createdAt",
+              "elapsedMs": 9.511838999998872
+            }
+          ],
+          "checksums": [
+            10800,
+            4500,
+            10488
+          ],
+          "totalMs": 39.37983700000041
+        },
+        "baseline": {
+          "arm": "baseline",
+          "times": [
+            {
+              "field": "id",
+              "elapsedMs": 1670.076285000001
+            },
+            {
+              "field": "title",
+              "elapsedMs": 107.35231899999962
+            },
+            {
+              "field": "createdAt",
+              "elapsedMs": 192.98460299999897
+            }
+          ],
+          "checksums": [
+            10800,
+            4500,
+            10488
+          ],
+          "totalMs": 1970.4132069999996
+        },
+        "reductionPercent": 98.0014426994246
+      }
+    ],
+    "medianReductionPercent": 98.14391353194473,
+    "outputOrderMatchesUtf8Oracle": true,
+    "sourceAndInputUnchanged": true,
+    "provenance": {
+      "baseline": {
+        "source": "/home/zeval/.kandev/tasks/do-some-live-evaluat_ije4iccr/kdlbs-kandev/.kandev/diagnostics/dense-workbench-performance/sidebar-comparator.before.ts",
+        "sourceSha256": "c6a443631bd44dbfdd7cde68338f8cca198c9f4918642e46e7e97855d4dd790c",
+        "functionSource": "export function sqliteBinary(left: string, right: string): number {\n  if (left === right) return 0;\n  const a = Array.from(left, (char) => char.codePointAt(0)!);\n  const b = Array.from(right, (char) => char.codePointAt(0)!);\n  for (let index = 0; index < Math.min(a.length, b.length); index++) {\n    if (a[index] !== b[index]) return a[index] - b[index];\n  }\n  return a.length - b.length;\n}",
+        "functionSha256": "9a82a1ae479f9ce2095caad5b72ca3ac39fb29dd5698aafdfa640b4b6ea96f29",
+        "compiled": "/home/zeval/.kandev/tasks/do-some-live-evaluat_ije4iccr/kdlbs-kandev/.kandev/diagnostics/dense-workbench-performance/sidebar-comparator.baseline.function.cjs",
+        "compiledSha256": "e9a6ad8dbd7f218bcdee69885fe32415e786b2210b2c2ab5917e5469c5ce0330"
+      },
+      "candidate": {
+        "source": "/tmp/kandev-perf-delivery-5936a872/apps/web/lib/sidebar/sidebar-local-order.ts",
+        "sourceSha256": "0a579784d05428c4240dc3fdbeb692720c192d831f52bb6a27a9125757ee5a01",
+        "functionSource": "export function sqliteBinary(left: string, right: string): number {\n  if (left === right) return 0;\n  let leftIndex = 0;\n  let rightIndex = 0;\n  while (leftIndex < left.length && rightIndex < right.length) {\n    const a = left.codePointAt(leftIndex)!;\n    const b = right.codePointAt(rightIndex)!;\n    if (a !== b) return a - b;\n    leftIndex += a > 0xffff ? 2 : 1;\n    rightIndex += b > 0xffff ? 2 : 1;\n  }\n  return left.length - leftIndex - (right.length - rightIndex);\n}",
+        "functionSha256": "d40cbc47cba990f559d152d98620da927c5e6fa5a539cd6d8ff3d63319e9d09d",
+        "compiled": "/home/zeval/.kandev/tasks/do-some-live-evaluat_ije4iccr/kdlbs-kandev/.kandev/diagnostics/dense-workbench-performance/sidebar-comparator.candidate.function.cjs",
+        "compiledSha256": "277bc8a1b9add1fc284523032d332c1f8b137f0253256f90345c42218c57afb9"
+      }
+    }
+  },
+  "microbenchmarkSource": {
+    "path": ".kandev/diagnostics/dense-workbench-performance/sidebar-comparator-microbenchmark-source.cjs",
+    "sha256": "0391f978e654a7d234feeab712ebe2b5ee422187ae8394bf2c9a0aafce5754ba",
+    "bytes": 4642
+  },
+  "microbenchmarkLimit": "98.1439% median local sort-time reduction across six alternating pairs. This does not establish a full-view gain. Exact input and output order are verified; the primary source declarations are extracted and compiled identically.",
+  "browserQa": [
+    {
+      "recordedAt": "2026-10-27T04:21:05.737181+00:00",
+      "name": "sidebar-comparator-desktop-sort",
+      "project": "chromium",
+      "handle": 9245,
+      "exitCode": 0,
+      "expectedChecks": 3,
+      "passed": 3,
+      "status": "passed",
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": "kandev-run.e2e.NR7H46Q4.log",
+      "logSha256": "2540a4b2cd971b37b68f67843b90370cda2c4db7d919cf20fcce84e05077210d",
+      "results": "sidebar-comparator-desktop-sort-results",
+      "workerRoots": [
+        "/tmp/kandev-e2e-0-iYLbQo"
+      ],
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "sourceFilesVerified": 10,
+      "harnessFilesVerified": 1956,
+      "sourcePatchSha256": "32f938c7cc6585006bb655eeafdb561a5f34ffeb7b97c55237b18ee503f7db06",
+      "assetsSha256": "b3585039e093ff17ebad25e7a995b949afd32c483f102d7158d39c7a5b98649f",
+      "runtimeAndPluginFilesVerified": true
+    },
+    {
+      "recordedAt": "2026-10-27T04:22:12.502447+00:00",
+      "name": "sidebar-comparator-phone-sort",
+      "project": "mobile-chrome",
+      "handle": 82189,
+      "exitCode": 0,
+      "expectedChecks": 3,
+      "passed": 3,
+      "status": "passed",
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": "kandev-run.e2e.NA8l8XBI.log",
+      "logSha256": "531f01e36b332ddaa4f78e24f9e1d34d2117770f7b1b007c4a15e3a3ddda0750",
+      "results": "sidebar-comparator-phone-sort-results",
+      "workerRoots": [
+        "/tmp/kandev-e2e-0-Vf2nym"
+      ],
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "sourceFilesVerified": 10,
+      "harnessFilesVerified": 1956,
+      "sourcePatchSha256": "32f938c7cc6585006bb655eeafdb561a5f34ffeb7b97c55237b18ee503f7db06",
+      "assetsSha256": "b3585039e093ff17ebad25e7a995b949afd32c483f102d7158d39c7a5b98649f",
+      "runtimeAndPluginFilesVerified": true
+    }
+  ],
+  "streamingComparison": {
+    "report": {
+      "path": ".kandev/diagnostics/dense-workbench-performance/matched-dense-1793074949153.json",
+      "sha256": "3650129a4f2e28912d6716677ba5b9b2b0638b3dc7f53b2e9689ab946f082610",
+      "bytes": 10304440
+    },
+    "postAudit": {
+      "recordedAt": "2026-10-27T04:37:36.315726+00:00",
+      "report": "matched-dense-1793074949153.json",
+      "reportSha256": "3650129a4f2e28912d6716677ba5b9b2b0638b3dc7f53b2e9689ab946f082610",
+      "measurementKind": "reference-workload",
+      "sourceRevision": "653584718de543baf91546c41c09884bb58ef6e7",
+      "productionRevision": "653584718de543baf91546c41c09884bb58ef6e7",
+      "sourcePatchSha256": "32f938c7cc6585006bb655eeafdb561a5f34ffeb7b97c55237b18ee503f7db06",
+      "harnessSha256": "bb030173237f664ddda3686fd7306b01554f07920d4f3ebe51f4999679e1eaa8",
+      "harnessFilesVerified": 1956,
+      "testedSourceFilesVerified": 10,
+      "experimentalProductionFilesVerified": 0,
+      "untrackedFilesVerified": 1,
+      "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+      "backendLogsVerified": 4,
+      "mainHandle": 44652,
+      "mainExitCode": 0,
+      "samplerHandle": 93666,
+      "samplerExitCode": 0,
+      "completeSamples": 4,
+      "verifiedOrderedUpdates": 7200,
+      "allAttemptsPassed": true,
+      "error": null,
+      "newWorkerRoots": [
+        "/tmp/kandev-e2e-0-p5mpLS"
+      ],
+      "newWorkerRootsRemoved": true,
+      "savedFixtureRoot": "/tmp/kandev-e2e-0-nMsIqR",
+      "savedFixturePreserved": true,
+      "sourceReportAndSnapshotUnchanged": true,
+      "sampleNamespace": "replay-1793074949153-",
+      "remainingOwnedProcesses": [],
+      "initialLoadedHistory": [
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ]
+      ],
+      "finalLoadedHistory": [
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ]
+      ],
+      "artifacts": [
+        {
+          "path": "matched-dense-1793074949153.json",
+          "sha256": "3650129a4f2e28912d6716677ba5b9b2b0638b3dc7f53b2e9689ab946f082610"
+        },
+        {
+          "path": "matched-dense-1793074949153.json.backend.log",
+          "sha256": "670f2b523ab307e17baa364dfde719e7634ac178f69c236cb2d94bd8b0fe28f0"
+        },
+        {
+          "path": "matched-dense-1793074949153.json.baseline-1x-0.backend.log",
+          "sha256": "792a3bd745b10e5d2050666f374cfcffaa26dc1969fd0b4e545d50a46e2c2b96"
+        },
+        {
+          "path": "matched-dense-1793074949153.json.baseline-1x-1.backend.log",
+          "sha256": "670f2b523ab307e17baa364dfde719e7634ac178f69c236cb2d94bd8b0fe28f0"
+        },
+        {
+          "path": "matched-dense-1793074949153.json.candidate-1x-0.backend.log",
+          "sha256": "162d73487bb5842c58845194fa1433bc965dd7b8a6bbcc787c38765556350621"
+        },
+        {
+          "path": "matched-dense-1793074949153.json.candidate-1x-1.backend.log",
+          "sha256": "1ef7c08218975b62581892dc5962b170b2f5e2ad0a1982f60e79aaeee87717a3"
+        }
+      ]
+    },
+    "decision": {
+      "recordedAt": "2026-10-27T04:39:20.118629+00:00",
+      "mainHandle": 44652,
+      "mainExitCode": 0,
+      "samplerHandle": 93666,
+      "samplerExitCode": 0,
+      "auditHandle": 64090,
+      "auditExitCode": 0,
+      "summaryExitCode": 0,
+      "summaryRows": 70,
+      "completeSamples": 4,
+      "verifiedOrderedUpdates": 7200,
+      "report": "matched-dense-1793074949153.json",
+      "reportSha256": "3650129a4f2e28912d6716677ba5b9b2b0638b3dc7f53b2e9689ab946f082610",
+      "normalizedStreaming": [
+        {
+          "pair": 0,
+          "elapsedMs": {
+            "baseline": 61249.26461900001,
+            "candidate": 60459.44693199999
+          },
+          "normalized": {
+            "ScriptDuration": {
+              "baselineMsPerSecond": 666.1142179222807,
+              "candidateMsPerSecond": 672.9935364073635,
+              "reductionPercent": -1.032753587896762
+            },
+            "ThreadTime": {
+              "baselineMsPerSecond": 983.0523578453218,
+              "candidateMsPerSecond": 987.3913677566819,
+              "reductionPercent": -0.4413813645562481
+            },
+            "ProcessTime": {
+              "baselineMsPerSecond": 1212.4227198797087,
+              "candidateMsPerSecond": 1218.8335113763228,
+              "reductionPercent": -0.5287587729509324
+            },
+            "RecalcStyleDuration": {
+              "baselineMsPerSecond": 84.00956373937946,
+              "candidateMsPerSecond": 89.02066216473011,
+              "reductionPercent": -5.96491423392751
+            },
+            "LayoutDuration": {
+              "baselineMsPerSecond": 16.78253618870604,
+              "candidateMsPerSecond": 17.8355915364694,
+              "reductionPercent": -6.27470923299438
+            }
+          }
+        },
+        {
+          "pair": 1,
+          "elapsedMs": {
+            "baseline": 61893.173750000075,
+            "candidate": 62219.697455000016
+          },
+          "normalized": {
+            "ScriptDuration": {
+              "baselineMsPerSecond": 686.6677603521655,
+              "candidateMsPerSecond": 677.7843789822393,
+              "reductionPercent": 1.2936942554824804
+            },
+            "ThreadTime": {
+              "baselineMsPerSecond": 983.3849245774041,
+              "candidateMsPerSecond": 987.1399655136747,
+              "reductionPercent": -0.3818485358502155
+            },
+            "ProcessTime": {
+              "baselineMsPerSecond": 1224.8523610408638,
+              "candidateMsPerSecond": 1225.8175966728506,
+              "reductionPercent": -0.0788042430817315
+            },
+            "RecalcStyleDuration": {
+              "baselineMsPerSecond": 83.67808089660281,
+              "candidateMsPerSecond": 85.03403610772185,
+              "reductionPercent": -1.6204425299793046
+            },
+            "LayoutDuration": {
+              "baselineMsPerSecond": 17.350233231495885,
+              "candidateMsPerSecond": 17.788852168567647,
+              "reductionPercent": -2.5280290542465833
+            }
+          }
+        }
+      ],
+      "acceptance": "No full-view streaming gain established. Prototype remains uncommitted while task-switch behavior and cost are assessed. No six-pair confirmation yet.",
+      "samplerAuditOrderNote": "Post-audit started with expected sampler exit 0 before its tool handle confirmed termination. Actual sampler exit 0 was confirmed before this acceptance analysis; no timing result was accepted before terminal confirmation."
+    },
+    "summary": {
+      "measurementKind": "reference-workload",
+      "fixtureProtocol": "threads-files-v1",
+      "attemptProtocol": "continue-and-fail-v1",
+      "comparisonPlan": {
+        "pairs": 2,
+        "rates": [
+          1
+        ],
+        "candidateFirst": false
+      },
+      "finalVisibilityProbe": "boolean-poll",
+      "layout": "grid",
+      "extraBusyHeaders": 0,
+      "interactionMode": "scripted-scroll-v2",
+      "throttleAfterLoad": false,
+      "machine": {
+        "revision": "653584718de543baf91546c41c09884bb58ef6e7",
+        "cpu": "11th Gen Intel(R) Core(TM) i7-11700T @ 1.40GHz",
+        "cores": 16,
+        "load": [
+          4.24,
+          2.99,
+          2.42
+        ],
+        "totalMemory": 33303568384,
+        "freeMemory": 25302843392,
+        "platform": "linux 6.18.49"
+      },
+      "builds": {
+        "baseline": {
+          "binary": "/tmp/kandev-before-message-selector-5936a872/apps/backend/bin/kandev",
+          "assets": "/tmp/kandev-before-message-selector-5936a872/apps/web/dist",
+          "binarySha256": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+          "assetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa"
+        },
+        "candidate": {
+          "binary": "/tmp/kandev-perf-delivery-5936a872/apps/backend/bin/kandev",
+          "assets": "/tmp/kandev-perf-delivery-5936a872/apps/web/dist",
+          "binarySha256": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+          "assetsSha256": "b3585039e093ff17ebad25e7a995b949afd32c483f102d7158d39c7a5b98649f"
+        }
+      },
+      "sampleCount": 4,
+      "comparisons": [
+        {
+          "group": "1x/cold",
+          "metric": "readyMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 15378.314871000013,
+            "min": 14944.303630999995,
+            "max": 15812.326111000031,
+            "values": [
+              14944.303630999995,
+              15812.326111000031
+            ]
+          },
+          "candidate": {
+            "median": 17684.61889849999,
+            "min": 16638.189162000024,
+            "max": 18731.048634999956,
+            "values": [
+              16638.189162000024,
+              18731.048634999956
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -1693.885531000029,
+            -2918.7225239999243
+          ],
+          "pairedPercentReduction": [
+            -11.33465682192301,
+            -18.458527249633946
+          ],
+          "medianPairedPercentReduction": -14.896592035778479
+        },
+        {
+          "group": "1x/cold",
+          "metric": "documentMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 8915.048853000018,
+            "min": 8212.373843999994,
+            "max": 9617.723862000043,
+            "values": [
+              8212.373843999994,
+              9617.723862000043
+            ]
+          },
+          "candidate": {
+            "median": 11330.591335999983,
+            "min": 10400.124662999995,
+            "max": 12261.058008999971,
+            "values": [
+              10400.124662999995,
+              12261.058008999971
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -2187.750819000001,
+            -2643.3341469999286
+          ],
+          "pairedPercentReduction": [
+            -26.639688603537984,
+            -27.483988778715435
+          ],
+          "medianPairedPercentReduction": -27.06183869112671
+        },
+        {
+          "group": "1x/cold",
+          "metric": "assetEncodedBytes",
+          "pairs": 2,
+          "baseline": {
+            "median": 4165573,
+            "min": 4165573,
+            "max": 4165573,
+            "values": [
+              4165573,
+              4165573
+            ]
+          },
+          "candidate": {
+            "median": 4165578,
+            "min": 4165578,
+            "max": 4165578,
+            "values": [
+              4165578,
+              4165578
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -5,
+            -5
+          ],
+          "pairedPercentReduction": [
+            -0.00012003150586966067,
+            -0.00012003150586966067
+          ],
+          "medianPairedPercentReduction": -0.00012003150586966067
+        },
+        {
+          "group": "1x/cold",
+          "metric": "assetDecodedBytes",
+          "pairs": 2,
+          "baseline": {
+            "median": 14688615,
+            "min": 14688615,
+            "max": 14688615,
+            "values": [
+              14688615,
+              14688615
+            ]
+          },
+          "candidate": {
+            "median": 14688601,
+            "min": 14688601,
+            "max": 14688601,
+            "values": [
+              14688601,
+              14688601
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            14,
+            14
+          ],
+          "pairedPercentReduction": [
+            9.531191334240839e-05,
+            9.531191334240839e-05
+          ],
+          "medianPairedPercentReduction": 9.531191334240839e-05
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "elapsedMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 60048.43402600002,
+            "min": 60030.45181500001,
+            "max": 60066.41623700003,
+            "values": [
+              60030.45181500001,
+              60066.41623700003
+            ]
+          },
+          "candidate": {
+            "median": 60051.90804799998,
+            "min": 60048.602766999975,
+            "max": 60055.21332899999,
+            "values": [
+              60048.602766999975,
+              60055.21332899999
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -18.15095199996722,
+            11.202908000035677
+          ],
+          "pairedPercentReduction": [
+            -0.03023624085972943,
+            0.01865086799224564
+          ],
+          "medianPairedPercentReduction": -0.005792686433741895
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "mainThreadMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 24478.607000000004,
+            "min": 24472.880000000005,
+            "max": 24484.334,
+            "values": [
+              24472.880000000005,
+              24484.334
+            ]
+          },
+          "candidate": {
+            "median": 23877.985,
+            "min": 23370.982,
+            "max": 24384.988,
+            "values": [
+              24384.988,
+              23370.982
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            87.89200000000346,
+            1113.351999999999
+          ],
+          "pairedPercentReduction": [
+            0.3591404035814479,
+            4.5472014881025515
+          ],
+          "medianPairedPercentReduction": 2.453170945842
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "mainThreadMsPerSecond",
+          "pairs": 2,
+          "baseline": {
+            "median": 407.64772432800476,
+            "min": 407.6210224261392,
+            "max": 407.6744262298703,
+            "values": [
+              407.6744262298703,
+              407.6210224261392
+            ]
+          },
+          "candidate": {
+            "median": 397.62288583568125,
+            "min": 389.15825462090925,
+            "max": 406.0875170504533,
+            "values": [
+              406.0875170504533,
+              389.15825462090925
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            1.5869091794169776,
+            18.46276780522993
+          ],
+          "pairedPercentReduction": [
+            0.38925894716834336,
+            4.529395391665644
+          ],
+          "medianPairedPercentReduction": 2.459327169416994
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "mainThreadCpuMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 24573.180000000004,
+            "min": 24557.073000000004,
+            "max": 24589.287000000004,
+            "values": [
+              24589.287000000004,
+              24557.073000000004
+            ]
+          },
+          "candidate": {
+            "median": 24018.150999999998,
+            "min": 23494.11,
+            "max": 24542.192,
+            "values": [
+              24542.192,
+              23494.11
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            47.0950000000048,
+            1062.9630000000034
+          ],
+          "pairedPercentReduction": [
+            0.19152649688461806,
+            4.3285411091134645
+          ],
+          "medianPairedPercentReduction": 2.2600338029990414
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "rendererCpuMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 35235,
+            "min": 34960,
+            "max": 35510.00000000001,
+            "values": [
+              35510.00000000001,
+              34960
+            ]
+          },
+          "candidate": {
+            "median": 35230,
+            "min": 34530,
+            "max": 35930,
+            "values": [
+              35930,
+              34530
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -419.9999999999927,
+            430
+          ],
+          "pairedPercentReduction": [
+            -1.1827654181920377,
+            1.2299771167048055
+          ],
+          "medianPairedPercentReduction": 0.02360584925638387
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "scriptMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 12243.778000000002,
+            "min": 11991.337000000001,
+            "max": 12496.219000000001,
+            "values": [
+              11991.337000000001,
+              12496.219000000001
+            ]
+          },
+          "candidate": {
+            "median": 10954.915500000001,
+            "min": 10889.133000000002,
+            "max": 11020.698,
+            "values": [
+              11020.698,
+              10889.133000000002
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            970.639000000001,
+            1607.0859999999993
+          ],
+          "pairedPercentReduction": [
+            8.094501889155488,
+            12.860578067653897
+          ],
+          "medianPairedPercentReduction": 10.477539978404693
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "styleMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 2729.879,
+            "min": 2703.351,
+            "max": 2756.407,
+            "values": [
+              2756.407,
+              2703.351
+            ]
+          },
+          "candidate": {
+            "median": 2788.8345,
+            "min": 2698.1510000000003,
+            "max": 2879.518,
+            "values": [
+              2879.518,
+              2698.1510000000003
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -123.11099999999988,
+            5.199999999999818
+          ],
+          "pairedPercentReduction": [
+            -4.466357834673902,
+            0.19235386007957597
+          ],
+          "medianPairedPercentReduction": -2.137001987297163
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "layoutMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 123.8675,
+            "min": 121.83,
+            "max": 125.90500000000002,
+            "values": [
+              125.90500000000002,
+              121.83
+            ]
+          },
+          "candidate": {
+            "median": 142.0235,
+            "min": 140.25,
+            "max": 143.797,
+            "values": [
+              140.25,
+              143.797
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -14.344999999999985,
+            -21.967
+          ],
+          "pairedPercentReduction": [
+            -11.393510980501157,
+            -18.030862677501435
+          ],
+          "medianPairedPercentReduction": -14.712186829001297
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "styleRecalculations",
+          "pairs": 2,
+          "baseline": {
+            "median": 3059,
+            "min": 3037,
+            "max": 3081,
+            "values": [
+              3081,
+              3037
+            ]
+          },
+          "candidate": {
+            "median": 3143.5,
+            "min": 3141,
+            "max": 3146,
+            "values": [
+              3141,
+              3146
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -60,
+            -109
+          ],
+          "pairedPercentReduction": [
+            -1.9474196689386563,
+            -3.5890681593677973
+          ],
+          "medianPairedPercentReduction": -2.768243914153227
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "layouts",
+          "pairs": 2,
+          "baseline": {
+            "median": 286.5,
+            "min": 269,
+            "max": 304,
+            "values": [
+              269,
+              304
+            ]
+          },
+          "candidate": {
+            "median": 292.5,
+            "min": 268,
+            "max": 317,
+            "values": [
+              268,
+              317
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            1,
+            -13
+          ],
+          "pairedPercentReduction": [
+            0.37174721189591076,
+            -4.276315789473684
+          ],
+          "medianPairedPercentReduction": -1.9522842887888867
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "frameGapP95Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 16.80000000000291,
+            "min": 16.80000000000291,
+            "max": 16.80000000000291,
+            "values": [
+              16.80000000000291,
+              16.80000000000291
+            ]
+          },
+          "candidate": {
+            "median": 16.80000000000291,
+            "min": 16.80000000000291,
+            "max": 16.80000000000291,
+            "values": [
+              16.80000000000291,
+              16.80000000000291
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            0,
+            0
+          ],
+          "medianPairedPercentReduction": 0
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "frameGapMaxMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 183.34999999999854,
+            "min": 183.29999999999563,
+            "max": 183.40000000000146,
+            "values": [
+              183.40000000000146,
+              183.29999999999563
+            ]
+          },
+          "candidate": {
+            "median": 183.35000000000218,
+            "min": 183.3000000000029,
+            "max": 183.40000000000146,
+            "values": [
+              183.40000000000146,
+              183.3000000000029
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            -7.275957614183426e-12
+          ],
+          "pairedPercentReduction": [
+            0,
+            -3.969425866985051e-12
+          ],
+          "medianPairedPercentReduction": -1.9847129334925256e-12
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "longTasks",
+          "pairs": 2,
+          "baseline": {
+            "median": 96,
+            "min": 96,
+            "max": 96,
+            "values": [
+              96,
+              96
+            ]
+          },
+          "candidate": {
+            "median": 96,
+            "min": 96,
+            "max": 96,
+            "values": [
+              96,
+              96
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            0,
+            0
+          ],
+          "medianPairedPercentReduction": 0
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "longTaskMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 9100.5,
+            "min": 8911,
+            "max": 9290,
+            "values": [
+              8911,
+              9290
+            ]
+          },
+          "candidate": {
+            "median": 7844.5,
+            "min": 7781,
+            "max": 7908,
+            "values": [
+              7908,
+              7781
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            1003,
+            1509
+          ],
+          "pairedPercentReduction": [
+            11.255751318594996,
+            16.243272335844996
+          ],
+          "medianPairedPercentReduction": 13.749511827219996
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "domNodes",
+          "pairs": 2,
+          "baseline": {
+            "median": 24542,
+            "min": 24542,
+            "max": 24542,
+            "values": [
+              24542,
+              24542
+            ]
+          },
+          "candidate": {
+            "median": 24542,
+            "min": 24542,
+            "max": 24542,
+            "values": [
+              24542,
+              24542
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            0,
+            0
+          ],
+          "medianPairedPercentReduction": 0
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "mountedEditors",
+          "pairs": 2,
+          "baseline": {
+            "median": 6,
+            "min": 6,
+            "max": 6,
+            "values": [
+              6,
+              6
+            ]
+          },
+          "candidate": {
+            "median": 6,
+            "min": 6,
+            "max": 6,
+            "values": [
+              6,
+              6
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            0,
+            0
+          ],
+          "medianPairedPercentReduction": 0
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "runningAnimations",
+          "pairs": 2,
+          "baseline": {
+            "median": 60,
+            "min": 60,
+            "max": 60,
+            "values": [
+              60,
+              60
+            ]
+          },
+          "candidate": {
+            "median": 60,
+            "min": 60,
+            "max": 60,
+            "values": [
+              60,
+              60
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            0,
+            0
+          ],
+          "medianPairedPercentReduction": 0
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "historyRequests",
+          "pairs": 2,
+          "baseline": {
+            "median": 67,
+            "min": 66,
+            "max": 68,
+            "values": [
+              68,
+              66
+            ]
+          },
+          "candidate": {
+            "median": 68,
+            "min": 68,
+            "max": 68,
+            "values": [
+              68,
+              68
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            -2
+          ],
+          "pairedPercentReduction": [
+            0,
+            -3.0303030303030303
+          ],
+          "medianPairedPercentReduction": -1.5151515151515151
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "historyDecodedBytes",
+          "pairs": 2,
+          "baseline": {
+            "median": 12079824.5,
+            "min": 11899525,
+            "max": 12260124,
+            "values": [
+              12260124,
+              11899525
+            ]
+          },
+          "candidate": {
+            "median": 12259692,
+            "min": 12259655,
+            "max": 12259729,
+            "values": [
+              12259655,
+              12259729
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            469,
+            -360204
+          ],
+          "pairedPercentReduction": [
+            0.0038254099224445037,
+            -3.0270451971822405
+          ],
+          "medianPairedPercentReduction": -1.511609893629898
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "websocketDecodedBytes",
+          "pairs": 2,
+          "baseline": {
+            "median": 12430298,
+            "min": 12250342,
+            "max": 12610254,
+            "values": [
+              12610254,
+              12250342
+            ]
+          },
+          "candidate": {
+            "median": 12610321,
+            "min": 12610017,
+            "max": 12610625,
+            "values": [
+              12610625,
+              12610017
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -371,
+            -359675
+          ],
+          "pairedPercentReduction": [
+            -0.002942050175991697,
+            -2.936040479522939
+          ],
+          "medianPairedPercentReduction": -1.4694912648494654
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "resets",
+          "pairs": 2,
+          "baseline": {
+            "median": 0,
+            "min": 0,
+            "max": 0,
+            "values": [
+              0,
+              0
+            ]
+          },
+          "candidate": {
+            "median": 0,
+            "min": 0,
+            "max": 0,
+            "values": [
+              0,
+              0
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            null,
+            null
+          ],
+          "medianPairedPercentReduction": null
+        },
+        {
+          "group": "1x/scripted-scroll-v2-idle",
+          "metric": "changedNotifications",
+          "pairs": 2,
+          "baseline": {
+            "median": 72,
+            "min": 72,
+            "max": 72,
+            "values": [
+              72,
+              72
+            ]
+          },
+          "candidate": {
+            "median": 72,
+            "min": 72,
+            "max": 72,
+            "values": [
+              72,
+              72
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            0,
+            0
+          ],
+          "medianPairedPercentReduction": 0
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "elapsedMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 61571.21918450004,
+            "min": 61249.26461900001,
+            "max": 61893.173750000075,
+            "values": [
+              61249.26461900001,
+              61893.173750000075
+            ]
+          },
+          "candidate": {
+            "median": 61339.572193500004,
+            "min": 60459.44693199999,
+            "max": 62219.697455000016,
+            "values": [
+              60459.44693199999,
+              62219.697455000016
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            789.817687000017,
+            -326.5237049999414
+          ],
+          "pairedPercentReduction": [
+            1.2895137466760855,
+            -0.5275601253198637
+          ],
+          "medianPairedPercentReduction": 0.3809768106781109
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "mainThreadMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 60620.94,
+            "min": 60248.96800000001,
+            "max": 60992.912000000004,
+            "values": [
+              60248.96800000001,
+              60992.912000000004
+            ]
+          },
+          "candidate": {
+            "median": 60471.75699999998,
+            "min": 59622.80899999999,
+            "max": 61320.70499999999,
+            "values": [
+              59622.80899999999,
+              61320.70499999999
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            626.1590000000215,
+            -327.7929999999833
+          ],
+          "pairedPercentReduction": [
+            1.0392858513361114,
+            -0.5374280211444623
+          ],
+          "medianPairedPercentReduction": 0.25092891509582455
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "mainThreadMsPerSecond",
+          "pairs": 2,
+          "baseline": {
+            "median": 984.5615089685583,
+            "min": 983.668430548149,
+            "max": 985.4545873889676,
+            "values": [
+              983.668430548149,
+              985.4545873889676
+            ]
+          },
+          "candidate": {
+            "median": 985.8566594760641,
+            "min": 985.551320694701,
+            "max": 986.1619982574273,
+            "values": [
+              986.1619982574273,
+              985.551320694701
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -2.4935677092782953,
+            -0.0967333057333235
+          ],
+          "pairedPercentReduction": [
+            -0.25349677105005347,
+            -0.009816109942683946
+          ],
+          "medianPairedPercentReduction": -0.1316564404963687
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "mainThreadCpuMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 60538.024000000005,
+            "min": 60211.234000000004,
+            "max": 60864.814,
+            "values": [
+              60211.234000000004,
+              60864.814
+            ]
+          },
+          "candidate": {
+            "median": 60558.34299999999,
+            "min": 59697.136,
+            "max": 61419.549999999996,
+            "values": [
+              59697.136,
+              61419.549999999996
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            514.0980000000054,
+            -554.7359999999971
+          ],
+          "pairedPercentReduction": [
+            0.853824055491049,
+            -0.9114231417843438
+          ],
+          "medianPairedPercentReduction": -0.0287995431466474
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "rendererCpuMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 75035,
+            "min": 74260,
+            "max": 75810,
+            "values": [
+              74260,
+              75810
+            ]
+          },
+          "candidate": {
+            "median": 74980,
+            "min": 73690,
+            "max": 76270,
+            "values": [
+              73690,
+              76270
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            570,
+            -460
+          ],
+          "pairedPercentReduction": [
+            0.7675733907891193,
+            -0.6067801081651497
+          ],
+          "medianPairedPercentReduction": 0.08039664131198482
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "scriptMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 41649.5265,
+            "min": 40799.00600000001,
+            "max": 42500.04699999999,
+            "values": [
+              40799.00600000001,
+              42500.04699999999
+            ]
+          },
+          "candidate": {
+            "median": 41430.178,
+            "min": 40688.817,
+            "max": 42171.539000000004,
+            "values": [
+              40688.817,
+              42171.539000000004
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            110.18900000000576,
+            328.5079999999871
+          ],
+          "pairedPercentReduction": [
+            0.2700776582645316,
+            0.7729591451980915
+          ],
+          "medianPairedPercentReduction": 0.5215184017313116
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "styleMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 5162.313,
+            "min": 5145.524,
+            "max": 5179.102000000001,
+            "values": [
+              5145.524,
+              5179.102000000001
+            ]
+          },
+          "candidate": {
+            "median": 5336.465999999999,
+            "min": 5290.7919999999995,
+            "max": 5382.139999999999,
+            "values": [
+              5382.139999999999,
+              5290.7919999999995
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -236.61599999999908,
+            -111.68999999999869
+          ],
+          "pairedPercentReduction": [
+            -4.59848209822749,
+            -2.1565514639410206
+          ],
+          "medianPairedPercentReduction": -3.377516781084255
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "layoutMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 1050.8895,
+            "min": 1027.9180000000001,
+            "max": 1073.8609999999999,
+            "values": [
+              1027.9180000000001,
+              1073.8609999999999
+            ]
+          },
+          "candidate": {
+            "median": 1092.5735,
+            "min": 1078.33,
+            "max": 1106.817,
+            "values": [
+              1078.33,
+              1106.817
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -50.41199999999981,
+            -32.95600000000013
+          ],
+          "pairedPercentReduction": [
+            -4.904282248194876,
+            -3.0689260528131794
+          ],
+          "medianPairedPercentReduction": -3.9866041505040277
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "styleRecalculations",
+          "pairs": 2,
+          "baseline": {
+            "median": 2763.5,
+            "min": 2674,
+            "max": 2853,
+            "values": [
+              2853,
+              2674
+            ]
+          },
+          "candidate": {
+            "median": 3044.5,
+            "min": 2962,
+            "max": 3127,
+            "values": [
+              3127,
+              2962
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -274,
+            -288
+          ],
+          "pairedPercentReduction": [
+            -9.603925692253767,
+            -10.770381451009722
+          ],
+          "medianPairedPercentReduction": -10.187153571631745
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "layouts",
+          "pairs": 2,
+          "baseline": {
+            "median": 2121.5,
+            "min": 2104,
+            "max": 2139,
+            "values": [
+              2139,
+              2104
+            ]
+          },
+          "candidate": {
+            "median": 2370.5,
+            "min": 2304,
+            "max": 2437,
+            "values": [
+              2437,
+              2304
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -298,
+            -200
+          ],
+          "pairedPercentReduction": [
+            -13.931743805516597,
+            -9.505703422053232
+          ],
+          "medianPairedPercentReduction": -11.718723613784913
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "frameGapP95Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 150,
+            "min": 150,
+            "max": 150,
+            "values": [
+              150,
+              150
+            ]
+          },
+          "candidate": {
+            "median": 141.59999999999127,
+            "min": 133.29999999998836,
+            "max": 149.89999999999418,
+            "values": [
+              133.29999999998836,
+              149.89999999999418
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            16.70000000001164,
+            0.10000000000582077
+          ],
+          "pairedPercentReduction": [
+            11.133333333341094,
+            0.06666666667054717
+          ],
+          "medianPairedPercentReduction": 5.600000000005821
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "frameGapMaxMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 199.9499999999971,
+            "min": 199.89999999999418,
+            "max": 200,
+            "values": [
+              200,
+              199.89999999999418
+            ]
+          },
+          "candidate": {
+            "median": 208.29999999999563,
+            "min": 183.40000000000873,
+            "max": 233.19999999998254,
+            "values": [
+              183.40000000000873,
+              233.19999999998254
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            16.59999999999127,
+            -33.29999999998836
+          ],
+          "pairedPercentReduction": [
+            8.299999999995634,
+            -16.65832916457695
+          ],
+          "medianPairedPercentReduction": -4.1791645822906585
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "longTasks",
+          "pairs": 2,
+          "baseline": {
+            "median": 9.5,
+            "min": 9,
+            "max": 10,
+            "values": [
+              9,
+              10
+            ]
+          },
+          "candidate": {
+            "median": 1.5,
+            "min": 1,
+            "max": 2,
+            "values": [
+              1,
+              2
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            8,
+            8
+          ],
+          "pairedPercentReduction": [
+            88.88888888888889,
+            80
+          ],
+          "medianPairedPercentReduction": 84.44444444444444
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "longTaskMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 565,
+            "min": 516,
+            "max": 614,
+            "values": [
+              516,
+              614
+            ]
+          },
+          "candidate": {
+            "median": 98.5,
+            "min": 55,
+            "max": 142,
+            "values": [
+              55,
+              142
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            461,
+            472
+          ],
+          "pairedPercentReduction": [
+            89.34108527131782,
+            76.8729641693811
+          ],
+          "medianPairedPercentReduction": 83.10702472034947
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "domNodes",
+          "pairs": 2,
+          "baseline": {
+            "median": 26378,
+            "min": 26378,
+            "max": 26378,
+            "values": [
+              26378,
+              26378
+            ]
+          },
+          "candidate": {
+            "median": 26378,
+            "min": 26378,
+            "max": 26378,
+            "values": [
+              26378,
+              26378
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            0,
+            0
+          ],
+          "medianPairedPercentReduction": 0
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "mountedEditors",
+          "pairs": 2,
+          "baseline": {
+            "median": 6,
+            "min": 6,
+            "max": 6,
+            "values": [
+              6,
+              6
+            ]
+          },
+          "candidate": {
+            "median": 6,
+            "min": 6,
+            "max": 6,
+            "values": [
+              6,
+              6
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            0,
+            0
+          ],
+          "medianPairedPercentReduction": 0
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "runningAnimations",
+          "pairs": 2,
+          "baseline": {
+            "median": 61,
+            "min": 61,
+            "max": 61,
+            "values": [
+              61,
+              61
+            ]
+          },
+          "candidate": {
+            "median": 61,
+            "min": 61,
+            "max": 61,
+            "values": [
+              61,
+              61
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            0,
+            0
+          ],
+          "medianPairedPercentReduction": 0
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "historyRequests",
+          "pairs": 2,
+          "baseline": {
+            "median": 72,
+            "min": 72,
+            "max": 72,
+            "values": [
+              72,
+              72
+            ]
+          },
+          "candidate": {
+            "median": 72.5,
+            "min": 72,
+            "max": 73,
+            "values": [
+              72,
+              73
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            -1
+          ],
+          "pairedPercentReduction": [
+            0,
+            -1.3888888888888888
+          ],
+          "medianPairedPercentReduction": -0.6944444444444444
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "historyDecodedBytes",
+          "pairs": 2,
+          "baseline": {
+            "median": 13262870.5,
+            "min": 13262450,
+            "max": 13263291,
+            "values": [
+              13262450,
+              13263291
+            ]
+          },
+          "candidate": {
+            "median": 13357402,
+            "min": 13263229,
+            "max": 13451575,
+            "values": [
+              13263229,
+              13451575
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -779,
+            -188284
+          ],
+          "pairedPercentReduction": [
+            -0.005873726196894239,
+            -1.4195873407286321
+          ],
+          "medianPairedPercentReduction": -0.7127305334627632
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "websocketDecodedBytes",
+          "pairs": 2,
+          "baseline": {
+            "median": 36398967,
+            "min": 36364679,
+            "max": 36433255,
+            "values": [
+              36364679,
+              36433255
+            ]
+          },
+          "candidate": {
+            "median": 38662310.5,
+            "min": 38653763,
+            "max": 38670858,
+            "values": [
+              38670858,
+              38653763
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -2306179,
+            -2220508
+          ],
+          "pairedPercentReduction": [
+            -6.341810414440892,
+            -6.0947285659763315
+          ],
+          "medianPairedPercentReduction": -6.218269490208612
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "resets",
+          "pairs": 2,
+          "baseline": {
+            "median": 0,
+            "min": 0,
+            "max": 0,
+            "values": [
+              0,
+              0
+            ]
+          },
+          "candidate": {
+            "median": 0,
+            "min": 0,
+            "max": 0,
+            "values": [
+              0,
+              0
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            null,
+            null
+          ],
+          "medianPairedPercentReduction": null
+        },
+        {
+          "group": "1x/scripted-scroll-v2-streaming",
+          "metric": "changedNotifications",
+          "pairs": 2,
+          "baseline": {
+            "median": 1685,
+            "min": 1659,
+            "max": 1711,
+            "values": [
+              1659,
+              1711
+            ]
+          },
+          "candidate": {
+            "median": 1842,
+            "min": 1840,
+            "max": 1844,
+            "values": [
+              1840,
+              1844
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -181,
+            -133
+          ],
+          "pairedPercentReduction": [
+            -10.910186859553948,
+            -7.77323202805377
+          ],
+          "medianPairedPercentReduction": -9.34170944380386
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "elapsedMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 60047.22248699998,
+            "min": 60029.556430999975,
+            "max": 60064.88854299998,
+            "values": [
+              60029.556430999975,
+              60064.88854299998
+            ]
+          },
+          "candidate": {
+            "median": 60052.0438825,
+            "min": 60041.58184499998,
+            "max": 60062.505920000025,
+            "values": [
+              60041.58184499998,
+              60062.505920000025
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -12.025414000003366,
+            2.3826229999540374
+          ],
+          "pairedPercentReduction": [
+            -0.02003248851892782,
+            0.003966748391197524
+          ],
+          "medianPairedPercentReduction": -0.008032870063865147
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "mainThreadMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 5889.889000000004,
+            "min": 5766.567000000009,
+            "max": 6013.210999999998,
+            "values": [
+              5766.567000000009,
+              6013.210999999998
+            ]
+          },
+          "candidate": {
+            "median": 7222.095499999995,
+            "min": 6774.186999999998,
+            "max": 7670.003999999992,
+            "values": [
+              7670.003999999992,
+              6774.186999999998
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -1903.4369999999826,
+            -760.9759999999997
+          ],
+          "pairedPercentReduction": [
+            -33.00814852233538,
+            -12.655068980616177
+          ],
+          "medianPairedPercentReduction": -22.83160875147578
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "mainThreadMsPerSecond",
+          "pairs": 2,
+          "baseline": {
+            "median": 98.08702191688101,
+            "min": 96.0621291051567,
+            "max": 100.11191472860534,
+            "values": [
+              96.0621291051567,
+              100.11191472860534
+            ]
+          },
+          "candidate": {
+            "median": 120.26524469741315,
+            "min": 112.78562051711337,
+            "max": 127.74486887771293,
+            "values": [
+              127.74486887771293,
+              112.78562051711337
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -31.682739772556232,
+            -12.67370578850803
+          ],
+          "pairedPercentReduction": [
+            -32.981509016809284,
+            -12.659537901023409
+          ],
+          "medianPairedPercentReduction": -22.820523458916348
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "mainThreadCpuMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 6202.860499999993,
+            "min": 6084.048999999994,
+            "max": 6321.671999999992,
+            "values": [
+              6084.048999999994,
+              6321.671999999992
+            ]
+          },
+          "candidate": {
+            "median": 7531.850999999996,
+            "min": 7070.137000000002,
+            "max": 7993.56499999999,
+            "values": [
+              7993.56499999999,
+              7070.137000000002
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -1909.515999999996,
+            -748.4650000000101
+          ],
+          "pairedPercentReduction": [
+            -31.385611785835355,
+            -11.839668366217214
+          ],
+          "medianPairedPercentReduction": -21.612640076026285
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "rendererCpuMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 10475.000000000002,
+            "min": 10199.999999999989,
+            "max": 10750.000000000015,
+            "values": [
+              10199.999999999989,
+              10750.000000000015
+            ]
+          },
+          "candidate": {
+            "median": 12005.000000000011,
+            "min": 11440.000000000013,
+            "max": 12570.000000000007,
+            "values": [
+              12570.000000000007,
+              11440.000000000013
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -2370.000000000018,
+            -689.9999999999982
+          ],
+          "pairedPercentReduction": [
+            -23.23529411764726,
+            -6.418604651162766
+          ],
+          "medianPairedPercentReduction": -14.826949384405014
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "scriptMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 1707.3184999999994,
+            "min": 1704.6810000000007,
+            "max": 1709.9559999999983,
+            "values": [
+              1709.9559999999983,
+              1704.6810000000007
+            ]
+          },
+          "candidate": {
+            "median": 1959.5875000000049,
+            "min": 1855.987000000006,
+            "max": 2063.1880000000037,
+            "values": [
+              2063.1880000000037,
+              1855.987000000006
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -353.2320000000054,
+            -151.30600000000527
+          ],
+          "pairedPercentReduction": [
+            -20.657373640023824,
+            -8.875912854076816
+          ],
+          "medianPairedPercentReduction": -14.76664324705032
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "styleMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 19.795500000000743,
+            "min": 13.414000000000925,
+            "max": 26.17700000000056,
+            "values": [
+              13.414000000000925,
+              26.17700000000056
+            ]
+          },
+          "candidate": {
+            "median": 20.435499999999607,
+            "min": 19.44499999999927,
+            "max": 21.425999999999945,
+            "values": [
+              19.44499999999927,
+              21.425999999999945
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -6.030999999998343,
+            4.751000000000616
+          ],
+          "pairedPercentReduction": [
+            -44.96048904128469,
+            18.149520571496023
+          ],
+          "medianPairedPercentReduction": -13.405484234894333
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "layoutMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 107.99349999999995,
+            "min": 106.44699999999996,
+            "max": 109.53999999999996,
+            "values": [
+              106.44699999999996,
+              109.53999999999996
+            ]
+          },
+          "candidate": {
+            "median": 154.32600000000008,
+            "min": 144.67300000000006,
+            "max": 163.9790000000001,
+            "values": [
+              163.9790000000001,
+              144.67300000000006
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -57.53200000000014,
+            -35.133000000000095
+          ],
+          "pairedPercentReduction": [
+            -54.04755418189348,
+            -32.07321526383066
+          ],
+          "medianPairedPercentReduction": -43.06038472286207
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "styleRecalculations",
+          "pairs": 2,
+          "baseline": {
+            "median": 3,
+            "min": 2,
+            "max": 4,
+            "values": [
+              2,
+              4
+            ]
+          },
+          "candidate": {
+            "median": 3.5,
+            "min": 3,
+            "max": 4,
+            "values": [
+              4,
+              3
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -2,
+            1
+          ],
+          "pairedPercentReduction": [
+            -100,
+            25
+          ],
+          "medianPairedPercentReduction": -37.5
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "layouts",
+          "pairs": 2,
+          "baseline": {
+            "median": 327.5,
+            "min": 297,
+            "max": 358,
+            "values": [
+              297,
+              358
+            ]
+          },
+          "candidate": {
+            "median": 344.5,
+            "min": 330,
+            "max": 359,
+            "values": [
+              330,
+              359
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -33,
+            -1
+          ],
+          "pairedPercentReduction": [
+            -11.11111111111111,
+            -0.27932960893854747
+          ],
+          "medianPairedPercentReduction": -5.6952203600248295
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "frameGapP95Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 16.79999999998836,
+            "min": 16.79999999998836,
+            "max": 16.79999999998836,
+            "values": [
+              16.79999999998836,
+              16.79999999998836
+            ]
+          },
+          "candidate": {
+            "median": 16.75,
+            "min": 16.70000000001164,
+            "max": 16.79999999998836,
+            "values": [
+              16.70000000001164,
+              16.79999999998836
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0.09999999997671694,
+            0
+          ],
+          "pairedPercentReduction": [
+            0.595238095099918,
+            0
+          ],
+          "medianPairedPercentReduction": 0.297619047549959
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "frameGapMaxMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 83.35000000000582,
+            "min": 66.70000000001164,
+            "max": 100,
+            "values": [
+              66.70000000001164,
+              100
+            ]
+          },
+          "candidate": {
+            "median": 116.60000000000582,
+            "min": 116.60000000000582,
+            "max": 116.60000000000582,
+            "values": [
+              116.60000000000582,
+              116.60000000000582
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -49.89999999999418,
+            -16.60000000000582
+          ],
+          "pairedPercentReduction": [
+            -74.81259370312664,
+            -16.60000000000582
+          ],
+          "medianPairedPercentReduction": -45.70629685156623
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "longTasks",
+          "pairs": 2,
+          "baseline": {
+            "median": 0,
+            "min": 0,
+            "max": 0,
+            "values": [
+              0,
+              0
+            ]
+          },
+          "candidate": {
+            "median": 0,
+            "min": 0,
+            "max": 0,
+            "values": [
+              0,
+              0
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            null,
+            null
+          ],
+          "medianPairedPercentReduction": null
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "longTaskMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 0,
+            "min": 0,
+            "max": 0,
+            "values": [
+              0,
+              0
+            ]
+          },
+          "candidate": {
+            "median": 0,
+            "min": 0,
+            "max": 0,
+            "values": [
+              0,
+              0
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            null,
+            null
+          ],
+          "medianPairedPercentReduction": null
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "domNodes",
+          "pairs": 2,
+          "baseline": {
+            "median": 26378,
+            "min": 26378,
+            "max": 26378,
+            "values": [
+              26378,
+              26378
+            ]
+          },
+          "candidate": {
+            "median": 26378,
+            "min": 26378,
+            "max": 26378,
+            "values": [
+              26378,
+              26378
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            0,
+            0
+          ],
+          "medianPairedPercentReduction": 0
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "mountedEditors",
+          "pairs": 2,
+          "baseline": {
+            "median": 6,
+            "min": 6,
+            "max": 6,
+            "values": [
+              6,
+              6
+            ]
+          },
+          "candidate": {
+            "median": 6,
+            "min": 6,
+            "max": 6,
+            "values": [
+              6,
+              6
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            0,
+            0
+          ],
+          "medianPairedPercentReduction": 0
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "runningAnimations",
+          "pairs": 2,
+          "baseline": {
+            "median": 0,
+            "min": 0,
+            "max": 0,
+            "values": [
+              0,
+              0
+            ]
+          },
+          "candidate": {
+            "median": 0,
+            "min": 0,
+            "max": 0,
+            "values": [
+              0,
+              0
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            null,
+            null
+          ],
+          "medianPairedPercentReduction": null
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "historyRequests",
+          "pairs": 2,
+          "baseline": {
+            "median": 73.5,
+            "min": 73,
+            "max": 74,
+            "values": [
+              73,
+              74
+            ]
+          },
+          "candidate": {
+            "median": 73.5,
+            "min": 72,
+            "max": 75,
+            "values": [
+              72,
+              75
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            1,
+            -1
+          ],
+          "pairedPercentReduction": [
+            1.36986301369863,
+            -1.3513513513513513
+          ],
+          "medianPairedPercentReduction": 0.009255831173639373
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "historyDecodedBytes",
+          "pairs": 2,
+          "baseline": {
+            "median": 13816956.5,
+            "min": 13722979,
+            "max": 13910934,
+            "values": [
+              13722979,
+              13910934
+            ]
+          },
+          "candidate": {
+            "median": 13816501,
+            "min": 13534499,
+            "max": 14098503,
+            "values": [
+              13534499,
+              14098503
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            188480,
+            -187569
+          ],
+          "pairedPercentReduction": [
+            1.373462715347739,
+            -1.3483566236458313
+          ],
+          "medianPairedPercentReduction": 0.012553045850953848
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "websocketDecodedBytes",
+          "pairs": 2,
+          "baseline": {
+            "median": 13845344,
+            "min": 13751364,
+            "max": 13939324,
+            "values": [
+              13751364,
+              13939324
+            ]
+          },
+          "candidate": {
+            "median": 13846151.5,
+            "min": 13565103,
+            "max": 14127200,
+            "values": [
+              13565103,
+              14127200
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            186261,
+            -187876
+          ],
+          "pairedPercentReduction": [
+            1.3544910890294228,
+            -1.3478128494609924
+          ],
+          "medianPairedPercentReduction": 0.0033391197842151943
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "resets",
+          "pairs": 2,
+          "baseline": {
+            "median": 0,
+            "min": 0,
+            "max": 0,
+            "values": [
+              0,
+              0
+            ]
+          },
+          "candidate": {
+            "median": 0,
+            "min": 0,
+            "max": 0,
+            "values": [
+              0,
+              0
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            null,
+            null
+          ],
+          "medianPairedPercentReduction": null
+        },
+        {
+          "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+          "metric": "changedNotifications",
+          "pairs": 2,
+          "baseline": {
+            "median": 72,
+            "min": 72,
+            "max": 72,
+            "values": [
+              72,
+              72
+            ]
+          },
+          "candidate": {
+            "median": 75,
+            "min": 72,
+            "max": 78,
+            "values": [
+              78,
+              72
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -6,
+            0
+          ],
+          "pairedPercentReduction": [
+            -8.333333333333334,
+            0
+          ],
+          "medianPairedPercentReduction": -4.166666666666667
+        }
+      ],
+      "notes": [
+        "mainThreadMs and mainThreadMsPerSecond use TaskDuration with timeTicks: elapsed time in main-thread tasks, not thread CPU time. Script, style, and layout durations use the same elapsed-time domain.",
+        "mainThreadCpuMs uses ThreadTime (renderer main-thread CPU). rendererCpuMs uses ProcessTime (renderer-process CPU); it excludes separate browser, GPU, and backend processes.",
+        "Positive reduction means a lower candidate value. Counts such as mounted editors are observations, not optimization scores.",
+        "Frame gaps and driver DOM readiness are not INP. Linux CPU throttling is not an M2 Air simulation.",
+        "Extra busy headers are backend-seeded status rows, not additional live executions. The six canonical stream producers remain unchanged. Busy-header variants must not be pooled with the default workload.",
+        "Final-content probe versions must not be pooled. Locator-assertion retries can collect page-wide ARIA snapshots; boolean polling retains the same visibility gate without those snapshots.",
+        "Scripted input variants have a separate mode and window prefix. Their later idle windows can retain composer state changed by those inputs. Action timestamps preserve late execution; they do not imply that all inputs completed on schedule.",
+        "Streaming duration includes the wait for final visible content. Fixed-deadline traffic is retained in the raw report.",
+        "History decoded bytes include captured requests and responses. They are not compressed network transfer."
+      ]
+    },
+    "mainHandle": 44652,
+    "mainExitCode": 0,
+    "samplerHandle": 93666,
+    "samplerExitCode": 0,
+    "auditHandle": 64090,
+    "auditExitCode": 0,
+    "summaryExitCode": 0,
+    "hostSampler": {
+      "path": ".kandev/diagnostics/dense-workbench-performance/sidebar-comparator-two-pair-host-load.jsonl",
+      "sha256": "68cbaa36eeaa144f592eb7c78e8c93df6f8491fe8b21bbd378ce40b3fce0f929",
+      "bytes": 7079
+    },
+    "hostSamplerCoverageOffsetSeconds": -3.604551076889038,
+    "disposition": "All four attempts pass and verify 7200 ordered updates. Streaming main-thread task rate is slightly worse in both pairs. Normalized script rate is mixed; normalized style and layout rates increase in both. Cold readiness and reduced-motion idle work are worse in both pairs. All 70 rows remain intact."
+  },
+  "navigationComparison": {
+    "report": {
+      "path": ".kandev/diagnostics/dense-workbench-performance/matched-navigation-1793076405826.json",
+      "sha256": "ea87248e5f16fee015d6f32b8390c2b60109f3ccbdbf42664d2a48af756b1f16",
+      "bytes": 1152821
+    },
+    "postAudit": {
+      "recordedAt": "2026-10-27T04:55:33.506621+00:00",
+      "report": "matched-navigation-1793076405826.json",
+      "reportSha256": "ea87248e5f16fee015d6f32b8390c2b60109f3ccbdbf42664d2a48af756b1f16",
+      "measurementKind": "reference-workload",
+      "navigationScenario": "task-switch",
+      "navigationReadiness": "pointerdown-raf-v1",
+      "sourceRevision": "653584718de543baf91546c41c09884bb58ef6e7",
+      "productionRevision": "653584718de543baf91546c41c09884bb58ef6e7",
+      "sourcePatchSha256": "32f938c7cc6585006bb655eeafdb561a5f34ffeb7b97c55237b18ee503f7db06",
+      "harnessSha256": "bb030173237f664ddda3686fd7306b01554f07920d4f3ebe51f4999679e1eaa8",
+      "harnessFilesVerified": 1956,
+      "testedSourceFilesVerified": 10,
+      "untrackedFilesVerified": 1,
+      "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+      "backendLogsVerified": 4,
+      "mainHandle": 57458,
+      "mainExitCode": 0,
+      "samplerHandle": 13434,
+      "samplerExitCode": 0,
+      "completeSamples": 4,
+      "verifiedTimedSwitches": 160,
+      "additionalRetentionSwitches": 200,
+      "allAttemptsPassed": true,
+      "error": null,
+      "newWorkerRoots": [
+        "/tmp/kandev-e2e-0-TmEC71"
+      ],
+      "newWorkerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "preparedItems": [
+        {
+          "task": {
+            "id": "82965358-8c38-4c5f-8a21-c4ba2c3ae079",
+            "workspace_id": "9e908e21-b219-4eec-b009-2fad532c2a18",
+            "workflow_id": "7498be12-8bf5-4b2e-9288-3281c87ac9b7",
+            "workflow_step_id": "3be52e6e-08e8-4e87-a252-e37efcd460c6",
+            "title": "Navigation A",
+            "description": "/e2e:simple-message",
+            "state": "CREATED",
+            "priority": "medium",
+            "wip_admitted": true,
+            "repositories": [
+              {
+                "id": "9ee37a8a-31d3-4163-a9d8-8dafdfbd9839",
+                "task_id": "82965358-8c38-4c5f-8a21-c4ba2c3ae079",
+                "repository_id": "e553eecf-ba54-4538-9bba-beda632e0637",
+                "base_branch": "e2e-navigation-72a8dd10-7d37-4cfb-aa9f-3eee2a5427eb",
+                "position": 0,
+                "created_at": "2026-10-27T04:43:41.945316379Z",
+                "updated_at": "2026-10-27T04:43:41.945316379Z"
+              }
+            ],
+            "position": 998,
+            "primary_executor_profile_id": "1d50424d-bdcf-43d4-a8a8-e1258c586d36",
+            "primary_session_pending_action": null,
+            "task_pending_action": null,
+            "active_subagent_count": 0,
+            "autopilot": false,
+            "created_at": "2026-10-27T04:43:41.936125093Z",
+            "updated_at": "2026-10-27T04:43:41.936125093Z",
+            "metadata": {
+              "agent_profile_id": "1fc5ec21-8c58-4122-9bbe-4327a1ae88ab",
+              "executor_profile_id": "1d50424d-bdcf-43d4-a8a8-e1258c586d36",
+              "workspace": {
+                "mode": "new_workspace"
+              }
+            },
+            "runner_editable": false,
+            "runner_ineligible_reason": "evaluation_unavailable",
+            "origin": "manual",
+            "labels": "[]",
+            "parked_on_background_work": false,
+            "parked_revision": 0,
+            "parked_epoch": 0,
+            "deduplicated": false,
+            "creation_complete": true,
+            "session_id": "ba217699-bc4c-49c8-ac73-72339aab9fb9"
+          },
+          "marker": "navigation-available/000-Navigation-A.txt",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "messageCount": 1000
+        },
+        {
+          "task": {
+            "id": "aa845957-4125-4696-84ca-7c2a7ab8cdbc",
+            "workspace_id": "9e908e21-b219-4eec-b009-2fad532c2a18",
+            "workflow_id": "7498be12-8bf5-4b2e-9288-3281c87ac9b7",
+            "workflow_step_id": "3be52e6e-08e8-4e87-a252-e37efcd460c6",
+            "title": "Navigation B",
+            "description": "/e2e:simple-message",
+            "state": "CREATED",
+            "priority": "medium",
+            "wip_admitted": true,
+            "repositories": [
+              {
+                "id": "7723b6c7-318f-4067-a56e-134edd4bc567",
+                "task_id": "aa845957-4125-4696-84ca-7c2a7ab8cdbc",
+                "repository_id": "e553eecf-ba54-4538-9bba-beda632e0637",
+                "base_branch": "e2e-navigation-72a8dd10-7d37-4cfb-aa9f-3eee2a5427eb",
+                "position": 0,
+                "created_at": "2026-10-27T04:43:42.389260922Z",
+                "updated_at": "2026-10-27T04:43:42.389260922Z"
+              }
+            ],
+            "position": 999,
+            "primary_executor_profile_id": "1d50424d-bdcf-43d4-a8a8-e1258c586d36",
+            "primary_session_pending_action": null,
+            "task_pending_action": null,
+            "active_subagent_count": 0,
+            "autopilot": false,
+            "created_at": "2026-10-27T04:43:42.380264843Z",
+            "updated_at": "2026-10-27T04:43:42.380264843Z",
+            "metadata": {
+              "agent_profile_id": "1fc5ec21-8c58-4122-9bbe-4327a1ae88ab",
+              "executor_profile_id": "1d50424d-bdcf-43d4-a8a8-e1258c586d36",
+              "workspace": {
+                "mode": "new_workspace"
+              }
+            },
+            "runner_editable": false,
+            "runner_ineligible_reason": "evaluation_unavailable",
+            "origin": "manual",
+            "labels": "[]",
+            "parked_on_background_work": false,
+            "parked_revision": 0,
+            "parked_epoch": 0,
+            "deduplicated": false,
+            "creation_complete": true,
+            "session_id": "254abeb6-6790-4286-b419-4486241f0945"
+          },
+          "marker": "navigation-available/000-Navigation-B.txt",
+          "profileFiles": 630,
+          "changedFiles": 73,
+          "messageCount": 1000
+        }
+      ],
+      "databaseSha256": "7d802d51077b928bbf4eb7d4cc25ed36d06d8d92a6da45cae6d1dcccdbefa7f3",
+      "artifacts": [
+        {
+          "path": "matched-navigation-1793076405826-baseline-1x-0.cpuprofile",
+          "sha256": "fc0d4bb48b821bd3c0810abb8c0cba8e19d79d90784e4ec43f5e878592480a22"
+        },
+        {
+          "path": "matched-navigation-1793076405826-baseline-1x-1.cpuprofile",
+          "sha256": "cc67c15c056ba075bc5512d0fb09e8c90a4077797d18ec2e2a833ac8e5a99288"
+        },
+        {
+          "path": "matched-navigation-1793076405826-candidate-1x-0.cpuprofile",
+          "sha256": "2fb5a99a54628c79a31f613dec2420416a8dc2e82e8240ecaf5076196345dcde"
+        },
+        {
+          "path": "matched-navigation-1793076405826-candidate-1x-1.cpuprofile",
+          "sha256": "48d8b3b95026e728a67ce743e7a1cf0c5b9bb9acab9d8a50af4064f7aa449682"
+        },
+        {
+          "path": "matched-navigation-1793076405826.json",
+          "sha256": "ea87248e5f16fee015d6f32b8390c2b60109f3ccbdbf42664d2a48af756b1f16"
+        },
+        {
+          "path": "matched-navigation-1793076405826.json.backend.log",
+          "sha256": "7205b6a4cf8d62c360a12e8bc41189c950fac6c7126e2b4c635fb6a5a7f2ef58"
+        },
+        {
+          "path": "matched-navigation-1793076405826.json.baseline-1x-0.backend.log",
+          "sha256": "7b7d11842f56f15f3313ae9e2b5fd8525ed91c7b39cd8442c842a0c4b1f7724c"
+        },
+        {
+          "path": "matched-navigation-1793076405826.json.baseline-1x-1.backend.log",
+          "sha256": "7205b6a4cf8d62c360a12e8bc41189c950fac6c7126e2b4c635fb6a5a7f2ef58"
+        },
+        {
+          "path": "matched-navigation-1793076405826.json.candidate-1x-0.backend.log",
+          "sha256": "25fc44cff133c179889a96bc156cafad75fd5f2b1fdc9489adc028bf0ddf69f0"
+        },
+        {
+          "path": "matched-navigation-1793076405826.json.candidate-1x-1.backend.log",
+          "sha256": "6e54dade9417f49d039d9a064c8ae67c9da6af5f2eae45724ae47614d168cf01"
+        }
+      ],
+      "limits": "Existing task-switch browser readiness timing, not INP or screen presentation. CPU profiles are collected after timing. Retained heap observations do not establish a leak. Default 1000-task seed is source verified, not a separately recorded final count."
+    },
+    "summary": {
+      "measurementKind": "reference-workload",
+      "attemptProtocol": "continue-and-fail-v1",
+      "comparisonPlan": {
+        "pairs": 2,
+        "rates": [
+          1
+        ],
+        "candidateFirst": false
+      },
+      "navigationScenario": "task-switch",
+      "navigationReadiness": "pointerdown-raf-v1",
+      "machine": {
+        "revision": "653584718de543baf91546c41c09884bb58ef6e7",
+        "cpu": "11th Gen Intel(R) Core(TM) i7-11700T @ 1.40GHz",
+        "cores": 16,
+        "load": [
+          5.26,
+          4.27,
+          3.62
+        ],
+        "totalMemory": 33303568384,
+        "freeMemory": 24996601856,
+        "platform": "linux 6.18.49"
+      },
+      "builds": {
+        "baseline": {
+          "binary": "/tmp/kandev-before-message-selector-5936a872/apps/backend/bin/kandev",
+          "assets": "/tmp/kandev-before-message-selector-5936a872/apps/web/dist",
+          "binarySha256": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+          "assetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa"
+        },
+        "candidate": {
+          "binary": "/tmp/kandev-perf-delivery-5936a872/apps/backend/bin/kandev",
+          "assets": "/tmp/kandev-perf-delivery-5936a872/apps/web/dist",
+          "binarySha256": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+          "assetsSha256": "b3585039e093ff17ebad25e7a995b949afd32c483f102d7158d39c7a5b98649f"
+        }
+      },
+      "sampleCount": 4,
+      "comparisons": [
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "elapsedMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 43466.54504549998,
+            "min": 42441.22799699998,
+            "max": 44491.86209399998,
+            "values": [
+              44491.86209399998,
+              42441.22799699998
+            ]
+          },
+          "candidate": {
+            "median": 45571.90596449998,
+            "min": 44455.312856999924,
+            "max": 46688.499072000035,
+            "values": [
+              46688.499072000035,
+              44455.312856999924
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -2196.636978000053,
+            -2014.0848599999445
+          ],
+          "pairedPercentReduction": [
+            -4.937165752602393,
+            -4.745585731266572
+          ],
+          "medianPairedPercentReduction": -4.841375741934483
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "mainThreadMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 40771.589,
+            "min": 38137.836,
+            "max": 43405.342,
+            "values": [
+              43405.342,
+              38137.836
+            ]
+          },
+          "candidate": {
+            "median": 43008.8315,
+            "min": 41096.257,
+            "max": 44921.405999999995,
+            "values": [
+              44921.405999999995,
+              41096.257
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -1516.0639999999985,
+            -2958.420999999995
+          ],
+          "pairedPercentReduction": [
+            -3.492805102192257,
+            -7.757181083897877
+          ],
+          "medianPairedPercentReduction": -5.624993093045067
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "mainThreadMsPerSecond",
+          "pairs": 2,
+          "baseline": {
+            "median": 937.0914258379205,
+            "min": 898.6034994721601,
+            "max": 975.5793522036807,
+            "values": [
+              975.5793522036807,
+              898.6034994721601
+            ]
+          },
+          "candidate": {
+            "median": 943.2955737661762,
+            "min": 924.4397206739934,
+            "max": 962.151426858359,
+            "values": [
+              962.151426858359,
+              924.4397206739934
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            13.427925345321796,
+            -25.83622120183327
+          ],
+          "pairedPercentReduction": [
+            1.3764052421763764,
+            -2.875152524668496
+          ],
+          "medianPairedPercentReduction": -0.7493736412460599
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "mainThreadCpuMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 39776.941999999995,
+            "min": 37276.895,
+            "max": 42276.989,
+            "values": [
+              42276.989,
+              37276.895
+            ]
+          },
+          "candidate": {
+            "median": 42014.7055,
+            "min": 40195.656,
+            "max": 43833.755,
+            "values": [
+              43833.755,
+              40195.656
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -1556.765999999996,
+            -2918.761000000006
+          ],
+          "pairedPercentReduction": [
+            -3.6823010266885277,
+            -7.829946673401865
+          ],
+          "medianPairedPercentReduction": -5.756123850045196
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "rendererCpuMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 53025,
+            "min": 49930,
+            "max": 56119.99999999999,
+            "values": [
+              56119.99999999999,
+              49930
+            ]
+          },
+          "candidate": {
+            "median": 54390,
+            "min": 51930,
+            "max": 56850.00000000001,
+            "values": [
+              56850.00000000001,
+              51930
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -730.0000000000146,
+            -2000
+          ],
+          "pairedPercentReduction": [
+            -1.3007840342124282,
+            -4.005607850991388
+          ],
+          "medianPairedPercentReduction": -2.653195942601908
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "scriptMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 26727.4125,
+            "min": 24658.585000000003,
+            "max": 28796.239999999998,
+            "values": [
+              28796.239999999998,
+              24658.585000000003
+            ]
+          },
+          "candidate": {
+            "median": 27882.395000000004,
+            "min": 26561.289,
+            "max": 29203.501000000004,
+            "values": [
+              29203.501000000004,
+              26561.289
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -407.2610000000059,
+            -1902.703999999998
+          ],
+          "pairedPercentReduction": [
+            -1.414285337252384,
+            -7.716192960788292
+          ],
+          "medianPairedPercentReduction": -4.565239149020338
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "styleMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 4935.4355,
+            "min": 4794.102,
+            "max": 5076.769,
+            "values": [
+              5076.769,
+              4794.102
+            ]
+          },
+          "candidate": {
+            "median": 5343.9565,
+            "min": 5129.995,
+            "max": 5557.918000000001,
+            "values": [
+              5557.918000000001,
+              5129.995
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -481.14900000000034,
+            -335.89300000000003
+          ],
+          "pairedPercentReduction": [
+            -9.477464899427183,
+            -7.006379922663307
+          ],
+          "medianPairedPercentReduction": -8.241922411045245
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "layoutMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 388.0485,
+            "min": 356.55,
+            "max": 419.547,
+            "values": [
+              419.547,
+              356.55
+            ]
+          },
+          "candidate": {
+            "median": 412.5369999999999,
+            "min": 393.62699999999995,
+            "max": 431.44699999999995,
+            "values": [
+              431.44699999999995,
+              393.62699999999995
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -11.89999999999992,
+            -37.07699999999994
+          ],
+          "pairedPercentReduction": [
+            -2.8363925853360694,
+            -10.39882204459401
+          ],
+          "medianPairedPercentReduction": -6.617607314965039
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "styleRecalculations",
+          "pairs": 2,
+          "baseline": {
+            "median": 1901.5,
+            "min": 1793,
+            "max": 2010,
+            "values": [
+              1793,
+              2010
+            ]
+          },
+          "candidate": {
+            "median": 1987.5,
+            "min": 1969,
+            "max": 2006,
+            "values": [
+              1969,
+              2006
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -176,
+            4
+          ],
+          "pairedPercentReduction": [
+            -9.815950920245399,
+            0.19900497512437812
+          ],
+          "medianPairedPercentReduction": -4.80847297256051
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "layouts",
+          "pairs": 2,
+          "baseline": {
+            "median": 973,
+            "min": 964,
+            "max": 982,
+            "values": [
+              964,
+              982
+            ]
+          },
+          "candidate": {
+            "median": 982.5,
+            "min": 981,
+            "max": 984,
+            "values": [
+              981,
+              984
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -17,
+            -2
+          ],
+          "pairedPercentReduction": [
+            -1.7634854771784232,
+            -0.20366598778004075
+          ],
+          "medianPairedPercentReduction": -0.983575732479232
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "frameGapP95Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 125.05000000000291,
+            "min": 116.70000000000437,
+            "max": 133.40000000000146,
+            "values": [
+              133.40000000000146,
+              116.70000000000437
+            ]
+          },
+          "candidate": {
+            "median": 133.34999999999854,
+            "min": 133.1999999999971,
+            "max": 133.5,
+            "values": [
+              133.5,
+              133.1999999999971
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -0.09999999999854481,
+            -16.499999999992724
+          ],
+          "pairedPercentReduction": [
+            -0.07496251873953802,
+            -14.13881748071303
+          ],
+          "medianPairedPercentReduction": -7.106889999726284
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "frameGapMaxMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 341.6999999999989,
+            "min": 316.7000000000007,
+            "max": 366.6999999999971,
+            "values": [
+              366.6999999999971,
+              316.7000000000007
+            ]
+          },
+          "candidate": {
+            "median": 433.2999999999993,
+            "min": 400,
+            "max": 466.59999999999854,
+            "values": [
+              466.59999999999854,
+              400
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -99.90000000000146,
+            -83.29999999999927
+          ],
+          "pairedPercentReduction": [
+            -27.242977911099604,
+            -26.302494474265576
+          ],
+          "medianPairedPercentReduction": -26.77273619268259
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "longTasks",
+          "pairs": 2,
+          "baseline": {
+            "median": 117,
+            "min": 105,
+            "max": 129,
+            "values": [
+              129,
+              105
+            ]
+          },
+          "candidate": {
+            "median": 118,
+            "min": 111,
+            "max": 125,
+            "values": [
+              125,
+              111
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            4,
+            -6
+          ],
+          "pairedPercentReduction": [
+            3.10077519379845,
+            -5.714285714285714
+          ],
+          "medianPairedPercentReduction": -1.3067552602436323
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "longTaskMs",
+          "pairs": 2,
+          "baseline": {
+            "median": 17612.5,
+            "min": 15921,
+            "max": 19304,
+            "values": [
+              19304,
+              15921
+            ]
+          },
+          "candidate": {
+            "median": 18344.5,
+            "min": 17259,
+            "max": 19430,
+            "values": [
+              19430,
+              17259
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -126,
+            -1338
+          ],
+          "pairedPercentReduction": [
+            -0.6527144633236635,
+            -8.4039947239495
+          ],
+          "medianPairedPercentReduction": -4.528354593636582
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "domNodes",
+          "pairs": 2,
+          "baseline": {
+            "median": 6115,
+            "min": 6114,
+            "max": 6116,
+            "values": [
+              6116,
+              6114
+            ]
+          },
+          "candidate": {
+            "median": 6117,
+            "min": 6116,
+            "max": 6118,
+            "values": [
+              6116,
+              6118
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            -4
+          ],
+          "pairedPercentReduction": [
+            0,
+            -0.0654236179260713
+          ],
+          "medianPairedPercentReduction": -0.03271180896303565
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "mountedEditors",
+          "pairs": 2,
+          "baseline": {
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "values": [
+              1,
+              1
+            ]
+          },
+          "candidate": {
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "values": [
+              1,
+              1
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            0,
+            0
+          ],
+          "pairedPercentReduction": [
+            0,
+            0
+          ],
+          "medianPairedPercentReduction": 0
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "runningAnimations",
+          "pairs": 2,
+          "baseline": {
+            "median": 2.5,
+            "min": 1,
+            "max": 4,
+            "values": [
+              4,
+              1
+            ]
+          },
+          "candidate": {
+            "median": 1.5,
+            "min": 1,
+            "max": 2,
+            "values": [
+              2,
+              1
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            2,
+            0
+          ],
+          "pairedPercentReduction": [
+            50,
+            0
+          ],
+          "medianPairedPercentReduction": 25
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "selectionP50Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 1065.4131107500289,
+            "min": 1038.3428335000644,
+            "max": 1092.4833879999933,
+            "values": [
+              1092.4833879999933,
+              1038.3428335000644
+            ]
+          },
+          "candidate": {
+            "median": 1103.702191999997,
+            "min": 1056.1682605000096,
+            "max": 1151.2361234999844,
+            "values": [
+              1151.2361234999844,
+              1056.1682605000096
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -58.752735499991104,
+            -17.825426999945194
+          ],
+          "pairedPercentReduction": [
+            -5.377906533439341,
+            -1.7167188355178344
+          ],
+          "medianPairedPercentReduction": -3.547312684478588
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "selectionP95Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 1126.3998309999588,
+            "min": 1076.8317209999077,
+            "max": 1175.96794100001,
+            "values": [
+              1175.96794100001,
+              1076.8317209999077
+            ]
+          },
+          "candidate": {
+            "median": 1261.0510895000189,
+            "min": 1228.2784440000542,
+            "max": 1293.8237349999836,
+            "values": [
+              1293.8237349999836,
+              1228.2784440000542
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -117.85579399997368,
+            -151.44672300014645
+          ],
+          "pairedPercentReduction": [
+            -10.022024401426492,
+            -14.064103057766388
+          ],
+          "medianPairedPercentReduction": -12.04306372959644
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "requests",
+          "pairs": 2,
+          "baseline": {
+            "median": 1436.5,
+            "min": 1429,
+            "max": 1444,
+            "values": [
+              1429,
+              1444
+            ]
+          },
+          "candidate": {
+            "median": 1437,
+            "min": 1432,
+            "max": 1442,
+            "values": [
+              1432,
+              1442
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -3,
+            2
+          ],
+          "pairedPercentReduction": [
+            -0.2099370188943317,
+            0.13850415512465375
+          ],
+          "medianPairedPercentReduction": -0.03571643188483897
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "eventHeaderP50Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 300.00000000186265,
+            "min": 276.75000000186265,
+            "max": 323.25000000186265,
+            "values": [
+              323.25000000186265,
+              276.75000000186265
+            ]
+          },
+          "candidate": {
+            "median": 310.2500000009313,
+            "min": 294.55000000074506,
+            "max": 325.9500000011176,
+            "values": [
+              325.9500000011176,
+              294.55000000074506
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -2.699999999254942,
+            -17.799999998882413
+          ],
+          "pairedPercentReduction": [
+            -0.835266821110405,
+            -6.431797650862732
+          ],
+          "medianPairedPercentReduction": -3.6335322359865687
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "eventHeaderP95Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 329.7000000011176,
+            "min": 299.80000000074506,
+            "max": 359.6000000014901,
+            "values": [
+              359.6000000014901,
+              299.80000000074506
+            ]
+          },
+          "candidate": {
+            "median": 364.0499999988824,
+            "min": 340.69999999925494,
+            "max": 387.3999999985099,
+            "values": [
+              387.3999999985099,
+              340.69999999925494
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -27.799999997019768,
+            -40.899999998509884
+          ],
+          "pairedPercentReduction": [
+            -7.730812012487366,
+            -13.642428284992741
+          ],
+          "medianPairedPercentReduction": -10.686620148740055
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "eventTranscriptP50Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 300.00000000186265,
+            "min": 276.75000000186265,
+            "max": 323.25000000186265,
+            "values": [
+              323.25000000186265,
+              276.75000000186265
+            ]
+          },
+          "candidate": {
+            "median": 310.2500000009313,
+            "min": 294.55000000074506,
+            "max": 325.9500000011176,
+            "values": [
+              325.9500000011176,
+              294.55000000074506
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -2.699999999254942,
+            -17.799999998882413
+          ],
+          "pairedPercentReduction": [
+            -0.835266821110405,
+            -6.431797650862732
+          ],
+          "medianPairedPercentReduction": -3.6335322359865687
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "eventTranscriptP95Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 329.7000000011176,
+            "min": 299.80000000074506,
+            "max": 359.6000000014901,
+            "values": [
+              359.6000000014901,
+              299.80000000074506
+            ]
+          },
+          "candidate": {
+            "median": 364.0499999988824,
+            "min": 340.69999999925494,
+            "max": 387.3999999985099,
+            "values": [
+              387.3999999985099,
+              340.69999999925494
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -27.799999997019768,
+            -40.899999998509884
+          ],
+          "pairedPercentReduction": [
+            -7.730812012487366,
+            -13.642428284992741
+          ],
+          "medianPairedPercentReduction": -10.686620148740055
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "eventComposerP50Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 300.00000000186265,
+            "min": 276.75000000186265,
+            "max": 323.25000000186265,
+            "values": [
+              323.25000000186265,
+              276.75000000186265
+            ]
+          },
+          "candidate": {
+            "median": 310.2500000009313,
+            "min": 294.55000000074506,
+            "max": 325.9500000011176,
+            "values": [
+              325.9500000011176,
+              294.55000000074506
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -2.699999999254942,
+            -17.799999998882413
+          ],
+          "pairedPercentReduction": [
+            -0.835266821110405,
+            -6.431797650862732
+          ],
+          "medianPairedPercentReduction": -3.6335322359865687
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "eventComposerP95Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 329.7000000011176,
+            "min": 299.80000000074506,
+            "max": 359.6000000014901,
+            "values": [
+              359.6000000014901,
+              299.80000000074506
+            ]
+          },
+          "candidate": {
+            "median": 364.0499999988824,
+            "min": 340.69999999925494,
+            "max": 387.3999999985099,
+            "values": [
+              387.3999999985099,
+              340.69999999925494
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -27.799999997019768,
+            -40.899999998509884
+          ],
+          "pairedPercentReduction": [
+            -7.730812012487366,
+            -13.642428284992741
+          ],
+          "medianPairedPercentReduction": -10.686620148740055
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "eventAllReadyP50Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 300.00000000186265,
+            "min": 276.75000000186265,
+            "max": 323.25000000186265,
+            "values": [
+              323.25000000186265,
+              276.75000000186265
+            ]
+          },
+          "candidate": {
+            "median": 310.2500000009313,
+            "min": 294.55000000074506,
+            "max": 325.9500000011176,
+            "values": [
+              325.9500000011176,
+              294.55000000074506
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -2.699999999254942,
+            -17.799999998882413
+          ],
+          "pairedPercentReduction": [
+            -0.835266821110405,
+            -6.431797650862732
+          ],
+          "medianPairedPercentReduction": -3.6335322359865687
+        },
+        {
+          "group": "1x/pointerdown-raf-v1-task-switch",
+          "metric": "eventAllReadyP95Ms",
+          "pairs": 2,
+          "baseline": {
+            "median": 329.7000000011176,
+            "min": 299.80000000074506,
+            "max": 359.6000000014901,
+            "values": [
+              359.6000000014901,
+              299.80000000074506
+            ]
+          },
+          "candidate": {
+            "median": 364.0499999988824,
+            "min": 340.69999999925494,
+            "max": 387.3999999985099,
+            "values": [
+              387.3999999985099,
+              340.69999999925494
+            ]
+          },
+          "pairedAbsoluteReduction": [
+            -27.799999997019768,
+            -40.899999998509884
+          ],
+          "pairedPercentReduction": [
+            -7.730812012487366,
+            -13.642428284992741
+          ],
+          "medianPairedPercentReduction": -10.686620148740055
+        }
+      ],
+      "notes": [
+        "mainThreadMs and mainThreadMsPerSecond use TaskDuration with timeTicks: elapsed time in main-thread tasks, not thread CPU time. Script, style, and layout durations use the same elapsed-time domain.",
+        "mainThreadCpuMs uses ThreadTime (renderer main-thread CPU). rendererCpuMs uses ProcessTime (renderer-process CPU); it excludes separate browser, GPU, and backend processes.",
+        "Positive reduction means a lower candidate value. Counts such as mounted editors are observations, not optimization scores.",
+        "Frame gaps and driver DOM readiness are not INP. Linux CPU throttling is not an M2 Air simulation.",
+        "Browser-event readiness uses trusted pointerdown timestamps and frame-sampled DOM/owner state without geometry reads. It is separate from driver-clock readiness and is not screen presentation or INP."
+      ]
+    },
+    "mainHandle": 57458,
+    "mainExitCode": 0,
+    "samplerHandle": 13434,
+    "samplerExitCode": 0,
+    "auditHandle": 28610,
+    "auditExitCode": 0,
+    "summaryExitCode": 0,
+    "hostSampler": {
+      "path": ".kandev/diagnostics/dense-workbench-performance/sidebar-comparator-navigation-two-pair-host-load.jsonl",
+      "sha256": "6144e39fee2fbe3a09d970dc7740b5213ec276fbb3e78343591e63ce62f91a0a",
+      "bytes": 5753
+    },
+    "hostSamplerCoverageOffsetSeconds": -3.3638312816619873,
+    "disposition": "All four attempts pass, with 160 measured switches and 200 additional retention switches. Driver selection p95 is 10.02% and 14.06% slower; browser all-ready p95 is 7.73% and 13.64% slower. Main-thread work increases 3.49% and 7.76%. All 28 rows remain intact.",
+    "densityLimit": "Default 1000-task inventory is source verified. Each prepared task separately records 1000 messages, 630 files and 73 changes. There is no separately recorded final inventory count."
+  },
+  "preservation": {
+    "recordedAt": "2026-10-27T04:57:18.089620+00:00",
+    "status": "Rejected app candidate preserved before restoration.",
+    "root": "/tmp/kandev-rejected-sidebar-comparator-5936a872",
+    "sourceParent": "653584718de543baf91546c41c09884bb58ef6e7",
+    "trackedPatch": "sidebar-comparator-rejected-tracked.patch",
+    "trackedPatchSha256": "32f938c7cc6585006bb655eeafdb561a5f34ffeb7b97c55237b18ee503f7db06",
+    "sourceFiles": [
+      {
+        "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "sha256": "6ce2652db1e4bd74f2a6dc4473e0239155af8816cce3436f6073fbaeb5650b3c"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+        "sha256": "47c9921c4772617fc3fff728a97086c8ee53d8ffd811c40daea4c9b70fe968b0"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+        "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+        "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+      },
+      {
+        "path": "apps/web/lib/state/app-state-types.ts",
+        "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+        "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/types.ts",
+        "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+        "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+      },
+      {
+        "path": "apps/web/lib/sidebar/sidebar-local-order.ts",
+        "sha256": "0a579784d05428c4240dc3fdbeb692720c192d831f52bb6a27a9125757ee5a01"
+      },
+      {
+        "path": "apps/web/lib/sidebar/sidebar-local-order.test.ts",
+        "sha256": "bcfe046c5563f11774d8297ae977250ca8da31dc0bb17e55a38be99fbf23e2fc"
+      }
+    ],
+    "deletedSourceFiles": [
+      "apps/web/components/task/chat/transcript-scroll-persistence.test.ts",
+      "apps/web/components/task/chat/transcript-scroll-persistence.ts"
+    ],
+    "assetsSha256": "b3585039e093ff17ebad25e7a995b949afd32c483f102d7158d39c7a5b98649f",
+    "assetFiles": 1253,
+    "helpers": {
+      "kandev": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+      "agentctl": "6e768aef1a1692630fe109c25e23ac31ab461b691800c2059e6dfdd5cf0b4d0a",
+      "mock-agent": "c69f05ee9f5622cc5bce83405c2e9240b537f3e79a21da65765d9867592288c1"
+    },
+    "lockfileSha256": "9d5a03a9086f28c93752fce491f896047fbcdbc64abfafe3b3aa53261199c554",
+    "baselineSourceArchive": {
+      "path": "message-selector-control-source.tar",
+      "sha256": "e9cc329e3ae853b64e2eaa77087c7129f1ce4481a203b05e2b00adae1c0c230e"
+    },
+    "decision": "Full-view streaming task rate did not improve. Navigation p95 was worse in both pairs. No six-pair confirmation or production acceptance."
+  },
+  "restoration": {
+    "recordedAt": "2026-10-27T04:57:19.265910+00:00",
+    "sourceRevision": "653584718de543baf91546c41c09884bb58ef6e7",
+    "productionRevision": "4f078c1303434fa9cee5ee5a83280b5764fd3917",
+    "restoredAppFiles": [
+      "apps/web/lib/sidebar/sidebar-local-order.ts"
+    ],
+    "removedExperimentalTests": [
+      "apps/web/lib/sidebar/sidebar-local-order.test.ts"
+    ],
+    "retainedTestedSourceFilesVerified": 8,
+    "retainedDeletedSourceFilesVerified": 2,
+    "rejectedRoot": "/tmp/kandev-rejected-sidebar-comparator-5936a872",
+    "rejectedAssetsSha256": "b3585039e093ff17ebad25e7a995b949afd32c483f102d7158d39c7a5b98649f",
+    "restoredAssetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+    "assetFiles": 1253,
+    "sourceAndAssetRestorationVerified": true,
+    "helpersAndLockfilesVerified": true,
+    "candidateAppEqualsFrozenControlSource": true,
+    "remainingAppDiffs": [],
+    "remainingUntrackedFiles": []
+  },
+  "decision": "Reject the full app candidate. A useful isolated function gain does not override the adverse full-view observations. These comparisons do not establish the cause of the regressions. No six-pair confirmation or M2 gain is claimed.",
+  "packageStatus": "Incomplete. Normal-streaming 20% task-time target and original-baseline final matrix remain open."
+}

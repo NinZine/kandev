@@ -9,6 +9,57 @@ Final matrix, stress, owner retention and streaming task-time gates remain open.
 The branch is `feature/evaluate-live-thread-bc0`; the frozen baseline is
 `595df36ed5c1cf02fd90cb972b623ad6edc53df8`.
 
+## Sidebar comparator: rejected after full-view testing
+
+The comparator prototype stops at the first code-point difference. Its RED
+reproduces 20,002 reads for a first-character difference. All 437 related unit
+tests, strict lint, web types, the matching production build, three desktop
+checks and three phone checks pass. The isolated sort benchmark uses the saved
+fixture's 1,000 tasks and verifies UTF-8 output order. Its median time falls
+98.14% across six alternating pairs. This is a local function result.
+
+The full-density Threads comparison passes all four attempts and verifies
+7,200 ordered updates. Streaming main-thread task rate is 0.25% and 0.01%
+worse. Script time per second is 1.03% worse and 1.29% better; style and layout
+rates increase in both pairs. Cold readiness and reduced-motion idle work are
+worse in both pairs. All seventy comparison rows remain intact.
+
+The separate task-switch comparison also passes all four attempts. It records
+160 measured switches plus 200 additional retention switches. Selection p95
+is 10.02% and 14.06% slower. Browser all-ready p95 is 7.73% and 13.64% slower;
+main-thread work rises 3.49% and 7.76%. Each prepared task records 1,000 messages,
+630 files and 73 changes. The default 1,000-task inventory is source verified,
+without a separately recorded final inventory count. All twenty-eight rows
+remain intact. These observations do not establish the cause of the regression.
+
+The candidate is rejected. Its source, test, patch and build remain preserved;
+exact verified app source and `9e20f26b` assets are restored. The initial build
+with a missing bundled test locale is also preserved and excluded from browser
+testing. No six-pair acceptance, M2 Air, INP, battery or heap-leak claim follows.
+See [the complete evidence](evidence/rejected-sidebar-comparator.json).
+
+## Rendering timeline attribution
+
+A calibrated trace on restored `9e20f26b` verifies 1,800 ordered updates with
+no dropped trace events. The 60,351 ms target-renderer window contains 60,227 ms
+in the union of main-thread task spans. Function-call spans cover 47,923 ms,
+layer updates 5,640 ms, style updates 5,121 ms, layout 1,975 ms and paint 856 ms.
+These are overlapping wall-duration unions, not additive CPU counters.
+
+The first full trace reports dropped events and is excluded. Its complete raw
+artifacts remain preserved. The repeat removes two tracing categories and
+keeps the app, saved fixture, stream and 60-second window unchanged. Its source,
+assets, fixtures, attachment and cleanup audits pass. Two unique page marks
+identify the target renderer and observation window.
+
+The CPU profile has 3,887 negative time deltas. Initial duration weighting
+rejects the profile; the corrected analysis uses sample counts only. The raw
+profile remains unchanged. The temporary browser probe is removed. This is
+attribution evidence, not a speed comparison. Next: targeted rendering and
+subscription attribution on the verified build. The 20% normal-streaming
+task-time target and original-baseline final matrix remain open. See
+[the trace evidence](evidence/rendering-timeline-attribution.json).
+
 ## Saved-offset layout owner: rejected
 
 All four full-density reference samples pass and verify 7,200 ordered updates.

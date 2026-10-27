@@ -7,6 +7,25 @@ builds, fixtures, and probes; they do not automatically verify the final build.
 
 ## Latest build checkpoint
 
+The sidebar comparator is rejected after complete streaming and task-switch
+comparisons. A six-pair isolated function benchmark saves 98.14% of local sort
+time, but both streaming task-time rates are slightly worse. Navigation
+selection p95 is 10.02% and 14.06% slower. All four attempts in each comparison
+pass: 7,200 streaming updates and 160 measured task switches are verified.
+All seventy streaming rows and twenty-eight navigation rows remain intact.
+Exact app source and `9e20f26b` assets are restored; the prototype is preserved.
+See [the rejected candidate](evidence/rejected-sidebar-comparator.json).
+
+Calibrated rendering attribution verifies 1,800 ordered updates with no lost
+trace events. The first dropped-event capture and the rejected CPU duration
+analysis remain preserved. The corrected analysis uses trace wall-duration
+unions and CPU sample counts, with no speed claim. Next: targeted rendering
+and subscription attribution on restored `9e20f26b`. The 20% streaming target
+and original-baseline final matrix remain open. See
+[the attribution](evidence/rendering-timeline-attribution.json).
+
+### Earlier checkpoint
+
 The saved-offset layout owner is rejected after four complete reference
 samples and 7,200 verified updates. Streaming script work per second is nearly
 flat in one pair and 10.32% lower in the other. Main-thread work stays mixed
