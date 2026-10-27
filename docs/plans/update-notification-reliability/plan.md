@@ -1,5 +1,9 @@
 ---
-spec: docs/specs/platform/requirements/notifications.md
+requirements:
+  - REQ-PLATFORM-NOTIFICATIONS-001
+  - REQ-PLATFORM-I18N-001
+system_design:
+  - ../../specs/platform/system-design/i18n.md
 created: 2026-07-24
 status: draft
 ---

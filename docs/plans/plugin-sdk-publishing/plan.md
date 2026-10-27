@@ -1511,3 +1511,8 @@ pass afterward, with browser retries disabled. Full typecheck, scoped lint,
 localization checks and docs/spec validation pass. This is a product copy
 correction, not a waived assertion or recovered-flake finding. Normal hooks,
 push and fresh current-head CI remain required.
+
+The owning legacy work order and plan now declare their requirement, acceptance
+and design links in the current format. Direct documentation coverage passes
+535 changed paths, 35 work orders and 115 linked documents without changing
+the validator.

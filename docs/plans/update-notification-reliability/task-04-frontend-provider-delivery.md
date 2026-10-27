@@ -8,7 +8,14 @@ depends_on:
   - "02-update-replay-and-wiring"
   - "03-native-permission-bridge"
 plan: "plan.md"
-spec: "../../specs/platform/requirements/notifications.md"
+requirements:
+  - REQ-PLATFORM-NOTIFICATIONS-001
+  - REQ-PLATFORM-I18N-001
+acceptance_criteria:
+  - AC-PLATFORM-NOTIFICATIONS-001.5
+  - AC-PLATFORM-I18N-001.1
+system_design:
+  - ../../specs/platform/system-design/i18n.md
 ---
 
 # Task 04: Use Provider Settings and Preserve the In-App Update Indication
