@@ -1072,3 +1072,35 @@ Four focused unit files passed 31 tests; full web typecheck, 10 SDK CI contracts
 68 release contracts, full docs/spec validation, and changed helper lint passed.
 The release-key checks required the installed GPG binary on PATH. No publication
 or registry/protected-setting change occurred. Fresh pushed-head CI is pending.
+
+## Integrated-head follow-up (2026-10-27)
+
+The `b7f1e656796` full browser audit contains 118 reports and 4,321 attempts:
+4,277 passed, 40 skipped, four failed, four retries, and no parse errors.
+It exposes an executor-profile routing retry in a green shard as well as the
+three red shards (mobile profile ordering, mobile filter drawer, and mid-turn
+restart). The complete audit remains a delivery gate alongside check status.
+
+Both mobile cases passed five unchanged local runs; their failed CI attempts
+have no retained trace. Preserve their assertions/timeouts and retain the next
+first-failure trace. Mid-turn restart also passed five unchanged runs, but its
+actual failed trace and backend log show unresolved recovery. A separate
+controlled Go test proves pinned silent restore inherits a workspace reader's
+refusal because its request has no manual recovery action. The lifecycle fix
+classifies the runtime-only pinned candidate for its own admission, preserving
+serialization, unrelated-error and cancellation behavior. The owning design
+and existing platform delivery work order record the correction and causality
+limit. Focused race checks pass. Rebuilt browser, routing reproduction, normal
+hooks, push, and fresh-head CI remain pending. No SDK publication occurred.
+
+
+Follow-up validation: all five unchanged executor-routing repetitions passed
+with retries disabled. Its original failed attempt has no trace; independent
+source review found no justified synchronization/product patch. Retain a
+first-failure trace while preserving all navigation, save, and discard assertions.
+The exact final lifecycle selection passed with race detection, including
+silent-candidate cancellation, unrelated peer errors, and own-launch failures.
+Fresh host/web/plugin builds and three mid-turn restart browser repetitions
+passed with retries disabled. Independent review found no actionable issue in
+the coalescing correction. The full old-head artifact audit remains four retries;
+fresh-head CI is required after delivery.
