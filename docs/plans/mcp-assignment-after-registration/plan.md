@@ -843,3 +843,28 @@ repetitions each (18 checks, two CPUs, one worker, zero retries). The corrected
 phone review case then passed six more repetitions on one CPU without retries.
 Web typecheck, affected ESLint, documentation catalog and specification lint
 passed. A new exact-head CI result remains required after publication.
+
+### Phone task-switch fixture readiness (2026-10-27)
+
+CI's oversized-message case closed the Tasks picker but remained on the
+original task URL. The original full case passed locally, and its original
+13-file process passed all 35 checks on one CPU with no retries. Ten further
+diagnostic repetitions through the first switch also passed. Their pointer
+and history records selected the requested row and committed the matching
+URL. Those ten prefix runs do not verify the later message scenarios, and the
+exact failing gesture was not reproduced locally.
+
+The fixture previously selected a newly starting target while the picker
+could still be animating. It now waits for that exact target session to finish
+starting before opening Tasks, waits for finite picker animations, and checks
+the row's task ID before the same touch action. Both original URL assertions
+and all content, download, persistence, queue, steering and failure checks
+remain. No production navigation behavior, locator timeout or retry count
+changed. The spec retains a trace from its first failure to preserve input
+evidence if the intermittent gesture recurs.
+
+The corrected complete case passed three repetitions on one CPU, one worker
+and zero retries. Affected ESLint and full web typecheck passed. These controls
+address the concrete fixture transition races; they are not presented as a
+captured reproduction of the original failed tap. Fresh CI remains the
+delivery gate for this case and the other three leaf failures.
