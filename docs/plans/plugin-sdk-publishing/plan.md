@@ -1448,3 +1448,22 @@ rebase request, not interpreted as a terminal CI result. Its partial artifact
 audit covered 46 reports: 1,657 passed, 24 skipped, zero retries or parse errors.
 Normal hooks, leased push and fresh-head checks remain required. The user-owned
 NOTIFICATION_GUIDE.md checksum is unchanged through the rebase.
+
+
+### Final rebase target and verification
+
+Main advanced to 86a6b04e4923 during the operation. Rebased onto that exact
+commit with merge topology preserved; intermediate head 56a7a6ba7ab8 matches
+the precomputed combined tree 087d6cac52ff exactly. SDK package/module files,
+tag authentication and protected release jobs remain byte-identical to d9c00f6.
+The five historical resolutions retain authoritative recovery and fixture
+isolation. Incoming clarification hosts keep detailActive forwarding.
+
+Playwright matches main: failOnFlakyTests is false in CI unless
+E2E_FAIL_ON_FLAKY=1. No new strict-flake override is introduced. Main's
+advisory walkthrough policy is retained; this is not a generation repair.
+Fresh web/backend/mock-agent builds, 129 focused UI/subscription tests, full
+typecheck, zero-warning scoped lint, targeted mock/MCP/sysprompt race tests,
+31 walkthrough contracts, pinning, harness and docs/spec checks pass. No
+application change was added beyond main. Final checkpoint hooks and leased
+push follow; the notification guide remains uncommitted.
