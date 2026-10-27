@@ -223,8 +223,11 @@ action, and the result-filter sheet uses the shorter localized Filters title.
 Actual iPhone Safari/PWA evidence for the Default label remains a completion
 gate. Keep this work order in progress until that device evidence is recorded.
 
-Review remediation on 2026-10-27 added and passed 10 focused phone E2E checks
+Review remediation on 2026-10-27 added and passed 12 focused phone E2E checks
 for archive scope, effective grouping/sorting, orientation dialog retention,
 and the settled clear-button hitbox. The clear target stays inside the existing
 input bounds. These behavior/geometry checks do not replace the recorded
 UI-01 through UI-09 screenshot comparison or the real-device Safari/PWA gate.
+Normal Playwright runs attach screenshots and geometry from each test's output
+directory. They copy files into committed evidence only when
+`CAPTURE_PR_ASSETS=true`, and resolve that evidence path from the spec location.

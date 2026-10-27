@@ -16,7 +16,6 @@ export function TasksPageClient(props: TasksPageClientProps) {
 
   useEffect(() => {
     setView("list");
-    setMobileSearchOpen(false);
     return () => setMobileSearchOpen(false);
   }, [setMobileSearchOpen, setView]);
 

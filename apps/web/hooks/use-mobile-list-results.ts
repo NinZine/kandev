@@ -18,6 +18,8 @@ import {
 } from "@/lib/tasks/mobile-list-query";
 import type { FilterClause, SidebarView } from "@/lib/state/slices/ui/sidebar-view-types";
 import type { SidebarTaskQuery } from "@/lib/types/http";
+import type { Repository } from "@/lib/types/http";
+import { repositorySlug } from "@/lib/repository-slug";
 import { useTranslation } from "react-i18next";
 
 type ScopedResultsState = {
@@ -224,14 +226,22 @@ function useMobileListResultActions(options: MobileListResultActionsOptions) {
   };
 }
 
-export function useMobileListResults(workspaceId: string | null, view: SidebarView) {
+export function useMobileListResults(
+  workspaceId: string | null,
+  view: SidebarView,
+  repositories: Repository[] = [],
+) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { i18n } = useTranslation();
   const serializedParams = searchParams.toString();
+  const repositorySlugById = useMemo(
+    () => new Map(repositories.map((repository) => [repository.id, repositorySlug(repository)])),
+    [repositories],
+  );
   const routeScope = useMemo(
-    () => resolveMobileListLinkScope(new URLSearchParams(serializedParams)),
-    [serializedParams],
+    () => resolveMobileListLinkScope(new URLSearchParams(serializedParams), repositorySlugById),
+    [repositorySlugById, serializedParams],
   );
   const [dismissedRouteSignature, setDismissedRouteSignature] = useState<string | null>(null);
   useEffect(() => {

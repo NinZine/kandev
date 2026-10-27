@@ -3,7 +3,10 @@ import path from "node:path";
 import { expect, test } from "../../fixtures/test-base";
 import { waitForFiniteAnimations } from "../../helpers/animations";
 
-const EVIDENCE_DIR = path.resolve(process.cwd(), "../../docs/plans/mobile-list-layout/evidence");
+const EVIDENCE_DIR = path.resolve(
+  __dirname,
+  "../../../../../docs/plans/mobile-list-layout/evidence",
+);
 
 async function captureResponsiveState(
   page: import("@playwright/test").Page,
@@ -12,10 +15,7 @@ async function captureResponsiveState(
 ) {
   await waitForFiniteAnimations(page.locator("body"));
   const outputPath = testInfo.outputPath(`${name}.png`);
-  const retainedPath = path.join(EVIDENCE_DIR, `${name}.png`);
-  await fs.mkdir(EVIDENCE_DIR, { recursive: true });
   await page.screenshot({ path: outputPath, animations: "disabled", caret: "hide" });
-  await fs.copyFile(outputPath, retainedPath);
   const geometry = await page.evaluate(() => ({
     viewport: { width: window.innerWidth, height: window.innerHeight },
     pointer: {
@@ -67,15 +67,23 @@ async function captureResponsiveState(
       }),
     ),
   }));
-  const geometryPath = path.join(EVIDENCE_DIR, `${name}.json`);
+  const geometryPath = testInfo.outputPath(`${name}.json`);
   await fs.writeFile(geometryPath, `${JSON.stringify(geometry, null, 2)}\n`);
-  await testInfo.attach(name, { path: retainedPath, contentType: "image/png" });
+  const capturePrAssets = Boolean(process.env.CAPTURE_PR_ASSETS);
+  if (capturePrAssets) {
+    await fs.mkdir(EVIDENCE_DIR, { recursive: true });
+    await fs.copyFile(outputPath, path.join(EVIDENCE_DIR, `${name}.png`));
+    await fs.copyFile(geometryPath, path.join(EVIDENCE_DIR, `${name}.json`));
+  }
+  await testInfo.attach(name, { path: outputPath, contentType: "image/png" });
   await testInfo.attach(`${name}-geometry`, {
     path: geometryPath,
     contentType: "application/json",
   });
   expect(geometry.document.horizontalOverflow).toBe(false);
-  console.log(`VISUAL_ACCEPTANCE ${JSON.stringify({ name, path: geometryPath, ...geometry })}`);
+  console.log(
+    `VISUAL_ACCEPTANCE ${JSON.stringify({ name, path: capturePrAssets ? EVIDENCE_DIR : geometryPath, ...geometry })}`,
+  );
 }
 
 test("captures fine-pointer phone composition and desktop List/Threads compatibility", async ({

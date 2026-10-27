@@ -5,6 +5,7 @@ import { createAppStore, type AppState } from "@/lib/state/store";
 import { selectSidebarStoreTasks } from "./use-sidebar-store-tasks";
 import { useWorkspaceSidebarTasks } from "./use-workspace-sidebar-tasks";
 import { DEFAULT_VIEW } from "@/lib/state/slices/ui/sidebar-view-builtins";
+import { resolveSidebarTaskView } from "./use-sidebar-page-context";
 import { composeMobileListQuery, resolveMobileListLinkScope } from "@/lib/tasks/mobile-list-query";
 import type { SidebarTaskQuery } from "@/lib/types/http";
 
@@ -152,6 +153,17 @@ describe("complete sidebar store inventory", () => {
     });
     expect(selectSidebarStoreTasks(store.getState(), "ws-1")).toBeNull();
   });
+});
+
+it("clears saved group collapse keys for temporary group overrides", () => {
+  const savedView = {
+    ...DEFAULT_VIEW,
+    group: "workflow" as const,
+    collapsedGroups: ["wf-1"],
+  };
+
+  expect(resolveSidebarTaskView(savedView, { group: "workflow" }).collapsedGroups).toEqual([]);
+  expect(savedView.collapsedGroups).toEqual(["wf-1"]);
 });
 
 describe("shared sidebar task state", () => {

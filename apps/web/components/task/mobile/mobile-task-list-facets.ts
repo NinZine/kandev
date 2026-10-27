@@ -1,5 +1,5 @@
 import type { TaskListFacetValue } from "@/lib/plugins/types";
-import type { GroupedSidebarList } from "@/lib/sidebar/apply-view";
+import { countGroupTasks, type GroupedSidebarList } from "@/lib/sidebar/apply-view";
 import { sortItemsByFacet } from "@/lib/tasks/tasks-list-options";
 import type { SidebarTaskPageEntry } from "@/lib/types/http";
 import type { TaskSwitcherItem } from "../task-switcher";
@@ -59,21 +59,28 @@ export function buildMobileFacetGroupedPage(
   const subTasksByParentId = new Map<string, TaskSwitcherItem[]>();
   const groups = ordered.map((section) => {
     const ids = new Set(section.tasks.map((task) => task.id));
-    const roots: TaskSwitcherItem[] = [];
+    const groupSubTasksByParentId = new Map<string, TaskSwitcherItem[]>();
     for (const task of section.tasks) {
       const parentId = task.parentTaskId;
-      if (!parentId || !ids.has(parentId)) {
-        roots.push(task);
-        continue;
-      }
-      const children = subTasksByParentId.get(parentId) ?? [];
+      if (!parentId || !ids.has(parentId)) continue;
+      const children = groupSubTasksByParentId.get(parentId) ?? [];
       if (!children.some((child) => child.id === task.id)) children.push(task);
-      subTasksByParentId.set(parentId, children);
+      groupSubTasksByParentId.set(parentId, children);
     }
+    for (const [parentId, children] of groupSubTasksByParentId) {
+      subTasksByParentId.set(parentId, [...(subTasksByParentId.get(parentId) ?? []), ...children]);
+    }
+    const roots = section.tasks
+      .filter((task) => !task.parentTaskId || !ids.has(task.parentTaskId))
+      .map((task) => ({
+        ...task,
+        subtaskCount: Math.max(0, countGroupTasks([task], groupSubTasksByParentId) - 1),
+      }));
     return {
       key: section.key,
       label: section.label,
       tasks: roots,
+      subTasksByParentId: groupSubTasksByParentId,
       matchingCount: section.tasks.length,
     };
   });
@@ -85,23 +92,25 @@ export function sortMobileFacetPageGroups(
   facetSortKey: string,
   facetValues: MobileFacetValues,
 ): GroupedSidebarList {
-  const allTasks = grouped.groups.flatMap((group) => group.tasks);
-  for (const children of grouped.subTasksByParentId.values()) allTasks.push(...children);
+  const allTasks = grouped.groups.flatMap((group) => [
+    ...group.tasks,
+    ...[...(group.subTasksByParentId?.values() ?? [])].flat(),
+  ]);
   const sortedIds = sortItemsByFacet(allTasks, facetSortKey, facetValues).map((task) => task.id);
   const rank = new Map(sortedIds.map((id, index) => [id, index]));
+  const sortTasks = (tasks: TaskSwitcherItem[]) =>
+    [...tasks].sort((left, right) => (rank.get(left.id) ?? 0) - (rank.get(right.id) ?? 0));
   return {
     ...grouped,
     groups: grouped.groups.map((group) => ({
       ...group,
-      tasks: [...group.tasks].sort(
-        (left, right) => (rank.get(left.id) ?? 0) - (rank.get(right.id) ?? 0),
-      ),
+      tasks: sortTasks(group.tasks),
+      subTasksByParentId: group.subTasksByParentId
+        ? new Map([...group.subTasksByParentId].map(([id, children]) => [id, sortTasks(children)]))
+        : undefined,
     })),
     subTasksByParentId: new Map(
-      [...grouped.subTasksByParentId].map(([id, children]) => [
-        id,
-        [...children].sort((left, right) => (rank.get(left.id) ?? 0) - (rank.get(right.id) ?? 0)),
-      ]),
+      [...grouped.subTasksByParentId].map(([id, children]) => [id, sortTasks(children)]),
     ),
   };
 }

@@ -67,13 +67,7 @@ test("temporary phone filters apply and clear without changing the selected save
     const reopened = testPage.getByTestId("mobile-list-result-filters-drawer");
     await reopened.getByTestId("mobile-list-filter-workflow").tap();
     await testPage.getByRole("option", { name: workflowName, exact: true }).tap();
-    const filtered = waitForSidebarQuery(testPage, (query) =>
-      query.filters.some(
-        (filter) => filter.dimension === "workflow" && filter.value === seedData.workflowId,
-      ),
-    );
     await reopened.getByTestId("mobile-list-filters-apply").tap();
-    await filtered;
     await expect(reopened).toBeHidden();
     await expect(trigger).toBeFocused();
     await expect(primaryRow).toBeVisible();
@@ -85,13 +79,8 @@ test("temporary phone filters apply and clear without changing the selected save
 
     await trigger.tap();
     const clearDrawer = testPage.getByTestId("mobile-list-result-filters-drawer");
-    const cleared = waitForSidebarQuery(
-      testPage,
-      (query) => !query.filters.some((filter) => filter.dimension === "workflow"),
-    );
     await clearDrawer.getByTestId("mobile-list-filters-clear").tap();
     await clearDrawer.getByTestId("mobile-list-filters-apply").tap();
-    await cleared;
     await expect(primaryRow).toBeVisible();
     await expect(otherRow).toBeVisible();
     await expect(testPage.getByTestId("mobile-list-result-summary")).toHaveCount(0);

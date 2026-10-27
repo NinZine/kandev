@@ -35,6 +35,7 @@ export function resolveSidebarTaskView(
           })),
     sort: overrides.sort === undefined ? view.sort : sidebarSortFromWire(overrides.sort),
     group: overrides.group === undefined ? view.group : (overrides.group as SidebarView["group"]),
+    collapsedGroups: overrides.group === undefined ? view.collapsedGroups : [],
   };
 }
 

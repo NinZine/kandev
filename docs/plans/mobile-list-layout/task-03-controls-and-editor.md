@@ -218,5 +218,5 @@ Completed on 2026-10-27.
   view state after collapsing the temporary group.
 - The settled-search regression confirms the 44px clear target stays inside
   the input bounds and clears the query when tapped.
-- The four focused review E2E specs passed 10/10 tests. The typecheck and
+- The four focused review E2E specs passed 12/12 tests. The typecheck and
   focused hook/component tests passed; see [visual acceptance](verification.md).

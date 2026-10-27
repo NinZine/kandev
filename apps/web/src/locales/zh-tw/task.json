@@ -2171,7 +2171,7 @@
   "workspaceSourcePlacementKandevDescription": "將新增來源歸入 kandev/。工作目錄保持不變。",
   "workspaceSourcePlacementCurrentRoot": "在目前資料夾內",
   "workspaceSourcePlacementCurrentDescription": "在現有檔案旁新增來源。工作目錄保持不變。",
-  "workspaceSourcePlacementExpand": "擴充套件工作區根目錄",
+  "workspaceSourcePlacementExpand": "展開工作區根目錄",
   "workspaceSourcePlacementExpandDescription": "將代理移到任務父目錄，讓儲存庫成為同級目錄。",
   "workspaceSourcePlacementExpansionUnavailable": "此選項需要明確指定的恢復工作階段。",
   "workspaceSourcePlacementParentLayout": "此任務已使用父工作區。",

@@ -61,12 +61,19 @@ function appendWorkflowRepositoryOverrides(
   params: URLSearchParams,
   filters: NonNullable<SidebarTaskQuery["filters"]>,
   replacedDimensions: string[],
+  repositorySlugById?: ReadonlyMap<string, string>,
 ): void {
   for (const dimension of ["workflow", "repository"] as const) {
     if (!params.has(dimension)) continue;
     replacedDimensions.push(dimension);
     const value = params.get(dimension);
-    if (value && value !== "all") filters.push({ dimension, op: "is", value });
+    if (value && value !== "all") {
+      filters.push({
+        dimension,
+        op: "is",
+        value: dimension === "repository" ? (repositorySlugById?.get(value) ?? value) : value,
+      });
+    }
   }
 }
 
@@ -99,11 +106,14 @@ function createMobileListLinkScope(
 }
 
 /** Resolves standalone List URL state into a phone-only result override. */
-export function resolveMobileListLinkScope(params: URLSearchParams): MobileListLinkScope | null {
+export function resolveMobileListLinkScope(
+  params: URLSearchParams,
+  repositorySlugById?: ReadonlyMap<string, string>,
+): MobileListLinkScope | null {
   const replaceFilterDimensions: string[] = [];
   const filters: SidebarTaskQuery["filters"] = [];
   appendArchiveOverride(params, filters, replaceFilterDimensions);
-  appendWorkflowRepositoryOverrides(params, filters, replaceFilterDimensions);
+  appendWorkflowRepositoryOverrides(params, filters, replaceFilterDimensions, repositorySlugById);
 
   const queryKey = ["query", "q"].find((key) => params.has(key));
   if (!hasMobileListLinkScope(params)) return null;

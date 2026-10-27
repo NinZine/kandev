@@ -132,3 +132,14 @@ describe("mobile saved-view result query", () => {
     expect(result.query).toBeUndefined();
   });
 });
+
+describe("mobile link repository filters", () => {
+  it("resolves desktop List repository IDs to the shared sidebar repository value", () => {
+    const scope = resolveMobileListLinkScope(
+      new URLSearchParams("repository=repo-id"),
+      new Map([["repo-id", "acme/widgets"]]),
+    );
+
+    expect(scope?.filters).toEqual([{ dimension: "repository", op: "is", value: "acme/widgets" }]);
+  });
+});

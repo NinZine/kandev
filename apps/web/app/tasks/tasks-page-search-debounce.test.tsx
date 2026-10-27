@@ -99,7 +99,7 @@ vi.mock("./tasks-list-view", () => ({
   ),
 }));
 
-import { TasksPageClient } from "./tasks-page-client";
+import { TasksPageDesktopClient } from "./tasks-page-desktop-client";
 
 let testStore: ReturnType<typeof useAppStoreApi>;
 function CaptureStore() {
@@ -126,7 +126,7 @@ function page(fromBoot = true, metadataLoaded = fromBoot) {
       }}
     >
       <CaptureStore />
-      <TasksPageClient
+      <TasksPageDesktopClient
         workspaces={[]}
         initialWorkspaceId="ws1"
         initialRepositories={[{ id: "repo1", name: "Repository" } as Repository]}

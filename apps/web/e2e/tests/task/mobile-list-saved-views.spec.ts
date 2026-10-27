@@ -155,7 +155,9 @@ test("view options: the left List control edits the selected saved view and disc
     await expect(editor.getByTestId("mobile-list-view-draft-footer")).toBeVisible();
     await editor.getByTestId("view-discard-button").tap();
     await expect(editor.getByTestId("mobile-list-view-draft-footer")).toHaveCount(0);
-    expect(await readPreviousSidebarViewState(apiClient, seedData.workspaceId)).toEqual(savedState);
+    await expect
+      .poll(() => readPreviousSidebarViewState(apiClient, seedData.workspaceId))
+      .toEqual(savedState);
   } finally {
     await restoreSidebarViewState(apiClient, seedData.workspaceId, previous);
   }

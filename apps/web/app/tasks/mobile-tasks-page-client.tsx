@@ -223,7 +223,7 @@ function useMobileListPageModel(active: boolean) {
   const display = useKanbanDisplaySettings();
   const workspaceId = display.activeWorkspaceId;
   const view = useEffectiveSidebarView(workspaceId);
-  const results = useMobileListResults(workspaceId, view);
+  const results = useMobileListResults(workspaceId, view, display.repositories);
   const data = useSheetData(workspaceId, results.queryOverrides, active);
   const { facets, values: facetValues } = useTaskListFacets(
     active ? data.tasksWithRepositories : [],

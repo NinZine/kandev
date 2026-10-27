@@ -15,7 +15,10 @@ import {
   restoreSidebarViewState,
 } from "./sidebar-running-first-activity-sort-helpers";
 
-const EVIDENCE_DIR = path.resolve(process.cwd(), "../../docs/plans/mobile-list-layout/evidence");
+const EVIDENCE_DIR = path.resolve(
+  __dirname,
+  "../../../../../docs/plans/mobile-list-layout/evidence",
+);
 const MEASURED_SELECTORS = [
   "mobile-topbar-page-context",
   "mobile-list-search-toggle",
@@ -42,10 +45,7 @@ async function capturePreview(
 ) {
   await waitForFiniteAnimations(page.locator("body"));
   const outputPath = testInfo.outputPath(`${name}.png`);
-  const retainedPath = path.join(EVIDENCE_DIR, `${name}.png`);
-  await fs.mkdir(EVIDENCE_DIR, { recursive: true });
   await page.screenshot({ path: outputPath, animations: "disabled", caret: "hide" });
-  await fs.copyFile(outputPath, retainedPath);
   const geometry = await page.evaluate(
     (selectors) => {
       const elements = Object.fromEntries(
@@ -92,14 +92,22 @@ async function capturePreview(
     },
     [...MEASURED_SELECTORS],
   );
-  const geometryPath = path.join(EVIDENCE_DIR, `${name}.json`);
+  const geometryPath = testInfo.outputPath(`${name}.json`);
   await fs.writeFile(geometryPath, `${JSON.stringify(geometry, null, 2)}\n`);
-  await testInfo.attach(name, { path: retainedPath, contentType: "image/png" });
+  const capturePrAssets = Boolean(process.env.CAPTURE_PR_ASSETS);
+  if (capturePrAssets) {
+    await fs.mkdir(EVIDENCE_DIR, { recursive: true });
+    await fs.copyFile(outputPath, path.join(EVIDENCE_DIR, `${name}.png`));
+    await fs.copyFile(geometryPath, path.join(EVIDENCE_DIR, `${name}.json`));
+  }
+  await testInfo.attach(name, { path: outputPath, contentType: "image/png" });
   await testInfo.attach(`${name}-geometry`, {
     path: geometryPath,
     contentType: "application/json",
   });
-  console.log(`VISUAL_ACCEPTANCE ${JSON.stringify({ name, path: geometryPath, ...geometry })}`);
+  console.log(
+    `VISUAL_ACCEPTANCE ${JSON.stringify({ name, path: capturePrAssets ? EVIDENCE_DIR : geometryPath, ...geometry })}`,
+  );
   expect(
     (geometry as { document: { horizontalOverflow: boolean } }).document.horizontalOverflow,
   ).toBe(false);

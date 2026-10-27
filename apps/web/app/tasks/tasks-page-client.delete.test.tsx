@@ -54,7 +54,7 @@ vi.mock("./tasks-page-content", () => ({
     </button>
   ),
 }));
-import { TasksPageClient } from "./tasks-page-client";
+import { TasksPageDesktopClient } from "./tasks-page-desktop-client";
 
 afterEach(() => {
   cleanup();
@@ -75,7 +75,7 @@ describe("Desktop Tasks page deletion", () => {
           userSettings: { ...defaultSettingsState.userSettings, loaded: true },
         }}
       >
-        <TasksPageClient
+        <TasksPageDesktopClient
           workspaces={[]}
           initialRepositories={[]}
           initialTasks={[]}
