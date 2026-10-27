@@ -1,5 +1,8 @@
 import { test, expect } from "../../fixtures/test-base";
+import { waitForHttp } from "../../helpers/causal-waits";
 import { assertNoDocumentHorizontalOverflow } from "../../helpers/layout-assertions";
+
+test.use({ trace: "retain-on-failure" });
 
 // @covers AC-UI-MOBILE-MENU-004.1, 004.2, 004.3
 test("shared navigation embeds the complete collapsible task sidebar", async ({
@@ -81,9 +84,11 @@ for (const status of [503, 403]) {
       workflow_id: seedData.workflowId,
       workflow_step_id: seedData.startStepId,
     });
-    let unavailable = true;
     await testPage.route("**/api/v1/workflows?*", async (route) => {
-      if (unavailable) await route.fulfill({ status, json: { error: "unavailable" } });
+      const recoveryRequested = await testPage.evaluate(
+        () => document.documentElement.dataset.e2eNavigationRetry === "requested",
+      );
+      if (!recoveryRequested) await route.fulfill({ status, json: { error: "unavailable" } });
       else await route.continue();
     });
     await testPage.goto("/stats");
@@ -93,8 +98,25 @@ for (const status of [503, 403]) {
     await expect(menu.getByRole("link", { name: "Settings", exact: true })).toBeVisible();
     if (status === 403)
       await expect(menu.getByText("Workspace-scoped task", { exact: true })).toHaveCount(0);
-    unavailable = false;
-    await menu.getByRole("button", { name: "Retry", exact: true }).tap();
+    const retry = menu.getByRole("button", { name: "Retry", exact: true });
+    await menu.evaluate((element) => {
+      const allowRetry = (event: Event) => {
+        const button = event.target instanceof Element ? event.target.closest("button") : null;
+        if (
+          button?.textContent?.trim() !== "Retry" ||
+          !button.closest('[data-testid="sidebar-task-load-error"]')
+        )
+          return;
+        document.documentElement.dataset.e2eNavigationRetry = "requested";
+        element.removeEventListener("click", allowRetry, true);
+      };
+      element.addEventListener("click", allowRetry, true);
+    });
+    const recoveredWorkflowRead = waitForHttp(testPage, "GET", /^\/api\/v1\/workflows$/, {
+      predicate: (response) => response.ok(),
+    });
+    await retry.tap();
+    await recoveredWorkflowRead;
     await expect(menu.getByTestId("sidebar-task-load-error")).toHaveCount(0);
     await expect(menu.getByText("Workspace-scoped task", { exact: true })).toBeVisible();
   });

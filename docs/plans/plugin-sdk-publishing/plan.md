@@ -1161,3 +1161,30 @@ assertion failure and produces the expected metadata. A normal diagnostic run
 passes. Independent review finds no actionable issue. Original actions,
 assertions, and timeouts remain unchanged; locale causality is unresolved.
 Normal hooks, delivery, and fresh-head CI remain required.
+
+## Drag and manual-recovery observation corrections (2026-10-27)
+
+Head `d62c643512a` completed with 92 passing checks, two failed E2E shards
+(7 and 14), and their failed aggregate. Documentation coverage passed. The
+previous startup and pseudo-locale failures did not recur. All 118 browser
+reports were audited: 4,319 attempts, 4,277 passed, 40 skipped, two timed-out
+attempts/retries, and no parse errors. No other first-attempt failure is hidden.
+
+- Directory drag: the failed command succeeded and all byte/command assertions
+  passed, but Files disappeared during inspection. A controlled delay of real
+  Git notifications and refresh responses proves the old switch can precede
+  Changes autoactivation. Wait for both moved-file rows before selecting Files.
+  Controlled GREEN and nine cases across three full-spec repetitions pass.
+- Mobile navigation recovery: the failed snapshot already contains recovered
+  data while the first Retry tap cannot locate its target. A controlled real
+  foreground refresh recovers before the old fixture's tap. Keep reads failing
+  until the actual Retry click, captured by the owning menu so child replacement
+  cannot lose the latch. Controlled GREEN and all 21 cases across three full-spec
+  repetitions pass. The successful read wait is armed before the single tap.
+
+Both original failed attempts lack traces; controlled proof does not establish
+their exact event ordering. First-failure tracing is retained. Existing actions,
+assertions, and timeouts remain intact. Owning work orders record the evidence.
+No product, SDK, or release behavior changes. Scoped lint/format, full docs/spec
+checks, and trusted linked-document validation pass. Independent review found
+no actionable issue. Normal hooks, push, and fresh-head CI follow.
