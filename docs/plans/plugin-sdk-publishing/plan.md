@@ -1488,4 +1488,5 @@ uses isolated loopback startup and verified existing Nix library paths.
 Docs validate 410 decisions and 1,765 specifications. SDK package/module,
 protected release jobs and main's informational retry policy are unchanged.
 The prior-head CI had 92 passed checks, no failures and one pending at this
-checkpoint. It is not terminal evidence for the updated head. Normal hooks,+leased push and fresh exact-head CI follow; the guide stays uncommitted.
+checkpoint. It is not terminal evidence for the updated head. Normal hooks,
+leased push and fresh exact-head CI follow; the guide stays uncommitted.
