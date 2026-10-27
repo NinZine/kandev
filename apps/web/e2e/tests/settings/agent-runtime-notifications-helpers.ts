@@ -6,13 +6,14 @@ import type { PrAssetCapture } from "../../helpers/pr-asset-capture";
 import { installRuntimeUpdateFixture } from "./agent-runtime-update-helpers";
 import { compactRuntimeSettings, retainRuntimePolicyDraft } from "./agent-runtime-settings-helpers";
 
-export async function localizedReleaseNotice(page: Page, capture?: PrAssetCapture) {
+export async function localizedReleaseNotice(
+  page: Page,
+  baseURL: string,
+  capture?: PrAssetCapture,
+) {
+  await page.context().addCookies([{ name: "kandev_locale", value: "pt-pt", url: baseURL }]);
   const runtime = await installRuntimeUpdateFixture(page);
   await page.goto("/settings/preferences/appearance");
-  await page.evaluate(() => {
-    document.cookie = "kandev_locale=pt-pt; path=/; max-age=31536000; SameSite=Lax";
-  });
-  await page.reload();
   await expect(page.locator("html")).toHaveAttribute("lang", "pt-pt");
   await runtime.emit("system.update_available", {
     occurrence_id: "release-localized-v99.0.1",

@@ -1180,3 +1180,20 @@ fresh remote CI remain pending. The i18n design and
 engineering guide now document frontend ownership of this copy. Public
 workflow documentation is unchanged because the existing language and
 notification controls retain their behavior.
+
+### Release-notice fixture admission review (2026-10-27)
+
+CodeRabbit reviewed the published notification correction and noted that its
+new locale-setting reload reused socket readiness from the first navigation.
+The release-notice fixture now sets its context locale cookie before the first
+navigation and before installing the socket fixture. Its only page connection
+therefore owns the readiness used to emit the notice. No shared socket helper,
+production behavior, selector, assertion, retry or timeout changes.
+
+Desktop and phone focused checks each pass without retries; full typecheck
+passes with CI's 8192 MB Node heap. Normal hooks and publication remain in
+progress. Earlier committed-head 57 notification and 24 browser cases remain
+historical evidence. The new Claude request completed eight turns with three
+permission denials and no buffered inline comments or posted report. It is
+incomplete review coverage, not a clear current-head review. The earlier partial
+backend report and its fixed collation concern remain recorded separately.

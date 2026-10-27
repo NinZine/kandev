@@ -6,9 +6,10 @@ import { localizedReleaseNotice, runtimeAwareness } from "./agent-runtime-notifi
 // @covers AC-PLATFORM-I18N-001.1
 test("phone application release notices use the active language", async ({
   testPage,
+  backend,
   prCapture,
 }) => {
-  await localizedReleaseNotice(testPage, prCapture);
+  await localizedReleaseNotice(testPage, backend.frontendUrl, prCapture);
 });
 
 test("backend runtime summary reconnect replay stays deduplicated on phone", async ({
