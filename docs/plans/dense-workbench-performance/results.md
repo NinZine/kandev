@@ -9,36 +9,46 @@ Final matrix, stress, owner retention and streaming task-time gates remain open.
 The branch is `feature/evaluate-live-thread-bc0`; the frozen baseline is
 `595df36ed5c1cf02fd90cb972b623ad6edc53df8`.
 
-## React costs and shared scroll capture: confirmation pending
+## React costs and shared scroll capture: rejected after confirmation
 
 A private production-mode React profiling build passes independent render and
 effect calibration and verifies 300 ordered updates. Inclusive component spans
 are kept separate from scheduler unions and root render durations. Browser
 metadata confirms software rendering in Linux Headless Chrome. A separate
 hidden-map build matches all 1,253 normal asset bytes, adds only 604 maps and
-maps the preserved normal CPU sample counts to source. Negative time deltas
-still prohibit duration weighting. All failed metadata, build and audit attempts
-remain recorded. See [the attribution](evidence/react-cost-and-source-map-attribution.json).
+maps preserved normal CPU sample counts to source. Negative time deltas
+prohibit duration weighting. Failed metadata, build and audit attempts remain
+recorded. See [the attribution](evidence/react-cost-and-source-map-attribution.json).
 
-The candidate shares the native scroll handler's observed offset with generic
-panel restoration. Generic hide/show restoration, viewport retention and
-per-producer persistence remain active. All 307 related units, strict lint,
-web types, 35 desktop cases and 17 phone cases pass. Held reading moves zero
-pixels; real PageDown remains within one pixel after further growth. All seven
-CSS assets match the control, and four scoped captures are inspected.
+The candidate shares a native observed offset with generic panel restoration.
+All 307 related units, strict lint, types, build, 35 desktop cases and 17 phone
+cases pass. Held reading moves zero pixels; real PageDown stays within one
+pixel after further growth. All CSS assets match, and four captures are viewed.
 
-Four unchanged native-v2 reference attempts pass and verify 7,200 ordered
-updates. Streaming p95 falls from 150 to 133.4 ms in both pairs. Normal idle
-task-time rate falls 3.31% and 7.72%. Streaming task-time rate is 0.85% and
-0.18% worse. Script rate is mixed; streaming style rate is 6.68% and 3.06%
-worse. Reduced-motion idle renderer CPU rate is worse in both pairs. Cold
-readiness improves 6.26% and 0.43%. Causes remain unconfirmed.
+The preliminary four attempts pass 7,200 ordered updates and suggest an 11.07%
+streaming p95 gain in both pairs, with mixed work. That result remains separate
+in [the preliminary evidence](evidence/shared-scroll-capture-two-pair-1x-preliminary.json).
 
-All seventy comparison rows remain preserved. No speed acceptance follows
-from two pairs. The exact candidate and tests are preserved for six-pair
-confirmation; this checkpoint restores verified `9e20f26b` source and assets.
+The identical candidate completes six separate alternating pairs. All twelve
+attempts pass and verify 21,600 ordered updates. The source, assets, 1,956
+harness files, helpers, fixture, attachments and twelve backend logs pass the
+audit. The host sampler's actual zero exit is confirmed before that audit.
+
+Streaming task-time rate is effectively flat: median paired reduction 0.011%,
+with three lower and three higher pairs. Streaming script rate improves only
+0.70% by median paired change. The p95 gain is not confirmed: two pairs are
+about 12.4% worse, one improves 11.13%, and three stay within 0.1 ms. Median
+paired p95 change is effectively zero. Normal idle task rate improves 1.13%
+by median with two regressions. Idle maximum frame gaps worsen in five pairs.
+Reduced-motion work, streaming long tasks and cold readiness are mixed.
+
+Reject the candidate. All seventy confirmation rows, all seventy preliminary
+rows and the exact candidate remain preserved. The five app/test files are
+restored, together with verified `9e20f26b` assets. No speed acceptance follows.
 The 20% streaming task-time target and original-baseline final matrix remain
-open. See [the complete preliminary result](evidence/shared-scroll-capture-two-pair-1x-preliminary.json).
+open. Next: attribute the 60 running idle animations and their actual viewport
+visibility before proposing another change. See
+[the complete confirmation and restoration](evidence/rejected-shared-scroll-capture-six-pair-1x.json).
 
 ## External-store checks and rejected lazy PR menu
 

@@ -32,24 +32,24 @@ system_design:
 
 # Task 06: Matched comparison and regression evidence
 
-## Shared scroll capture: confirmation pending
+## Shared scroll capture: rejected after confirmation
 
-Calibrated React costs and byte-identical normal source maps identify generic
-scroll capture as a measured lead. A candidate shares the native observed
-offset and keeps generic hide/show restoration. All 307 units, strict lint,
-types, build, 35 desktop and 17 phone checks pass. All CSS assets match.
+The identical tested candidate completes six alternating native-v2 pairs. All
+twelve attempts pass and verify 21,600 ordered updates. The complete source,
+asset, helper, fixture and artifact audit passes. All seventy rows are preserved.
 
-Four native-v2 attempts pass with 7,200 ordered updates. Streaming p95 improves
-11.07% in both pairs and normal idle work falls. Streaming task-time rate is
-slightly worse in both pairs; script rate is mixed, and style rate increases.
-Reduced-motion idle renderer CPU is also worse in both pairs. All seventy
-rows and failures remain preserved. No performance acceptance follows.
+Streaming task-time rate is effectively flat (median paired reduction 0.011%).
+The preliminary p95 signal is not confirmed: two pairs worsen about 12.4%, one
+improves 11.13%, and three stay within 0.1 ms. Idle work and cold readiness are
+mixed. Reject the candidate and restore all five app/test files and verified
+`9e20f26b` assets. No regression cause is established.
 
-Preserve the exact candidate for six-pair confirmation and restore verified
-`9e20f26b` source/assets for this documentation checkpoint. The 20% streaming
-target and original-baseline final matrix remain open. See
-[the attribution](evidence/react-cost-and-source-map-attribution.json) and
-[the complete preliminary screen](evidence/shared-scroll-capture-two-pair-1x-preliminary.json).
+The preliminary result and calibrated React/source-map attribution remain
+separate. All 307 units, lint, types, build, 35 desktop and 17 phone checks pass
+within their stated scope. The 20% streaming target and original-baseline final
+matrix remain open. Next: measure idle-animation visibility before another
+production change. See
+[the complete confirmation](evidence/rejected-shared-scroll-capture-six-pair-1x.json).
 
 ## External-store attribution and rejected lazy PR menu
 

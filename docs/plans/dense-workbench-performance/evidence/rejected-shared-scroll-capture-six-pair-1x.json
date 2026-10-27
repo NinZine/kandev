@@ -1,0 +1,4152 @@
+{
+  "recordedAt": "2026-10-27T16:02:34.778868+00:00",
+  "status": "rejected",
+  "diagnosticsRoot": ".kandev/diagnostics/dense-workbench-performance",
+  "sourceRevision": "3888940304b6c041b678b44502e3f4d3c0a552e9",
+  "restoredProductionRevision": "4f078c1303434fa9cee5ee5a83280b5764fd3917",
+  "candidate": {
+    "scope": "Share native observed scrollTop with generic panel hide/show restoration. Reuse one immediate offset in the native persistence handler.",
+    "assetsSha256": "59e1ee10fcc09ef36211b49a69fa1fd632e822b8a8d4d338d93a7ba30aac5484",
+    "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+    "sourceFiles": [
+      {
+        "path": "apps/packages/ui/src/pannel-session.tsx",
+        "sha256": "0fe87e9058b4aa000e7ca6e52c37f4f5a20a51a1b631e15f790805d788f3dbbb"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "sha256": "4cccbcc78213c25a440188ae9afe0332f0c66c451b61fcdcab7af657ca27338a"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+        "sha256": "40426afe1a5c3ce41a82038fd41bc3e4e62dab8c9a39b51aad3a831ecd5d8066"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.tsx",
+        "sha256": "679ddcf1a13f810f8fdd9a42bd191ae9360e513111913c0d9d97b4e27e0ac33d"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+        "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+        "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+      },
+      {
+        "path": "apps/web/components/task/session-panel-content.test.tsx",
+        "sha256": "c660b441d333b9e868c1eb8e9ecdf5bd2a81fe041a1cfc7f34bb01fe40d5d958"
+      },
+      {
+        "path": "apps/web/lib/state/app-state-types.ts",
+        "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+        "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/types.ts",
+        "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+        "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+      }
+    ],
+    "preservedRoot": "/tmp/kandev-pending-shared-scroll-5936a872",
+    "productionAndTestChangesRemoved": true,
+    "aestheticChange": false
+  },
+  "attribution": "react-cost-and-source-map-attribution.json",
+  "preliminary": "shared-scroll-capture-two-pair-1x-preliminary.json",
+  "validation": {
+    "build": {
+      "recordedAt": "2026-10-27T14:38:06.261Z",
+      "sourceParent": "3888940304b6c041b678b44502e3f4d3c0a552e9",
+      "source": "Share one native scrollTop observation with generic hide/show retention. Keep viewport resize retention and deferred persistence.",
+      "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+      "sourceFiles": [
+        {
+          "path": "apps/packages/ui/src/pannel-session.tsx",
+          "sha256": "0fe87e9058b4aa000e7ca6e52c37f4f5a20a51a1b631e15f790805d788f3dbbb"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+          "sha256": "4cccbcc78213c25a440188ae9afe0332f0c66c451b61fcdcab7af657ca27338a"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+          "sha256": "40426afe1a5c3ce41a82038fd41bc3e4e62dab8c9a39b51aad3a831ecd5d8066"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.tsx",
+          "sha256": "679ddcf1a13f810f8fdd9a42bd191ae9360e513111913c0d9d97b4e27e0ac33d"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+          "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+          "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+        },
+        {
+          "path": "apps/web/components/task/session-panel-content.test.tsx",
+          "sha256": "c660b441d333b9e868c1eb8e9ecdf5bd2a81fe041a1cfc7f34bb01fe40d5d958"
+        },
+        {
+          "path": "apps/web/lib/state/app-state-types.ts",
+          "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+          "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/types.ts",
+          "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+          "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+        }
+      ],
+      "changedFiles": [
+        "apps/packages/ui/src/pannel-session.tsx",
+        "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "apps/web/components/task/chat/message-list-native.test.tsx",
+        "apps/web/components/task/chat/message-list-native.tsx",
+        "apps/web/components/task/session-panel-content.test.tsx"
+      ],
+      "deletedSourceFiles": [
+        "apps/web/components/task/chat/transcript-scroll-persistence.test.ts",
+        "apps/web/components/task/chat/transcript-scroll-persistence.ts"
+      ],
+      "generatedBefore": [
+        {
+          "path": "apps/web/generated/changelog.json",
+          "sha256": "8552e9fd1aa79fe07d0eaaa8d05179548ae1c5555b3206a2842c09cec4bfdd43"
+        },
+        {
+          "path": "apps/web/generated/release-notes.json",
+          "sha256": "3391126f01051873eebb779dece251225037923b7e96794855a11af2135c0a37"
+        }
+      ],
+      "checks": [
+        {
+          "check": "red",
+          "handle": 13229,
+          "exitCode": 1,
+          "passed": 115,
+          "log": "shared-scroll-red.log",
+          "logSha256": "553966234108158ec8a387c0b2372799415133c34725f9683461ab4fabd34f95"
+        },
+        {
+          "check": "related",
+          "handle": 3234,
+          "exitCode": 0,
+          "passed": 307,
+          "log": "shared-scroll-related.log",
+          "logSha256": "49fffc793ed1b26878a0a8d37318c447bc3352f2279d195818d99136187e523a"
+        },
+        {
+          "check": "final-web-lint",
+          "handle": 9191,
+          "exitCode": 0,
+          "passed": null,
+          "log": "shared-scroll-final-web-lint.log",
+          "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "check": "final-ui-lint",
+          "handle": 97635,
+          "exitCode": 0,
+          "passed": null,
+          "log": "shared-scroll-final-ui-lint.log",
+          "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "check": "final-types",
+          "handle": 52918,
+          "exitCode": 0,
+          "passed": null,
+          "log": "shared-scroll-final-types.log",
+          "logSha256": "369ea74c64e1df20db8b8a6bcf59b9433ca7a9303c5057308182163b3818b5a6"
+        }
+      ],
+      "baselineAssetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+      "cssControlRoot": "/tmp/kandev-before-message-selector-5936a872",
+      "visualContract": "No markup, class, style, animation or input-policy changes. Require all CSS assets byte-identical to the normal control.",
+      "root": "/tmp/kandev-perf-delivery-5936a872",
+      "assetsSha256": "59e1ee10fcc09ef36211b49a69fa1fd632e822b8a8d4d338d93a7ba30aac5484",
+      "assetFiles": 1253,
+      "gzipSiblingsVerified": 552,
+      "build": {
+        "handle": 7304,
+        "exitCode": 0,
+        "log": "shared-scroll-production-build.log",
+        "logSha256": "d89a065a03108de08bc40fce42e282a4d389be1f66708d075068b18b762913b9"
+      },
+      "generatedMetadataUnchanged": true,
+      "buildEnv": {
+        "KANDEV_I18N_BUNDLE_PSEUDO": "1"
+      },
+      "builtSourceParent": "00de21eb884e37869cca2d620aaa655a3c9c82eb",
+      "buildReusedWithoutSourceOrAssetChanges": true,
+      "documentationOnlyParentVerified": true,
+      "preliminaryAudit": "shared-scroll-two-pair-post-audit.json",
+      "confirmationScope": "Six separate alternating native-v2 pairs. Same tested source, CSS, own runtime helpers, frozen fixture, inputs and deadlines. No performance acceptance yet."
+    },
+    "exactCandidateRestorationBeforeConfirmation": {
+      "recordedAt": "2026-10-27T15:12:23.896575+00:00",
+      "head": "3888940304b6c041b678b44502e3f4d3c0a552e9",
+      "builtSourceParent": "00de21eb884e37869cca2d620aaa655a3c9c82eb",
+      "sourceFilesVerified": 11,
+      "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+      "assetsSha256": "59e1ee10fcc09ef36211b49a69fa1fd632e822b8a8d4d338d93a7ba30aac5484",
+      "allTestedAppAndAssetBytesUnchanged": true,
+      "ownHelpersAndLockfileUnchanged": true,
+      "pendingCandidatePreserved": true,
+      "documentationOnlyParentVerified": true
+    },
+    "desktop": {
+      "recordedAt": "2026-10-27T14:44:39.032376+00:00",
+      "name": "shared-scroll-desktop",
+      "project": "chromium",
+      "handle": 46666,
+      "exitCode": 0,
+      "expectedChecks": 35,
+      "passed": 35,
+      "status": "passed",
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": "kandev-run.e2e.pNRgXOli.log",
+      "logSha256": "f333097a313ca54e597f730505a4973e830959fb616bc65349d8025550caab57",
+      "results": "shared-scroll-desktop-results",
+      "workerRoots": ["/tmp/kandev-e2e-0-9OjIg3"],
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "sourceFilesVerified": 11,
+      "harnessFilesVerified": 1956,
+      "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+      "assetsSha256": "59e1ee10fcc09ef36211b49a69fa1fd632e822b8a8d4d338d93a7ba30aac5484",
+      "runtimeAndPluginFilesVerified": true,
+      "ledgers": [
+        {
+          "path": "shared-scroll-desktop-results/chat-native-upward-intent--d10b1-sition-through-later-growth-chromium/queued-upward-reading.json",
+          "maximumAbsoluteMovementPx": 0,
+          "sampleCount": 24
+        }
+      ],
+      "readingReturnLedgers": [
+        {
+          "path": "shared-scroll-desktop-results/chat-native-upward-intent--c061a--precedes-its-wheel-handler-chromium/native-reading-return.json",
+          "heldMaximumMovementPx": 0,
+          "realPageDownReachedGapPx": 0,
+          "gapAfterFurtherGrowthPx": 1
+        }
+      ]
+    },
+    "phone": {
+      "recordedAt": "2026-10-27T14:47:46.378859+00:00",
+      "name": "shared-scroll-phone",
+      "project": "mobile-chrome",
+      "handle": 63896,
+      "exitCode": 0,
+      "expectedChecks": 17,
+      "passed": 17,
+      "status": "passed",
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": "kandev-run.e2e.QigELGbv.log",
+      "logSha256": "34af391f37d8e7396f79480a6e73b3142cc98539e56204f2f694f9e0e3a21eee",
+      "results": "shared-scroll-phone-results",
+      "workerRoots": ["/tmp/kandev-e2e-0-468OdH"],
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "sourceFilesVerified": 11,
+      "harnessFilesVerified": 1956,
+      "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+      "assetsSha256": "59e1ee10fcc09ef36211b49a69fa1fd632e822b8a8d4d338d93a7ba30aac5484",
+      "runtimeAndPluginFilesVerified": true,
+      "ledgers": [],
+      "readingReturnLedgers": []
+    },
+    "units": 307,
+    "unitFiles": 14,
+    "newContractCases": 6,
+    "visualAssets": {
+      "recordedAt": "2026-10-27T14:38:24.018743+00:00",
+      "allCSSAssetsByteIdentical": true,
+      "files": [
+        {
+          "path": "apps/web/dist/assets/canvas-lifecycle-Bg6yURNV.css",
+          "sha256": "d8193629d6df394f304cca31bb296f7202df1fb6859acc51a32bcede104e47f7"
+        },
+        {
+          "path": "apps/web/dist/assets/editor-Br_kD0ds.css",
+          "sha256": "6eebd659b4bf63fdc64facd7a96cd559dbe85d55e6c648f58ceaa5d554b043a4"
+        },
+        {
+          "path": "apps/web/dist/assets/editor-Br_kD0ds.css.gz",
+          "sha256": "e538ee3d8d5a710fd10c70e209bff8f6a7658a82c23453901a5d1f0117d0286a"
+        },
+        {
+          "path": "apps/web/dist/assets/index-LgKi2lxL.css",
+          "sha256": "c03b4e659ac3585d3b67eb7a3f1e1daa51bb12fc767bca74a379cef62a29ec8c"
+        },
+        {
+          "path": "apps/web/dist/assets/index-LgKi2lxL.css.gz",
+          "sha256": "95b44f2002831ecd4fc6d44b44f67b4e82eb26260388fc9cfc509c3b76dc6a72"
+        },
+        {
+          "path": "apps/web/dist/assets/pty-terminal-view-BrP-ENHg.css",
+          "sha256": "0e5386f16cb4be78a2fe911e014a810da76ea2db47d8c8b2a966516b2fd5270b"
+        },
+        {
+          "path": "apps/web/dist/assets/pty-terminal-view-BrP-ENHg.css.gz",
+          "sha256": "7c43e28bf28c9342d22782c4d7dce0c2d67362b0d61947f25ce0f96827a20741"
+        }
+      ],
+      "newDOMStylesOrClasses": false,
+      "scope": "Source diff and complete production CSS identity. Browser behavior and captures are separate checks."
+    },
+    "captureReview": {
+      "recordedAt": "2026-10-27T14:48:33.242776+00:00",
+      "capturesViewed": [
+        {
+          "path": "shared-scroll-desktop-results/layout-saved-layout-arrang-3c514-s-and-preserves-both-drafts-chromium/restored-2-columns.png",
+          "sha256": "bfa8b128572a15c84e73c93df87dcd11599ca9f3c0fa1f0b485d4994084e1068"
+        },
+        {
+          "path": "shared-scroll-desktop-results/task-threads-composer-disc-bd1f0-h-hover-and-keyboard-reveal-chromium/grid-revealed-draft.png",
+          "sha256": "7b536d4418e98a66c231f4d25ea1ed93562dbee6ebb3badde1e0478f67e298b1"
+        },
+        {
+          "path": "shared-scroll-phone-results/task-mobile-threads-compos-3bf33-ough-single-chat-navigation-mobile-chrome/phone-visible-composer-short-height.png",
+          "sha256": "f243cb7a0b98b5fb9d188f1eb9ed3e7e3932b2f46511c7b2aacb28f0ef46ef93"
+        },
+        {
+          "path": "shared-scroll-phone-results/task-mobile-threads-compos-d64ef-stion-by-touch-short-phone--mobile-chrome/phone-long-question-submitted.png",
+          "sha256": "e6e1d64dd4c758f40684edf4c124605155abe308a1ab543fb52c0d247fd59c6c"
+        }
+      ],
+      "observations": [
+        "Desktop Dockview retains two columns, a readable transcript and the saved composer draft.",
+        "Threads Grid retains the revealed draft and separate conversation tiles.",
+        "The short-phone composer and its action controls remain visible. The long required question completes through touch input."
+      ],
+      "cssAudit": "shared-scroll-visual-asset-audit.json",
+      "limits": "Four scoped captures viewed. No new pixel-equivalence or animation-panel inspection is claimed; existing motion cases are included in the browser receipts."
+    },
+    "initialFailures": {
+      "firstGreen": {
+        "handle": 16370,
+        "exitCode": 1,
+        "reason": "Enabled useAutoScroll also has an independent viewport-resize scroll listener. The first read budget incorrectly counted only the persistence listener. Preserve that listener, allow its one additional read and still require the shared value and a positive read."
+      },
+      "readStackDiagnostic": {
+        "handle": 2801,
+        "exitCode": 1,
+        "reason": "Temporary getter wrapper tried an unavailable original mock implementation. Its preserved stack identifies the viewport-resize listener. Wrapper removed."
+      },
+      "firstLint": {
+        "handle": 68457,
+        "exitCode": 1,
+        "reason": "UI package lies outside web config base path. Use explicit web config from repository root for that file."
+      },
+      "uiLintPrelaunch": {
+        "exitCode": 127,
+        "reason": "ESLint executable is in apps/web, not apps root."
+      },
+      "uiLint": {
+        "exitCode": 1,
+        "reason": "Existing unused borderSide destructuring in SessionPanel fails strict lint when this package is explicitly checked. Remove only that unused binding; the accepted prop type remains."
+      },
+      "types": {
+        "handle": 87754,
+        "exitCode": 0
+      }
+    }
+  },
+  "comparison": {
+    "audit": {
+      "recordedAt": "2026-10-27T15:58:16.217448+00:00",
+      "report": "matched-dense-1793114001836.json",
+      "reportSha256": "6c4a1513f451ad11bdfcbc0b30ce92e356ac2741fc0b681c4a629779fd7457c5",
+      "measurementKind": "reference-workload",
+      "sourceRevision": "3888940304b6c041b678b44502e3f4d3c0a552e9",
+      "productionRevision": "3888940304b6c041b678b44502e3f4d3c0a552e9",
+      "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+      "harnessSha256": "bb030173237f664ddda3686fd7306b01554f07920d4f3ebe51f4999679e1eaa8",
+      "harnessFilesVerified": 1956,
+      "testedSourceFilesVerified": 11,
+      "experimentalProductionFilesVerified": 0,
+      "untrackedFilesVerified": 0,
+      "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+      "playwrightAttachmentByteMatches": true,
+      "resultAndLogArchivesByteVerified": true,
+      "backendLogsVerified": 12,
+      "mainHandle": 27770,
+      "mainExitCode": 0,
+      "samplerHandle": 68256,
+      "samplerExitCode": 0,
+      "completeSamples": 12,
+      "verifiedOrderedUpdates": 21600,
+      "allAttemptsPassed": true,
+      "error": null,
+      "newWorkerRoots": ["/tmp/kandev-e2e-0-xrcFZs"],
+      "newWorkerRootsRemoved": true,
+      "savedFixtureRoot": "/tmp/kandev-e2e-0-nMsIqR",
+      "savedFixturePreserved": true,
+      "sourceReportAndSnapshotUnchanged": true,
+      "sampleNamespace": "replay-1793114001836-",
+      "remainingOwnedProcesses": [],
+      "initialLoadedHistory": [
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ]
+      ],
+      "finalLoadedHistory": [
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ]
+      ],
+      "artifacts": [
+        {
+          "path": "matched-dense-1793114001836.json",
+          "sha256": "6c4a1513f451ad11bdfcbc0b30ce92e356ac2741fc0b681c4a629779fd7457c5"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.backend.log",
+          "sha256": "685684a706458bdb46e987169054399a3abb979f1ab5270b678cde2f21881565"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.baseline-1x-0.backend.log",
+          "sha256": "74f34b007bfe69f76c766b3ece835d499f06f8ce0c2d677e91ffe0d5f54436db"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.baseline-1x-1.backend.log",
+          "sha256": "4f7c8e20b6e16a53b3ba713e233e8dce2d2d2e2e93e5735591854e8fc7c2b177"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.baseline-1x-2.backend.log",
+          "sha256": "74863949203c4d2f3dd31dd6bc4bde97fdf1e23dae22556a7b537f426f532a69"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.baseline-1x-3.backend.log",
+          "sha256": "63ccec46df65d2b6096f25cc0b53549da80516fe12ee60c5c8f1f028bb356435"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.baseline-1x-4.backend.log",
+          "sha256": "49f016a9c2808164ab11450a656df9c229f65339532d55361e523217c94f1766"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.baseline-1x-5.backend.log",
+          "sha256": "685684a706458bdb46e987169054399a3abb979f1ab5270b678cde2f21881565"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.candidate-1x-0.backend.log",
+          "sha256": "ce802a8f73568bc831921ca8a1afb3c505ea40a07f130e7a83234bb72a41823b"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.candidate-1x-1.backend.log",
+          "sha256": "9c591f19efbaff3ea99c7cbb14d7ddf32eed1014a5c7cef240577f7f752f692e"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.candidate-1x-2.backend.log",
+          "sha256": "d9d9a58206fe2714c940d207ed84d04e49db400437bbacf7071a62c5aa6f1083"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.candidate-1x-3.backend.log",
+          "sha256": "ac4a3dfa29454e3e8c54898485ac61a0431863c40bb6317f4187b39335919537"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.candidate-1x-4.backend.log",
+          "sha256": "0b132ff96d443e8ec401eabb528be7789bdbd9526ace18698e957aeca78325b1"
+        },
+        {
+          "path": "matched-dense-1793114001836.json.candidate-1x-5.backend.log",
+          "sha256": "1f368d37ac5045c08344e06170e9c0a96ea4351248f08bca068d4ae9fe0fe537"
+        }
+      ]
+    },
+    "auditHandle": 18813,
+    "auditExitCode": 0,
+    "summaryExitCode": 0,
+    "analysisExitCode": 0,
+    "summaryRows": 70,
+    "allSummaryRows": [
+      {
+        "group": "1x/cold",
+        "metric": "readyMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 15183.694113000005,
+          "min": 13656.67840500013,
+          "max": 17394.769059999846,
+          "values": [
+            14836.412696, 15327.685885000043, 15039.702340999967,
+            13656.67840500013, 15435.96323699993, 17394.769059999846
+          ]
+        },
+        "candidate": {
+          "median": 14796.369548499992,
+          "min": 14345.347724000225,
+          "max": 16491.03279099986,
+          "values": [
+            14784.697057000012, 14808.042039999971, 16491.03279099986,
+            14345.347724000225, 15072.367659999989, 14589.442332000006
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          51.71563899998728, 519.6438450000715, -1451.3304499998922,
+          -688.6693190000951, 363.59557699994184, 2805.32672799984
+        ],
+        "pairedPercentReduction": [
+          0.3485723945514819, 3.3902302597980856, -9.64999450849102,
+          -5.042729268252756, 2.355509477558258, 16.127415766909095
+        ],
+        "medianPairedPercentReduction": 1.35204093605487
+      },
+      {
+        "group": "1x/cold",
+        "metric": "documentMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 8463.832311000031,
+          "min": 8079.487903000088,
+          "max": 9509.37345900014,
+          "values": [
+            8564.576504999997, 8363.088117000065, 8194.96381700004,
+            8079.487903000088, 8916.25813099998, 9509.37345900014
+          ]
+        },
+        "candidate": {
+          "median": 8478.688981999992,
+          "min": 8148.894665000029,
+          "max": 9162.1721369999,
+          "values": [
+            8425.159061999992, 8532.218901999993, 9162.1721369999,
+            8148.894665000029, 8631.78569599986, 8375.146488000173
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          139.41744300000573, -169.13078499992844, -967.2083199998597,
+          -69.4067619999405, 284.47243500011973, 1134.2269709999673
+        ],
+        "pairedPercentReduction": [
+          1.627838141426069, -2.022348475034334, -11.80247212310364,
+          -0.8590490243096752, 3.1904912444276157, 11.927462686056135
+        ],
+        "medianPairedPercentReduction": 0.3843945585581969
+      },
+      {
+        "group": "1x/cold",
+        "metric": "assetEncodedBytes",
+        "pairs": 6,
+        "baseline": {
+          "median": 4165573,
+          "min": 4165573,
+          "max": 4165573,
+          "values": [4165573, 4165573, 4165573, 4165573, 4165573, 4165573]
+        },
+        "candidate": {
+          "median": 4165636,
+          "min": 4165636,
+          "max": 4165636,
+          "values": [4165636, 4165636, 4165636, 4165636, 4165636, 4165636]
+        },
+        "pairedAbsoluteReduction": [-63, -63, -63, -63, -63, -63],
+        "pairedPercentReduction": [
+          -0.0015123969739577244, -0.0015123969739577244,
+          -0.0015123969739577244, -0.0015123969739577244,
+          -0.0015123969739577244, -0.0015123969739577244
+        ],
+        "medianPairedPercentReduction": -0.0015123969739577244
+      },
+      {
+        "group": "1x/cold",
+        "metric": "assetDecodedBytes",
+        "pairs": 6,
+        "baseline": {
+          "median": 14688615,
+          "min": 14688615,
+          "max": 14688615,
+          "values": [14688615, 14688615, 14688615, 14688615, 14688615, 14688615]
+        },
+        "candidate": {
+          "median": 14688773,
+          "min": 14688773,
+          "max": 14688773,
+          "values": [14688773, 14688773, 14688773, 14688773, 14688773, 14688773]
+        },
+        "pairedAbsoluteReduction": [-158, -158, -158, -158, -158, -158],
+        "pairedPercentReduction": [
+          -0.0010756630220071803, -0.0010756630220071803,
+          -0.0010756630220071803, -0.0010756630220071803,
+          -0.0010756630220071803, -0.0010756630220071803
+        ],
+        "medianPairedPercentReduction": -0.0010756630220071803
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "elapsedMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 60081.691625999985,
+          "min": 60043.03244,
+          "max": 60145.85615699971,
+          "values": [
+            60043.03244, 60046.736135000014, 60070.35271300003,
+            60105.93623599992, 60093.03053899994, 60145.85615699971
+          ]
+        },
+        "candidate": {
+          "median": 60067.96289400011,
+          "min": 60028.72293700001,
+          "max": 60131.063558999915,
+          "values": [
+            60028.72293700001, 60042.73953900003, 60070.560408000136,
+            60065.36538000009, 60126.383118000114, 60131.063558999915
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          14.30950299998949, 3.9965959999826737, -0.2076950001064688,
+          40.57085599983111, -33.35257900017314, 14.792597999796271
+        ],
+        "pairedPercentReduction": [
+          0.02383207912473231, 0.006655808886926561, -0.000345752922575267,
+          0.06749891697973677, -0.05550157597481717, 0.02459454224274888
+        ],
+        "medianPairedPercentReduction": 0.015243944005829436
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 24703.5615,
+          "min": 24080.734,
+          "max": 27526.833000000002,
+          "values": [
+            24467.647999999997, 24080.734, 24870.097999999998, 24537.025,
+            27526.833000000002, 26064.171
+          ]
+        },
+        "candidate": {
+          "median": 24584.6825,
+          "min": 24334.908000000003,
+          "max": 24896.644,
+          "values": [
+            24675.950999999997, 24896.644, 24334.908000000003, 24493.414,
+            24339.241, 24830.452
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -208.30299999999988, -815.9099999999999, 535.189999999995,
+          43.611000000000786, 3187.5920000000006, 1233.7189999999973
+        ],
+        "pairedPercentReduction": [
+          -0.8513405129908682, -3.3882272857629667, 2.1519416610260045,
+          0.17773548341741016, 11.579944558097186, 4.733390522951977
+        ],
+        "medianPairedPercentReduction": 1.1648385722217074
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 6,
+        "baseline": {
+          "median": 411.12291272060236,
+          "min": 401.033187646711,
+          "max": 458.0703078726457,
+          "values": [
+            407.5018700038195, 401.033187646711, 414.0161806410998,
+            408.2296448001049, 458.0703078726457, 433.3494053516217
+          ]
+        },
+        "candidate": {
+          "median": 409.4241936564796,
+          "min": 404.80134905559504,
+          "max": 414.6487017606632,
+          "values": [
+            411.06906481914234, 414.6487017606632, 405.10539330275844,
+            407.7793224938169, 404.80134905559504, 412.9388460863767
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -3.567194815322864, -13.615514113952202, 8.910787338341379,
+          0.4503223062880011, 53.268958817050645, 20.410559265245013
+        ],
+        "pairedPercentReduction": [
+          -0.8753812136590757, -3.3951090666208774, 2.1522799723776775,
+          0.11031102518498073, 11.628991860319545, 4.709954372426977
+        ],
+        "medianPairedPercentReduction": 1.131295498781329
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadCpuMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 24829.5285,
+          "min": 24189.111,
+          "max": 26726.971,
+          "values": [
+            24599.930999999997, 24189.111, 24967.987, 24691.07, 26726.971,
+            26125.319000000003
+          ]
+        },
+        "candidate": {
+          "median": 24710.6195,
+          "min": 24487.606,
+          "max": 25006.218,
+          "values": [
+            24805.652000000002, 25006.218, 24490.391000000003,
+            24615.587000000003, 24487.606, 24966.217999999997
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -205.721000000005, -817.107, 477.59599999999773, 75.48299999999654,
+          2239.3650000000016, 1159.101000000006
+        ],
+        "pairedPercentReduction": [
+          -0.8362665732680512, -3.377995164849175, 1.9128334214528295,
+          0.3057097161038243, 8.378671118399469, 4.436696064840417
+        ],
+        "medianPairedPercentReduction": 1.109271568778327
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "rendererCpuMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 35675,
+          "min": 35059.99999999999,
+          "max": 38390,
+          "values": [35970, 35070, 35059.99999999999, 35380, 38390, 36690]
+        },
+        "candidate": {
+          "median": 35930,
+          "min": 35000,
+          "max": 36550.00000000001,
+          "values": [35720, 36550.00000000001, 35830, 36030, 35000, 36340]
+        },
+        "pairedAbsoluteReduction": [
+          250, -1480.0000000000073, -770.0000000000073, -650, 3390, 350
+        ],
+        "pairedPercentReduction": [
+          0.6950236308034473, -4.220131166238971, -2.1962350256703007,
+          -1.8371961560203505, 8.83042458973691, 0.9539384028345598
+        ],
+        "medianPairedPercentReduction": -0.5710862626084516
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "scriptMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 12796.1905,
+          "min": 12013.841000000002,
+          "max": 14631.908,
+          "values": [
+            12423.41, 12013.841000000002, 13168.971, 12258.363000000001,
+            14631.908, 14356.821000000002
+          ]
+        },
+        "candidate": {
+          "median": 12530.942500000001,
+          "min": 12189.405,
+          "max": 13118.869999999997,
+          "values": [
+            12459.056999999999, 13118.869999999997, 12189.405,
+            12459.996000000001, 12823.824999999999, 12601.889
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -35.646999999999025, -1105.028999999995, 979.5659999999989,
+          -201.6329999999998, 1808.0830000000005, 1754.9320000000025
+        ],
+        "pairedPercentReduction": [
+          -0.2869341026336491, -9.197965912816683, 7.438439951002997,
+          -1.6448607371147337, 12.357123896623738, 12.223680994560024
+        ],
+        "medianPairedPercentReduction": 3.575752924184674
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "styleMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 2761.1580000000004,
+          "min": 2700.2680000000005,
+          "max": 2924.474,
+          "values": [
+            2700.2680000000005, 2715.777, 2760.96, 2761.356, 2924.474, 2795.766
+          ]
+        },
+        "candidate": {
+          "median": 2705.1905,
+          "min": 2656.5339999999997,
+          "max": 2764.478,
+          "values": [
+            2724.805, 2696.32, 2685.663, 2714.061, 2656.5339999999997, 2764.478
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -24.536999999999352, 19.45699999999988, 75.29700000000003,
+          47.29500000000007, 267.9400000000005, 31.28800000000001
+        ],
+        "pairedPercentReduction": [
+          -0.9086875821214542, 0.716443213120955, 2.727203581363005,
+          1.712745477222063, 9.161989472294863, 1.119120842016106
+        ],
+        "medianPairedPercentReduction": 1.4159331596190845
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "layoutMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 130.288,
+          "min": 105.987,
+          "max": 137.315,
+          "values": [
+            133.337, 130.02500000000003, 105.987, 117.34800000000001, 137.315,
+            130.55100000000002
+          ]
+        },
+        "candidate": {
+          "median": 130.20299999999997,
+          "min": 126.18300000000002,
+          "max": 140.95600000000002,
+          "values": [
+            140.95600000000002, 130.76999999999998, 138.48499999999996,
+            129.63599999999997, 128.18999999999997, 126.18300000000002
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -7.619000000000028, -0.7449999999999477, -32.49799999999996,
+          -12.287999999999954, 9.125000000000028, 4.367999999999995
+        ],
+        "pairedPercentReduction": [
+          -5.7140928624463045, -0.5729667371658893, -30.66225103078676,
+          -10.471418345434053, 6.6453045916323985, 3.3458188753820304
+        ],
+        "medianPairedPercentReduction": -3.143529799806097
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "styleRecalculations",
+        "pairs": 6,
+        "baseline": {
+          "median": 3019.5,
+          "min": 2852,
+          "max": 3073,
+          "values": [3051, 3073, 2988, 3058, 2852, 2912]
+        },
+        "candidate": {
+          "median": 3039.5,
+          "min": 2995,
+          "max": 3061,
+          "values": [3046, 2995, 3061, 3039, 3019, 3040]
+        },
+        "pairedAbsoluteReduction": [5, 78, -73, 19, -167, -128],
+        "pairedPercentReduction": [
+          0.1638806948541462, 2.538236251220306, -2.4431057563587686,
+          0.6213211249182472, -5.855539971949509, -4.395604395604396
+        ],
+        "medianPairedPercentReduction": -1.1396125307523113
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "layouts",
+        "pairs": 6,
+        "baseline": {
+          "median": 282,
+          "min": 237,
+          "max": 310,
+          "values": [310, 310, 237, 268, 255, 296]
+        },
+        "candidate": {
+          "median": 304,
+          "min": 281,
+          "max": 309,
+          "values": [309, 304, 305, 304, 303, 281]
+        },
+        "pairedAbsoluteReduction": [1, 6, -68, -36, -48, 15],
+        "pairedPercentReduction": [
+          0.3225806451612903, 1.935483870967742, -28.69198312236287,
+          -13.432835820895523, -18.823529411764707, 5.0675675675675675
+        ],
+        "medianPairedPercentReduction": -6.5551275878671165
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "frameGapP95Ms",
+        "pairs": 6,
+        "baseline": {
+          "median": 16.80000000000291,
+          "min": 16.80000000000291,
+          "max": 16.80000000000291,
+          "values": [
+            16.80000000000291, 16.80000000000291, 16.80000000000291,
+            16.80000000000291, 16.80000000000291, 16.80000000000291
+          ]
+        },
+        "candidate": {
+          "median": 16.80000000000291,
+          "min": 16.80000000000291,
+          "max": 16.80000000000291,
+          "values": [
+            16.80000000000291, 16.80000000000291, 16.80000000000291,
+            16.80000000000291, 16.80000000000291, 16.80000000000291
+          ]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [0, 0, 0, 0, 0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "frameGapMaxMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 216.70000000000073,
+          "min": 166.70000000000437,
+          "max": 450,
+          "values": [
+            216.6999999999971, 199.90000000000146, 216.70000000000437,
+            166.70000000000437, 450, 233.29999999999563
+          ]
+        },
+        "candidate": {
+          "median": 233.3000000000029,
+          "min": 200,
+          "max": 233.40000000000146,
+          "values": [
+            233.40000000000146, 233.40000000000146, 233.20000000000437,
+            200.10000000000582, 200, 233.40000000000146
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -16.700000000004366, -33.5, -16.5, -33.400000000001455, 250,
+          -0.10000000000582077
+        ],
+        "pairedPercentReduction": [
+          -7.706506691280383, -16.758379189594674, -7.61421319796939,
+          -20.03599280144006, 55.55555555555556, -0.042863266183378754
+        ],
+        "medianPairedPercentReduction": -7.6603599446248865
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "longTasks",
+        "pairs": 6,
+        "baseline": {
+          "median": 96,
+          "min": 96,
+          "max": 105,
+          "values": [96, 96, 96, 96, 105, 96]
+        },
+        "candidate": {
+          "median": 96,
+          "min": 96,
+          "max": 97,
+          "values": [96, 96, 96, 96, 96, 97]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 9, -1],
+        "pairedPercentReduction": [
+          0, 0, 0, 0, 8.571428571428571, -1.0416666666666667
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "longTaskMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 9615,
+          "min": 8979,
+          "max": 11445,
+          "values": [9243, 8979, 9987, 9086, 11445, 10776]
+        },
+        "candidate": {
+          "median": 9377,
+          "min": 9057,
+          "max": 9801,
+          "values": [9287, 9801, 9057, 9323, 9604, 9431]
+        },
+        "pairedAbsoluteReduction": [-44, -822, 930, -237, 1841, 1345],
+        "pairedPercentReduction": [
+          -0.47603591907389375, -9.154694286668894, 9.312105737458696,
+          -2.6084085406119306, 16.085626911314986, 12.481440237564959
+        ],
+        "medianPairedPercentReduction": 4.418034909192401
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "domNodes",
+        "pairs": 6,
+        "baseline": {
+          "median": 24542,
+          "min": 24542,
+          "max": 24542,
+          "values": [24542, 24542, 24542, 24542, 24542, 24542]
+        },
+        "candidate": {
+          "median": 24542,
+          "min": 24542,
+          "max": 24542,
+          "values": [24542, 24542, 24542, 24542, 24542, 24542]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [0, 0, 0, 0, 0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mountedEditors",
+        "pairs": 6,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6, 6, 6, 6, 6]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6, 6, 6, 6, 6]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [0, 0, 0, 0, 0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "runningAnimations",
+        "pairs": 6,
+        "baseline": {
+          "median": 60,
+          "min": 60,
+          "max": 60,
+          "values": [60, 60, 60, 60, 60, 60]
+        },
+        "candidate": {
+          "median": 60,
+          "min": 60,
+          "max": 60,
+          "values": [60, 60, 60, 60, 60, 60]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [0, 0, 0, 0, 0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "historyRequests",
+        "pairs": 6,
+        "baseline": {
+          "median": 64.5,
+          "min": 64,
+          "max": 66,
+          "values": [66, 64, 65, 65, 64, 64]
+        },
+        "candidate": {
+          "median": 65.5,
+          "min": 64,
+          "max": 67,
+          "values": [65, 64, 67, 66, 66, 64]
+        },
+        "pairedAbsoluteReduction": [1, 0, -2, -1, -2, 0],
+        "pairedPercentReduction": [
+          1.5151515151515151, 0, -3.076923076923077, -1.5384615384615385,
+          -3.125, 0
+        ],
+        "medianPairedPercentReduction": -0.7692307692307693
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "historyDecodedBytes",
+        "pairs": 6,
+        "baseline": {
+          "median": 11719290,
+          "min": 11538935,
+          "max": 11899569,
+          "values": [11899569, 11899104, 11719310, 11719270, 11538935, 11538968]
+        },
+        "candidate": {
+          "median": 11809031.5,
+          "min": 11538576,
+          "max": 12439667,
+          "values": [11718886, 11718629, 12439667, 11899177, 12079205, 11538576]
+        },
+        "pairedAbsoluteReduction": [
+          180683, 180475, -720357, -179907, -540270, 392
+        ],
+        "pairedPercentReduction": [
+          1.5183995319494346, 1.5167108380597396, -6.146752667179211,
+          -1.5351382807973535, -4.6821478758654935, 0.003397184219593988
+        ],
+        "medianPairedPercentReduction": -0.7658705482888798
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "websocketDecodedBytes",
+        "pairs": 6,
+        "baseline": {
+          "median": 12070430.5,
+          "min": 11889094,
+          "max": 12250384,
+          "values": [12250384, 12249233, 12069433, 12071428, 11889094, 11889132]
+        },
+        "candidate": {
+          "median": 12159821.5,
+          "min": 11891246,
+          "max": 12789797,
+          "values": [12069537, 12069673, 12789797, 12249970, 12429366, 11891246]
+        },
+        "pairedAbsoluteReduction": [
+          180847, 179560, -720364, -178542, -540272, -2114
+        ],
+        "pairedPercentReduction": [
+          1.476255764717253, 1.4658877008870679, -5.968499100164855,
+          -1.4790462238601763, -4.544265526035878, -0.01778094481582003
+        ],
+        "medianPairedPercentReduction": -0.7484135843379981
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "resets",
+        "pairs": 6,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0, 0, 0, 0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0, 0, 0, 0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [null, null, null, null, null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "changedNotifications",
+        "pairs": 6,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [72, 72, 72, 72, 72, 72]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 78,
+          "values": [72, 72, 72, 72, 72, 78]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, -6],
+        "pairedPercentReduction": [0, 0, 0, 0, 0, -8.333333333333334],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "elapsedMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 60805.37950600003,
+          "min": 60678.87937900005,
+          "max": 63027.660171000054,
+          "values": [
+            60738.638875000004, 60813.220065, 60797.53894700005,
+            63027.660171000054, 61984.8216599999, 60678.87937900005
+          ]
+        },
+        "candidate": {
+          "median": 61047.03472300002,
+          "min": 60652.83379100007,
+          "max": 64666.381969999755,
+          "values": [
+            61146.65861700004, 60664.45510499994, 60652.83379100007,
+            61106.7440549999, 64666.381969999755, 60987.32539100014
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -408.01974200003315, 148.76496000005864, 144.7051559999818,
+          1920.9161160001531, -2681.5603099998552, -308.44601200008765
+        ],
+        "pairedPercentReduction": [
+          -0.6717630647597108, 0.24462602019931146, 0.23801153550989587,
+          3.0477350908926724, -4.3261563689072, -0.5083251621598597
+        ],
+        "medianPairedPercentReduction": -0.13515681332498192
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 59932.1685,
+          "min": 59799.265,
+          "max": 62080.339,
+          "values": [
+            59867.123, 59865.061, 59997.21400000001, 62080.339, 60784.253,
+            59799.265
+          ]
+        },
+        "candidate": {
+          "median": 60147.683999999994,
+          "min": 59756.55499999999,
+          "max": 63417.744999999995,
+          "values": [
+            60252.435000000005, 59810.333, 59756.55499999999, 60229.745,
+            63417.744999999995, 60065.62299999999
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -385.31200000000536, 54.728000000002794, 240.6590000000142,
+          1850.5939999999973, -2633.4919999999984, -266.3579999999929
+        ],
+        "pairedPercentReduction": [
+          -0.6436120205743064, 0.09141893298998358, 0.4011169585307981,
+          2.980966324942261, -4.332523425104852, -0.44542019036520414
+        ],
+        "medianPairedPercentReduction": -0.1770006286876103
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 6,
+        "baseline": {
+          "median": 985.2367675730151,
+          "min": 980.6312476530903,
+          "max": 986.8362278989989,
+          "values": [
+            985.6513762714771, 984.4086686416777, 986.8362278989989,
+            984.9697550499276, 980.6312476530903, 985.5037800961026
+          ]
+        },
+        "candidate": {
+          "median": 985.2992804944082,
+          "min": 980.6910958683443,
+          "max": 985.9205509466524,
+          "values": [
+            985.3757566279932, 985.9205509466524, 985.2228043608233,
+            985.6480807714031, 980.6910958683443, 984.8869845481671
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0.27561964348399215, -1.5118823049747334, 1.6134235381756525,
+          -0.6783257214755167, -0.059848215253964554, 0.6167955479354532
+        ],
+        "pairedPercentReduction": [
+          0.027963197751177133, -0.15358279067786784, 0.16349455893108777,
+          -0.06886767009826944, -0.00610302959417183, 0.06258682720377852
+        ],
+        "medianPairedPercentReduction": 0.010930084078502652
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadCpuMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 60025.5595,
+          "min": 59908.62499999999,
+          "max": 61851.473999999995,
+          "values": [
+            59976.365, 59951.572, 60074.754, 61851.473999999995,
+            60804.433000000005, 59908.62499999999
+          ]
+        },
+        "candidate": {
+          "median": 60139.5755,
+          "min": 59864.801999999996,
+          "max": 63382.379,
+          "values": [
+            60366.693, 59906.67600000001, 59864.801999999996, 60388.564,
+            63382.379, 59912.458
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -390.32800000000134, 44.895999999993364, 209.95200000000477,
+          1462.9099999999962, -2577.9459999999963, -3.8330000000059954
+        ],
+        "pairedPercentReduction": [
+          -0.6508030288264408, 0.07488711054981738, 0.34948457716531767,
+          2.3651982812891355, -4.23973363915752, -0.006398077071550208
+        ],
+        "medianPairedPercentReduction": 0.03424451673913358
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "rendererCpuMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 74785,
+          "min": 74160,
+          "max": 77220,
+          "values": [74509.99999999999, 74830, 74740, 77220, 75940, 74160]
+        },
+        "candidate": {
+          "median": 74690,
+          "min": 73780,
+          "max": 79740.00000000001,
+          "values": [74840, 74120, 73780, 74690, 79740.00000000001, 74690]
+        },
+        "pairedAbsoluteReduction": [
+          -330.00000000001455, 710, 960, 2530, -3800.0000000000146, -530
+        ],
+        "pairedPercentReduction": [
+          -0.4428935713327266, 0.9488173192569825, 1.2844527696012844,
+          3.2763532763532766, -5.003950487226777, -0.714670981661273
+        ],
+        "medianPairedPercentReduction": 0.252961873962128
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "scriptMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 41706.009,
+          "min": 40660.358,
+          "max": 43799.223,
+          "values": [
+            41566.162, 40660.358, 41761.596, 43799.223, 42780.72899999999,
+            41650.422
+          ]
+        },
+        "candidate": {
+          "median": 42206.2825,
+          "min": 39195.475,
+          "max": 43883.407,
+          "values": [
+            42308.943, 40336.956999999995, 39195.475, 42103.622, 43883.407,
+            42569.214
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -742.7810000000027, 323.4010000000053, 2566.120999999999,
+          1695.600999999995, -1102.6780000000072, -918.7920000000013
+        ],
+        "pairedPercentReduction": [
+          -1.7869848074979902, 0.7953717475876757, 6.144690926084337,
+          3.8713038356867546, -2.577511009688515, -2.205960842365538
+        ],
+        "medianPairedPercentReduction": -0.4958065299551572
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "styleMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 5174.8735,
+          "min": 5134.0160000000005,
+          "max": 5301.097,
+          "values": [
+            5208.905, 5140.442999999999, 5167.923, 5134.0160000000005, 5301.097,
+            5181.824
+          ]
+        },
+        "candidate": {
+          "median": 5177.7695,
+          "min": 5083.205999999999,
+          "max": 5212.464,
+          "values": [
+            5197.649, 5157.89, 5118.232, 5212.464, 5203.890999999999,
+            5083.205999999999
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          11.255999999999403, -17.447000000001026, 49.6909999999998,
+          -78.44799999999941, 97.20600000000104, 98.6180000000004
+        ],
+        "pairedPercentReduction": [
+          0.2160914817989463, -0.33940654531138714, 0.9615274840588725,
+          -1.5280045874418662, 1.833695931238403, 1.9031522490922193
+        ],
+        "medianPairedPercentReduction": 0.5888094829289093
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "layoutMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 1066.326,
+          "min": 1047.623,
+          "max": 1127.204,
+          "values": [
+            1056.284, 1047.623, 1059.5049999999999, 1127.204, 1104.253,
+            1073.1470000000002
+          ]
+        },
+        "candidate": {
+          "median": 1080.6754999999998,
+          "min": 992.801,
+          "max": 1122.9070000000002,
+          "values": [
+            1066.7099999999998, 1042.707, 992.801, 1094.641, 1122.9070000000002,
+            1110.863
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -10.425999999999704, 4.91599999999994, 66.70399999999984,
+          32.562999999999874, -18.654000000000224, -37.715999999999894
+        ],
+        "pairedPercentReduction": [
+          -0.9870451507359481, 0.4692527750917973, 6.295770194571978,
+          2.8888293512088206, -1.689286784821977, -3.514523173432893
+        ],
+        "medianPairedPercentReduction": -0.2588961878220754
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "styleRecalculations",
+        "pairs": 6,
+        "baseline": {
+          "median": 2842.5,
+          "min": 2646,
+          "max": 2911,
+          "values": [2848, 2851, 2837, 2646, 2744, 2911]
+        },
+        "candidate": {
+          "median": 2845.5,
+          "min": 2663,
+          "max": 3107,
+          "values": [2821, 2981, 3107, 2870, 2679, 2663]
+        },
+        "pairedAbsoluteReduction": [27, -130, -270, -224, 65, 248],
+        "pairedPercentReduction": [
+          0.9480337078651685, -4.559803577692038, -9.517095523440254,
+          -8.465608465608465, 2.368804664723032, 8.51940913775335
+        ],
+        "medianPairedPercentReduction": -1.8058849349134347
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "layouts",
+        "pairs": 6,
+        "baseline": {
+          "median": 2223.5,
+          "min": 2164,
+          "max": 2322,
+          "values": [2251, 2196, 2244, 2164, 2203, 2322]
+        },
+        "candidate": {
+          "median": 2244,
+          "min": 2036,
+          "max": 2290,
+          "values": [2259, 2246, 2242, 2290, 2036, 2157]
+        },
+        "pairedAbsoluteReduction": [-8, -50, 2, -126, 167, 165],
+        "pairedPercentReduction": [
+          -0.3553976010661928, -2.276867030965392, 0.08912655971479501,
+          -5.822550831792976, 7.58057194734453, 7.10594315245478
+        ],
+        "medianPairedPercentReduction": -0.1331355206756989
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "frameGapP95Ms",
+        "pairs": 6,
+        "baseline": {
+          "median": 133.40000000000873,
+          "min": 133.40000000000873,
+          "max": 150.10000000000582,
+          "values": [
+            133.40000000000873, 133.40000000000873, 133.40000000000873,
+            150.10000000000582, 150, 133.40000000000873
+          ]
+        },
+        "candidate": {
+          "median": 141.65000000000873,
+          "min": 133.29999999998836,
+          "max": 150,
+          "values": [
+            149.90000000000873, 133.39999999999418, 133.29999999998836,
+            133.40000000000873, 150, 150
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -16.5, 1.4551915228366852e-11, 0.10000000002037268, 16.69999999999709,
+          0, -16.59999999999127
+        ],
+        "pairedPercentReduction": [
+          -12.368815592203088, 1.0908482180184333e-11, 0.07496251875589666,
+          11.125916055960321, 0, -12.443778110937169
+        ],
+        "medianPairedPercentReduction": 5.4542410900921666e-12
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "frameGapMaxMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 175,
+          "min": 166.60000000000582,
+          "max": 299.8999999999942,
+          "values": [
+            166.6999999999971, 183.3000000000029, 166.60000000000582,
+            299.8999999999942, 183.40000000002328, 166.69999999998254
+          ]
+        },
+        "candidate": {
+          "median": 175.0500000000029,
+          "min": 166.6999999999971,
+          "max": 300,
+          "values": [
+            166.70000000001164, 166.6999999999971, 200, 166.6999999999971,
+            183.39999999999418, 300
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -1.4551915228366852e-11, 16.60000000000582, -33.39999999999418,
+          133.1999999999971, 2.9103830456733704e-11, -133.30000000001746
+        ],
+        "pairedPercentReduction": [
+          -8.72940325636899e-12, 9.056192034918471, -20.04801920767888,
+          44.41480493497822, 1.586904605056162e-11, -79.96400719857914
+        ],
+        "medianPairedPercentReduction": 3.5698213970963148e-12
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "longTasks",
+        "pairs": 6,
+        "baseline": {
+          "median": 5,
+          "min": 1,
+          "max": 37,
+          "values": [7, 3, 2, 37, 9, 1]
+        },
+        "candidate": {
+          "median": 2.5,
+          "min": 2,
+          "max": 30,
+          "values": [2, 3, 2, 2, 19, 30]
+        },
+        "pairedAbsoluteReduction": [5, 0, 0, 35, -10, -29],
+        "pairedPercentReduction": [
+          71.42857142857143, 0, 0, 94.5945945945946, -111.11111111111111, -2900
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "longTaskMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 279,
+          "min": 54,
+          "max": 2442,
+          "values": [378, 180, 127, 2442, 506, 54]
+        },
+        "candidate": {
+          "median": 169,
+          "min": 105,
+          "max": 2134,
+          "values": [128, 173, 165, 105, 1073, 2134]
+        },
+        "pairedAbsoluteReduction": [250, 7, -38, 2337, -567, -2080],
+        "pairedPercentReduction": [
+          66.13756613756614, 3.888888888888889, -29.921259842519685,
+          95.7002457002457, -112.05533596837945, -3851.8518518518517
+        ],
+        "medianPairedPercentReduction": -13.016185476815398
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "domNodes",
+        "pairs": 6,
+        "baseline": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [26378, 26378, 26378, 26378, 26378, 26378]
+        },
+        "candidate": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [26378, 26378, 26378, 26378, 26378, 26378]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [0, 0, 0, 0, 0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mountedEditors",
+        "pairs": 6,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6, 6, 6, 6, 6]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6, 6, 6, 6, 6]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [0, 0, 0, 0, 0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "runningAnimations",
+        "pairs": 6,
+        "baseline": {
+          "median": 61,
+          "min": 61,
+          "max": 61,
+          "values": [61, 61, 61, 61, 61, 61]
+        },
+        "candidate": {
+          "median": 61,
+          "min": 61,
+          "max": 61,
+          "values": [61, 61, 61, 61, 61, 61]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [0, 0, 0, 0, 0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "historyRequests",
+        "pairs": 6,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 73,
+          "values": [72, 72, 72, 73, 73, 72]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 78,
+          "values": [72, 72, 72, 72, 78, 72]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 1, -5, 0],
+        "pairedPercentReduction": [
+          0, 0, 0, 1.36986301369863, -6.8493150684931505, 0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "historyDecodedBytes",
+        "pairs": 6,
+        "baseline": {
+          "median": 13262585.5,
+          "min": 13256142,
+          "max": 13453955,
+          "values": [13264320, 13258184, 13260851, 13453955, 13449405, 13256142]
+        },
+        "candidate": {
+          "median": 13263327.5,
+          "min": 13257367,
+          "max": 14386894,
+          "values": [13264601, 13263663, 13257367, 13262992, 14386894, 13261152]
+        },
+        "pairedAbsoluteReduction": [-281, -5479, 3484, 190963, -937489, -5010],
+        "pairedPercentReduction": [
+          -0.0021184651757496804, -0.04132541832275069, 0.026272823667199036,
+          1.419381884360398, -6.970486798486625, -0.0377938015449744
+        ],
+        "medianPairedPercentReduction": -0.01995613336036204
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "websocketDecodedBytes",
+        "pairs": 6,
+        "baseline": {
+          "median": 38729500.5,
+          "min": 37872660,
+          "max": 39003020,
+          "values": [38068423, 37872660, 38829229, 38629772, 39003020, 38955017]
+        },
+        "candidate": {
+          "median": 37922739,
+          "min": 35011456,
+          "max": 38788350,
+          "values": [38734232, 36930380, 35011456, 38788350, 37203072, 38642406]
+        },
+        "pairedAbsoluteReduction": [
+          -665809, 942280, 3817773, -158578, 1799948, 312611
+        ],
+        "pairedPercentReduction": [
+          -1.7489797252699435, 2.488021702198895, 9.832214283729403,
+          -0.4105072118986361, 4.6148939235987365, 0.802492269480976
+        ],
+        "medianPairedPercentReduction": 1.6452569858399353
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "resets",
+        "pairs": 6,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0, 0, 0, 0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0, 0, 0, 0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [null, null, null, null, null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "changedNotifications",
+        "pairs": 6,
+        "baseline": {
+          "median": 1845.5,
+          "min": 1702,
+          "max": 1870,
+          "values": [1835, 1702, 1860, 1842, 1849, 1870]
+        },
+        "candidate": {
+          "median": 1770.5,
+          "min": 1599,
+          "max": 1862,
+          "values": [1859, 1696, 1599, 1862, 1688, 1845]
+        },
+        "pairedAbsoluteReduction": [-24, 6, 261, -20, 161, 25],
+        "pairedPercentReduction": [
+          -1.3079019073569482, 0.3525264394829612, 14.03225806451613,
+          -1.0857763300760044, 8.707409410492158, 1.3368983957219251
+        ],
+        "medianPairedPercentReduction": 0.8447124176024432
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "elapsedMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 60084.18545350002,
+          "min": 60028.260565000004,
+          "max": 60156.483109999914,
+          "values": [
+            60028.260565000004, 60073.84040799993, 60059.05224800005,
+            60094.5304990001, 60109.92795499996, 60156.483109999914
+          ]
+        },
+        "candidate": {
+          "median": 60099.12357449997,
+          "min": 60039.83004699997,
+          "max": 60120.89715800015,
+          "values": [
+            60039.83004699997, 60058.61696500005, 60091.93539300002,
+            60106.31175599992, 60120.89715800015, 60110.91442500008
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -11.56948199996259, 15.223442999878898, -32.88314499997068,
+          -11.78125699982047, -10.969203000189736, 45.56868499983102
+        ],
+        "pairedPercentReduction": [
+          -0.01927339205079062, 0.025341218234903488, -0.05475135515656706,
+          -0.019604541215304937, -0.018248571198424327, 0.07575024776050457
+        ],
+        "medianPairedPercentReduction": -0.018760981624607473
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 6927.776999999998,
+          "min": 6223.427000000001,
+          "max": 7351.434000000012,
+          "values": [
+            7152.716999999995, 7263.168000000007, 6223.427000000001,
+            6622.570999999994, 6702.837000000002, 7351.434000000012
+          ]
+        },
+        "candidate": {
+          "median": 6898.270000000004,
+          "min": 6683.374999999998,
+          "max": 7044.8850000000075,
+          "values": [
+            6917.896999999996, 6981.223, 6683.374999999998, 7044.8850000000075,
+            6878.643000000011, 6812.112999999997
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          234.8199999999988, 281.945000000007, -459.9479999999976,
+          -422.31400000001395, -175.80600000000868, 539.3210000000154
+        ],
+        "pairedPercentReduction": [
+          3.2829482838479276, 3.88184604844617, -7.3905904255002515,
+          -6.376888975595948, -2.6228595443990153, 7.336269359148357
+        ],
+        "medianPairedPercentReduction": 0.33004436972445617
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 6,
+        "baseline": {
+          "median": 115.33273801070068,
+          "min": 103.62179833111234,
+          "max": 122.20518254960903,
+          "values": [
+            119.1558264836754, 120.9040066470061, 103.62179833111234,
+            110.20255828623513, 111.50964953772596, 122.20518254960903
+          ]
+        },
+        "candidate": {
+          "median": 114.81765368351591,
+          "min": 111.21916703615656,
+          "max": 117.20707516705637,
+          "values": [
+            115.22179517471278, 116.240155914153, 111.21916703615656,
+            117.20707516705637, 114.41351219231906, 113.32572570492862
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          3.9340313089626164, 4.663850732853106, -7.597368705044218,
+          -7.004516880821242, -2.903862654593098, 8.87945684468042
+        ],
+        "pairedPercentReduction": [
+          3.301585348410627, 3.8574823632353095, -7.331824796909664,
+          -6.356038362220256, -2.6041357556331146, 7.266023141920201
+        ],
+        "medianPairedPercentReduction": 0.3487247963887561
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadCpuMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 7231.665499999998,
+          "min": 6490.192000000007,
+          "max": 7679.960000000008,
+          "values": [
+            7447.935999999999, 7599.66, 6490.192000000007, 6943.72899999999,
+            7015.394999999998, 7679.960000000008
+          ]
+        },
+        "candidate": {
+          "median": 7217.715500000004,
+          "min": 7002.632000000005,
+          "max": 7373.031999999995,
+          "values": [
+            7240.344000000007, 7301.789, 7002.632000000005, 7373.031999999995,
+            7195.087000000001, 7108.086
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          207.59199999999146, 297.8710000000001, -512.4399999999978,
+          -429.30300000000443, -179.69200000000365, 571.874000000008
+        ],
+        "pairedPercentReduction": [
+          2.7872419956346497, 3.9195306105799483, -7.895606170048548,
+          -6.182600156198564, -2.5613953312679287, 7.446314824556473
+        ],
+        "medianPairedPercentReduction": 0.11292333218336048
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "rendererCpuMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 12020.000000000004,
+          "min": 11349.99999999998,
+          "max": 13040.000000000005,
+          "values": [
+            12469.999999999985, 13040.000000000005, 11789.999999999993,
+            11349.99999999998, 11389.999999999985, 12250.000000000015
+          ]
+        },
+        "candidate": {
+          "median": 12065.000000000013,
+          "min": 11500,
+          "max": 12269.999999999996,
+          "values": [
+            12170.000000000002, 12020.000000000011, 11500, 12269.999999999996,
+            11669.999999999987, 12110.000000000015
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          299.99999999998363, 1019.9999999999945, 289.9999999999927,
+          -920.0000000000164, -280.0000000000018, 140
+        ],
+        "pairedPercentReduction": [
+          2.4057738572572895, 7.8220858895705065, 2.459711620016903,
+          -8.105726872246853, -2.4582967515364547, 1.1428571428571415
+        ],
+        "medianPairedPercentReduction": 1.7743155000572155
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "scriptMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 1866.9910000000023,
+          "min": 1736.946000000003,
+          "max": 1894.8110000000042,
+          "values": [
+            1862.6230000000064, 1871.358999999998, 1736.946000000003,
+            1853.8190000000013, 1873.423999999993, 1894.8110000000042
+          ]
+        },
+        "candidate": {
+          "median": 1828.3425000000016,
+          "min": 1793.737,
+          "max": 1880.3589999999986,
+          "values": [
+            1822.383000000002, 1848.3160000000041, 1793.737, 1806.438,
+            1834.302000000001, 1880.3589999999986
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          40.24000000000433, 23.04299999999398, -56.790999999996984,
+          47.38100000000122, 39.121999999991885, 14.452000000005683
+        ],
+        "pairedPercentReduction": [
+          2.160394239736339, 1.2313511196939766, -3.269589267599389,
+          2.555859013204697, 2.0882619204190846, 0.7627145926430473
+        ],
+        "medianPairedPercentReduction": 1.6598065200565306
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "styleMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 19.82300000000059,
+          "min": 13.211999999999335,
+          "max": 20.591000000001358,
+          "values": [
+            20.103000000000648, 19.543000000000532, 20.591000000001358,
+            13.211999999999335, 15.437999999999619, 20.25699999999908
+          ]
+        },
+        "candidate": {
+          "median": 19.58950000000037,
+          "min": 13.505000000000322,
+          "max": 21.219999999999573,
+          "values": [
+            20.208000000000226, 18.816000000001054, 13.505000000000322,
+            21.219999999999573, 19.406000000000034, 19.773000000000707
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -0.10499999999957765, 0.7269999999994781, 7.086000000001036,
+          -8.008000000000237, -3.9680000000004156, 0.4839999999983746
+        ],
+        "pairedPercentReduction": [
+          -0.5223101029675883, 3.720002046765892, 34.41309309892948,
+          -60.61156524372267, -25.70281124498325, 2.3892975267729506
+        ],
+        "medianPairedPercentReduction": 0.9334937119026812
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "layoutMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 146.59049999999996,
+          "min": 118.29800000000002,
+          "max": 162.5080000000001,
+          "values": [
+            155.61899999999994, 157.39400000000003, 118.29800000000002,
+            131.82500000000007, 137.56199999999995, 162.5080000000001
+          ]
+        },
+        "candidate": {
+          "median": 145.64900000000003,
+          "min": 136.44400000000002,
+          "max": 157.1229999999999,
+          "values": [
+            146.922, 156.28999999999982, 140.12199999999984, 157.1229999999999,
+            144.37600000000006, 136.44400000000002
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          8.696999999999946, 1.1040000000002124, -21.823999999999828,
+          -25.29799999999983, -6.814000000000107, 26.064000000000078
+        ],
+        "pairedPercentReduction": [
+          5.588649200933015, 0.7014244507415862, -18.448325415476024,
+          -19.190593589986584, -4.95340282926979, 16.03859502301429
+        ],
+        "medianPairedPercentReduction": -2.125989189264102
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "styleRecalculations",
+        "pairs": 6,
+        "baseline": {
+          "median": 3,
+          "min": 2,
+          "max": 3,
+          "values": [3, 3, 3, 2, 2, 3]
+        },
+        "candidate": {
+          "median": 3,
+          "min": 2,
+          "max": 3,
+          "values": [3, 3, 2, 3, 3, 3]
+        },
+        "pairedAbsoluteReduction": [0, 0, 1, -1, -1, 0],
+        "pairedPercentReduction": [0, 0, 33.333333333333336, -50, -50, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "layouts",
+        "pairs": 6,
+        "baseline": {
+          "median": 359,
+          "min": 289,
+          "max": 362,
+          "values": [360, 360, 289, 305, 358, 362]
+        },
+        "candidate": {
+          "median": 359,
+          "min": 301,
+          "max": 360,
+          "values": [359, 360, 301, 359, 360, 358]
+        },
+        "pairedAbsoluteReduction": [1, 0, -12, -54, -2, 4],
+        "pairedPercentReduction": [
+          0.2777777777777778, 0, -4.1522491349480966, -17.704918032786885,
+          -0.5586592178770949, 1.1049723756906078
+        ],
+        "medianPairedPercentReduction": -0.27932960893854747
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "frameGapP95Ms",
+        "pairs": 6,
+        "baseline": {
+          "median": 16.70000000001164,
+          "min": 16.70000000001164,
+          "max": 16.79999999998836,
+          "values": [
+            16.70000000001164, 16.70000000001164, 16.70000000001164,
+            16.70000000001164, 16.70000000001164, 16.79999999998836
+          ]
+        },
+        "candidate": {
+          "median": 16.70000000001164,
+          "min": 16.70000000001164,
+          "max": 16.70000000001164,
+          "values": [
+            16.70000000001164, 16.70000000001164, 16.70000000001164,
+            16.70000000001164, 16.70000000001164, 16.70000000001164
+          ]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0.09999999997671694],
+        "pairedPercentReduction": [0, 0, 0, 0, 0, 0.595238095099918],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "frameGapMaxMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 41.69999999999709,
+          "min": 33.39999999999418,
+          "max": 66.69999999998254,
+          "values": [
+            33.39999999999418, 33.39999999999418, 66.69999999998254,
+            33.39999999999418, 66.69999999998254, 50
+          ]
+        },
+        "candidate": {
+          "median": 58.30000000000291,
+          "min": 49.89999999999418,
+          "max": 66.69999999998254,
+          "values": [
+            50, 50, 66.60000000000582, 66.69999999998254, 66.60000000000582,
+            49.89999999999418
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -16.60000000000582, -16.60000000000582, 0.09999999997671694,
+          -33.29999999998836, 0.09999999997671694, 0.10000000000582077
+        ],
+        "pairedPercentReduction": [
+          -49.7005988024213, -49.7005988024213, 0.1499250374463915,
+          -99.70059880237773, 0.1499250374463915, 0.20000000001164153
+        ],
+        "medianPairedPercentReduction": -24.77533688248745
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "longTasks",
+        "pairs": 6,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0, 0, 0, 0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0, 0, 0, 0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [null, null, null, null, null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "longTaskMs",
+        "pairs": 6,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0, 0, 0, 0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0, 0, 0, 0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [null, null, null, null, null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "domNodes",
+        "pairs": 6,
+        "baseline": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [26378, 26378, 26378, 26378, 26378, 26378]
+        },
+        "candidate": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [26378, 26378, 26378, 26378, 26378, 26378]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [0, 0, 0, 0, 0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mountedEditors",
+        "pairs": 6,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6, 6, 6, 6, 6]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [6, 6, 6, 6, 6, 6]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [0, 0, 0, 0, 0, 0],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "runningAnimations",
+        "pairs": 6,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0, 0, 0, 0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0, 0, 0, 0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [null, null, null, null, null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "historyRequests",
+        "pairs": 6,
+        "baseline": {
+          "median": 74,
+          "min": 72,
+          "max": 75,
+          "values": [72, 74, 73, 75, 75, 74]
+        },
+        "candidate": {
+          "median": 73,
+          "min": 72,
+          "max": 73,
+          "values": [73, 72, 73, 73, 72, 73]
+        },
+        "pairedAbsoluteReduction": [-1, 2, 0, 2, 3, 1],
+        "pairedPercentReduction": [
+          -1.3888888888888888, 2.7027027027027026, 0, 2.6666666666666665, 4,
+          1.3513513513513513
+        ],
+        "medianPairedPercentReduction": 2.009009009009009
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "historyDecodedBytes",
+        "pairs": 6,
+        "baseline": {
+          "median": 13910944,
+          "min": 13535046,
+          "max": 14098977,
+          "values": [13535046, 13910940, 13723054, 14098977, 14098939, 13910948]
+        },
+        "candidate": {
+          "median": 13722579,
+          "min": 13534532,
+          "max": 13722616,
+          "values": [13722592, 13534532, 13722602, 13722616, 13534551, 13722566]
+        },
+        "pairedAbsoluteReduction": [
+          -187546, 376408, 452, 376361, 564388, 188382
+        ],
+        "pairedPercentReduction": [
+          -1.3856325275880113, 2.7058415894253014, 0.003293727474948361,
+          2.669420625340406, 4.003052995689959, 1.354199584384903
+        ],
+        "medianPairedPercentReduction": 2.011810104862654
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "websocketDecodedBytes",
+        "pairs": 6,
+        "baseline": {
+          "median": 13940594.5,
+          "min": 13563435,
+          "max": 14129848,
+          "values": [13563435, 13939332, 13751439, 14127675, 14129848, 13941857]
+        },
+        "candidate": {
+          "median": 13750969.5,
+          "min": 13562917,
+          "max": 13751002,
+          "values": [13750984, 13562917, 13750992, 13751002, 13562946, 13750955]
+        },
+        "pairedAbsoluteReduction": [
+          -187549, 376415, 447, 376673, 566902, 190902
+        ],
+        "pairedPercentReduction": [
+          -1.3827544423665539, 2.700380477342817, 0.0032505689040979637,
+          2.666206576807578, 4.0120884527561795, 1.3692724003696208
+        ],
+        "medianPairedPercentReduction": 2.0177394885885995
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "resets",
+        "pairs": 6,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0, 0, 0, 0, 0]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [0, 0, 0, 0, 0, 0]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 0, 0],
+        "pairedPercentReduction": [null, null, null, null, null, null],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "changedNotifications",
+        "pairs": 6,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 78,
+          "values": [72, 72, 72, 72, 78, 78]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [72, 72, 72, 72, 72, 72]
+        },
+        "pairedAbsoluteReduction": [0, 0, 0, 0, 6, 6],
+        "pairedPercentReduction": [
+          0, 0, 0, 0, 7.6923076923076925, 7.6923076923076925
+        ],
+        "medianPairedPercentReduction": 0
+      }
+    ],
+    "normalizedWindows": [
+      {
+        "pair": 0,
+        "scenario": "idle",
+        "elapsedMs": {
+          "baseline": 60043.03244,
+          "candidate": 60028.72293700001
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 407.5018700038195,
+            "candidate": 411.06906481914234,
+            "reductionPercent": -0.8753812136590757
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 206.90843708492747,
+            "candidate": 207.55159181173565,
+            "reductionPercent": -0.3108402614554516
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 409.7050065647883,
+            "candidate": 413.22971381605885,
+            "reductionPercent": -0.8603036806466737
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 599.0703423572788,
+            "candidate": 595.0484743359949,
+            "reductionPercent": 0.6713515487110068
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 44.97221226623311,
+            "candidate": 45.39168695725338,
+            "reductionPercent": -0.9327419530464761
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.2206906377228934,
+            "candidate": 2.348142574146263,
+            "reductionPercent": -5.73929273435671
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.16296375120257,
+            "candidate": 5.147535794227951,
+            "reductionPercent": 0.2988197810032077
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 50.81355614490013,
+            "candidate": 50.742375499088475,
+            "reductionPercent": 0.14008200018254852
+          }
+        }
+      },
+      {
+        "pair": 0,
+        "scenario": "streaming",
+        "elapsedMs": {
+          "baseline": 60738.638875000004,
+          "candidate": 61146.65861700004
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 985.6513762714771,
+            "candidate": 985.3757566279932,
+            "reductionPercent": 0.027963197751177133
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 684.3446407408483,
+            "candidate": 691.9256743857012,
+            "reductionPercent": -1.107780085286555
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 987.4499348500588,
+            "candidate": 987.2443460584584,
+            "reductionPercent": 0.020820173696357226
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 1226.731474067791,
+            "candidate": 1223.9425946194374,
+            "reductionPercent": 0.22734229187955418
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 85.75933041107352,
+            "candidate": 85.00299309167723,
+            "reductionPercent": 0.8819300661174867
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 17.39064324727181,
+            "candidate": 17.445106962940937,
+            "reductionPercent": -0.3131782700313284
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 37.06042877636019,
+            "candidate": 36.94396474138574,
+            "reductionPercent": 0.3142544185801162
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 46.889427434506366,
+            "candidate": 46.13498208740557,
+            "reductionPercent": 1.6089881842864966
+          }
+        }
+      },
+      {
+        "pair": 0,
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": {
+          "baseline": 60028.260565000004,
+          "candidate": 60039.83004699997
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 119.1558264836754,
+            "candidate": 115.22179517471278,
+            "reductionPercent": 3.301585348410627
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 31.029101667590627,
+            "candidate": 30.352900708969642,
+            "reductionPercent": 2.1792476168501693
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 124.07382672591685,
+            "candidate": 120.59234668606109,
+            "reductionPercent": 2.805974581203542
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 207.73548796232697,
+            "candidate": 202.69877497110113,
+            "reductionPercent": 2.424579950508626
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 0.3348922625907617,
+            "candidate": 0.33657656899063737,
+            "reductionPercent": -0.5029397773617359
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.5924289415564865,
+            "candidate": 2.447075547765334,
+            "reductionPercent": 5.606841964350348
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.997175273972558,
+            "candidate": 5.979364027495915,
+            "reductionPercent": 0.2969939290242624
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 0.049976460616437984,
+            "candidate": 0.04996683031333634,
+            "reductionPercent": 0.019269678130181524
+          }
+        }
+      },
+      {
+        "pair": 1,
+        "scenario": "idle",
+        "elapsedMs": {
+          "candidate": 60042.73953900003,
+          "baseline": 60046.736135000014
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 401.033187646711,
+            "candidate": 414.6487017606632,
+            "reductionPercent": -3.3951090666208774
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 200.07483792274567,
+            "candidate": 218.4921957379842,
+            "reductionPercent": -9.205234404513154
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 402.83806509677487,
+            "candidate": 416.4736351471357,
+            "reductionPercent": -3.384876264631334
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 584.0450665154207,
+            "candidate": 608.733050500792,
+            "reductionPercent": -4.227068320714859
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 45.22772051913458,
+            "candidate": 44.90667848772353,
+            "reductionPercent": 0.7098346494717164
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.1653966288470943,
+            "candidate": 2.1779485913539958,
+            "reductionPercent": -0.5796611271896382
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.162645298539505,
+            "candidate": 5.063060119076354,
+            "reductionPercent": 1.928956449735617
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 51.17680323358677,
+            "candidate": 49.881135054716054,
+            "reductionPercent": 2.531748950705034
+          }
+        }
+      },
+      {
+        "pair": 1,
+        "scenario": "streaming",
+        "elapsedMs": {
+          "candidate": 60664.45510499994,
+          "baseline": 60813.220065
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 984.4086686416777,
+            "candidate": 985.9205509466524,
+            "reductionPercent": -0.15358279067786784
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 668.6105086450004,
+            "candidate": 664.9191347747792,
+            "reductionPercent": 0.5520962985912596
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 985.8312376144688,
+            "candidate": 987.5086802693876,
+            "reductionPercent": -0.17015515342949245
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 1230.4890272216833,
+            "candidate": 1221.802781739501,
+            "reductionPercent": 0.7059181585548145
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 84.52838041639062,
+            "candidate": 85.02326429986987,
+            "reductionPercent": -0.5854647646641595
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 17.226895712482445,
+            "candidate": 17.188104602526305,
+            "reductionPercent": 0.2251775978885872
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 36.11056934089024,
+            "candidate": 37.023327681960595,
+            "reductionPercent": -2.5276764053586525
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 46.881253729908046,
+            "candidate": 49.139153971471295,
+            "reductionPercent": -4.816211303928534
+          }
+        }
+      },
+      {
+        "pair": 1,
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": {
+          "candidate": 60058.61696500005,
+          "baseline": 60073.84040799993
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 120.9040066470061,
+            "candidate": 116.240155914153,
+            "reductionPercent": 3.8574823632353095
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 31.150979982141983,
+            "candidate": 30.7752008521464,
+            "reductionPercent": 1.2063155965269985
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 126.50531326756939,
+            "candidate": 121.57770806236202,
+            "reductionPercent": 3.8951764775168543
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 217.06619572574374,
+            "candidate": 200.13780881775585,
+            "reductionPercent": 7.798720962234196
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 0.3253163085175094,
+            "candidate": 0.313293927680125,
+            "reductionPercent": 3.6955973379174627
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.620008957826511,
+            "candidate": 2.6022910266328623,
+            "reductionPercent": 0.6762546036616202
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.99262503537329,
+            "candidate": 5.994144024491852,
+            "reductionPercent": -0.025347641636092565
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 0.04993854196144409,
+            "candidate": 0.04995120020409876,
+            "reductionPercent": -0.025347641636085154
+          }
+        }
+      },
+      {
+        "pair": 2,
+        "scenario": "idle",
+        "elapsedMs": {
+          "baseline": 60070.35271300003,
+          "candidate": 60070.560408000136
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 414.0161806410998,
+            "candidate": 405.10539330275844,
+            "reductionPercent": 2.1522799723776775
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 219.2257978393734,
+            "candidate": 202.9181169146647,
+            "reductionPercent": 7.438759984195534
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 415.64575322689245,
+            "candidate": 407.69373273132305,
+            "reductionPercent": 1.91317255952536
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 583.6489785153624,
+            "candidate": 596.4652195125551,
+            "reductionPercent": -2.1958816804226418
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 45.96210735087779,
+            "candidate": 44.70847253228432,
+            "reductionPercent": 2.7275399037366514
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 1.7643811832831637,
+            "candidate": 2.3053721999496557,
+            "reductionPercent": -30.661799263797118
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 3.9453738707399,
+            "candidate": 5.077362320718094,
+            "reductionPercent": -28.69153816760856
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 49.741675636163805,
+            "candidate": 50.95674119251831,
+            "reductionPercent": -2.442751557551292
+          }
+        }
+      },
+      {
+        "pair": 2,
+        "scenario": "streaming",
+        "elapsedMs": {
+          "baseline": 60797.53894700005,
+          "candidate": 60652.83379100007
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 986.8362278989989,
+            "candidate": 985.2228043608233,
+            "reductionPercent": 0.16349455893108777
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 686.8961593396973,
+            "candidate": 646.2266072358848,
+            "reductionPercent": 5.920771509758845
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 988.1116084710249,
+            "candidate": 987.0075025065523,
+            "reductionPercent": 0.11173899334924171
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 1229.3260762603272,
+            "candidate": 1216.4312100277793,
+            "reductionPercent": 1.0489378271202645
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 85.00217425749932,
+            "candidate": 84.38570269670508,
+            "reductionPercent": 0.7252421084274208
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 17.42677447723037,
+            "candidate": 16.368583921751007,
+            "reductionPercent": 6.072211222231536
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 36.909388749373484,
+            "candidate": 36.964472389296304,
+            "reductionPercent": -0.14924018465018685
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 46.66307303118207,
+            "candidate": 51.225965973926684,
+            "reductionPercent": -9.778380733080972
+          }
+        }
+      },
+      {
+        "pair": 2,
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": {
+          "baseline": 60059.05224800005,
+          "candidate": 60091.93539300002
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 103.62179833111234,
+            "candidate": 111.21916703615656,
+            "reductionPercent": -7.331824796909664
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 28.920636190322885,
+            "candidate": 29.849878994061303,
+            "reductionPercent": -3.213078708307778
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 108.06351011335063,
+            "candidate": 116.53197644913475,
+            "reductionPercent": -7.83656418980035
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 196.30679404190226,
+            "candidate": 191.3734334697366,
+            "reductionPercent": 2.513087025970496
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 0.3428459029785478,
+            "candidate": 0.22473897556598735,
+            "reductionPercent": 34.44898316896337
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 1.969694751617385,
+            "candidate": 2.331793760404035,
+            "reductionPercent": -18.383508840104177
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 4.811930744538574,
+            "candidate": 5.008991606468758,
+            "reductionPercent": -4.0952555718687975
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 0.04995083817860111,
+            "candidate": 0.033282336255606365,
+            "reductionPercent": 33.369814262967694
+          }
+        }
+      },
+      {
+        "pair": 3,
+        "scenario": "idle",
+        "elapsedMs": {
+          "candidate": 60065.36538000009,
+          "baseline": 60105.93623599992
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 408.2296448001049,
+            "candidate": 407.7793224938169,
+            "reductionPercent": 0.11031102518498073
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 203.94596220694027,
+            "candidate": 207.44060942895376,
+            "reductionPercent": -1.7135162590115625
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 410.79253641525514,
+            "candidate": 409.8133232732524,
+            "reductionPercent": 0.23837169743825862
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 588.6273838424875,
+            "candidate": 599.8465134118185,
+            "reductionPercent": -1.905981589931123
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 45.94148553244081,
+            "candidate": 45.18512428634453,
+            "reductionPercent": 1.6463578339498492
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 1.9523529180087118,
+            "candidate": 2.158248754167485,
+            "reductionPercent": -10.546035722310648
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 4.458794202085547,
+            "candidate": 5.061152930257919,
+            "reductionPercent": -13.509453472659178
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 50.87683832081194,
+            "candidate": 50.594880773203336,
+            "reductionPercent": 0.5541962844284426
+          }
+        }
+      },
+      {
+        "pair": 3,
+        "scenario": "streaming",
+        "elapsedMs": {
+          "candidate": 61106.7440549999,
+          "baseline": 63027.660171000054
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 984.9697550499276,
+            "candidate": 985.6480807714031,
+            "reductionPercent": -0.06886767009826944
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 694.9206567587712,
+            "candidate": 689.0175978301855,
+            "reductionPercent": 0.8494579735359346
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 981.3385715444781,
+            "candidate": 988.2471228649738,
+            "reductionPercent": -0.7039926403404971
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 1225.1763716199328,
+            "candidate": 1222.2873457760131,
+            "reductionPercent": 0.23580489395985862
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 81.45655393316086,
+            "candidate": 85.30096113955042,
+            "reductionPercent": -4.719579973324293
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 17.88427488727628,
+            "candidate": 17.913587394130417,
+            "reductionPercent": -0.1639010082258954
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 34.33413193713461,
+            "candidate": 37.47540529959928,
+            "reductionPercent": -9.149127079188453
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 41.98156797858511,
+            "candidate": 46.96699266805674,
+            "reductionPercent": -11.87527033772227
+          }
+        }
+      },
+      {
+        "pair": 3,
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": {
+          "candidate": 60106.31175599992,
+          "baseline": 60094.5304990001
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 110.20255828623513,
+            "candidate": 117.20707516705637,
+            "reductionPercent": -6.356038362220256
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 30.848381451800286,
+            "candidate": 30.054048355739912,
+            "reductionPercent": 2.5749587455714544
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 115.54677176678376,
+            "candidate": 122.66651845035236,
+            "reductionPercent": -6.161787624788759
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 188.86910182597782,
+            "candidate": 204.13829498987985,
+            "reductionPercent": -8.084537394565958
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 0.21985361879512758,
+            "candidate": 0.35304112629870943,
+            "reductionPercent": -60.58008425492134
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.1936272553488623,
+            "candidate": 2.614084867456796,
+            "reductionPercent": -19.167231400991426
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.075337097526285,
+            "candidate": 5.972750440209201,
+            "reductionPercent": -17.681847046579716
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 0.033280899000172365,
+            "candidate": 0.04991156356720781,
+            "reductionPercent": -49.970598952117584
+          }
+        }
+      },
+      {
+        "pair": 4,
+        "scenario": "idle",
+        "elapsedMs": {
+          "baseline": 60093.03053899994,
+          "candidate": 60126.383118000114
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 458.0703078726457,
+            "candidate": 404.80134905559504,
+            "reductionPercent": 11.628991860319545
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 243.48760361659572,
+            "candidate": 213.28116435729717,
+            "reductionPercent": 12.405740091336513
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 444.7599124270225,
+            "candidate": 407.26890143952653,
+            "reductionPercent": 8.429494192250887
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 638.8428018301585,
+            "candidate": 582.1071913025482,
+            "reductionPercent": 8.880997072374285
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 48.665776609519426,
+            "candidate": 44.18250129542067,
+            "reductionPercent": 9.212378033276448
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.285040357731394,
+            "candidate": 2.1320091672306756,
+            "reductionPercent": 6.6970891775692225
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 4.243420538335254,
+            "candidate": 5.039385113276346,
+            "reductionPercent": -18.757617062704757
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 47.45974656992998,
+            "candidate": 50.21090315835409,
+            "reductionPercent": -5.796821068924996
+          }
+        }
+      },
+      {
+        "pair": 4,
+        "scenario": "streaming",
+        "elapsedMs": {
+          "baseline": 61984.8216599999,
+          "candidate": 64666.381969999755
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 980.6312476530903,
+            "candidate": 980.6910958683443,
+            "reductionPercent": -0.00610302959417183
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 690.1807225430365,
+            "candidate": 678.6123742064082,
+            "reductionPercent": 1.676133215370556
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 980.9568112259064,
+            "candidate": 980.1441965533894,
+            "reductionPercent": 0.08283898569413208
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 1225.1386382386847,
+            "candidate": 1233.0982122518199,
+            "reductionPercent": -0.6496876161360948
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 85.52250144523539,
+            "candidate": 80.47289552111027,
+            "reductionPercent": 5.904417947081036
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 17.814893556636584,
+            "candidate": 17.36461768529037,
+            "reductionPercent": 2.527524904455424
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 35.54095891545723,
+            "candidate": 31.48467469456615,
+            "reductionPercent": 11.412984749623488
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 44.26890207172703,
+            "candidate": 41.42801743946106,
+            "reductionPercent": 6.417337000278442
+          }
+        }
+      },
+      {
+        "pair": 4,
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": {
+          "baseline": 60109.92795499996,
+          "candidate": 60120.89715800015
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 111.50964953772596,
+            "candidate": 114.41351219231906,
+            "reductionPercent": -2.6041357556331146
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 31.16663193145885,
+            "candidate": 30.510223345127088,
+            "reductionPercent": 2.1061261536868146
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 116.70942286358964,
+            "candidate": 119.67697323429857,
+            "reductionPercent": -2.542682756796268
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 189.4861695480133,
+            "candidate": 194.1088798014899,
+            "reductionPercent": -2.43960298764986
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 0.25682945438824933,
+            "candidate": 0.32278294099637733,
+            "reductionPercent": -25.679876463244767
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.288507151480582,
+            "candidate": 2.40142790318937,
+            "reductionPercent": -4.934253827248577
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.955754933993752,
+            "candidate": 5.987934595418718,
+            "reductionPercent": -0.5403120474499934
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 0.03327237393292599,
+            "candidate": 0.04989945496182265,
+            "reductionPercent": -49.97263213744626
+          }
+        }
+      },
+      {
+        "pair": 5,
+        "scenario": "idle",
+        "elapsedMs": {
+          "candidate": 60131.063558999915,
+          "baseline": 60145.85615699971
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 433.3494053516217,
+            "candidate": 412.9388460863767,
+            "reductionPercent": 4.709954372426977
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 238.70008538118,
+            "candidate": 209.57369210067554,
+            "reductionPercent": 12.20208749988193
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 434.3660672450095,
+            "candidate": 415.19668075558695,
+            "reductionPercent": 4.413186925720379
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 610.0170875318075,
+            "candidate": 604.3465365342092,
+            "reductionPercent": 0.9295724846892299
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 46.483102554931904,
+            "candidate": 45.97420761213588,
+            "reductionPercent": 1.0947955597297616
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.170573474907741,
+            "candidate": 2.0984661260180553,
+            "reductionPercent": 3.322041374008352
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 4.921369798566777,
+            "candidate": 4.673125392573275,
+            "reductionPercent": 5.044213626576009
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 48.415638018332615,
+            "candidate": 50.55623200506319,
+            "reductionPercent": -4.421286332981989
+          }
+        }
+      },
+      {
+        "pair": 5,
+        "scenario": "streaming",
+        "elapsedMs": {
+          "candidate": 60987.32539100014,
+          "baseline": 60678.87937900005
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 985.5037800961026,
+            "candidate": 984.8869845481671,
+            "reductionPercent": 0.06258682720377852
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 686.4072380086591,
+            "candidate": 698.0009981923541,
+            "reductionPercent": -1.689049814994637
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 987.3060546456527,
+            "candidate": 982.3755610840617,
+            "reductionPercent": 0.499388567343544
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 1222.1715489634691,
+            "candidate": 1224.6806942450694,
+            "reductionPercent": -0.20530221667557724
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 85.3974900827411,
+            "candidate": 83.34856410591381,
+            "reductionPercent": 2.3992812608919767
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 17.6856759878034,
+            "candidate": 18.214653501823015,
+            "reductionPercent": -2.9909940359894365
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 38.26702180006979,
+            "candidate": 35.36800451849799,
+            "reductionPercent": 7.575758826276139
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 47.97385894056983,
+            "candidate": 43.664810399981526,
+            "reductionPercent": 8.982076146774789
+          }
+        }
+      },
+      {
+        "pair": 5,
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": {
+          "candidate": 60110.91442500008,
+          "baseline": 60156.483109999914
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 122.20518254960903,
+            "candidate": 113.32572570492862,
+            "reductionPercent": 7.266023141920201
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 31.49803482585947,
+            "candidate": 31.281490524422278,
+            "reductionPercent": 0.6874851165616604
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 127.66637281565677,
+            "candidate": 118.24950706528851,
+            "reductionPercent": 7.376152030234067
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 203.63557453317406,
+            "candidate": 201.4609179687254,
+            "reductionPercent": 1.0679158439943395
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 0.33673843537292364,
+            "candidate": 0.328941926589244,
+            "reductionPercent": 2.3153011253512985
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.701421220100982,
+            "candidate": 2.269870643379417,
+            "reductionPercent": 15.974945836304398
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 6.017639018857872,
+            "candidate": 5.955657195111776,
+            "reductionPercent": 1.0300023572676775
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 0.0498699366203691,
+            "candidate": 0.04990774185847857,
+            "reductionPercent": -0.07580767226006492
+          }
+        }
+      }
+    ],
+    "medianStreamingRateReductionPercent": {
+      "TaskDuration": 0.010930084078502652,
+      "ScriptDuration": 0.700777136063597,
+      "ThreadTime": 0.051829579695244654,
+      "ProcessTime": 0.23157359291970642,
+      "RecalcStyleDuration": 0.8035860872724537,
+      "LayoutDuration": 0.030638294831345905
+    },
+    "streamingTaskRateReductionPercentByPair": [
+      0.027963197751177133, -0.15358279067786784, 0.16349455893108777,
+      -0.06886767009826944, -0.00610302959417183, 0.06258682720377852
+    ],
+    "samplerActualExitConfirmedBeforeAudit": true,
+    "host": {
+      "path": "shared-scroll-six-pair-host-load.jsonl",
+      "sha256": "b384bf967e3d41f1a494c727235066418cb48a3d35b185030a2fa367f80de739",
+      "samples": 90,
+      "startOffsetSeconds": -6.354983806610107,
+      "durationSeconds": 2670.0444509983063,
+      "oneMinuteLoadMin": 0.70947265625,
+      "oneMinuteLoadMax": 5.41845703125,
+      "availableMemoryKiBMin": 23087696
+    },
+    "summarySha256": "34394081f8ba7ad3a272feefcee2d89d49edce14755d171ea21929b3e16fdf4b",
+    "analysisSha256": "41024c7518d047969b83c7e7048dca567a6163799b2caedbdba9dd6a025b069a",
+    "preliminaryNotPooled": true
+  },
+  "decision": {
+    "accepted": false,
+    "reason": "Streaming task-time rate is effectively flat: median paired reduction 0.011%, with three lower and three higher pairs. Streaming script rate improves only 0.70% by median paired change. The preliminary p95 signal is not confirmed: two pairs worsen about 12.4%, one improves 11.13%, and three stay within 0.1 ms. Median paired p95 improvement is effectively zero. Normal idle task rate improves 1.13% by median with two regressions; idle renderer CPU is mixed and idle maximum frame gaps worsen in five pairs. Reduced-motion idle work, streaming long tasks and cold readiness are mixed. Small selected savings do not establish a useful overall gain.",
+    "regressionCause": "unconfirmed",
+    "restoration": {
+      "recordedAt": "2026-10-27T16:00:59.223859+00:00",
+      "sourceRevision": "3888940304b6c041b678b44502e3f4d3c0a552e9",
+      "productionRevision": "4f078c1303434fa9cee5ee5a83280b5764fd3917",
+      "restoredAppFiles": [
+        "apps/packages/ui/src/pannel-session.tsx",
+        "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "apps/web/components/task/chat/message-list-native.test.tsx",
+        "apps/web/components/task/chat/message-list-native.tsx",
+        "apps/web/components/task/session-panel-content.test.tsx"
+      ],
+      "restoredTrackedTestFiles": [
+        "apps/web/components/task/chat/message-list-native.test.tsx",
+        "apps/web/components/task/session-panel-content.test.tsx"
+      ],
+      "retainedTestedSourceFilesVerified": 8,
+      "retainedDeletedSourceFilesVerified": 2,
+      "sourceAndAssetRestorationVerified": true,
+      "restoredAssetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+      "rejectedAssetsSha256": "59e1ee10fcc09ef36211b49a69fa1fd632e822b8a8d4d338d93a7ba30aac5484",
+      "rejectedRoot": "/tmp/kandev-pending-shared-scroll-5936a872",
+      "helpersAndLockfilesVerified": true,
+      "candidateAppEqualsFrozenControlSource": true,
+      "remainingAppDiffs": [],
+      "remainingUntrackedFiles": []
+    },
+    "restorationHandle": 24156,
+    "restorationExitCode": 0,
+    "preservation": {
+      "recordedAt": "2026-10-27T16:00:59.223859+00:00",
+      "status": "Rejected after complete six-pair confirmation.",
+      "root": "/tmp/kandev-pending-shared-scroll-5936a872",
+      "sourceParent": "3888940304b6c041b678b44502e3f4d3c0a552e9",
+      "builtSourceParent": "00de21eb884e37869cca2d620aaa655a3c9c82eb",
+      "sourceFiles": [
+        {
+          "path": "apps/packages/ui/src/pannel-session.tsx",
+          "sha256": "0fe87e9058b4aa000e7ca6e52c37f4f5a20a51a1b631e15f790805d788f3dbbb"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+          "sha256": "4cccbcc78213c25a440188ae9afe0332f0c66c451b61fcdcab7af657ca27338a"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+          "sha256": "40426afe1a5c3ce41a82038fd41bc3e4e62dab8c9a39b51aad3a831ecd5d8066"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.tsx",
+          "sha256": "679ddcf1a13f810f8fdd9a42bd191ae9360e513111913c0d9d97b4e27e0ac33d"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+          "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+          "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+        },
+        {
+          "path": "apps/web/components/task/session-panel-content.test.tsx",
+          "sha256": "c660b441d333b9e868c1eb8e9ecdf5bd2a81fe041a1cfc7f34bb01fe40d5d958"
+        },
+        {
+          "path": "apps/web/lib/state/app-state-types.ts",
+          "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+          "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/types.ts",
+          "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+          "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+        }
+      ],
+      "sourcePatch": "shared-scroll-rejected-tracked.patch",
+      "sourcePatchSha256": "022b1699b0a18a75d9c53920f6a5c68e8a732de0a3c0c8dd62a6131d89731579",
+      "assetsSha256": "59e1ee10fcc09ef36211b49a69fa1fd632e822b8a8d4d338d93a7ba30aac5484",
+      "helpers": {
+        "kandev": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+        "agentctl": "6e768aef1a1692630fe109c25e23ac31ab461b691800c2059e6dfdd5cf0b4d0a",
+        "mock-agent": "c69f05ee9f5622cc5bce83405c2e9240b537f3e79a21da65765d9867592288c1"
+      },
+      "lockfileSha256": "9d5a03a9086f28c93752fce491f896047fbcdbc64abfafe3b3aa53261199c554",
+      "allCandidateSourceAndAssetsPreserved": true,
+      "preliminaryPendingPathPreserved": true,
+      "reason": "Streaming task-time rate is effectively flat by median paired change. The preliminary p95 gain is not confirmed: two materially worse pairs, one materially better pair and three within 0.1 ms. Normal and reduced-motion idle work are mixed. No useful overall gain is established."
+    },
+    "normalStreamingTwentyPercentTaskTimeTarget": "unmet",
+    "originalBaselineFinalMatrix": "open",
+    "navigationTiming": "not run after rejected streaming confirmation",
+    "nextAction": "Attribute the 60 running idle animations and their actual viewport visibility on restored 9e20 before proposing another change. Keep all visible motion and semantic status behavior."
+  },
+  "archivedSourcesAndLogs": [
+    {
+      "path": "shared-scroll-confirmation-artifact-kandev-exec-shared-scroll-confirmation-5936a872.py",
+      "sha256": "8764c6679b136c7ea34e789cff3da88ee1144c02d2f93489d2369f96f1b48d47",
+      "bytes": 9085
+    },
+    {
+      "path": "shared-scroll-confirmation-artifact-kandev-audit-shared-scroll-comparison-5936a872.py",
+      "sha256": "be586d49d3ce9be30dbc24535e94a12b94847923d34a34c55a7ad6067ac480fa",
+      "bytes": 8198
+    },
+    {
+      "path": "shared-scroll-confirmation-artifact-kandev-analyze-shared-scroll-comparison-5936a872.py",
+      "sha256": "ac14a18b3cfc9ae8319369868d249e3feb34a2df2420fa3db97768ebab4b8cf4",
+      "bytes": 3571
+    },
+    {
+      "path": "shared-scroll-confirmation-artifact-kandev-restore-shared-scroll-confirmation-5936a872.py",
+      "sha256": "8d134cd830aea3db55a484c89c99c68d5be4713ba4bdc07fdbc4051a45e04f80",
+      "bytes": 4971
+    },
+    {
+      "path": "shared-scroll-confirmation-artifact-kandev-reject-shared-scroll-5936a872.py",
+      "sha256": "b8ccbac366c8e2e9c3376fd1fbb708ca3e54d0f8b17fe329b851cc98f49b5cab",
+      "bytes": 6199
+    },
+    {
+      "path": "shared-scroll-confirmation-artifact-kandev-shared-scroll-six-pair-summary-5936a872.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "shared-scroll-confirmation-artifact-kandev-shared-scroll-six-pair-analysis-5936a872.log",
+      "sha256": "10cf5105380bec6a0d79161c34d64d44035caafaaf5d8d97306e0f3bb69f74c6",
+      "bytes": 83235
+    }
+  ],
+  "limits": [
+    "Linux Chromium reference workload only. No M2 Air, field INP, battery or heap-leak claim.",
+    "Rate normalization uses each recorded window duration. Overlapping CDP metrics are separate measures and must not be added.",
+    "No results are pooled with intrusive render-count probes or other experiments.",
+    "Every attempt must pass before this comparison can support acceptance."
+  ]
+}
