@@ -1490,3 +1490,24 @@ protected release jobs and main's informational retry policy are unchanged.
 The prior-head CI had 92 passed checks, no failures and one pending at this
 checkpoint. It is not terminal evidence for the updated head. Normal hooks,
 leased push and fresh exact-head CI follow; the guide stays uncommitted.
+
+### Required CI release-notice localization correction
+
+Head b5e5644407f6 finished CI with 91 passed checks and two failed checks:
+E2E shard 24 and its aggregate. Nineteen pseudo-locale cases exhausted all
+retries on the same English Kandev release notice. The toast hook preferred
+populated backend copy over existing catalog keys. Two new browser/native
+delivery regressions reproduce that precedence after a locale switch.
+
+The correction always resolves Kandev release copy from the active catalog,
+preserving version and occurrence identity. Runtime/session notification
+policy, backend provider payloads, SDK code and main's retry policy are
+unchanged. The owning platform requirement, i18n design, update-notification
+plan/Task 04 and public operations guide record the boundary.
+
+Both new tests fail before the correction. All 57 related unit tests, all 22
+rebuilt pseudo-locale browser cases and the existing phone toast/composer case
+pass afterward, with browser retries disabled. Full typecheck, scoped lint,
+localization checks and docs/spec validation pass. This is a product copy
+correction, not a waived assertion or recovered-flake finding. Normal hooks,
+push and fresh current-head CI remain required.

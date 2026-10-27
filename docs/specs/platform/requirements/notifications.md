@@ -23,7 +23,7 @@ Kandev currently treats every transition to a session's generic `WAITING_FOR_INP
 - **AC-PLATFORM-NOTIFICATIONS-001.2:** **Agent turn finished** — notify after each completed agent turn.
 - **AC-PLATFORM-NOTIFICATIONS-001.3:** **Agent needs an answer** — notify when the agent explicitly requests a user response through Kandev's clarification flow.
 - **AC-PLATFORM-NOTIFICATIONS-001.4:** A user may enable either event, both events, or neither event for each notification provider.
-- **AC-PLATFORM-NOTIFICATIONS-001.5:** **Kandev update available** is an independently selectable provider event. It is emitted when the release poller durably observes a version newer than the running Kandev version.
+- **AC-PLATFORM-NOTIFICATIONS-001.5:** **Kandev update available** is an independently selectable provider event. It is emitted when the release poller durably observes a version newer than the running Kandev version. Local delivery renders its title and body in the application locale at delivery time, including the in-app toast and browser/native notification. The release version and occurrence identity remain unchanged.
 - **AC-PLATFORM-NOTIFICATIONS-001.6:** When a provider-create request omits its event selection, the clarification event is enabled by default and turn-finished remains opt-in. An explicitly empty selection enables neither event.
 - **AC-PLATFORM-NOTIFICATIONS-001.7:** Existing `session.waiting_for_input` subscriptions migrate to **Agent needs an answer** only. Migration never opts a provider into **Agent turn finished**.
 - **AC-PLATFORM-NOTIFICATIONS-001.8:** Fresh default Local and System providers subscribe to update availability. On upgrade, existing Local and System providers receive that subscription once; a migration marker prevents later startup from re-enabling a choice the user removed. Existing Apprise providers are never opted in automatically.
@@ -88,7 +88,9 @@ hide the update from an open Kandev window.
   - title: `Agent needs your answer`
   - body: `The agent asked a question on "<task title>".`
 - The local browser and native desktop notification path uses the same semantic
-  event and copy as remote providers such as Apprise.
+  event and message meaning as remote providers such as Apprise. Local Kandev
+  release notices resolve their copy through the active application catalog;
+  remote provider payloads retain their existing copy.
 - An update-available notification uses:
   - title: `Kandev update available`
   - body: `Kandev <version> is available. Open Settings > System > Updates to review it.`

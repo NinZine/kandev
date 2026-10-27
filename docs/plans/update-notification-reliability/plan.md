@@ -181,6 +181,11 @@ Changes:
 - Register `system.update_available` with the canonical notification handlers
   instead of the generic system-event path.
 - Always show the in-app update toast for a delivered Local occurrence.
+- Resolve Kandev release copy through the active Local client's existing
+  catalog at delivery time, even with populated backend English copy. Reuse
+  that result for browser/native delivery and preserve the canonical version
+  and occurrence ID. See the scoped CI correction in Task 04 and the
+  [i18n design](../../specs/platform/system-design/i18n.md#first-party-release-update-copy).
 - Attempt native delivery without prompting when the bridge is available;
   otherwise show a Web Notification only when permission is already granted.
   Denied, unsupported, and command-failure paths retain the in-app toast.
