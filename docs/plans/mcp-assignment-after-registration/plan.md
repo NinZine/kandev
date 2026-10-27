@@ -815,3 +815,31 @@ or runtime behavior. The corrected full lifecycle file passed three
 repetitions (12 checks), including all three reassignment cases, after a fresh
 managed build. Affected ESLint and web typecheck passed. Exact-head CI remains
 pending publication of the collected fixes.
+
+### Review touch-scroll admission (2026-10-27)
+
+The original review process passed all 33 checks locally. A separate one-CPU
+baseline reproduced CI's first-pass checkbox failure. Native event diagnostics
+showed the scroller moving from 0 to 185 without any touchmove delivery.
+The interaction hook only released suppression for touchmove or a pointer-down
+whose target was the root itself. A gesture starting on diff content could
+therefore consume its crossing while suppression remained set. The baseline
+was stopped after retaining the matching failure and its event evidence.
+
+The regression first failed with no review callback; all 13 auto-mark unit
+cases now pass. Touch pointer-down on a descendant authorizes the next real
+scroll crossing. Contact alone does not mark a file, and descendant mouse/pen
+clicks remain suppressed. The existing geometry, layout-shift, stale, manual
+uncheck, observer cleanup and navigation guards remain in place. The existing
+review-viewed-toggling design records this event contract; no new public
+behavior or API is introduced. Public sessions-and-review already promises
+automatic marking after manual scrolling.
+
+Desktop keeps the review sidebar checkbox, and phone keeps the file-header
+checkbox in the same full-height review surface with one internal scroll
+owner. No layout, target size, copy or saved preference changed. After a fresh
+managed build, the full Office and desktop/phone review cases passed three
+repetitions each (18 checks, two CPUs, one worker, zero retries). The corrected
+phone review case then passed six more repetitions on one CPU without retries.
+Web typecheck, affected ESLint, documentation catalog and specification lint
+passed. A new exact-head CI result remains required after publication.
