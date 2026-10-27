@@ -153,6 +153,25 @@ Focused regressions ran on 2026-10-27 after the review fixes:
   repetitions in fresh 2-CPU/4-GiB containers. These replays did not change the
   GitHub check result. A fresh PR run is still required to clear the failed
   E2E check.
+- PR head `66c0d4c01c36d202be225f68366a3fe7ea820c70` run `40472095546` ended
+  with 87 checks passed, 11 skipped, and four failed checks (three E2E shard
+  leaves plus the aggregate). The retry summary had three retry-only flakes:
+  the Kotlin LSP hover request, the mobile pause/resume queue, and a 44px mobile
+  workflow target measuring 43.99997px. The pause/resume failure showed the
+  8-second mock turn finishing while the test prepared its queue. The test now
+  waits for the running-response signal and uses a 30-second turn. The LSP test
+  now re-enters the current symbol position when the hover event is not
+  observed. Related touch-target checks allow 0.5px for browser subpixel
+  rounding. No retries were enabled in local verification:
+  - Managed E2E build and Kotlin hover test: 1 passed; the test then passed
+    twice more in a separate fresh managed run.
+  - Pause/resume queue test: 1 passed, then 2/2 in a separate run.
+  - Mobile workflow drawer test: 1 passed, then 2/2 in a separate run.
+  - ESLint passed for all three changed E2E files.
+  - `pnpm --dir apps/web run typecheck` and `pnpm --dir apps/web run
+    build:vite` passed. The managed E2E run also rebuilt the backend and
+    `build:e2e` assets. Documentation validation and `git diff --check` passed.
+  A fresh PR run is required to validate these fixes on GitHub.
 
 These browser tests do not replace the UI-01 through UI-09 screenshot review or
 real-device proof. The Default workspace-label blur remains pending on actual

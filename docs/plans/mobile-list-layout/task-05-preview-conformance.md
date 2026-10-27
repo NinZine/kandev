@@ -231,3 +231,10 @@ UI-01 through UI-09 screenshot comparison or the real-device Safari/PWA gate.
 Normal Playwright runs attach screenshots and geometry from each test's output
 directory. They copy files into committed evidence only when
 `CAPTURE_PR_ASSETS=true`, and resolve that evidence path from the spec location.
+
+The next PR E2E run (`40472095546`, head `66c0d4c01c36d202be225f68366a3fe7ea820c70`)
+reported three retry-only flakes in unrelated shared tests. Their triggers are
+now covered by a longer, explicitly running pause fixture, a retried Monaco
+hover action, and subpixel-tolerant 44px geometry checks. Each scenario passed
+three times locally with Playwright retries disabled. The fresh PR run remains
+required. This does not clear the actual iPhone Safari/PWA Default-label gate.

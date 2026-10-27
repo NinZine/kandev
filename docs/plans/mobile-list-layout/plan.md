@@ -493,6 +493,11 @@ phone E2E regressions pass. See the review-remediation notes in Tasks 01-03 and
 the behavioral evidence in `verification.md`. Real-iPhone Safari/PWA validation
 of the Default label remains pending.
 
+The subsequent PR E2E run `40472095546` reported three retry-only flakes in
+shared LSP, pause/resume, and mobile workflow-target tests. Their focused fixes
+passed three local repetitions each with retries disabled. A fresh PR run must
+validate the pushed fixes; the device acceptance gate remains pending.
+
 ## Package reference preflight
 
 Run from the repository root. The existing validator receives a representative
