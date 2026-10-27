@@ -1105,5 +1105,14 @@
   "mcpAssignmentChooseTask": "기존 작업 선택",
   "mcpAssignmentSearch": "대상 검색",
   "mcpAssignmentDisabled": "사용 위치를 선택하기 전에 이 서버를 활성화하세요.",
-  "mcpAssignmentPrevious": "이전"
+  "mcpAssignmentPrevious": "이전",
+  "addWebhookProvider": "Webhook 제공자 추가",
+  "noWebhookProviders": "아직 구성된 Webhook 제공자가 없습니다.",
+  "webhookProvider": "Webhook 제공자",
+  "webhookUrl": "Webhook 주소",
+  "webhookHeadersPlaceholder": "헤더, 줄당 하나 (이름: 값)",
+  "webhookSecret": "시크릿(선택 사항)",
+  "webhookUrlRequired": "Webhook 주소가 필요합니다.",
+  "webhooks": "Webhook 알림",
+  "webhooksDescription": "알림 이벤트를 Webhook 엔드포인트로 보냅니다."
 }

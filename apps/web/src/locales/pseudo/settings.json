@@ -1105,5 +1105,14 @@
   "mcpAssignmentChooseTask": "Ćĥōōśē àń ēxĩśţĩńĝ ţàśķ",
   "mcpAssignmentSearch": "Śēàŕćĥ ōŵńēŕś",
   "mcpAssignmentDisabled": "Ēńàƀĺē ţĥĩś śēŕvēŕ ƀēƒōŕē ćĥōōśĩńĝ ŵĥēŕē ţō ũśē ĩţ.",
-  "mcpAssignmentPrevious": "Ƥŕēvĩōũś"
+  "mcpAssignmentPrevious": "Ƥŕēvĩōũś",
+  "addWebhookProvider": "Àďď Ŵēƀĥōōķ Ƥŕōvĩďēŕ",
+  "noWebhookProviders": "Ńō ŵēƀĥōōķ ƥŕōvĩďēŕś ćōńƒĩĝũŕēď ŷēţ.",
+  "webhookProvider": "Ŵēƀĥōōķ ƥŕōvĩďēŕ",
+  "webhookUrl": "Ŵēƀĥōōķ ŨŔĹ",
+  "webhookHeadersPlaceholder": "Ĥēàďēŕś, ōńē ƥēŕ ĺĩńē (Ńàḿē: vàĺũē)",
+  "webhookSecret": "Śēćŕēţ (ōƥţĩōńàĺ)",
+  "webhookUrlRequired": "À ŵēƀĥōōķ ŨŔĹ ĩś ŕēqũĩŕēď.",
+  "webhooks": "Ŵēƀĥōōķś",
+  "webhooksDescription": "Śēńď ńōţĩƒĩćàţĩōń ēvēńţś ţō à ŵēƀĥōōķ ēńďƥōĩńţ."
 }

@@ -1105,5 +1105,14 @@
   "mcpAssignmentChooseTask": "选择现有任务",
   "mcpAssignmentSearch": "搜索目标",
   "mcpAssignmentDisabled": "请先启用此服务器，再选择使用位置。",
-  "mcpAssignmentPrevious": "上一页"
+  "mcpAssignmentPrevious": "上一页",
+  "addWebhookProvider": "添加 Webhook 提供商",
+  "noWebhookProviders": "尚未配置 Webhook 提供商。",
+  "webhookProvider": "Webhook 提供商",
+  "webhookUrl": "Webhook 地址",
+  "webhookHeadersPlaceholder": "请求头，每行一个（名称：值）",
+  "webhookSecret": "密钥（可选）",
+  "webhookUrlRequired": "需要 Webhook 地址。",
+  "webhooks": "Webhook 通知",
+  "webhooksDescription": "将通知事件发送到 Webhook 端点。"
 }

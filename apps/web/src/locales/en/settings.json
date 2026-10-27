@@ -1105,5 +1105,14 @@
   "mcpAssignmentChooseTask": "Choose an existing task",
   "mcpAssignmentSearch": "Search owners",
   "mcpAssignmentDisabled": "Enable this server before choosing where to use it.",
-  "mcpAssignmentPrevious": "Previous"
+  "mcpAssignmentPrevious": "Previous",
+  "addWebhookProvider": "Add Webhook Provider",
+  "noWebhookProviders": "No webhook providers configured yet.",
+  "webhookProvider": "Webhook provider",
+  "webhookUrl": "Webhook URL",
+  "webhookHeadersPlaceholder": "Headers, one per line (Name: value)",
+  "webhookSecret": "Secret (optional)",
+  "webhookUrlRequired": "A webhook URL is required.",
+  "webhooks": "Webhooks",
+  "webhooksDescription": "Send notification events to a webhook endpoint."
 }

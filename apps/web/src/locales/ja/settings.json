@@ -1105,5 +1105,14 @@
   "mcpAssignmentChooseTask": "既存のタスクを選択",
   "mcpAssignmentSearch": "対象を検索",
   "mcpAssignmentDisabled": "使用先を選択する前にこのサーバーを有効にしてください。",
-  "mcpAssignmentPrevious": "前へ"
+  "mcpAssignmentPrevious": "前へ",
+  "addWebhookProvider": "Webhook プロバイダーを追加",
+  "noWebhookProviders": "Webhook プロバイダーはまだ設定されていません。",
+  "webhookProvider": "Webhook プロバイダー",
+  "webhookUrl": "Webhook の URL",
+  "webhookHeadersPlaceholder": "ヘッダー（1 行に 1 つ、名前: 値）",
+  "webhookSecret": "シークレット（任意）",
+  "webhookUrlRequired": "Webhook の URL は必須です。",
+  "webhooks": "Webhook 通知",
+  "webhooksDescription": "通知イベントを Webhook エンドポイントに送信します。"
 }

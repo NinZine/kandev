@@ -1105,5 +1105,14 @@
   "mcpAssignmentChooseTask": "選擇現有任務",
   "mcpAssignmentSearch": "搜尋目標",
   "mcpAssignmentDisabled": "請先啓用此伺服器，再選擇使用位置。",
-  "mcpAssignmentPrevious": "上一頁"
+  "mcpAssignmentPrevious": "上一頁",
+  "addWebhookProvider": "新增 Webhook 提供者",
+  "noWebhookProviders": "尚未設定 Webhook 提供者。",
+  "webhookProvider": "Webhook 提供者",
+  "webhookUrl": "Webhook 地址",
+  "webhookHeadersPlaceholder": "請求頭，每行一個（名稱：值）",
+  "webhookSecret": "密鑰（可選）",
+  "webhookUrlRequired": "需要 Webhook 地址。",
+  "webhooks": "Webhook 通知",
+  "webhooksDescription": "將通知事件傳送到 Webhook 端點。"
 }

@@ -18,12 +18,21 @@ function reconcileProvider(
 ): NotificationProvider {
   const urlsChanged =
     JSON.stringify(current.config?.urls) !== JSON.stringify(submitted.config?.urls);
+  const webhookChanged =
+    current.type === "webhook" &&
+    JSON.stringify(current.config) !== JSON.stringify(submitted.config);
+  let config = accepted.config;
+  if (urlsChanged) {
+    config = { ...accepted.config, urls: current.config?.urls };
+  } else if (webhookChanged) {
+    config = current.config;
+  }
   return {
     ...accepted,
     enabled: current.enabled === submitted.enabled ? accepted.enabled : current.enabled,
     name: current.name === submitted.name ? accepted.name : current.name,
     events: reconcileEvents(current.events, submitted.events, accepted.events),
-    config: urlsChanged ? { ...accepted.config, urls: current.config?.urls } : accepted.config,
+    config,
   };
 }
 
@@ -81,7 +90,19 @@ export function acknowledgeNotificationSave({
 
   // Form identity distinguishes a replacement with identical text from the submitted form.
   if (current.appriseFormIdentity.current !== formIdentity) return;
-  if (created) {
+  if (created?.type === "webhook") {
+    if (
+      current.webhookUrl !== submitted.webhookUrl ||
+      current.webhookName !== submitted.webhookName
+    )
+      return;
+    submitted.setWebhookName("");
+    submitted.setWebhookUrl("");
+    submitted.setWebhookHeaders("");
+    submitted.setWebhookSecret("");
+    submitted.setShowWebhookForm(false);
+    submitted.setActiveWebhookId(null);
+  } else if (created) {
     if (
       current.appriseName !== submitted.appriseName ||
       current.appriseUrls !== submitted.appriseUrls

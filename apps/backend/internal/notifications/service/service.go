@@ -66,6 +66,7 @@ func NewService(repo notificationstore.Repository, taskRepo TaskContextReader, h
 	providerMap := map[models.ProviderType]providers.Provider{
 		models.ProviderTypeLocal:   providers.NewLocalProvider(hub),
 		models.ProviderTypeApprise: providers.NewAppriseProvider(),
+		models.ProviderTypeWebhook: providers.NewWebhookProvider(),
 	}
 	if os.Getenv(desktopNativeNotificationsEnv) != "true" {
 		providerMap[models.ProviderTypeSystem] = providers.NewSystemProvider()

@@ -8,6 +8,11 @@ import {
   useSaveRequest,
 } from "./notifications-settings-actions";
 import {
+  formatWebhookHeaders,
+  parseWebhookHeaders,
+} from "./notifications-settings-webhook-helpers";
+import { DEFAULT_NOTIFICATION_EVENTS } from "@/lib/notifications/events";
+import {
   DesktopNotificationsSection,
   useNotificationPermission,
 } from "./notification-permission-section";
@@ -446,5 +451,120 @@ describe("notification permission transport behavior", () => {
     );
 
     expect(within(container).getByText(/site settings/i)).toBeTruthy();
+  });
+});
+
+const webhookProvider: NotificationProvider = {
+  id: "provider-webhook",
+  name: "GoClaw",
+  type: "webhook",
+  config: {
+    url: "https://goclaw.example/hooks/kandev/turn-finished",
+    headers: { "X-Tenant": "acme" },
+    secret: "gateway-token",
+  },
+  enabled: true,
+  events: [SAVED_EVENT],
+  created_at: "",
+  updated_at: "",
+};
+
+const GOCLAW_CLARIFICATION_URL = "https://goclaw.example/hooks/kandev/clarification";
+
+describe("webhook provider drafts", () => {
+  it("parses and formats webhook headers", () => {
+    expect(parseWebhookHeaders("X-Tenant: acme\nAuthorization: Bearer abc\n\ninvalid")).toEqual({
+      "X-Tenant": "acme",
+      Authorization: "Bearer abc",
+    });
+    expect(formatWebhookHeaders({ "X-Tenant": "acme", Authorization: "Bearer abc" })).toBe(
+      "X-Tenant: acme\nAuthorization: Bearer abc",
+    );
+  });
+
+  it("stages a new webhook provider with url, headers, and secret", async () => {
+    const createdWebhook: NotificationProvider = {
+      ...webhookProvider,
+      id: "provider-webhook-new",
+      name: "Inbound hooks",
+    };
+    mocks.createNotificationProvider.mockResolvedValueOnce(createdWebhook);
+    const { result } = renderHook(useHarness);
+
+    act(() => result.current.actions.openWebhookForm("create"));
+    expect(result.current.isDirty).toBe(true);
+
+    act(() => {
+      result.current.state.setWebhookName("Inbound hooks");
+      result.current.state.setWebhookUrl("http://goclaw.local:18789/hooks/kandev/turn-finished");
+      result.current.state.setWebhookHeaders("X-Tenant: acme");
+      result.current.state.setWebhookSecret("gateway-token");
+    });
+    await act(() => result.current.saveRequest.run());
+
+    expect(mocks.createNotificationProvider).toHaveBeenCalledWith({
+      name: "Inbound hooks",
+      type: "webhook",
+      config: {
+        url: "http://goclaw.local:18789/hooks/kandev/turn-finished",
+        headers: { "X-Tenant": "acme" },
+        secret: "gateway-token",
+      },
+      enabled: true,
+      events: DEFAULT_NOTIFICATION_EVENTS,
+    });
+    expect(result.current.state.providers).toContainEqual(createdWebhook);
+    expect(result.current.state.showWebhookForm).toBe(false);
+    expect(result.current.isDirty).toBe(false);
+  });
+
+  it("refuses to save a webhook create draft without a url", async () => {
+    const { result } = renderHook(useHarness);
+    act(() => result.current.actions.openWebhookForm("create"));
+
+    await act(async () => {
+      await expect(result.current.saveRequest.run()).rejects.toThrow("A webhook URL is required.");
+    });
+
+    expect(mocks.createNotificationProvider).not.toHaveBeenCalled();
+    expect(result.current.state.showWebhookForm).toBe(true);
+    expect(result.current.isDirty).toBe(true);
+  });
+
+  it("updates webhook config fields and restores them on cancel", async () => {
+    notificationProviders = [webhookProvider];
+    const { result } = renderHook(useHarness);
+
+    act(() => result.current.actions.openWebhookForm("edit", webhookProvider));
+    act(() => {
+      result.current.actions.handleWebhookEdit(webhookProvider.id, {
+        url: GOCLAW_CLARIFICATION_URL,
+      });
+      result.current.actions.handleWebhookEdit(webhookProvider.id, { headers: "X-Tenant: beta" });
+      result.current.actions.handleWebhookEdit(webhookProvider.id, { secret: "next-token" });
+    });
+    expect(result.current.isDirty).toBe(true);
+
+    mocks.updateNotificationProvider.mockResolvedValueOnce({
+      ...webhookProvider,
+      config: {
+        url: GOCLAW_CLARIFICATION_URL,
+        headers: { "X-Tenant": "beta" },
+        secret: "next-token",
+      },
+    });
+    await act(() => result.current.saveRequest.run());
+
+    expect(mocks.updateNotificationProvider).toHaveBeenCalledWith(webhookProvider.id, {
+      config: {
+        url: GOCLAW_CLARIFICATION_URL,
+        headers: { "X-Tenant": "beta" },
+        secret: "next-token",
+      },
+    });
+
+    act(() => result.current.actions.handleWebhookEdit(webhookProvider.id, { url: "https://bad" }));
+    act(() => result.current.actions.cancelWebhookForm());
+    expect(result.current.state.providers[0]?.config.url).toBe(GOCLAW_CLARIFICATION_URL);
   });
 });

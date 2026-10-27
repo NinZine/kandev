@@ -195,3 +195,36 @@ describe("NotificationsSettings", () => {
     expect(screen.queryByDisplayValue("json://changed")).toBeNull();
   });
 });
+
+describe("NotificationsSettings webhook providers", () => {
+  it("offers a webhook provider form next to Apprise", () => {
+    render(
+      <SettingsSaveProvider>
+        <NotificationsSettings />
+      </SettingsSaveProvider>,
+    );
+
+    expect(screen.getByText("Webhooks")).toBeTruthy();
+    expect(screen.getByText("No webhook providers configured yet.")).toBeTruthy();
+
+    fireEvent.click(screen.getByRole("button", { name: "Add Webhook Provider" }));
+
+    fireEvent.change(screen.getByPlaceholderText("Provider name"), {
+      target: { value: "GoClaw" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Webhook URL"), {
+      target: { value: "http://goclaw.local:18789/hooks/kandev/turn-finished" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Headers, one per line (Name: value)"), {
+      target: { value: "X-Tenant: acme" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Secret (optional)"), {
+      target: { value: "gateway-token" },
+    });
+
+    expect(screen.getByDisplayValue("GoClaw")).toBeTruthy();
+    expect(
+      screen.getByDisplayValue("http://goclaw.local:18789/hooks/kandev/turn-finished"),
+    ).toBeTruthy();
+  });
+});

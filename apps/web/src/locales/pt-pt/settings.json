@@ -1105,5 +1105,14 @@
   "mcpAssignmentChooseTask": "Escolher uma tarefa existente",
   "mcpAssignmentSearch": "Pesquisar destinos",
   "mcpAssignmentDisabled": "Ative este servidor antes de escolher onde o usar.",
-  "mcpAssignmentPrevious": "Anterior"
+  "mcpAssignmentPrevious": "Anterior",
+  "addWebhookProvider": "Adicionar fornecedor Webhook",
+  "noWebhookProviders": "Ainda não há fornecedores Webhook configurados.",
+  "webhookProvider": "Fornecedor Webhook",
+  "webhookUrl": "URL do Webhook",
+  "webhookHeadersPlaceholder": "Cabeçalhos, um por linha (Nome: valor)",
+  "webhookSecret": "Segredo (opcional)",
+  "webhookUrlRequired": "É obrigatório um URL de Webhook.",
+  "webhooks": "Notificações Webhook",
+  "webhooksDescription": "Envie eventos de notificação para um endpoint Webhook."
 }
