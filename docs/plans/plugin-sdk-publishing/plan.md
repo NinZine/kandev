@@ -1342,3 +1342,43 @@ typecheck, 125 focused units, backend broker/plugin race tests, workflow
 contracts, zero-warning scoped lint, and docs/spec checks (406 decisions,
 1,755 specifications). No unresolved merge paths or whitespace errors remain.
 Normal merge hooks, exact-head push and fresh CI remain required.
+
+## Hidden retry findings and current fixes (2026-10-27)
+
+The last head ends with 92 passing checks, one failed automated walkthrough,
+and zero pending. Both the 118-report audit and official retry summary expose
+two successful retries: profile-name selection and Azure phone board detail.
+The 4,333 attempts comprise 4,291 passed, 40 skipped, one failed and one timed
+out; two retries and zero parse errors. Reports use merge 408bc0d0d94c and
+base d27d8e59302f. Passing aggregates do not establish a clean browser run.
+
+Profile-name setup assumed the first family owned a profile. A controlled
+profileless-first catalog reproduces the TypeError; exact seeded-profile
+selection passes. No production change is needed for that case.
+
+A held real Azure Move response proves an independent product race: Move,
+Close, then successful completion reopens detail. The original failed attempt
+has no trace, so its exact ordering remains unproven. A single opening owner
+now guards detail, selection/focus, busy and error publication. The duplicate Move item state and
+its late continuation are removed. Assignment keeps its existing endpoint and delivers receipts to the board
+mutation owner so confirmed data still updates after Close. A separate board-context owner
+rejects success, rollback and error into a later context. Existing refreshes
+retain opening ownership. Deferred board success/failure regressions fail
+against the old code. Shared domain-local lifecycle code serves both owners;
+private board snapshot extraction keeps hook size within repository limits.
+
+The owning requirement, design and work orders record the correction. Public
+docs need no new instructions because Close and selection behavior are
+restored. Browser checks, full typecheck/lint, review, hooks and new-head CI
+remain required. No SDK publication or protected setting changes.
+
+Latest validation passes 30 focused Azure tests, full typecheck, zero-warning
+scoped lint, docs/spec checks and exact-diff documentation coverage (34 work
+orders, 110 linked documents). Three held-Move phone cases and all six desktop
+Azure/profile cases pass with retries disabled. Temporary catalog/probe
+instrumentation is absent. The canonical SDK design now names the selected
+@kdlbs ownership prerequisite; historical original-name records remain intact.
+Main 61a96d8c9a99 has independently added a minimal Azure close guard and a
+held-assignment desktop test, plus protected-workflow input hardening. The
+next integration preserves those contracts and aligns SDK tag credentials
+with command-scoped authentication. No release or protected setup is changed.

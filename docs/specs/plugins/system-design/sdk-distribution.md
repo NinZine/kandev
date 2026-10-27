@@ -303,7 +303,7 @@ completion and contributor notices. Root-tag recovery remains unchanged.
 
 ### First npm publication
 
-Confirmed `@kandev` ownership remains a maintainer prerequisite. Do not treat a
+Record confirmed `@kdlbs` ownership before publication. Do not treat a
 404 as proof of ownership. Distinguish a confirmed absent package from an absent
 version of an existing package. Authentication errors, malformed responses,
 timeouts, and other registry failures stop the job with a read/setup error.
