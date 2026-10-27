@@ -762,3 +762,36 @@ and the exact source was restored. The previous head's final CI result was
 restart-test flake, its dependent E2E aggregate, and the separately evidenced
 walkthrough model deadline. Fresh CI must validate the corrective commit;
 local green results do not replace that gate.
+
+
+## Pagination archive readiness (2026-10-27)
+
+At published head `e14cef820`, E2E shard 27's phone sidebar pagination case
+received a 500 from a direct fixture unarchive call. The backend log identified
+an archive cleanup job already in `running` state. The exact CI merge tree
+`edee6366` matches this head's source tree. The unmodified phone spec passed
+nine local checks across three repetitions; that does not invalidate the CI
+failure or its lifecycle evidence.
+
+Current service coverage intentionally rejects an unarchive that races claimed
+cleanup. Both relevant refusal tests passed with the race detector. Newer
+archive join/fence design documents are draft proposals, so this correction
+does not implement or assume that different production policy. The pagination
+fixture does not test immediate Undo. It now uses the existing durable
+`waitForCascadeArchiveCleanup` observer before unarchiving either task, through
+one shared fixture helper used by desktop and phone. It makes one unarchive
+write after cleanup succeeds, with no mutation retry or timeout increase.
+All 101-task, pagination, navigation and active-conversation assertions remain.
+No public product behavior or documentation changes are needed.
+
+The corrected desktop and phone cases passed three repetitions each under two
+CPUs, one worker and zero retries. Full web typecheck and affected ESLint
+passed. The original 13-file CI process is replayed with both original
+projects, one worker, two CPUs and zero retries. Any describe retry overrides
+are temporary verification changes and must be restored before committing.
+
+The original 13-file process passed all 39 checks under those limits, including
+the reported phone case and neighbouring MCP selection/recovery scenarios.
+The temporary describe override was restored. This fixture-only correction
+preserves all existing pagination and conversation assertions and requires a
+new exact-head CI result after publication.
