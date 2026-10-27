@@ -10,6 +10,8 @@ import {
   type AppStatusBarSettingsBaseline,
 } from "../../helpers/app-status-bar-settings";
 
+test.use({ trace: "retain-on-failure" });
+
 function expectTouchDimension(dimension: number) {
   // Playwright reports fractional CSS pixels; allow only float-rounding noise.
   expect(dimension + 0.01).toBeGreaterThanOrEqual(44);
@@ -281,8 +283,8 @@ test.describe("Plugin action UX, composer on phone", () => {
     await expect(drawerAction).toBeVisible();
     const drawerActionBox = await drawerAction.boundingBox();
     expect(drawerActionBox).not.toBeNull();
-    expect(drawerActionBox!.height).toBeGreaterThanOrEqual(44);
-    expect(drawerActionBox!.width).toBeGreaterThanOrEqual(44);
+    expectTouchDimension(drawerActionBox!.height);
+    expectTouchDimension(drawerActionBox!.width);
     await drawerAction.focus();
     await testPage.keyboard.press("Enter");
 
@@ -306,8 +308,8 @@ test.describe("Plugin action UX, composer on phone", () => {
     await expect(statusAction).toBeVisible();
     const statusActionBox = await statusAction.boundingBox();
     expect(statusActionBox).not.toBeNull();
-    expect(statusActionBox!.height).toBeGreaterThanOrEqual(44);
-    expect(statusActionBox!.width).toBeGreaterThanOrEqual(44);
+    expectTouchDimension(statusActionBox!.height);
+    expectTouchDimension(statusActionBox!.width);
     await statusAction.focus();
     await testPage.keyboard.press("Enter");
 

@@ -300,10 +300,15 @@ test.describe("Fresh-branch flow", () => {
     await testPage.getByTestId("task-title-input").fill("Fresh Branch Test");
     await testPage.getByTestId("task-description-input").fill("testing fresh branch");
     await testPage.getByTestId("repo-chip-trigger").first().click();
+    const repositoryPicker = testPage.locator('[data-slot="popover-content"]').filter({
+      has: testPage.getByPlaceholder("Search repositories...", { exact: true }),
+    });
     await testPage
       .getByRole("option", { name: new RegExp(`^${escapeRe(repoName)}\\b`, "i") })
       .first()
       .click();
+    await expect(repositoryPicker).toHaveCount(0);
+    await expect(testPage.getByTestId("repo-chip-trigger").first()).toContainText(repoName);
     await testPage.getByTestId("executor-profile-selector").click();
     await testPage
       .getByRole("option", { name: new RegExp(`^${escapeRe(profileName)}\\b`, "i") })

@@ -18,6 +18,8 @@ import {
   writeCanvasSource,
 } from "./canvas-fixture";
 
+test.use({ trace: "retain-on-failure" });
+
 test.describe("Plugin-backed canvases in the desktop task workbench", () => {
   test("canvas setup opens the task dialog directly from the empty sidebar", async ({
     testPage,
@@ -401,6 +403,7 @@ test.describe("Plugin-backed canvases in the desktop task workbench", () => {
 
       await testPage.reload();
       await testPage.goto(`/t/${encodeURIComponent(seeded.taskId)}`);
+      await new SessionPage(testPage).waitForDockviewReady();
       await expect(testPage.getByTestId("dockview-task-layout")).toBeVisible();
       await expect
         .poll(

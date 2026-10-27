@@ -901,3 +901,63 @@ Fresh desktop/phone review captures verify retained manual clearing after the
 touch-input correction. The relevant rendering sources are unchanged by this
 rebase. Publication must start fresh exact-head CI and bot review; these local
 results do not mark that external delivery gate complete.
+
+### Further CI fixture transitions (2026-10-27)
+
+The next exact-head run at 33d0c75e46e550732bf25e048f48871f917c0f7d
+finished with 82 passed, 14 skipped, one neutral and four failed checks.
+There were no pending checks, unresolved or hidden review threads, or
+actionable issue comments. Three failed E2E shards contained five failing
+cases; the fourth failure was their dependent aggregate. Passing retries did
+not clear those failures.
+
+The corrections retain the original application assertions:
+
+- Fresh-branch creation waits for the repository popup to unmount and for the
+  selected repository label before it opens the executor picker. The failed
+  trace showed the first popup still closing and the executor popup already
+  closed before its option click. Three unmodified local repetitions and
+  separate focus/animation probes passed; the exact failed focus sequence was
+  not reproduced. The change establishes fixture transition readiness without
+  changing production focus behavior or retrying the opener.
+- The accepted-silent-prompt test uses the existing mock provider's file gates
+  instead of ten-second and thirty-second delays. Output starts only after
+  the real watchdog notice is visible, and the turn stays open through its
+  output, reload and running-state assertions. Both markers are released in
+  cleanup. CI's failed trace and snapshot already contained the output when
+  the test first expected the notice, demonstrating that the timed output
+  window had expired during setup.
+- Returning to a published canvas uses the existing positive-width Dockview
+  readiness helper before the original layout and exact-panel assertions.
+  Three unmodified local repetitions passed; the original cold-loading delay
+  was not reproduced. The spec now retains the first failed attempt's trace.
+- Parked-work setup waits for the exact session's authoritative parked
+  projection after its foreground turn settles. The production settle path
+  persists the waiting state before it samples and publishes the background
+  projection. The existing three-sample UI assertions, negative idle-icon
+  assertions and WebSocket-only settle-to-clear action remain intact. The
+  spec retains a first-failure trace; the initial CI failure had only a
+  screenshot and no captured first-sample projection state.
+- The phone plugin-modal test uses its existing touch-dimension helper for
+  both dimensions in both parent surfaces. That helper allows only 0.01 CSS
+  pixels of floating-point noise; CI reported 43.99993896484375 for a 44-pixel
+  target. The original keyboard activation, modal close and parent-focus
+  assertions remain. A first-failure trace is retained.
+
+No production behavior, user-visible copy, screenshot composition, selector
+write contract, locator timeout or CI fail-on-flaky setting changes in this
+batch. Public documentation and the published UI captures still describe the
+same behavior. This is test-fixture verification work; no new product design
+or implementation scope is introduced.
+
+Local verification passed 200 checks across seven managed runs. The full
+picker/canvas specs passed 19, and all five desktop stall checks passed. The
+original canvas process passed 37 with one existing skip, the phone-stall
+process passed 31, the branch-creation process passed 37, the parked-work
+process passed 36, and the phone plugin process passed 35. Each run used two
+CPUs, one worker and zero retries. An existing describe-level retry in the
+repository-script neighbor was temporarily set to zero for its replay and
+restored immediately afterward; no retry-policy change is committed.
+Affected ESLint, web typecheck, documentation catalog, full specification
+lint and whitespace checks passed. All temporary focus probes were restored.
+Fresh exact-head CI and bot review remain external delivery gates.
