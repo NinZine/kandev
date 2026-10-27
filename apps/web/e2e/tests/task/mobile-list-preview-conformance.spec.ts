@@ -94,7 +94,7 @@ async function capturePreview(
   );
   const geometryPath = testInfo.outputPath(`${name}.json`);
   await fs.writeFile(geometryPath, `${JSON.stringify(geometry, null, 2)}\n`);
-  const capturePrAssets = Boolean(process.env.CAPTURE_PR_ASSETS);
+  const capturePrAssets = process.env.CAPTURE_PR_ASSETS === "true";
   if (capturePrAssets) {
     await fs.mkdir(EVIDENCE_DIR, { recursive: true });
     await fs.copyFile(outputPath, path.join(EVIDENCE_DIR, `${name}.png`));
