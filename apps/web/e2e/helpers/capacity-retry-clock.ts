@@ -23,10 +23,15 @@ export async function driveCapacityRetries(
   apiClient: ApiClient,
   sessionId: string,
   count: number,
+  waitForLastRetry?: () => Promise<unknown>,
 ) {
   for (let attempt = 1; attempt <= count; attempt++) {
     const notice = await waitForCapacityRetry(apiClient, sessionId, attempt);
-    await advanceCapacityRetries(backend, Number(notice!.metadata!.retry_in_seconds));
+    const waiting = attempt === count ? waitForLastRetry?.() : undefined;
+    await Promise.all([
+      waiting,
+      advanceCapacityRetries(backend, Number(notice!.metadata!.retry_in_seconds)),
+    ]);
   }
 }
 

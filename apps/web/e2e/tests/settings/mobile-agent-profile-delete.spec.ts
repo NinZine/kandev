@@ -1,5 +1,17 @@
 import { test, expect } from "../../fixtures/test-base";
+import type { ApiClient } from "../../helpers/api-client";
 import { waitForFiniteAnimations } from "../../helpers/animations";
+
+async function getSeededAgentProfile(apiClient: ApiClient, profileId: string) {
+  const { agents } = await apiClient.listAgents();
+  const matches = agents.flatMap((agent) =>
+    agent.profiles
+      .filter((profile) => profile.id === profileId)
+      .map((profile) => ({ agent, profile })),
+  );
+  expect(matches, "The seeded profile must have exactly one owning agent").toHaveLength(1);
+  return matches[0]!;
+}
 
 test.use({ trace: "retain-on-failure" });
 
@@ -23,7 +35,7 @@ test.describe("Agent profile deletion on mobile", () => {
     apiClient,
     seedData,
   }) => {
-    const profile = await apiClient.getAgentProfile(seedData.agentProfileId);
+    const { profile } = await getSeededAgentProfile(apiClient, seedData.agentProfileId);
 
     await testPage.goto("/settings/agents");
 
@@ -68,12 +80,15 @@ test.describe("Agent profile deletion on mobile", () => {
     seedData,
     prCapture,
   }) => {
-    const seedProfile = await apiClient.getAgentProfile(seedData.agentProfileId);
-    const profile = await apiClient.createAgentProfile(seedProfile.agentId, "Mobile Delete Me", {
+    const { agent, profile: seedProfile } = await getSeededAgentProfile(
+      apiClient,
+      seedData.agentProfileId,
+    );
+    const profile = await apiClient.createAgentProfile(agent.id, "Mobile Delete Me", {
       model: seedProfile.model,
     });
 
-    await testPage.goto(`/settings/agents/${seedProfile.agentId}/profiles/${profile.id}`);
+    await testPage.goto(`/settings/agents/${agent.name}/profiles/${profile.id}`);
     await expect(testPage.getByText("Delete profile", { exact: true })).toBeVisible({
       timeout: 15_000,
     });
@@ -126,14 +141,13 @@ test.describe("Agent profile deletion on mobile", () => {
   }) => {
     test.setTimeout(60_000);
 
-    const seedProfile = await apiClient.getAgentProfile(seedData.agentProfileId);
-    const profile = await apiClient.createAgentProfile(
-      seedProfile.agentId,
-      "Mobile Overflow Profile",
-      {
-        model: seedProfile.model,
-      },
+    const { agent, profile: seedProfile } = await getSeededAgentProfile(
+      apiClient,
+      seedData.agentProfileId,
     );
+    const profile = await apiClient.createAgentProfile(agent.id, "Mobile Overflow Profile", {
+      model: seedProfile.model,
+    });
     await testPage.route(`**/api/v1/agent-profiles/${profile.id}**`, async (route) => {
       if (route.request().method() !== "DELETE") {
         await route.continue();
@@ -146,7 +160,7 @@ test.describe("Agent profile deletion on mobile", () => {
       });
     });
 
-    await testPage.goto(`/settings/agents/${seedProfile.agentId}/profiles/${profile.id}`);
+    await testPage.goto(`/settings/agents/${agent.name}/profiles/${profile.id}`);
     await expect(testPage.getByText("Delete profile", { exact: true })).toBeVisible({
       timeout: 15_000,
     });

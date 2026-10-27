@@ -1050,3 +1050,27 @@ The user requested current main's E2E policy. Verified main
 both browser and container CI jobs. This upstream policy will be integrated
 with its fixture corrections; the assignment branch does not introduce a
 separate bypass or change application behavior.
+
+### Current-main reconciliation (2026-10-27)
+
+The user requested the upstream E2E flaky policy and continued CI/review fixup.
+Saved backup `backup/clarify-mcp-assignment-before-main-bd761-20261027` preserves
+local f950827a10189e71e8104a76dd6db1230e5cf7f4. The incoming main is
+bd7612fa9cba3989495677bbc980e41967564fd9. It contains the upstream removal of
+E2E_FAIL_ON_FLAKY from browser and container CI, plus newer review-input and
+fixture corrections. A merge preserves the assignment commit identities and
+published 7440148ef0345a6324cb74a6879ab7491505e2e4 as the downstream boundary.
+
+Conflicts were limited to browser fixtures. Reconciliation retains upstream
+last-retry event coordination, touch-target helper reuse, animation and picker
+focus checks, and canonical seed-profile ownership. It also retains the
+assignment's persisted retry-state read, explicit silent-output/finish gates,
+Dockview readiness, exact task-row identity, archive-cleanup wait, and
+repository-popup closure wait. Profile rows use the exact action ID. Application
+selection, assignment, save, route-hint and authorization contracts had no
+textual merge conflict. The integrated tree passed 120 focused frontend
+cases, full web typecheck, affected E2E ESLint, documentation catalog validation
+and whitespace checks. Race-enabled MCP/Selection/Effective checks passed in
+mcpconfig, settings store, settings handlers and backend app composition.
+Normal merge-commit hooks and the rebuilt-head browser check remain in
+progress; no remote CI success is claimed.
