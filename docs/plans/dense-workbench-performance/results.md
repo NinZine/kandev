@@ -9,6 +9,31 @@ Final matrix, stress, owner retention and streaming task-time gates remain open.
 The branch is `feature/evaluate-live-thread-bc0`; the frozen baseline is
 `595df36ed5c1cf02fd90cb972b623ad6edc53df8`.
 
+## Animation ownership attribution
+
+A temporary normal-build probe passes calibration with two visible targets,
+one offscreen target and one clipped target inside the viewport. It verifies
+300 ordered updates on the saved 1,000-task fixture and restores native APIs.
+
+Both idle and streaming snapshots show 60 running animations on intersecting
+owners: 54 grid-cell animations and six header rotations. Another 60 animations
+are already paused on hidden owners: 54 grid cells and six composer glows.
+All 132 target/owner intersections are observed. The same 120 animation
+identities remain in both snapshots. The native API wrapper records 168 calls
+during boot, zero in the five-second idle window and zero in the ten-second
+streaming window. CSS creation between snapshots is not fully observed.
+
+Existing visibility gates work within this scope. No new gating, visual change
+or performance acceptance follows. The temporary source is removed, and exact
+verified source/assets remain unchanged. A connected frontend bundle contains
+eight duplicate Link/Underline warnings and one ResizeObserver loop error for
+the current task. The raw client logs remain private. Those sparse events do
+not establish the cause of slowness or identify the M2 browser.
+
+Next: inspect real plan-editor extension initialization and measure its cost
+before proposing a change. The 20% streaming target and final matrix remain
+open. See [the complete attribution](evidence/animation-owner-visibility-attribution.json).
+
 ## React costs and shared scroll capture: rejected after confirmation
 
 A private production-mode React profiling build passes independent render and

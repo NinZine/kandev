@@ -7,6 +7,20 @@ builds, fixtures, and probes; they do not automatically verify the final build.
 
 ## Latest build checkpoint
 
+The normal-build probe verifies 300 ordered updates and calibrates visible,
+offscreen and clipped targets. Both snapshots show 60 running animations on
+intersecting owners and 60 already paused on hidden owners. No native animate
+calls occur in the observed idle or streaming windows. Existing visibility
+gates need no new change within this scope. No speed or M2 Air claim follows.
+
+The frontend diagnostic bundle records eight duplicate Link/Underline warnings
+and one ResizeObserver loop error for the current task. Raw logs remain private.
+Next: inspect plan-editor initialization and establish its cost. The 20% target
+and final matrix remain open. See
+[the complete attribution](evidence/animation-owner-visibility-attribution.json).
+
+### Previous shared-scroll checkpoint
+
 The identical tested candidate completes six alternating native-v2 pairs. All
 twelve attempts pass and verify 21,600 ordered updates. The complete source,
 asset, helper, fixture and artifact audit passes. All seventy rows are preserved.

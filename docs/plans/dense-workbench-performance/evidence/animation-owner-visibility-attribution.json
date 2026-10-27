@@ -1,0 +1,243 @@
+{
+  "recordedAt": "2026-10-27T16:26:01.441576+00:00",
+  "status": "Attribution complete. Existing animation visibility gates work in the sampled fixture. No new production optimization.",
+  "kind": "animation creation and native intersection attribution",
+  "sourceRevision": "06bb2130b4466eb20ab64b10d8a9756a4500ace5",
+  "assetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+  "diagnosticsRoot": ".kandev/diagnostics/dense-workbench-performance",
+  "raw": {
+    "path": "animation-attribution-1793117662927.json",
+    "sha256": "0204af7bb1941eec06f6e17cfa4dc470d9468e2d9e54fd1aa98789b2d4e2a24d",
+    "bytes": 437114
+  },
+  "receipt": {
+    "recordedAt": "2026-10-27T16:15:32.644885+00:00",
+    "handle": 20075,
+    "exitCode": 0,
+    "report": "animation-attribution-1793117662927.json",
+    "reportSha256": "0204af7bb1941eec06f6e17cfa4dc470d9468e2d9e54fd1aa98789b2d4e2a24d",
+    "artifacts": [
+      {
+        "path": "animation-attribution-1793117662927.json",
+        "sha256": "0204af7bb1941eec06f6e17cfa4dc470d9468e2d9e54fd1aa98789b2d4e2a24d",
+        "bytes": 437114
+      }
+    ],
+    "harnessSha256": "e5b67440fcbb7dfb4de13c148d44ed3a5ae6a22953293759b383a68552928dc6",
+    "harnessFilesVerified": 1957,
+    "testedSourceFilesVerified": 8,
+    "sourceRevision": "06bb2130b4466eb20ab64b10d8a9756a4500ace5",
+    "assetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+    "untrackedFilesVerified": 1,
+    "sourcePatchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sourceReportAndSnapshotUnchanged": true,
+    "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+    "playwrightAttachmentByteMatches": true,
+    "workerBackendLogsByteVerified": true,
+    "newWorkerRoots": ["/tmp/kandev-e2e-0-7sYwAn"],
+    "newWorkerRootsRemoved": true,
+    "remainingOwnedProcesses": [],
+    "savedFixturePreserved": true,
+    "temporarySourceRemoved": true,
+    "status": "captured",
+    "scheduledUpdates": 300,
+    "allOrderedUpdatesVerified": true,
+    "calibrationAnimations": 4,
+    "calibrationWAAPIBirths": 3,
+    "idleRunning": 60,
+    "streamingRunning": 60,
+    "animationBirths": 168,
+    "restoredAnimate": true
+  },
+  "captureAuditHandle": 88273,
+  "captureAuditExitCode": 0,
+  "source": {
+    "path": "animation-visibility-9e20-animation-attribution.spec.ts",
+    "sha256": "869af29e8f6d7290afde1343c0205397719538710028b605f18cf59997b215dc",
+    "sourceText": "import fs from \"node:fs\";\nimport path from \"node:path\";\nimport type { StoreApi } from \"zustand\";\nimport type { AppState } from \"@/lib/state/app-state-types\";\nimport { test, expect } from \"../../fixtures/test-base\";\nimport { prepareDenseComparisonFixture } from \"../../helpers/dense-comparison-fixture\";\nimport { prepareDenseStream } from \"../../helpers/dense-canonical-stream\";\nimport { verifyDenseThreadsFiles } from \"../../helpers/dense-threads-fixture\";\nimport { loadDenseCold } from \"../../helpers/dense-cold-load\";\nimport { captureDenseTraffic } from \"../../helpers/dense-measurement\";\nimport { dwell } from \"../../helpers/causal-waits\";\nimport { sha256File } from \"../../helpers/dense-snapshot\";\nimport type { Page, Browser } from \"@playwright/test\";\n\ntype AnimationPhase = \"boot\" | \"calibration\" | \"idle\" | \"streaming\";\ntype AnimationProbeApi = {\n  phase: (value: AnimationPhase) => void;\n  snapshot: () => Promise<AnimationSnapshot>;\n  stop: () => { births: Record<string, unknown>[]; restoredAnimate: boolean };\n};\ntype AnimationSnapshot = {\n  phase: AnimationPhase;\n  at: number;\n  timedOut: boolean;\n  targets: number;\n  intersections: number;\n  animations: Record<string, unknown>[];\n  running: number;\n  paused: number;\n  unobservable: number;\n};\ntype AnimationProbeWindow = Window & { __kandevAnimationProbe: AnimationProbeApi };\n\nfunction installAnimationProbe() {\n  const original = Element.prototype.animate;\n  const ids = new WeakMap<object, number>();\n  let nextId = 1;\n  let phase: AnimationPhase = \"boot\";\n  const births: Record<string, unknown>[] = [];\n  const identify = (value: object) => {\n    let id = ids.get(value);\n    if (id === undefined) {\n      id = nextId++;\n      ids.set(value, id);\n    }\n    return id;\n  };\n  const describe = (element: Element) => {\n    let owner = element;\n    let kind = \"other\";\n    const grid = element.closest(\".spinner-grid\");\n    if (grid) {\n      owner = grid;\n      kind = \"grid-spinner\";\n    } else if (element.hasAttribute(\"data-compositor-spin\")) kind = \"compositor-spin\";\n    else if (element.hasAttribute(\"data-compositor-pulse\")) kind = \"compositor-pulse\";\n    const tile = element.closest('[data-testid^=\"thread-column-\"]');\n    return {\n      targetId: identify(element),\n      ownerId: identify(owner),\n      kind,\n      tag: element.tagName,\n      className: element.getAttribute(\"class\"),\n      ownerClassName: owner.getAttribute(\"class\"),\n      calibration: element.getAttribute(\"data-animation-calibration\"),\n      tile: tile?.getAttribute(\"data-testid\") ?? null,\n      owner,\n    };\n  };\n  const wrapped = function (this: Element, ...args: Parameters<Element[\"animate\"]>) {\n    const animation = original.apply(this, args);\n    const { owner: _owner, ...description } = describe(this);\n    births.push({ phase, at: performance.now(), animationId: identify(animation), ...description });\n    return animation;\n  };\n  Element.prototype.animate = wrapped;\n  const snapshot = async (): Promise<AnimationSnapshot> => {\n    const at = performance.now();\n    const animations = document.getAnimations();\n    const targets = new Set<Element>();\n    const records = animations.map((animation) => {\n      const effect = animation.effect as KeyframeEffect | null;\n      const target = effect?.target;\n      if (!(target instanceof Element)) return { animation, target: null, owner: null };\n      const owner = describe(target).owner;\n      targets.add(target);\n      targets.add(owner);\n      return { animation, target, owner };\n    });\n    const intersections = new Map<Element, Record<string, unknown>>();\n    const timedOut = await new Promise<boolean>((resolve) => {\n      if (!targets.size) {\n        resolve(false);\n        return;\n      }\n      const observer = new IntersectionObserver((entries) => {\n        for (const entry of entries) {\n          intersections.set(entry.target, {\n            isIntersecting: entry.isIntersecting,\n            ratio: entry.intersectionRatio,\n            width: entry.boundingClientRect.width,\n            height: entry.boundingClientRect.height,\n            top: entry.boundingClientRect.top,\n            left: entry.boundingClientRect.left,\n            intersectionWidth: entry.intersectionRect.width,\n            intersectionHeight: entry.intersectionRect.height,\n          });\n        }\n        if (intersections.size !== targets.size) return;\n        clearTimeout(timeout);\n        observer.disconnect();\n        resolve(false);\n      });\n      const timeout = setTimeout(() => {\n        observer.disconnect();\n        resolve(true);\n      }, 5000);\n      for (const target of targets) observer.observe(target);\n    });\n    return {\n      phase,\n      at,\n      timedOut,\n      targets: targets.size,\n      intersections: intersections.size,\n      running: animations.filter((a) => a.playState === \"running\").length,\n      paused: animations.filter((a) => a.playState === \"paused\").length,\n      unobservable: records.filter((r) => r.target === null).length,\n      animations: records.map(({ animation, target, owner }) => {\n        const effect = animation.effect as KeyframeEffect | null;\n        const timing = effect?.getTiming();\n        const base = {\n          animationId: identify(animation),\n          playState: animation.playState,\n          cssName: animation instanceof CSSAnimation ? animation.animationName : null,\n          duration: timing?.duration,\n          delay: timing?.delay,\n          iterations: timing?.iterations === Infinity ? \"Infinity\" : timing?.iterations,\n        };\n        if (!target || !owner) return { ...base, target: null };\n        const { owner: _owner, ...description } = describe(target);\n        return {\n          ...base,\n          ...description,\n          targetIntersection: intersections.get(target),\n          ownerIntersection: intersections.get(owner),\n        };\n      }),\n    };\n  };\n  (window as AnimationProbeWindow).__kandevAnimationProbe = {\n    phase(value) {\n      phase = value;\n    },\n    snapshot,\n    stop() {\n      const owned = Element.prototype.animate === wrapped;\n      if (owned) Element.prototype.animate = original;\n      return {\n        births: structuredClone(births),\n        restoredAnimate: owned && Element.prototype.animate === original,\n      };\n    },\n  };\n}\n\nasync function snapshotAnimations(page: Page) {\n  return page.evaluate(() => (window as AnimationProbeWindow).__kandevAnimationProbe.snapshot());\n}\n\nasync function calibrateAnimationProbe(browser: Browser) {\n  const context = await browser.newContext({ viewport: { width: 400, height: 400 } });\n  const page = await context.newPage();\n  try {\n    await page.addInitScript(installAnimationProbe);\n    await page.goto(\"data:text/html,<div></div>\");\n    await page.evaluate(() => {\n      (window as AnimationProbeWindow).__kandevAnimationProbe.phase(\"calibration\");\n      const style = document.createElement(\"style\");\n      style.textContent = \"@keyframes diagnostic-opacity { from {opacity:.6} to {opacity:1} }\";\n      document.head.append(style);\n      const create = (name: string, top: number, left = 0) => {\n        const element = document.createElement(\"div\");\n        element.dataset.animationCalibration = name;\n        Object.assign(element.style, {\n          position: \"absolute\",\n          top: `${top}px`,\n          left: `${left}px`,\n          width: \"30px\",\n          height: \"30px\",\n        });\n        document.body.append(element);\n        return element;\n      };\n      const visible = create(\"visible-waapi\", 20);\n      const below = create(\"below-waapi\", 800);\n      const clipped = create(\"clipped-waapi\", 100);\n      const clip = document.createElement(\"div\");\n      Object.assign(clip.style, {\n        position: \"absolute\",\n        top: \"80px\",\n        left: \"0\",\n        width: \"40px\",\n        height: \"40px\",\n        overflow: \"hidden\",\n      });\n      document.body.append(clip);\n      clip.append(clipped);\n      for (const element of [visible, below, clipped])\n        element.animate([{ opacity: 0.6 }, { opacity: 1 }], {\n          duration: 1000,\n          iterations: Infinity,\n        });\n      create(\"visible-css\", 150, 150).style.animation = \"diagnostic-opacity 1s infinite\";\n    });\n    await page.waitForFunction(() => document.getAnimations().length === 4);\n    const snapshot = await snapshotAnimations(page);\n    const stop = await page.evaluate(() =>\n      (window as AnimationProbeWindow).__kandevAnimationProbe.stop(),\n    );\n    return { snapshot, stop };\n  } finally {\n    await context.close();\n  }\n}\n\nconst directory = path.resolve(\n  process.cwd(),\n  \"../../.kandev/diagnostics/dense-workbench-performance\",\n);\n\nasync function loadedHistory(page: Page, sessionIds: string[]) {\n  return page.evaluate((ids) => {\n    const store = (window as unknown as { __KANDEV_E2E_STORE__: StoreApi<AppState> })\n      .__KANDEV_E2E_STORE__;\n    return ids.map((sessionId) => ({\n      sessionId,\n      messages: store.getState().messages.bySession[sessionId]?.length ?? 0,\n    }));\n  }, sessionIds);\n}\n\ntest(\"attributes running animation owners, creation and viewport intersection\", async ({\n  browser,\n  testPage,\n  apiClient: api,\n  seedData: seed,\n  backend,\n}, info) => {\n  test.setTimeout(600_000);\n  fs.mkdirSync(directory, { recursive: true });\n  const output = path.join(directory, `animation-attribution-${Date.now()}.json`);\n  const report: Record<string, unknown> = {\n    measurementKind: \"animation-attribution\",\n    assetsSha256: \"9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa\",\n    limits:\n      \"Private diagnostic wraps native Element.animate and takes IntersectionObserver snapshots. Animation creation counts and point-in-time geometry do not establish CPU gains, paint visibility, battery or M2 Air performance. The existing visibility helper already gates document, owner and intersection visibility. No production source or input policy changes.\",\n  };\n  const checkpoint = () => {\n    const temporary = output + \".pending\";\n    fs.writeFileSync(temporary, JSON.stringify(report, null, 2));\n    const fd = fs.openSync(temporary, \"r\");\n    fs.fsyncSync(fd);\n    fs.closeSync(fd);\n    fs.renameSync(temporary, output);\n  };\n  let stream: Awaited<ReturnType<typeof prepareDenseStream>> | undefined;\n  let context: Awaited<ReturnType<Browser[\"newContext\"]>> | undefined;\n  let page: Page | undefined;\n  let probeActive = false;\n  try {\n    const calibration = await calibrateAnimationProbe(browser);\n    report.calibration = calibration;\n    checkpoint();\n    expect(calibration.snapshot.timedOut).toBe(false);\n    expect(calibration.snapshot.running).toBe(4);\n    expect(calibration.snapshot.unobservable).toBe(0);\n    expect(calibration.stop.births).toHaveLength(3);\n    expect(calibration.stop.restoredAnimate).toBe(true);\n    const calibrationRows = calibration.snapshot.animations;\n    for (const label of [\"visible-waapi\", \"visible-css\"])\n      expect(\n        calibrationRows.find((row) => row.calibration === label)?.targetIntersection,\n      ).toMatchObject({ isIntersecting: true });\n    for (const label of [\"below-waapi\", \"clipped-waapi\"])\n      expect(\n        calibrationRows.find((row) => row.calibration === label)?.targetIntersection,\n      ).toMatchObject({ isIntersecting: false });\n    const prepared = await prepareDenseComparisonFixture(api, seed, backend, testPage);\n    report.fixture = prepared.fixture;\n    report.fixtureReplay = prepared.provenance;\n    checkpoint();\n    const database = path.join(backend.tmpDir, \"animation-attribution.db\");\n    fs.copyFileSync(prepared.snapshot, database);\n    expect(sha256File(database)).toBe(prepared.provenance?.databaseSha256);\n    await backend.restart({\n      KANDEV_DATABASE_PATH: database,\n      KANDEV_HOME_DIR: path.join(backend.tmpDir, \"animation-attribution-home\"),\n      KANDEV_WEB_DIST_DIR: path.resolve(process.cwd(), \"dist\"),\n      KANDEV_LOG_LEVEL: \"warn\",\n      ...prepared.restartEnv,\n    });\n    report.filesBefore = await verifyDenseThreadsFiles(api, prepared.backend, prepared.fixture);\n    const threads = prepared.fixture.threads.slice(0, 6);\n    stream = await prepareDenseStream(\n      api,\n      prepared.seed,\n      prepared.backend,\n      threads,\n      prepared.sampleNamespace + \"animation-attribution\",\n    );\n    context = await browser.newContext({\n      baseURL: backend.frontendUrl,\n      viewport: { width: 1470, height: 956 },\n      deviceScaleFactor: 2,\n      locale: \"en-US\",\n    });\n    page = await context.newPage();\n    await page.addInitScript(installAnimationProbe);\n    await page.addInitScript((port) => {\n      localStorage.setItem(\"kandev.onboarding.completed\", \"true\");\n      window.__KANDEV_API_PORT = port;\n      (window as unknown as { __KANDEV_E2E_EXPOSE_STORE__: boolean }).__KANDEV_E2E_EXPOSE_STORE__ =\n        true;\n    }, String(backend.port));\n    report.cold = await loadDenseCold({\n      page,\n      workspaceId: prepared.seed.workspaceId,\n      threads,\n      warmup: stream.warmup,\n      traffic: captureDenseTraffic(page),\n    });\n    const sessionIds = threads.map((thread) => thread.sessionId);\n    report.initialLoadedHistory = await loadedHistory(page, sessionIds);\n    expect(report.initialLoadedHistory).toEqual(\n      sessionIds.map((sessionId) => ({ sessionId, messages: 100 })),\n    );\n    await page.evaluate(() =>\n      (window as AnimationProbeWindow).__kandevAnimationProbe.phase(\"idle\"),\n    );\n    probeActive = true;\n    await dwell(\n      page,\n      5000,\n      \"clock-separation\",\n      \"observe animation creation during idle; excluded from speed evidence\",\n    );\n    report.idleSnapshot = await snapshotAnimations(page);\n    checkpoint();\n    await page.evaluate(() =>\n      (window as AnimationProbeWindow).__kandevAnimationProbe.phase(\"streaming\"),\n    );\n    stream.release();\n    await dwell(\n      page,\n      prepared.fixture.workload.durationMs,\n      \"clock-separation\",\n      \"observe animation creation during an ordered stream; excluded from speed evidence\",\n    );\n    report.streamingSnapshot = await snapshotAnimations(page);\n    report.counts = await page.evaluate(() =>\n      (window as AnimationProbeWindow).__kandevAnimationProbe.stop(),\n    );\n    probeActive = false;\n    checkpoint();\n    expect((report.counts as { restoredAnimate: boolean }).restoredAnimate).toBe(true);\n    for (const name of [\"idleSnapshot\", \"streamingSnapshot\"]) {\n      const snapshot = report[name] as AnimationSnapshot;\n      expect(snapshot.timedOut).toBe(false);\n      expect(snapshot.intersections).toBe(snapshot.targets);\n      expect(snapshot.running).toBeGreaterThan(0);\n    }\n    await stream.waitForVisible(page);\n    await stream.verify();\n    report.scheduledUpdates = stream.scheduledUpdates;\n    report.verificationErrors = stream.verificationErrors;\n    report.allOrderedUpdatesVerified = true;\n    report.finalLoadedHistory = await loadedHistory(page, sessionIds);\n    expect(report.finalLoadedHistory).toEqual(report.initialLoadedHistory);\n    report.filesAfter = await verifyDenseThreadsFiles(api, prepared.backend, prepared.fixture);\n    expect(report.filesAfter).toEqual(report.filesBefore);\n  } catch (error) {\n    report.error = String(error);\n    throw error;\n  } finally {\n    if (page && probeActive) {\n      try {\n        report.partialCounts = await page.evaluate(() =>\n          (window as AnimationProbeWindow).__kandevAnimationProbe.stop(),\n        );\n      } catch (error) {\n        report.stopError = String(error);\n      }\n    }\n    try {\n      await stream?.finish();\n    } catch (error) {\n      report.finishError = String(error);\n    }\n    try {\n      await context?.close();\n    } catch (error) {\n      report.closeError = String(error);\n    }\n    checkpoint();\n    await info.attach(\"animation-attribution\", {\n      path: output,\n      contentType: \"application/json\",\n    });\n  }\n});\n"
+  },
+  "lint": {
+    "handle": 22752,
+    "exitCode": 0,
+    "log": "animation-visibility-9e20-lint.log",
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "fixture": {
+    "tasks": 1000,
+    "storedMessages": 36000,
+    "visibleProducers": 6,
+    "loadedHistoryPerProducer": 100,
+    "orderedUpdates": 300,
+    "allOrderedUpdatesVerified": true,
+    "filesPreserved": true
+  },
+  "calibration": {
+    "runningAnimations": 4,
+    "nativeAnimateCalls": 3,
+    "visibleTargets": 2,
+    "nonIntersectingTargets": 2,
+    "includesClippedTargetWithinViewport": true,
+    "restoredNativeAnimate": true
+  },
+  "snapshots": {
+    "idleSnapshot": {
+      "atMs": 18990.400000002235,
+      "running": 60,
+      "paused": 60,
+      "unobservable": 0,
+      "elementIntersectionsObserved": 132,
+      "groups": [
+        {
+          "kind": "other",
+          "classes": "tabler-icon tabler-icon-loader-2 h-3.5 w-3.5 shrink-0 animate-spin motion-reduce:animate-none text-blue-500",
+          "cssAnimationName": "spin",
+          "playState": "running",
+          "animations": 6,
+          "uniqueOwners": 6,
+          "intersectingOwners": 6,
+          "ownersWithIntersectionArea": 6
+        },
+        {
+          "kind": "compositor-pulse",
+          "classes": "chat-input-glow-running",
+          "cssAnimationName": null,
+          "playState": "paused",
+          "animations": 6,
+          "uniqueOwners": 6,
+          "intersectingOwners": 0,
+          "ownersWithIntersectionArea": 0
+        },
+        {
+          "kind": "grid-spinner",
+          "classes": "spinner-grid-cube",
+          "cssAnimationName": null,
+          "playState": "paused",
+          "animations": 54,
+          "uniqueOwners": 6,
+          "intersectingOwners": 0,
+          "ownersWithIntersectionArea": 0
+        },
+        {
+          "kind": "grid-spinner",
+          "classes": "spinner-grid-cube",
+          "cssAnimationName": null,
+          "playState": "running",
+          "animations": 54,
+          "uniqueOwners": 6,
+          "intersectingOwners": 6,
+          "ownersWithIntersectionArea": 6
+        }
+      ]
+    },
+    "streamingSnapshot": {
+      "atMs": 29088.900000002235,
+      "running": 60,
+      "paused": 60,
+      "unobservable": 0,
+      "elementIntersectionsObserved": 132,
+      "groups": [
+        {
+          "kind": "other",
+          "classes": "tabler-icon tabler-icon-loader-2 h-3.5 w-3.5 shrink-0 animate-spin motion-reduce:animate-none text-blue-500",
+          "cssAnimationName": "spin",
+          "playState": "running",
+          "animations": 6,
+          "uniqueOwners": 6,
+          "intersectingOwners": 6,
+          "ownersWithIntersectionArea": 6
+        },
+        {
+          "kind": "compositor-pulse",
+          "classes": "chat-input-glow-running",
+          "cssAnimationName": null,
+          "playState": "paused",
+          "animations": 6,
+          "uniqueOwners": 6,
+          "intersectingOwners": 0,
+          "ownersWithIntersectionArea": 0
+        },
+        {
+          "kind": "grid-spinner",
+          "classes": "spinner-grid-cube",
+          "cssAnimationName": null,
+          "playState": "paused",
+          "animations": 54,
+          "uniqueOwners": 6,
+          "intersectingOwners": 0,
+          "ownersWithIntersectionArea": 0
+        },
+        {
+          "kind": "grid-spinner",
+          "classes": "spinner-grid-cube",
+          "cssAnimationName": null,
+          "playState": "running",
+          "animations": 54,
+          "uniqueOwners": 6,
+          "intersectingOwners": 6,
+          "ownersWithIntersectionArea": 6
+        }
+      ]
+    }
+  },
+  "nativeAnimateCallsByPhase": {
+    "boot": 168
+  },
+  "nativeAnimateCallsIdle": 0,
+  "nativeAnimateCallsStreaming": 0,
+  "sameAnimationIdentitiesAcrossSnapshots": true,
+  "bootKinds": [
+    {
+      "kind": "compositor-pulse",
+      "calls": 6
+    },
+    {
+      "kind": "grid-spinner",
+      "calls": 162
+    }
+  ],
+  "liveFrontendDiagnostics": {
+    "bundlePath": ".kandev/diagnostics/db7aa1ae20d017ea807bfd8efc2e1632.zip",
+    "bundleSha256": "0cee2eb293b76e540d13337d447f5c1e31938863a63484c45b2629b576ba7001",
+    "requestedSource": "frontend",
+    "deployedCommit": "cc687bdce96bc22fb8a9ca87abe571b8309d3125",
+    "currentTaskEvents": 9,
+    "currentTaskDuplicateLinkUnderlineWarnings": 8,
+    "currentTaskResizeObserverLoopErrors": 1,
+    "browserIdentityAvailable": false,
+    "rawFrontendLogsCommitted": false,
+    "limits": "Only aggregate counts for the current task are recorded. Other task logs remain private in the ignored bundle. These sparse warnings do not establish a cause for M2 Air slowness. The bundle OS is the server OS, not the client OS."
+  },
+  "interpretation": [
+    "Both snapshots contain 60 running animations on geometrically intersecting owners: 54 grid-cell animations across six visible spinner owners, plus six CSS header rotations.",
+    "Both snapshots also contain 60 paused animations on non-intersecting owners: 54 grid-cell animations across six hidden spinner owners, plus six hidden composer glow animations.",
+    "All 132 distinct target and owner intersections are observed without timeout. No animation has an unobservable target.",
+    "The wrapper records 168 Element.animate calls during boot only: 162 grid-cell calls and six compositor-pulse calls. It records zero calls in the five-second idle and ten-second streaming windows.",
+    "All 120 animation identities match between the two snapshots. This does not count every transient CSS animation that could occur between snapshots.",
+    "The existing persistent-motion helper already combines document visibility, target intersection and owner visibility. These observations do not support rebuilding those gates or pausing currently visible feedback."
+  ],
+  "nextAction": "Use the fresh current-task frontend warnings to inspect real plan-editor extension initialization. First prove any duplicated configuration and its practical cost. Do not attribute the slowness to these sparse warnings without evidence. The 20% streaming target and original-baseline final matrix remain open.",
+  "limits": [
+    "Private diagnostic changes scheduling and wraps Element.animate. It is excluded from all reference speed comparisons.",
+    "Intersections describe sampled geometry, not paint visibility or CPU work. Visible spinner cells can scale to zero during their normal animation.",
+    "Element.animate counts do not include CSS animation creation. Snapshot identities do not prove absence of all transient animation activity.",
+    "All 300 updates are verified after the observation window. This does not establish that every update rendered inside that window.",
+    "No M2 Air, field INP, battery or memory-leak conclusion follows."
+  ],
+  "artifacts": [
+    {
+      "path": "animation-attribution-artifact-kandev-exec-animation-attribution-5936a872.py",
+      "sha256": "e11a52df25dba537d77c52f9f9e191582a2e73d09a4810a09652865b85d10f9d",
+      "bytes": 6215
+    },
+    {
+      "path": "animation-attribution-artifact-kandev-capture-animation-attribution-5936a872.py",
+      "sha256": "317297aac3b4a65b4eac65e0c501073b38430e8b114dc41bc077c85159698e7f",
+      "bytes": 8134
+    },
+    {
+      "path": "animation-attribution-artifact-kandev-animation-attribution-format-5936a872.log",
+      "sha256": "8c26939629b00921f68a4077fb03563efecb079368abac7f9fd9842a6ded340f",
+      "bytes": 57
+    }
+  ]
+}
