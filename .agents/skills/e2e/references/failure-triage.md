@@ -41,7 +41,8 @@ flags as CI evidence.
 3. Preserve nearby test ordering when a single-test repeat stays green; run the full spec or shard with the same resource limits before declaring a flake non-reproducible.
 
 The config uses `failOnFlakyTests: !CI`: local runs fail on a flaky retry, while
-CI temporarily tolerates one. Either result is a failure signal for agents.
+standard CI accepts one. Set `E2E_FAIL_ON_FLAKY=1` to make a CI run fail on
+retry passes. Either result is a failure signal for agents.
 Playwright CLI `--retries=0` does not override a test-level
 `test.describe.configure({ retries: 1 })`; temporarily set that describe retry
 to zero, regenerate the manifest after the source change, and run the exact

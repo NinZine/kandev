@@ -2,7 +2,7 @@
 status: active
 system: platform
 created: 2026-08-10
-updated: 2026-10-14
+updated: 2026-10-27
 owners:
   - kandev
 ---
@@ -34,7 +34,7 @@ must not hide a test that only passed after a retry.
 
 - **AC-PLATFORM-E2E-DURATION-AWARE-SHARDING-002.1:** Container-backed E2E jobs shall resolve the runtime image to an immutable digest, reuse browser binaries from a matching digest-scoped cache when available, and use a per-run save key with a stable digest-scoped restore prefix. A miss, stale entry, cache-service failure, or incompatible entry shall use the digest-pinned image extraction path and shall not change test selection or make the cache a correctness dependency. If the image digest cannot be resolved, the job shall fail before using an unpinned image reference.
 - **AC-PLATFORM-E2E-DURATION-AWARE-SHARDING-002.2:** E2E reporting shall separate test execution time from material setup costs, including dependency installation, runtime-image startup, and browser provisioning, and shall expose whether the timing plan used a profile or a fallback.
-- **AC-PLATFORM-E2E-DURATION-AWARE-SHARDING-002.3:** E2E reporting shall identify each passed-after-retry result by stable test key, attempt status, error category, and available diagnostic artifacts. The explicit diagnostic lane shall be able to fail when a test passes only after retry.
+- **AC-PLATFORM-E2E-DURATION-AWARE-SHARDING-002.3:** E2E reporting shall identify each passed-after-retry result by stable test key, attempt status, error category, and available diagnostic artifacts. Standard normal and container CI jobs shall pass when a test passes after retry. An explicit diagnostic run shall be able to set `E2E_FAIL_ON_FLAKY=1` and fail when a test passes only after retry. Tests that exhaust their retries shall fail in all modes.
 - **AC-PLATFORM-E2E-DURATION-AWARE-SHARDING-002.4:** When an E2E test selects one lazy-loaded item, readiness assertions shall be scoped to that selected item. Unrelated loading placeholders shall not determine the selected item's result.
 
 ## Migrated source detail
@@ -192,11 +192,10 @@ The desktop smoke bootstrap has these requirements:
 - a workflow contract test protects the image producer and consumer together.
 
 Playwright output also includes a retry summary containing the test key,
-attempt count, final status, error context, and links to retry artifacts. The
-normal PR lane may retain its current retry gate while the summary is being
-rolled out. A scheduled or explicitly diagnostic lane runs with
-`failOnFlakyTests: true` so passed-after-retry results can be treated as a
-first-class reliability signal.
+attempt count, final status, error context, and links to retry artifacts.
+Standard normal and container CI jobs accept tests that pass after retry, while
+tests that exhaust their retries still fail. An explicit diagnostic run can set
+`E2E_FAIL_ON_FLAKY=1` to fail tests that pass only after retry.
 
 ## Performance experiments
 

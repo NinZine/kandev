@@ -5,7 +5,7 @@ requirements:
 system_design:
   - ../../specs/platform/system-design/e2e-duration-aware-sharding.md
 created: 2026-08-10
-status: in_progress
+status: implemented
 ---
 
 # Implementation Plan: Duration-aware E2E sharding and CI reliability
@@ -29,6 +29,10 @@ fixed setup overhead.
 
 No production application behavior is changed. This is a CI/tooling and E2E
 fixture package.
+
+Standard normal and container CI jobs accept tests that pass after retry while
+keeping retry and flake reporting. Explicit diagnostic runs can opt into
+failing on retry passes with `E2E_FAIL_ON_FLAKY=1`.
 
 ## Timing profile and catalog
 
@@ -135,11 +139,11 @@ results by stable test key and records attempts, final status, error category,
 and links to trace/screenshot/video artifacts when present. Include counts for
 passed-first-attempt, passed-after-retry, failed, timeout, and skipped.
 
-Keep the current PR retry behavior during initial rollout, but make retry
-groups visible in the job summary and artifact. Add a scheduled or explicitly
-diagnostic workflow mode with `failOnFlakyTests: true`; it should demonstrate
-that the suite can enforce a no-flake policy without changing the normal PR
-gate as part of this package.
+Keep the standard normal and container CI jobs at three retries and allow a
+test that passes after retry to complete green. Keep retry groups visible in
+the job summary and artifact. An explicit diagnostic run can set
+`E2E_FAIL_ON_FLAKY=1` to enforce a no-flake policy without changing the
+standard CI default.
 
 ## Controlled performance experiments
 
@@ -236,6 +240,13 @@ Wave 5 — rollout documentation:
 
 Depends on Tasks 03, 06, and 07 so the README describes the final contracts.
 
+Wave 6 — standard CI flake acceptance:
+
+- [x] [Task 10: Accept retry-passed tests in CI](task-10-accept-retry-passed-tests.md)
+
+Depends on the workflow, retry reporting, and rollout documentation contracts
+from Tasks 03, 07, and 09.
+
 ## Verification Results
 
 Implemented and verified in the working tree:
@@ -271,6 +282,11 @@ Implemented and verified in the working tree:
   to 22m39s (20.5%). Both runs used count fallback because the latest main
   run has no timing-profile artifact; the first post-merge main run remains
   the profile bootstrap check.
+- Task 10's policy is in place: the standard CI jobs no longer set
+  `E2E_FAIL_ON_FLAKY`, and the requirement, system design, plan, and README
+  state the acceptance and diagnostic behavior. The work-order `rg` checks,
+  `git diff --check`, documentation catalog validation, and specification lint
+  passed.
 
 The three-successful-main-run balance criterion and cold-cache setup comparison
 remain operational rollout checks after merge, not reasons to change the

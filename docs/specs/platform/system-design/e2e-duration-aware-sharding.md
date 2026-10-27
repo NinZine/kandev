@@ -5,7 +5,7 @@ requirements:
   - REQ-PLATFORM-E2E-DURATION-AWARE-SHARDING-001
   - REQ-PLATFORM-E2E-DURATION-AWARE-SHARDING-002
 created: 2026-08-30
-updated: 2026-10-14
+updated: 2026-10-27
 owners:
   - kandev
 ---
@@ -40,8 +40,9 @@ continuation changes the normal matrix size under its measured adoption gate.
 - A timing profile or browser cache accelerates planning or setup only. A
   missing, stale, or inaccessible optimization input has a deterministic
   fallback and cannot change the selected test set.
-- A passing-after-retry result remains visible, even when the normal pull
-  request lane is allowed to finish green.
+- A passed-after-retry result remains visible in every run. Standard normal
+  and container CI jobs may finish green, while an explicit diagnostic run can
+  fail on that result.
 - CI time analysis separates runner queue time from job setup and test
   execution time. Queue time is capacity evidence, not a test-synchronization
   signal.
@@ -185,9 +186,12 @@ error category, and links to available trace, screenshot, or error-context
 artifacts. The historical report retains recent successful-main entries and
 cross-checks repeat offenders against the Playwright result data.
 
-The explicit diagnostic lane sets `failOnFlakyTests` so a test that passes only
-after retry fails that lane. The normal pull request lane may retain retries,
-but its report must still expose the passed-after-retry result.
+The standard normal and container CI jobs leave `E2E_FAIL_ON_FLAKY` unset.
+Playwright therefore accepts a test that passes after retry, while the retry
+and flake reports preserve its attempt details. Tests that exhaust their
+retries still fail the job. An explicit diagnostic run sets
+`E2E_FAIL_ON_FLAKY=1`, which enables `failOnFlakyTests` and fails a test that
+passes only after retry. Local runs continue to fail on retry passes by default.
 
 For the review-file-status regression, the selected moved-file header is the
 readiness anchor. Assertions about the moved-file explanation and the absence
