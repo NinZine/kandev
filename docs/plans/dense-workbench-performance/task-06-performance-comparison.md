@@ -32,6 +32,33 @@ system_design:
 
 # Task 06: Matched comparison and regression evidence
 
+## Calibrated row rendering and rejected memoization
+
+Independent fixture counters calibrate the private React observer before
+each dense count probe. The probes verify 300 ordered updates each. Default
+shallow row memoization removes 22,442 observed unchanged-prop renders.
+Changed rows remain reactive. These intrusive counts do not measure speed.
+
+The meaningful RED reproduces twenty unnecessary history-row entries during
+twenty sibling updates. All 295 related unit tests, strict lint, web types,
+production build, 35 desktop checks and 17 phone checks pass. Held reading
+moves zero pixels, and real PageDown remains within one pixel after growth.
+
+All four unchanged native-v2 reference attempts pass with 7,200 verified
+ordered updates. Streaming task-time rate is flat. Script work per second
+is mixed, while style and layout rates increase in both pairs. Streaming
+p95 is 133.4 to 133.3 ms, then 100.0 to 116.7 ms. Normal idle task work
+increases in both pairs. Reduced-motion idle savings do not establish a useful
+overall gain. No six-pair confirmation or navigation timing follows.
+
+Preserve all seventy comparison rows, the rejected source, test, patch and
+build. Exact verified app source and `9e20f26b` assets are restored. All
+temporary probes are removed. The cause of the observed regressions is
+unconfirmed. Next: investigate mounted subscriptions and recurring history
+refreshes on the verified build. The 20% streaming target and original-baseline
+final matrix remain open. See
+[the complete evidence](evidence/rejected-message-row-memoization-two-pair-1x.json).
+
 ## Rendering attribution and rejected sidebar comparator
 
 The sidebar comparator is rejected after complete streaming and task-switch

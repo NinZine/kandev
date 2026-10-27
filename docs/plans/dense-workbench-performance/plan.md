@@ -30,6 +30,22 @@ legacy_specs: []
 
 ## Latest measured checkpoint
 
+The memoized transcript-row prototype is rejected after four complete reference
+attempts and 7,200 verified updates. Calibrated count probes remove observed
+unchanged-prop wrapper renders, but streaming task-time rate stays flat.
+Streaming p95 is flat in one pair and 16.7% worse in the other. Normal idle
+task work and streaming style rates increase in both pairs.
+
+All 295 related unit tests, lint, web types, build and 52 desktop/phone checks
+pass. Exact app source and verified `9e20f26b` assets are restored. All seventy
+comparison rows and the rejected prototype remain preserved. Next: investigate
+mounted subscriptions and recurring history refreshes before another change.
+The 20% normal-streaming task-time target and original-baseline final matrix
+remain open. See
+[the complete evidence](evidence/rejected-message-row-memoization-two-pair-1x.json).
+
+### Previous comparator and timeline checkpoint
+
 The sidebar comparator is rejected after complete streaming and task-switch
 comparisons. A six-pair isolated function benchmark saves 98.14% of local sort
 time, but both streaming task-time rates are slightly worse. Navigation

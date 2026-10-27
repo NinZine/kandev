@@ -7,6 +7,24 @@ builds, fixtures, and probes; they do not automatically verify the final build.
 
 ## Latest build checkpoint
 
+The memoized transcript-row prototype is rejected after four complete reference
+attempts and 7,200 verified updates. Calibrated count probes remove 22,442
+observed unchanged-prop row renders, but streaming task-time rate stays flat.
+Streaming p95 is flat in one pair and 16.7% worse in the other. Normal idle
+task work and streaming style rates increase in both pairs. All seventy rows
+remain preserved. The regression cause is unconfirmed.
+
+All 295 related unit tests, strict lint, web types, build, 35 desktop checks
+and 17 phone checks pass. Those checks establish correctness within their
+scope, not speed acceptance. Exact verified app source and `9e20f26b` assets
+are restored. The prototype, tests and temporary probes are removed and
+preserved separately. Next: mounted-subscription and history-refresh
+attribution. The 20% streaming target and original-baseline final matrix
+remain open. See
+[the rejected row candidate](evidence/rejected-message-row-memoization-two-pair-1x.json).
+
+### Previous comparator and timeline checkpoint
+
 The sidebar comparator is rejected after complete streaming and task-switch
 comparisons. A six-pair isolated function benchmark saves 98.14% of local sort
 time, but both streaming task-time rates are slightly worse. Navigation

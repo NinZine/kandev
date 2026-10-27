@@ -9,6 +9,35 @@ Final matrix, stress, owner retention and streaming task-time gates remain open.
 The branch is `feature/evaluate-live-thread-bc0`; the frozen baseline is
 `595df36ed5c1cf02fd90cb972b623ad6edc53df8`.
 
+## Transcript row memoization: rejected after full-view testing
+
+A private React observer first matches independent render counters for changed
+props, context updates, local state and memo bailouts. Separate 300-update probes
+then identify 22,442 unchanged-prop `MessageRow` renders on verified `9e20f26b`.
+Default shallow memoization removes those observed renders. Changed rows still
+render. Each probe preserves loaded history and files and passes its integrity
+audit. Intrusive counts do not measure speed.
+
+The regression first reproduces twenty unnecessary history-row entries during
+twenty sibling updates. All 295 related unit tests, strict lint, web types,
+the production build, 35 desktop checks and 17 phone checks pass. The prototype
+changes no markup, CSS, controls, motion, scroll owner or input policy.
+
+All four native-v2 reference attempts pass and verify 7,200 ordered updates.
+Streaming task-time rate is 0.006% worse and 0.041% better. Normalized script
+work is 0.46% lower and 2.73% higher. Style and layout rates increase in both
+pairs. Streaming p95 is 133.4 to 133.3 ms, then 100.0 to 116.7 ms.
+Normal idle task work increases 2.22% and 10.60%. Reduced-motion idle savings
+and fewer streaming long tasks do not establish a useful overall gain.
+
+Reject the prototype without six-pair confirmation or navigation timing.
+All seventy comparison rows, sources, build, failures and audit logs remain
+preserved. The temporary probes and prototype are removed. Exact verified app
+source and `9e20f26b` assets are restored. Regression causes remain unconfirmed.
+Next: investigate mounted subscriptions and recurring history refreshes.
+The 20% streaming target and original-baseline final matrix remain open. See
+[the complete evidence](evidence/rejected-message-row-memoization-two-pair-1x.json).
+
 ## Sidebar comparator: rejected after full-view testing
 
 The comparator prototype stops at the first code-point difference. Its RED
