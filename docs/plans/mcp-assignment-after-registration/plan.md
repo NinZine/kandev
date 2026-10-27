@@ -1094,3 +1094,24 @@ needed for the unchanged assignment and review UI. The following documentation
 receipt changes no application, workflow or test code; its code tree matches
 the tested merge head. Fresh exact-head CI and requested bot review remain
 external delivery gates, with all reproduction limits retained in the PR body.
+
+### Stats retry review correction (2026-10-27)
+
+CodeRabbit's exact-head review of ac7f350edef7f0238e903c6604b16ca032880ad8
+reported one actionable finding (comment 4392652995, thread
+PRRT_kwDOQ2-eWs6w1EGk). The automatic merge retained the old one-request
+assertion beside upstream's new virtual-clock assertion that an automatic
+retry increases the request count. These assertions are contradictory. The
+older no-second-request description in the 2026-10-26 reconciliation section
+is historical; upstream's newer explicit automatic-retry coverage supersedes
+that fixture condition.
+
+The unmodified phone test reproduced the defect with Expected 1 / Received 2.
+The correction removes only the obsolete count assertion and explicitly checks
+that Retry remains visible after the automatic retry. The 300-second backoff,
+automatic retry poll, 44-pixel target, enabled manual action, successful
+recovery, Copy Stats and overflow checks remain. Both complete desktop and
+phone Stats recovery cases then passed with two CPUs, one worker and zero
+retries. This is a test-only correction with no public documentation or UI
+capture impact. It will be published with the collected CI fix batch; current
+ac7f350ed CI remains in progress, and the remote thread is not yet resolved.
