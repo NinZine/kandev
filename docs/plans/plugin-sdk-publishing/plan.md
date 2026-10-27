@@ -1467,3 +1467,25 @@ typecheck, zero-warning scoped lint, targeted mock/MCP/sysprompt race tests,
 31 walkthrough contracts, pinning, harness and docs/spec checks pass. No
 application change was added beyond main. Final checkpoint hooks and leased
 push follow; the notification guide remains uncommitted.
+
+### Advanced-main conflict correction
+
+Main advanced to a6144c3cb8ef during CI and introduced one pseudo-locale
+conflict. Rebased again with merge topology preserved. Intermediate head
+6484b4b04c75 matches the precomputed combined tree 29fe142e878b exactly.
+The locale fixture keeps main's cookie-before-navigation behavior and this
+branch's failure diagnostics. All assertions and timeouts remain intact.
+Incoming plugin launch-profile tests initially failed to compile because one
+new test retained the removed SDK import. That test now imports the extracted
+module; the intentionally old compatibility fixture is unchanged.
+
+Plugin and backend adapter race checks pass after that import correction.
+Full typecheck, scoped zero-warning lint, fresh managed web/backend/fixture
+builds and all three focused pseudo-locale browser cases pass. Browser retries
+are disabled. Initial local attempts failed before test bodies because of
+inherited host configuration and missing Chromium libraries; the passing run
+uses isolated loopback startup and verified existing Nix library paths.
+Docs validate 410 decisions and 1,765 specifications. SDK package/module,
+protected release jobs and main's informational retry policy are unchanged.
+The prior-head CI had 92 passed checks, no failures and one pending at this
+checkpoint. It is not terminal evidence for the updated head. Normal hooks,+leased push and fresh exact-head CI follow; the guide stays uncommitted.
