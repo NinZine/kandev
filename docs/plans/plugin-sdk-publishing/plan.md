@@ -1430,3 +1430,21 @@ PR layouts, non-auto-start admission and keep-both upload. Both phone cases
 pass: historical diff and held sidebar recovery. Retries are disabled.
 Documentation coverage passes528 changed paths,34 work orders,110 documents.
 Docs validate409 decisions and1,762 specifications; size limits are preserved.
+
+
+## User-requested rebase onto main (2026-10-27)
+
+Rebased with merge history preserved onto 9c7359d3aa9e. Rebased integration
+head 4be5097655a7 has exactly the previously tested SDK tree plus main's six-file
+advisory walkthrough update; no application code changed. Comparing the full
+result with the precomputed combined tree finds no missing merge resolution.
+Main now records generation failure as a warning and skips publication/linking
+without a valid generated artifact. This changes CI policy; it does not prove
+the silent generation request repaired. E2E workflow code is unchanged.
+
+Walkthrough contracts and action pinning pass. Zizmor retains the same ten
+reviewed residuals. The prior-head CI monitor was stopped for this explicit
+rebase request, not interpreted as a terminal CI result. Its partial artifact
+audit covered 46 reports: 1,657 passed, 24 skipped, zero retries or parse errors.
+Normal hooks, leased push and fresh-head checks remain required. The user-owned
+NOTIFICATION_GUIDE.md checksum is unchanged through the rebase.
