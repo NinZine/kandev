@@ -30,6 +30,22 @@ legacy_specs: []
 
 ## Latest measured checkpoint
 
+The lazy PR menu candidate is rejected after four complete reference attempts
+and 7,200 verified updates. Calibrated probes remove its closed-row app-store
+checks, but streaming task-time rate and p95 stay flat. Streaming style rate
+and cold readiness are worse in both pairs. All seventy rows remain preserved.
+
+All 183 related units, lint, web types, build and 35 desktop/phone cases pass.
+Exact verified app source and `9e20f26b` assets are restored. The prototype,
+tests and diagnostic wrappers are removed and preserved separately. Next:
+audit rendering cost, measurement overhead and renderer configuration before
+another production change. The 20% streaming target and original-baseline
+final matrix remain open. See
+[the attribution](evidence/external-store-snapshot-attribution.json) and
+[the complete rejection](evidence/rejected-lazy-pr-menu-two-pair-1x.json).
+
+### Previous row checkpoint
+
 The memoized transcript-row prototype is rejected after four complete reference
 attempts and 7,200 verified updates. Calibrated count probes remove observed
 unchanged-prop wrapper renders, but streaming task-time rate stays flat.

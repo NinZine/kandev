@@ -7,6 +7,23 @@ builds, fixtures, and probes; they do not automatically verify the final build.
 
 ## Latest build checkpoint
 
+The lazy PR menu candidate is rejected after four complete reference attempts
+and 7,200 verified updates. Calibrated probes remove closed-menu app-store
+checks, but streaming task-time rate and p95 stay flat. Streaming style rate
+and cold readiness are worse in both pairs. All seventy rows remain preserved.
+No regression cause is established.
+
+All 183 related units, lint, types, build and 35 desktop/phone cases pass.
+The initial desktop expected-count failure remains preserved with a correction
+that matches all 26 actual passes to the unchanged source inventory. Exact
+verified app source and `9e20f26b` assets are restored. The private wrappers,
+prototype and its tests are removed. Next: audit rendering and measurement
+cost. The 20% streaming target and original-baseline final matrix remain open.
+See [the attribution](evidence/external-store-snapshot-attribution.json) and
+[the rejected candidate](evidence/rejected-lazy-pr-menu-two-pair-1x.json).
+
+### Previous row checkpoint
+
 The memoized transcript-row prototype is rejected after four complete reference
 attempts and 7,200 verified updates. Calibrated count probes remove 22,442
 observed unchanged-prop row renders, but streaming task-time rate stays flat.

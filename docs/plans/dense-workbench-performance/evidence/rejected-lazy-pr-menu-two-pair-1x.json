@@ -1,0 +1,3767 @@
+{
+  "recordedAt": "2026-10-27T13:48:15.680780+00:00",
+  "status": "rejected",
+  "sourceRevision": "20fa4f687e4a57a5193b90edb6cd2cd806978044",
+  "restoredProductionRevision": "4f078c1303434fa9cee5ee5a83280b5764fd3917",
+  "diagnosticsRoot": ".kandev/diagnostics/dense-workbench-performance",
+  "candidate": {
+    "scope": "Mount PR unlink and hydration hooks inside the existing context-menu content. Announce open before paint once per content mount. Preserve menu DOM, CSS, controls, motion, actions, workspace guards and pending-mutation completion.",
+    "assetsSha256": "deb30ccdac941176ac1e58d0bd627b27dedacac16a0c7ae3cdc7f232dda37e91",
+    "sourcePatchSha256": "7a339217f97bd4ebf99b01359b92dde05723aedaf5fd8d4e36ae16ec431de9eb",
+    "sourceFiles": [
+      {
+        "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+        "sha256": "6ce2652db1e4bd74f2a6dc4473e0239155af8816cce3436f6073fbaeb5650b3c"
+      },
+      {
+        "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+        "sha256": "47c9921c4772617fc3fff728a97086c8ee53d8ffd811c40daea4c9b70fe968b0"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+        "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+      },
+      {
+        "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+        "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+      },
+      {
+        "path": "apps/web/components/task/task-switcher-context-menu-pr-unlink.test.tsx",
+        "sha256": "ac106a1e612ebb7c4f1c1d9aaff7c53969d865be6b99de3ecb5bd7f3fde820b6"
+      },
+      {
+        "path": "apps/web/components/task/task-switcher-context-menu.tsx",
+        "sha256": "dc73ef93c0a773e1095e1734ad7d53d488ae2467ee3ae820502d686e35184d42"
+      },
+      {
+        "path": "apps/web/hooks/domains/github/use-task-pr-tooltip-hydration.test.tsx",
+        "sha256": "65eb0039f5e8c829a8e185e102cf8d53ce322a5a454acc0352372e240f857740"
+      },
+      {
+        "path": "apps/web/hooks/domains/github/use-task-pr-unlink.test.tsx",
+        "sha256": "a7a1651e150d8ff965ba3a1f218a568a06c86da9511226e44ab84d325ef8d36b"
+      },
+      {
+        "path": "apps/web/lib/state/app-state-types.ts",
+        "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+        "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/types.ts",
+        "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+      },
+      {
+        "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+        "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+      }
+    ],
+    "preservedRoot": "/tmp/kandev-rejected-lazy-pr-menu-5936a872",
+    "productionAndTestChangesRemoved": true,
+    "publicBehaviorChange": false,
+    "aestheticChange": false
+  },
+  "attribution": "external-store-snapshot-attribution.json",
+  "validation": {
+    "finalBuild": {
+      "recordedAt": "2026-10-27T13:24:08.126Z",
+      "sourceParent": "20fa4f687e4a57a5193b90edb6cd2cd806978044",
+      "scope": "Mount PR unlink and hydration hooks inside the existing context-menu content. Announce open before paint once per content mount. Preserve menu DOM, CSS, controls, motion, actions, workspace guards and pending-mutation completion.",
+      "sourceFiles": [
+        {
+          "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+          "sha256": "6ce2652db1e4bd74f2a6dc4473e0239155af8816cce3436f6073fbaeb5650b3c"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+          "sha256": "47c9921c4772617fc3fff728a97086c8ee53d8ffd811c40daea4c9b70fe968b0"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+          "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+          "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+        },
+        {
+          "path": "apps/web/components/task/task-switcher-context-menu-pr-unlink.test.tsx",
+          "sha256": "ac106a1e612ebb7c4f1c1d9aaff7c53969d865be6b99de3ecb5bd7f3fde820b6"
+        },
+        {
+          "path": "apps/web/components/task/task-switcher-context-menu.tsx",
+          "sha256": "dc73ef93c0a773e1095e1734ad7d53d488ae2467ee3ae820502d686e35184d42"
+        },
+        {
+          "path": "apps/web/hooks/domains/github/use-task-pr-tooltip-hydration.test.tsx",
+          "sha256": "65eb0039f5e8c829a8e185e102cf8d53ce322a5a454acc0352372e240f857740"
+        },
+        {
+          "path": "apps/web/hooks/domains/github/use-task-pr-unlink.test.tsx",
+          "sha256": "a7a1651e150d8ff965ba3a1f218a568a06c86da9511226e44ab84d325ef8d36b"
+        },
+        {
+          "path": "apps/web/lib/state/app-state-types.ts",
+          "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+          "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/types.ts",
+          "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+          "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+        }
+      ],
+      "deletedSourceFiles": [
+        "apps/web/components/task/chat/transcript-scroll-persistence.test.ts",
+        "apps/web/components/task/chat/transcript-scroll-persistence.ts"
+      ],
+      "sourcePatchSha256": "7a339217f97bd4ebf99b01359b92dde05723aedaf5fd8d4e36ae16ec431de9eb",
+      "generatedBefore": [
+        {
+          "path": "apps/web/generated/changelog.json",
+          "sha256": "8552e9fd1aa79fe07d0eaaa8d05179548ae1c5555b3206a2842c09cec4bfdd43"
+        },
+        {
+          "path": "apps/web/generated/release-notes.json",
+          "sha256": "3391126f01051873eebb779dece251225037923b7e96794855a11af2135c0a37"
+        }
+      ],
+      "checks": [
+        {
+          "name": "red",
+          "handle": 10350,
+          "exitCode": 1,
+          "log": "lazy-pr-menu-red.log",
+          "logSha256": "0bb945f7eadd9c82ea1ef358e6d73420d7e51fceb95acf55f034b1e957578a25"
+        },
+        {
+          "name": "green",
+          "handle": 34301,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-green.log",
+          "logSha256": "bbfed460e59c782f85c72a109930af93f7cea9db56ea26e13b048e11d104e440"
+        },
+        {
+          "name": "lifetime-red",
+          "handle": 16856,
+          "exitCode": 1,
+          "log": "lazy-pr-menu-lifetime-red.log",
+          "logSha256": "add1df6bbae5f27c3995c97b8107b6e5312fcee506e5042b41236d44a2129a72"
+        },
+        {
+          "name": "related",
+          "handle": 95252,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-related.log",
+          "logSha256": "0537a8cc2120442e028ca67b2ef2dad848c8cab004aaef697f2e0cd6423599a4"
+        },
+        {
+          "name": "lint",
+          "handle": 89886,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-lint.log",
+          "logSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+        },
+        {
+          "name": "types",
+          "handle": 64202,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-types.log",
+          "logSha256": "369ea74c64e1df20db8b8a6bcf59b9433ca7a9303c5057308182163b3818b5a6"
+        },
+        {
+          "name": "related-final",
+          "handle": 88726,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-related-final.log",
+          "logSha256": "d0673bbb93029af332ccc51b04d58450f43a799605b476bf5ec6ed369f03f0e8"
+        },
+        {
+          "name": "lint-final",
+          "handle": 13213,
+          "exitCode": 1,
+          "log": "lazy-pr-menu-lint-final.log",
+          "logSha256": "5cd6c4624dbe67442cccf94b583c933187c2ccb9496f210cec3a8fd2a3add137"
+        },
+        {
+          "name": "types-final",
+          "handle": 63290,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-types-final.log",
+          "logSha256": "369ea74c64e1df20db8b8a6bcf59b9433ca7a9303c5057308182163b3818b5a6"
+        },
+        {
+          "name": "related-freeze",
+          "handle": 18202,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-related-freeze.log",
+          "logSha256": "1f24dccbb4a581683d9f1adeac5f9d9a151ebe4e452aefbc8f60498c656863f3"
+        },
+        {
+          "name": "lint-freeze",
+          "handle": 1924,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-lint-freeze.log",
+          "logSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+        },
+        {
+          "name": "types-freeze",
+          "handle": 30043,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-types-freeze.log",
+          "logSha256": "369ea74c64e1df20db8b8a6bcf59b9433ca7a9303c5057308182163b3818b5a6"
+        }
+      ],
+      "units": {
+        "tests": 183,
+        "files": 23,
+        "newTests": 4,
+        "closedMenuRed": "PR hook called once while no menu is mounted.",
+        "callbackLifetimeRed": "Replacement onOpenChange called during an already-open menu rerender.",
+        "pendingUnlink": "Accepted mutation completes and clears shared pending state after initiator unmount.",
+        "hydrationOwnerRelease": "An accepted read populates the shared cache after its initiating menu unmounts. This preserves existing behavior and needs no further production change."
+      },
+      "pretestFormattingFailure": {
+        "exitCode": 2,
+        "testsStarted": false,
+        "log": "lazy-pr-menu-lifetime-format-failure.log",
+        "reason": "Removed a trailing render-call comma from the new fixture arrow expression. No production change was needed."
+      },
+      "validationNotes": [
+        "The strict lint failure was a test describe callback with 101 lines. Split the new lifetime case into its own describe group. All final checks pass.",
+        "After browser QA, only a new hydration lifetime test was added. Every source file recorded for those browser runs remains byte-identical. The final rebuild must match the QA asset tree exactly.",
+        "Desktop expected-case count was 24. Source inventory contains 26 cases and matches every actual pass. The initial count-guard failure and its corrected receipt both remain preserved."
+      ],
+      "qaReceipts": [
+        "lazy-pr-menu-desktop-corrected-receipt.json",
+        "lazy-pr-menu-phone-receipt.json"
+      ],
+      "qaAssetsSha256": "deb30ccdac941176ac1e58d0bd627b27dedacac16a0c7ae3cdc7f232dda37e91",
+      "root": "/tmp/kandev-perf-delivery-5936a872",
+      "assetsSha256": "deb30ccdac941176ac1e58d0bd627b27dedacac16a0c7ae3cdc7f232dda37e91",
+      "assetFiles": 1253,
+      "gzipSiblingsVerified": 552,
+      "build": {
+        "handle": 12829,
+        "exitCode": 0,
+        "log": "lazy-pr-menu-final-production-build.log",
+        "logSha256": "9319e8a8e5d70cb1fff4c803823dc2feaf26c41abcc61e4b352960ddd63fcef4"
+      },
+      "baselineAssetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+      "generatedMetadataUnchanged": true,
+      "buildEnv": {
+        "KANDEV_I18N_BUNDLE_PSEUDO": "1"
+      }
+    },
+    "initialBuild": {
+      "recordedAt": "2026-10-27T13:11:54.336Z",
+      "sourceParent": "20fa4f687e4a57a5193b90edb6cd2cd806978044",
+      "scope": "Mount PR unlink and hydration hooks inside the existing context-menu content. Announce open before paint once per content mount. Preserve menu DOM, CSS, controls, motion, actions, workspace guards and pending-mutation completion.",
+      "sourceFiles": [
+        {
+          "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+          "sha256": "6ce2652db1e4bd74f2a6dc4473e0239155af8816cce3436f6073fbaeb5650b3c"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+          "sha256": "47c9921c4772617fc3fff728a97086c8ee53d8ffd811c40daea4c9b70fe968b0"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+          "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+          "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+        },
+        {
+          "path": "apps/web/components/task/task-switcher-context-menu-pr-unlink.test.tsx",
+          "sha256": "ac106a1e612ebb7c4f1c1d9aaff7c53969d865be6b99de3ecb5bd7f3fde820b6"
+        },
+        {
+          "path": "apps/web/components/task/task-switcher-context-menu.tsx",
+          "sha256": "dc73ef93c0a773e1095e1734ad7d53d488ae2467ee3ae820502d686e35184d42"
+        },
+        {
+          "path": "apps/web/hooks/domains/github/use-task-pr-unlink.test.tsx",
+          "sha256": "a7a1651e150d8ff965ba3a1f218a568a06c86da9511226e44ab84d325ef8d36b"
+        },
+        {
+          "path": "apps/web/lib/state/app-state-types.ts",
+          "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+          "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/types.ts",
+          "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+          "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+        }
+      ],
+      "deletedSourceFiles": [
+        "apps/web/components/task/chat/transcript-scroll-persistence.test.ts",
+        "apps/web/components/task/chat/transcript-scroll-persistence.ts"
+      ],
+      "sourcePatchSha256": "aa8408959aaef28f10f0db5389d44d99d469ee7170c262e75080643ad4a162c9",
+      "generatedBefore": [
+        {
+          "path": "apps/web/generated/changelog.json",
+          "sha256": "8552e9fd1aa79fe07d0eaaa8d05179548ae1c5555b3206a2842c09cec4bfdd43"
+        },
+        {
+          "path": "apps/web/generated/release-notes.json",
+          "sha256": "3391126f01051873eebb779dece251225037923b7e96794855a11af2135c0a37"
+        }
+      ],
+      "checks": [
+        {
+          "name": "red",
+          "handle": 10350,
+          "exitCode": 1,
+          "log": "lazy-pr-menu-red.log",
+          "logSha256": "0bb945f7eadd9c82ea1ef358e6d73420d7e51fceb95acf55f034b1e957578a25"
+        },
+        {
+          "name": "green",
+          "handle": 34301,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-green.log",
+          "logSha256": "bbfed460e59c782f85c72a109930af93f7cea9db56ea26e13b048e11d104e440"
+        },
+        {
+          "name": "lifetime-red",
+          "handle": 16856,
+          "exitCode": 1,
+          "log": "lazy-pr-menu-lifetime-red.log",
+          "logSha256": "add1df6bbae5f27c3995c97b8107b6e5312fcee506e5042b41236d44a2129a72"
+        },
+        {
+          "name": "related",
+          "handle": 95252,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-related.log",
+          "logSha256": "0537a8cc2120442e028ca67b2ef2dad848c8cab004aaef697f2e0cd6423599a4"
+        },
+        {
+          "name": "lint",
+          "handle": 89886,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-lint.log",
+          "logSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+        },
+        {
+          "name": "types",
+          "handle": 64202,
+          "exitCode": 0,
+          "log": "lazy-pr-menu-types.log",
+          "logSha256": "369ea74c64e1df20db8b8a6bcf59b9433ca7a9303c5057308182163b3818b5a6"
+        }
+      ],
+      "units": {
+        "tests": 182,
+        "files": 23,
+        "newTests": 3,
+        "closedMenuRed": "PR hook called once while no menu is mounted.",
+        "callbackLifetimeRed": "Replacement onOpenChange called during an already-open menu rerender.",
+        "pendingUnlink": "Accepted mutation completes and clears shared pending state after initiator unmount."
+      },
+      "pretestFormattingFailure": {
+        "exitCode": 2,
+        "testsStarted": false,
+        "log": "lazy-pr-menu-lifetime-format-failure.log",
+        "reason": "Removed a trailing render-call comma from the new fixture arrow expression. No production change was needed."
+      },
+      "root": "/tmp/kandev-perf-delivery-5936a872",
+      "assetsSha256": "deb30ccdac941176ac1e58d0bd627b27dedacac16a0c7ae3cdc7f232dda37e91",
+      "assetFiles": 1253,
+      "gzipSiblingsVerified": 552,
+      "build": {
+        "handle": 6013,
+        "exitCode": 0,
+        "log": "lazy-pr-menu-production-build.log",
+        "logSha256": "538dac628da3e8831434aa98a64f5cda781a814bed522ab9765ebd2be2b51af3"
+      },
+      "baselineAssetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+      "generatedMetadataUnchanged": true,
+      "buildEnv": {
+        "KANDEV_I18N_BUNDLE_PSEUDO": "1"
+      }
+    },
+    "desktop": {
+      "recordedAt": "2026-10-27T13:18:42.050302+00:00",
+      "name": "lazy-pr-menu-desktop",
+      "project": "chromium",
+      "handle": 31621,
+      "exitCode": 0,
+      "expectedChecks": 26,
+      "passed": 26,
+      "status": "passed",
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": "kandev-run.e2e.FxmXHQwZ.log",
+      "logSha256": "d212987c9068d29003df6d75255a2005e072b8030245b2a217441fe5ba6d4ccc",
+      "results": "lazy-pr-menu-desktop-results",
+      "workerRoots": [
+        "/tmp/kandev-e2e-0-ChkARf",
+        "/tmp/kandev-e2e-1-vMDKsV"
+      ],
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "sourceFilesVerified": 11,
+      "harnessFilesVerified": 1956,
+      "sourcePatchSha256": "aa8408959aaef28f10f0db5389d44d99d469ee7170c262e75080643ad4a162c9",
+      "assetsSha256": "deb30ccdac941176ac1e58d0bd627b27dedacac16a0c7ae3cdc7f232dda37e91",
+      "runtimeAndPluginFilesVerified": true,
+      "declaredExpectedChecks": 24,
+      "countCorrection": {
+        "originalReceipt": "lazy-pr-menu-desktop-receipt.json",
+        "originalReceiptSha256": "524fd622f05c01c78031680bf9912536c63896aedf8e0487cae04803094d1349",
+        "originalAuditExitCode": 1,
+        "inventory": "lazy-pr-menu-desktop-inventory-receipt.json",
+        "inventoryCount": 26,
+        "actualPassedCaseIdsMatchInventory": true,
+        "reason": "The workspace isolation spec contains three tests, not one. All 26 actual passed cases exactly match the unchanged source inventory. Original count-guard failure remains preserved."
+      }
+    },
+    "phone": {
+      "recordedAt": "2026-10-27T13:20:19.443989+00:00",
+      "name": "lazy-pr-menu-phone",
+      "project": "mobile-chrome",
+      "handle": 15169,
+      "exitCode": 0,
+      "expectedChecks": 9,
+      "passed": 9,
+      "status": "passed",
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": "kandev-run.e2e.e40juRYd.log",
+      "logSha256": "1cd16beb855b75f796a96477009e8e69d5e208b4b8d471099070abe87bb9c570",
+      "results": "lazy-pr-menu-phone-results",
+      "workerRoots": [
+        "/tmp/kandev-e2e-0-cOvhiI",
+        "/tmp/kandev-e2e-1-GDUGxy"
+      ],
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "sourceFilesVerified": 11,
+      "harnessFilesVerified": 1956,
+      "sourcePatchSha256": "aa8408959aaef28f10f0db5389d44d99d469ee7170c262e75080643ad4a162c9",
+      "assetsSha256": "deb30ccdac941176ac1e58d0bd627b27dedacac16a0c7ae3cdc7f232dda37e91",
+      "runtimeAndPluginFilesVerified": true
+    },
+    "originalDesktopCountGuardFailure": {
+      "recordedAt": "2026-10-27T13:16:26.739539+00:00",
+      "name": "lazy-pr-menu-desktop",
+      "project": "chromium",
+      "handle": 31621,
+      "exitCode": 0,
+      "expectedChecks": 24,
+      "passed": 26,
+      "status": "failed",
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "log": "kandev-run.e2e.FxmXHQwZ.log",
+      "logSha256": "d212987c9068d29003df6d75255a2005e072b8030245b2a217441fe5ba6d4ccc",
+      "results": "lazy-pr-menu-desktop-results",
+      "workerRoots": [
+        "/tmp/kandev-e2e-0-ChkARf",
+        "/tmp/kandev-e2e-1-vMDKsV"
+      ],
+      "workerRootsRemoved": true,
+      "remainingOwnedProcesses": [],
+      "sourceFilesVerified": 11,
+      "harnessFilesVerified": 1956,
+      "sourcePatchSha256": "aa8408959aaef28f10f0db5389d44d99d469ee7170c262e75080643ad4a162c9",
+      "assetsSha256": "deb30ccdac941176ac1e58d0bd627b27dedacac16a0c7ae3cdc7f232dda37e91",
+      "runtimeAndPluginFilesVerified": true
+    },
+    "desktopCountGuardAuditExitCode": 1,
+    "desktopSourceInventory": {
+      "recordedAt": "2026-10-27T13:18:42.050302+00:00",
+      "case": "desktop",
+      "kind": "read-only Playwright test inventory",
+      "handle": 3771,
+      "exitCode": 0,
+      "count": 26,
+      "cases": [
+        "task/office-sidebar-nest-task.spec.ts:11:7 \u203a Office sidebar Nest under \u203a nests an Office parent under another Office task",
+        "task/pr-unlink-sidebar-menu.spec.ts:11:7 \u203a Sidebar task PR unlink menu \u203a unlinks the selected association from the row Edit submenu",
+        "task/sidebar-delete-confirm.spec.ts:11:7 \u203a Task sidebar \u2014 delete shows confirmation \u203a clicking Delete in sidebar menu shows confirm dialog and does not delete until confirmed",
+        "task/sidebar-immediate-archive.spec.ts:4:5 \u203a sidebar shows archive progress before removal and recovers on failure",
+        "task/sidebar-multi-select.spec.ts:109:7 \u203a Sidebar cmd/shift multi-select \u203a plain click toggles while a selection is active",
+        "task/sidebar-multi-select.spec.ts:124:7 \u203a Sidebar cmd/shift multi-select \u203a Escape clears the selection",
+        "task/sidebar-multi-select.spec.ts:138:7 \u203a Sidebar selection-aware context menu \u203a right-clicking a selected row archives the whole selection",
+        "task/sidebar-multi-select.spec.ts:167:7 \u203a Sidebar selection-aware context menu \u203a multi-selection menu offers only bulk-valid actions",
+        "task/sidebar-multi-select.spec.ts:193:7 \u203a Sidebar selection-aware context menu \u203a bulk Delete prompts for the selection and removes the rows",
+        "task/sidebar-multi-select.spec.ts:223:7 \u203a Sidebar selection-aware context menu \u203a bulk Pin pins all selected rows",
+        "task/sidebar-multi-select.spec.ts:259:7 \u203a Sidebar selection-aware context menu \u203a right-clicking an unselected row acts on that row only",
+        "task/sidebar-multi-select.spec.ts:46:7 \u203a Sidebar cmd/shift multi-select \u203a cmd-click selects a row without navigating",
+        "task/sidebar-multi-select.spec.ts:57:7 \u203a Sidebar cmd/shift multi-select \u203a cmd-click toggles multiple rows in and out",
+        "task/sidebar-multi-select.spec.ts:71:7 \u203a Sidebar cmd/shift multi-select \u203a shift-click selects a contiguous range of visible rows",
+        "task/sidebar-multi-select.spec.ts:97:7 \u203a Sidebar cmd/shift multi-select \u203a plain click navigates when nothing is selected",
+        "task/sidebar-nest-task.spec.ts:12:7 \u203a Sidebar \u2014 nest / un-nest a task \u203a nests a task under another via the dots menu, then un-nests it",
+        "task/sidebar-send-to-workflow.spec.ts:6:7 \u203a Task sidebar send to workflow \u203a right-click sends a sidebar task to another workflow without navigation",
+        "task/sidebar-task-color-sync.spec.ts:6:7 \u203a Sidebar personal task colors \u203a imports legacy colors on direct task startup and preserves existing colors",
+        "task/sidebar-task-color-sync.spec.ts:72:7 \u203a Sidebar personal task colors \u203a saves a manual color and restores it after a reload",
+        "task/task-menu-grouping.spec.ts:5:7 \u203a Desktop task-row menu grouping \u203a orders the groups and persists a priority choice",
+        "task/task-switch-efficiency.spec.ts:15:7 \u203a progressive task navigation \u203a reveals the selected desktop task while optional session enrichment is held",
+        "task/task-switch-efficiency.spec.ts:164:7 \u203a progressive task navigation \u203a shares unconfigured integration health across desktop task consumers",
+        "task/task-switch-efficiency.spec.ts:75:7 \u203a progressive task navigation \u203a keeps the destination available while PR feedback is held and refreshes its checks",
+        "task/workspace-switch-sidebar-isolation.spec.ts:144:7 \u203a Sidebar \u2014 cross-workspace isolation \u203a writes the port-scoped workspace cookie and preserves the legacy name",
+        "task/workspace-switch-sidebar-isolation.spec.ts:193:7 \u203a Sidebar \u2014 cross-workspace isolation \u203a creates only in the selected workspace after switching from an open task",
+        "task/workspace-switch-sidebar-isolation.spec.ts:47:7 \u203a Sidebar \u2014 cross-workspace isolation \u203a tasks from the previous workspace do not leak after switching"
+      ],
+      "log": "lazy-pr-menu-desktop-inventory-logs/kandev-run.e2e.z1mYTexN.log",
+      "logSha256": "2c65345dcb70da8f19ab97108cfad55c6fd22136a8000425b81e0df5154171e7",
+      "sourceFilesVerified": [
+        {
+          "path": "e2e/tests/task/pr-unlink-sidebar-menu.spec.ts",
+          "sha256": "afd11d093a7e0d02d0f0f3706150a896f86b7bac781c51312b172fac8800a7cf"
+        },
+        {
+          "path": "e2e/tests/task/sidebar-nest-task.spec.ts",
+          "sha256": "2ad581ce7bd37f338bef835ea82968466fc6187fd4ac42cddd9caf8fb9afaeea"
+        },
+        {
+          "path": "e2e/tests/task/office-sidebar-nest-task.spec.ts",
+          "sha256": "9cb221b48a49c3059cf76f5847189e0087bec0ca3413cba4c839ad8a0117c201"
+        },
+        {
+          "path": "e2e/tests/task/task-menu-grouping.spec.ts",
+          "sha256": "5347d1cb882aecd27e0ec06f932770c184cb2c2ec565a850c9234cbd9d38210d"
+        },
+        {
+          "path": "e2e/tests/task/sidebar-multi-select.spec.ts",
+          "sha256": "c1029825b784811e2a3af3e9ed1e61d03181a02f168adbcaaed49ec2cfd226f6"
+        },
+        {
+          "path": "e2e/tests/task/sidebar-immediate-archive.spec.ts",
+          "sha256": "c99d49e349c2d99b14afaf68b8a03f9003140bead7e9b73add8f3a7265942e69"
+        },
+        {
+          "path": "e2e/tests/task/sidebar-delete-confirm.spec.ts",
+          "sha256": "2d6fc10ba4777878b854a1a1a29d14687b97a7d6b8647f3519fd6314cc80613a"
+        },
+        {
+          "path": "e2e/tests/task/sidebar-task-color-sync.spec.ts",
+          "sha256": "78e02b50de33927abb36228d406f46ea182755bcfe00b23b493288bc23ddb711"
+        },
+        {
+          "path": "e2e/tests/task/sidebar-send-to-workflow.spec.ts",
+          "sha256": "f6007bb492d90352909a6b573102d044931b142f741624e86b8415e248c5c173"
+        },
+        {
+          "path": "e2e/tests/task/workspace-switch-sidebar-isolation.spec.ts",
+          "sha256": "cda81899c0b7dec364fa56971d88bd57deee4319e23934c9e58276ea71b92981"
+        },
+        {
+          "path": "e2e/tests/task/task-switch-efficiency.spec.ts",
+          "sha256": "3709b9a52bce2f80e4ac07b8af9129949f69bcbb47df12fad997a6d3b59e8520"
+        }
+      ],
+      "sourceHarnnessFilesMatchRecordedQA": true,
+      "browserStarted": false,
+      "actualPassedCaseIdsMatchInventory": true
+    },
+    "phoneSourceInventory": {
+      "recordedAt": "2026-10-27T13:18:52.204942+00:00",
+      "case": "phone",
+      "kind": "read-only Playwright test inventory",
+      "handle": 34932,
+      "exitCode": 0,
+      "count": 9,
+      "cases": [
+        "task/mobile-office-sidebar-nest-task.spec.ts:12:7 \u203a Mobile Office sidebar Nest under \u203a nests an Office parent under another Office task",
+        "task/mobile-pr-unlink-sidebar-menu.spec.ts:12:7 \u203a Mobile sidebar task PR unlink menu \u203a unlinks the selected association from the task row actions",
+        "task/mobile-sidebar-immediate-archive.spec.ts:4:5 \u203a phone picker shows archive progress and restores failed archive",
+        "task/mobile-sidebar-immediate-delete.spec.ts:4:5 \u203a delete shows a busy row, recovers on failure, and removes on success",
+        "task/mobile-sidebar-task-color-sync.spec.ts:5:7 \u203a Mobile sidebar personal task colors \u203a displays the server-backed manual color in the drawer after reload",
+        "task/mobile-task-switch-efficiency.spec.ts:191:7 \u203a mobile progressive task navigation \u203a shares unconfigured integration health across mobile task consumers",
+        "task/mobile-task-switch-efficiency.spec.ts:23:7 \u203a mobile progressive task navigation \u203a reveals the selected task while optional session enrichment is held",
+        "task/mobile-task-switch-efficiency.spec.ts:88:7 \u203a mobile progressive task navigation \u203a keeps the destination available while mobile PR feedback is held and refreshes checks",
+        "task/mobile-workspace-switch-sidebar-isolation.spec.ts:7:5 \u203a mobile creates in the selected workspace after leaving an open task"
+      ],
+      "log": "lazy-pr-menu-phone-inventory-logs/kandev-run.e2e.Bpwjynhu.log",
+      "logSha256": "394599e8691d8eb845f5c87014f7e4650663339e32ea629273cf6c3f53fcc14c",
+      "sourceFilesVerified": [
+        {
+          "path": "e2e/tests/task/mobile-pr-unlink-sidebar-menu.spec.ts",
+          "sha256": "ed4f15bd2ebdc61755de71917b2fa28878f92c503d3780c385a6a388855798dd"
+        },
+        {
+          "path": "e2e/tests/task/mobile-office-sidebar-nest-task.spec.ts",
+          "sha256": "726649094b0210ff5542884b8cf62c0b1e8bce31e594bd0d7489a80ee8da729e"
+        },
+        {
+          "path": "e2e/tests/task/mobile-sidebar-immediate-archive.spec.ts",
+          "sha256": "0551504ac32f27e9d05e1ce661d8bd5fade4df8ae7566c6ab868fd442e8f96d9"
+        },
+        {
+          "path": "e2e/tests/task/mobile-sidebar-immediate-delete.spec.ts",
+          "sha256": "f46d4ee76e7f21916d15cd93a7d66548ff86f1a077bca5074a8f0df1850976bc"
+        },
+        {
+          "path": "e2e/tests/task/mobile-sidebar-task-color-sync.spec.ts",
+          "sha256": "ce18f5202d9ee3e855368acf44a42dc9d5c5351a2df91cd9064fdf8770bb681b"
+        },
+        {
+          "path": "e2e/tests/task/mobile-workspace-switch-sidebar-isolation.spec.ts",
+          "sha256": "31cb6d3cde892f95d5d6c026f4caf42ae90fc392f856caf8b4fb8644dfad401a"
+        },
+        {
+          "path": "e2e/tests/task/mobile-task-switch-efficiency.spec.ts",
+          "sha256": "414608cc9b84d41987e6bb02f89c77180934e25d2f5bc976e7ac72453e954ebc"
+        }
+      ],
+      "sourceHarnnessFilesMatchRecordedQA": true,
+      "browserStarted": false
+    },
+    "inventoryPathPreflightFailure": {
+      "recordedAt": "2026-10-27T13:17:49.742714+00:00",
+      "exitCode": 1,
+      "status": "failed before listing tests",
+      "reason": "Resolved web-relative spec paths against the repository root. Correct root is apps/web.",
+      "browserOrTestStarted": false,
+      "sourceSha256": "5293d411e0b29890786dc37fae339bd1a38a4bc6013e21ea767bd50c2772c5ff",
+      "priorResultsPreserved": true
+    },
+    "originalCountAndPathFailuresPreserved": true,
+    "finalDesktopAndPhoneCases": 35,
+    "finalUnitTests": 183,
+    "finalUnitFiles": 23,
+    "newUnitTests": 4,
+    "visualVerification": "Menu DOM, CSS, icons and motion are unchanged in source. Real menu actions, phone target bounds and no-horizontal-overflow checks pass. Captures remain preserved. No new pixel-equivalence or animation-panel inspection is claimed."
+  },
+  "comparison": {
+    "report": "matched-dense-1793107644733.json",
+    "reportSha256": "eda9df3aa869b99fe7bce17cc2e435a0672a7a9f90b67a9aad8f54e65f72940e",
+    "audit": {
+      "recordedAt": "2026-10-27T13:42:18.308617+00:00",
+      "report": "matched-dense-1793107644733.json",
+      "reportSha256": "eda9df3aa869b99fe7bce17cc2e435a0672a7a9f90b67a9aad8f54e65f72940e",
+      "measurementKind": "reference-workload",
+      "sourceRevision": "20fa4f687e4a57a5193b90edb6cd2cd806978044",
+      "productionRevision": "20fa4f687e4a57a5193b90edb6cd2cd806978044",
+      "sourcePatchSha256": "7a339217f97bd4ebf99b01359b92dde05723aedaf5fd8d4e36ae16ec431de9eb",
+      "harnessSha256": "bb030173237f664ddda3686fd7306b01554f07920d4f3ebe51f4999679e1eaa8",
+      "harnessFilesVerified": 1956,
+      "testedSourceFilesVerified": 12,
+      "experimentalProductionFilesVerified": 0,
+      "untrackedFilesVerified": 0,
+      "assetsHelpersLockfilesAndPackagedFixturesVerified": true,
+      "playwrightAttachmentByteMatches": true,
+      "resultAndLogArchivesByteVerified": true,
+      "backendLogsVerified": 4,
+      "mainHandle": 78972,
+      "mainExitCode": 0,
+      "samplerHandle": 82704,
+      "samplerExitCode": 0,
+      "completeSamples": 4,
+      "verifiedOrderedUpdates": 7200,
+      "allAttemptsPassed": true,
+      "error": null,
+      "newWorkerRoots": [
+        "/tmp/kandev-e2e-0-Ob49A0"
+      ],
+      "newWorkerRootsRemoved": true,
+      "savedFixtureRoot": "/tmp/kandev-e2e-0-nMsIqR",
+      "savedFixturePreserved": true,
+      "sourceReportAndSnapshotUnchanged": true,
+      "sampleNamespace": "replay-1793107644733-",
+      "remainingOwnedProcesses": [],
+      "initialLoadedHistory": [
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ]
+      ],
+      "finalLoadedHistory": [
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ],
+        [
+          {
+            "sessionId": "b5c647cc-e08c-4c55-a743-eb3bca14725b",
+            "messages": 100
+          },
+          {
+            "sessionId": "7290d1c3-9183-4700-9764-2680acc190fb",
+            "messages": 100
+          },
+          {
+            "sessionId": "befa6d96-265a-4837-8fd7-f0f2ab28cacd",
+            "messages": 100
+          },
+          {
+            "sessionId": "fc8101c1-99d9-40e0-9f98-69f2196a7598",
+            "messages": 100
+          },
+          {
+            "sessionId": "e218a9c8-67a4-4166-aed0-d45985e611cf",
+            "messages": 100
+          },
+          {
+            "sessionId": "c93010ac-d43b-4298-b436-7cba7a649882",
+            "messages": 100
+          }
+        ]
+      ],
+      "artifacts": [
+        {
+          "path": "matched-dense-1793107644733.json",
+          "sha256": "eda9df3aa869b99fe7bce17cc2e435a0672a7a9f90b67a9aad8f54e65f72940e"
+        },
+        {
+          "path": "matched-dense-1793107644733.json.backend.log",
+          "sha256": "c2e1078de7bb38b791c3ec891eb60fe5a513b246be9e132c6054745076b02d89"
+        },
+        {
+          "path": "matched-dense-1793107644733.json.baseline-1x-0.backend.log",
+          "sha256": "164cb8107813a25beba8192c9e9933be1b7b941d34841db8bd99164926cff68e"
+        },
+        {
+          "path": "matched-dense-1793107644733.json.baseline-1x-1.backend.log",
+          "sha256": "c2e1078de7bb38b791c3ec891eb60fe5a513b246be9e132c6054745076b02d89"
+        },
+        {
+          "path": "matched-dense-1793107644733.json.candidate-1x-0.backend.log",
+          "sha256": "c44d74675e2996778ad4afdc12479aaf94e00a847b7c31d9ebc9271dfdf19e6d"
+        },
+        {
+          "path": "matched-dense-1793107644733.json.candidate-1x-1.backend.log",
+          "sha256": "4b9775c8547e2228742d7eab311c065095c706edb2ffed18d851b6faa54220f1"
+        }
+      ]
+    },
+    "auditHandle": 20512,
+    "auditExitCode": 0,
+    "summaryAndAnalysisExitCode": 0,
+    "summaryRows": 70,
+    "summarySha256": "0bef8a50c2bffc32c4d14ff1d646a220125d9800a47ab01138d91ddd5502d03c",
+    "allSummaryRows": [
+      {
+        "group": "1x/cold",
+        "metric": "readyMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 14923.499390499983,
+          "min": 14397.138189999969,
+          "max": 15449.860590999997,
+          "values": [
+            15449.860590999997,
+            14397.138189999969
+          ]
+        },
+        "candidate": {
+          "median": 17220.476102999994,
+          "min": 15054.837173999986,
+          "max": 19386.115032,
+          "values": [
+            19386.115032,
+            15054.837173999986
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -3936.2544410000046,
+          -657.6989840000169
+        ],
+        "pairedPercentReduction": [
+          -25.477604913101867,
+          -4.5682619373400515
+        ],
+        "medianPairedPercentReduction": -15.022933425220959
+      },
+      {
+        "group": "1x/cold",
+        "metric": "documentMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 8642.378059500003,
+          "min": 8273.778315000003,
+          "max": 9010.977804000002,
+          "values": [
+            9010.977804000002,
+            8273.778315000003
+          ]
+        },
+        "candidate": {
+          "median": 10989.297013000003,
+          "min": 8869.929602999997,
+          "max": 13108.66442300001,
+          "values": [
+            13108.66442300001,
+            8869.929602999997
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -4097.686619000007,
+          -596.1512879999937
+        ],
+        "pairedPercentReduction": [
+          -45.47438366989464,
+          -7.205308932669819
+        ],
+        "medianPairedPercentReduction": -26.33984630128223
+      },
+      {
+        "group": "1x/cold",
+        "metric": "assetEncodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 4165573,
+          "min": 4165573,
+          "max": 4165573,
+          "values": [
+            4165573,
+            4165573
+          ]
+        },
+        "candidate": {
+          "median": 4165598,
+          "min": 4165598,
+          "max": 4165598,
+          "values": [
+            4165598,
+            4165598
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -25,
+          -25
+        ],
+        "pairedPercentReduction": [
+          -0.0006001575293483033,
+          -0.0006001575293483033
+        ],
+        "medianPairedPercentReduction": -0.0006001575293483033
+      },
+      {
+        "group": "1x/cold",
+        "metric": "assetDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 14688615,
+          "min": 14688615,
+          "max": 14688615,
+          "values": [
+            14688615,
+            14688615
+          ]
+        },
+        "candidate": {
+          "median": 14688751,
+          "min": 14688751,
+          "max": 14688751,
+          "values": [
+            14688751,
+            14688751
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -136,
+          -136
+        ],
+        "pairedPercentReduction": [
+          -0.0009258871581833958,
+          -0.0009258871581833958
+        ],
+        "medianPairedPercentReduction": -0.0009258871581833958
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60042.381047999996,
+          "min": 60033.218419000004,
+          "max": 60051.54367699998,
+          "values": [
+            60033.218419000004,
+            60051.54367699998
+          ]
+        },
+        "candidate": {
+          "median": 60047.63432049999,
+          "min": 60045.426377000054,
+          "max": 60049.84226399992,
+          "values": [
+            60045.426377000054,
+            60049.84226399992
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -12.207958000049985,
+          1.701413000060711
+        ],
+        "pairedPercentReduction": [
+          -0.02033533820366737,
+          0.0028332543942785606
+        ],
+        "medianPairedPercentReduction": -0.008751041904694404
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 24874.267999999996,
+          "min": 24643.438,
+          "max": 25105.097999999998,
+          "values": [
+            25105.097999999998,
+            24643.438
+          ]
+        },
+        "candidate": {
+          "median": 24653.939,
+          "min": 24633.578999999998,
+          "max": 24674.299,
+          "values": [
+            24633.578999999998,
+            24674.299
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          471.51900000000023,
+          -30.861000000000786
+        ],
+        "pairedPercentReduction": [
+          1.8781802803558076,
+          -0.1252300916779582
+        ],
+        "medianPairedPercentReduction": 0.8764750943389247
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 414.27910369937615,
+          "min": 410.37143245725673,
+          "max": 418.18677494149557,
+          "values": [
+            418.18677494149557,
+            410.37143245725673
+          ]
+        },
+        "candidate": {
+          "median": 410.5730153016447,
+          "min": 410.2490478681271,
+          "max": 410.89698273516234,
+          "values": [
+            410.2490478681271,
+            410.89698273516234
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          7.937727073368478,
+          -0.5255502779056087
+        ],
+        "pairedPercentReduction": [
+          1.8981296274802013,
+          -0.12806697453540428
+        ],
+        "medianPairedPercentReduction": 0.8850313264723986
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 24995.019,
+          "min": 24790.358,
+          "max": 25199.679999999997,
+          "values": [
+            25199.679999999997,
+            24790.358
+          ]
+        },
+        "candidate": {
+          "median": 24750.033,
+          "min": 24701.089,
+          "max": 24798.977,
+          "values": [
+            24701.089,
+            24798.977
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          498.5909999999967,
+          -8.618999999998778
+        ],
+        "pairedPercentReduction": [
+          1.9785608388677824,
+          -0.03476754954486247
+        ],
+        "medianPairedPercentReduction": 0.97189664466146
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 35725,
+          "min": 35140,
+          "max": 36310,
+          "values": [
+            36310,
+            35140
+          ]
+        },
+        "candidate": {
+          "median": 35080,
+          "min": 35019.99999999999,
+          "max": 35140,
+          "values": [
+            35140,
+            35019.99999999999
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          1170,
+          120.00000000000728
+        ],
+        "pairedPercentReduction": [
+          3.2222528229137977,
+          0.3414911781445853
+        ],
+        "medianPairedPercentReduction": 1.7818720005291915
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 11806.787,
+          "min": 11743.194000000001,
+          "max": 11870.380000000001,
+          "values": [
+            11870.380000000001,
+            11743.194000000001
+          ]
+        },
+        "candidate": {
+          "median": 12079.1705,
+          "min": 11846.396999999999,
+          "max": 12311.944,
+          "values": [
+            12311.944,
+            11846.396999999999
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -441.5639999999985,
+          -103.2029999999977
+        ],
+        "pairedPercentReduction": [
+          -3.7198809136691366,
+          -0.8788324539303165
+        ],
+        "medianPairedPercentReduction": -2.2993566837997266
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 2862.6985,
+          "min": 2844.876,
+          "max": 2880.5209999999997,
+          "values": [
+            2880.5209999999997,
+            2844.876
+          ]
+        },
+        "candidate": {
+          "median": 2801.2725,
+          "min": 2785.2259999999997,
+          "max": 2817.319,
+          "values": [
+            2785.2259999999997,
+            2817.319
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          95.29500000000007,
+          27.557000000000244
+        ],
+        "pairedPercentReduction": [
+          3.3082556940220216,
+          0.9686538183035127
+        ],
+        "medianPairedPercentReduction": 2.1384547561627674
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 142.5895,
+          "min": 133.177,
+          "max": 152.002,
+          "values": [
+            152.002,
+            133.177
+          ]
+        },
+        "candidate": {
+          "median": 143.08300000000003,
+          "min": 137.192,
+          "max": 148.97400000000002,
+          "values": [
+            137.192,
+            148.97400000000002
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          14.810000000000002,
+          -15.797000000000025
+        ],
+        "pairedPercentReduction": [
+          9.743292851409851,
+          -11.861657793763207
+        ],
+        "medianPairedPercentReduction": -1.059182471176678
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 3091.5,
+          "min": 3084,
+          "max": 3099,
+          "values": [
+            3084,
+            3099
+          ]
+        },
+        "candidate": {
+          "median": 3074.5,
+          "min": 3058,
+          "max": 3091,
+          "values": [
+            3058,
+            3091
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          26,
+          8
+        ],
+        "pairedPercentReduction": [
+          0.8430609597924773,
+          0.2581477896095515
+        ],
+        "medianPairedPercentReduction": 0.5506043747010144
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 310.5,
+          "min": 308,
+          "max": 313,
+          "values": [
+            308,
+            313
+          ]
+        },
+        "candidate": {
+          "median": 308,
+          "min": 304,
+          "max": 312,
+          "values": [
+            304,
+            312
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          4,
+          1
+        ],
+        "pairedPercentReduction": [
+          1.2987012987012987,
+          0.3194888178913738
+        ],
+        "medianPairedPercentReduction": 0.8090950582963362
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 16.80000000000291,
+          "min": 16.80000000000291,
+          "max": 16.80000000000291,
+          "values": [
+            16.80000000000291,
+            16.80000000000291
+          ]
+        },
+        "candidate": {
+          "median": 16.80000000000291,
+          "min": 16.80000000000291,
+          "max": 16.80000000000291,
+          "values": [
+            16.80000000000291,
+            16.80000000000291
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 183.34999999999854,
+          "min": 183.29999999999563,
+          "max": 183.40000000000146,
+          "values": [
+            183.40000000000146,
+            183.29999999999563
+          ]
+        },
+        "candidate": {
+          "median": 191.60000000000218,
+          "min": 183.3000000000029,
+          "max": 199.90000000000146,
+          "values": [
+            199.90000000000146,
+            183.3000000000029
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -16.5,
+          -7.275957614183426e-12
+        ],
+        "pairedPercentReduction": [
+          -8.996728462377247,
+          -3.969425866985051e-12
+        ],
+        "medianPairedPercentReduction": -4.4983642311906085
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 96,
+          "min": 96,
+          "max": 96,
+          "values": [
+            96,
+            96
+          ]
+        },
+        "candidate": {
+          "median": 96,
+          "min": 96,
+          "max": 96,
+          "values": [
+            96,
+            96
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 8715.5,
+          "min": 8678,
+          "max": 8753,
+          "values": [
+            8753,
+            8678
+          ]
+        },
+        "candidate": {
+          "median": 8924.5,
+          "min": 8714,
+          "max": 9135,
+          "values": [
+            9135,
+            8714
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -382,
+          -36
+        ],
+        "pairedPercentReduction": [
+          -4.364217982406032,
+          -0.41484212952293154
+        ],
+        "medianPairedPercentReduction": -2.3895300559644816
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 24542,
+          "min": 24542,
+          "max": 24542,
+          "values": [
+            24542,
+            24542
+          ]
+        },
+        "candidate": {
+          "median": 24542,
+          "min": 24542,
+          "max": 24542,
+          "values": [
+            24542,
+            24542
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 60,
+          "min": 60,
+          "max": 60,
+          "values": [
+            60,
+            60
+          ]
+        },
+        "candidate": {
+          "median": 60,
+          "min": 60,
+          "max": 60,
+          "values": [
+            60,
+            60
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 67.5,
+          "min": 66,
+          "max": 69,
+          "values": [
+            69,
+            66
+          ]
+        },
+        "candidate": {
+          "median": 68.5,
+          "min": 68,
+          "max": 69,
+          "values": [
+            68,
+            69
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          1,
+          -3
+        ],
+        "pairedPercentReduction": [
+          1.4492753623188406,
+          -4.545454545454546
+        ],
+        "medianPairedPercentReduction": -1.5480895915678525
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 12260074.5,
+          "min": 11899546,
+          "max": 12620603,
+          "values": [
+            12620603,
+            11899546
+          ]
+        },
+        "candidate": {
+          "median": 12349934,
+          "min": 12259764,
+          "max": 12440104,
+          "values": [
+            12259764,
+            12440104
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          360839,
+          -540558
+        ],
+        "pairedPercentReduction": [
+          2.859126461707099,
+          -4.542677510553764
+        ],
+        "medianPairedPercentReduction": -0.8417755244233325
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 12611487,
+          "min": 12250992,
+          "max": 12971982,
+          "values": [
+            12971982,
+            12250992
+          ]
+        },
+        "candidate": {
+          "median": 12700730,
+          "min": 12610555,
+          "max": 12790905,
+          "values": [
+            12610555,
+            12790905
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          361427,
+          -539913
+        ],
+        "pairedPercentReduction": [
+          2.786212623483443,
+          -4.407096176374941
+        ],
+        "medianPairedPercentReduction": -0.8104417764457492
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-idle",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60515.00939950002,
+          "min": 60470.87820100004,
+          "max": 60559.140598,
+          "values": [
+            60559.140598,
+            60470.87820100004
+          ]
+        },
+        "candidate": {
+          "median": 60497.498849999974,
+          "min": 60491.66953099996,
+          "max": 60503.328168999986,
+          "values": [
+            60503.328168999986,
+            60491.66953099996
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          55.812429000012344,
+          -20.79132999991998
+        ],
+        "pairedPercentReduction": [
+          0.09216185772929476,
+          -0.034382384741976746
+        ],
+        "medianPairedPercentReduction": 0.02888973649365901
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 59652.79849999999,
+          "min": 59595.80999999999,
+          "max": 59709.78699999999,
+          "values": [
+            59709.78699999999,
+            59595.80999999999
+          ]
+        },
+        "candidate": {
+          "median": 59639.045,
+          "min": 59637.534999999996,
+          "max": 59640.555,
+          "values": [
+            59637.534999999996,
+            59640.555
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          72.25199999999313,
+          -44.745000000009895
+        ],
+        "pairedPercentReduction": [
+          0.12100528846300046,
+          -0.07508078168584319
+        ],
+        "medianPairedPercentReduction": 0.022962253388578636
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 985.7519524011756,
+          "min": 985.5290971946629,
+          "max": 985.9748076076883,
+          "values": [
+            985.9748076076883,
+            985.5290971946629
+          ]
+        },
+        "candidate": {
+          "median": 985.8101050936218,
+          "min": 985.6901563070775,
+          "max": 985.9300538801662,
+          "values": [
+            985.6901563070775,
+            985.9300538801662
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0.2846513006107898,
+          -0.40095668550327446
+        ],
+        "pairedPercentReduction": [
+          0.028870037896957135,
+          -0.04068440867394066
+        ],
+        "medianPairedPercentReduction": -0.005907185388491762
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 59766.240999999995,
+          "min": 59717.45399999999,
+          "max": 59815.028000000006,
+          "values": [
+            59815.028000000006,
+            59717.45399999999
+          ]
+        },
+        "candidate": {
+          "median": 59737.891,
+          "min": 59727.033,
+          "max": 59748.748999999996,
+          "values": [
+            59748.748999999996,
+            59727.033
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          66.27900000000955,
+          -9.579000000012456
+        ],
+        "pairedPercentReduction": [
+          0.11080660197970574,
+          -0.016040536490407743
+        ],
+        "medianPairedPercentReduction": 0.047383032744649
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 73735,
+          "min": 73609.99999999999,
+          "max": 73860.00000000001,
+          "values": [
+            73860.00000000001,
+            73609.99999999999
+          ]
+        },
+        "candidate": {
+          "median": 73840,
+          "min": 73810,
+          "max": 73870,
+          "values": [
+            73810,
+            73870
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          50.00000000001455,
+          -260.00000000001455
+        ],
+        "pairedPercentReduction": [
+          0.06769564040077788,
+          -0.35321287868498114
+        ],
+        "medianPairedPercentReduction": -0.14275861914210164
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 41056.839,
+          "min": 41012.74,
+          "max": 41100.938,
+          "values": [
+            41100.938,
+            41012.74
+          ]
+        },
+        "candidate": {
+          "median": 40674.4985,
+          "min": 40533.285,
+          "max": 40815.712,
+          "values": [
+            40533.285,
+            40815.712
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          567.6529999999984,
+          197.02799999999843
+        ],
+        "pairedPercentReduction": [
+          1.381119331145188,
+          0.4804068199296083
+        ],
+        "medianPairedPercentReduction": 0.9307630755373981
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 5211.9965,
+          "min": 5211.477,
+          "max": 5212.5160000000005,
+          "values": [
+            5212.5160000000005,
+            5211.477
+          ]
+        },
+        "candidate": {
+          "median": 5356.875,
+          "min": 5309.821000000001,
+          "max": 5403.929,
+          "values": [
+            5403.929,
+            5309.821000000001
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -191.41299999999956,
+          -98.34400000000096
+        ],
+        "pairedPercentReduction": [
+          -3.6721805746015845,
+          -1.8870657972778344
+        ],
+        "medianPairedPercentReduction": -2.7796231859397094
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 1056.9560000000001,
+          "min": 1053.4240000000002,
+          "max": 1060.4879999999998,
+          "values": [
+            1060.4879999999998,
+            1053.4240000000002
+          ]
+        },
+        "candidate": {
+          "median": 1057.397,
+          "min": 1057.172,
+          "max": 1057.6219999999998,
+          "values": [
+            1057.172,
+            1057.6219999999998
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          3.3159999999998035,
+          -4.197999999999638
+        ],
+        "pairedPercentReduction": [
+          0.31268623501631365,
+          -0.3985100016707078
+        ],
+        "medianPairedPercentReduction": -0.04291188332719709
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 3041.5,
+          "min": 3023,
+          "max": 3060,
+          "values": [
+            3060,
+            3023
+          ]
+        },
+        "candidate": {
+          "median": 3063.5,
+          "min": 3057,
+          "max": 3070,
+          "values": [
+            3070,
+            3057
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -10,
+          -34
+        ],
+        "pairedPercentReduction": [
+          -0.32679738562091504,
+          -1.1247105524313596
+        ],
+        "medianPairedPercentReduction": -0.7257539690261373
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 2378.5,
+          "min": 2370,
+          "max": 2387,
+          "values": [
+            2387,
+            2370
+          ]
+        },
+        "candidate": {
+          "median": 2381.5,
+          "min": 2371,
+          "max": 2392,
+          "values": [
+            2392,
+            2371
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -5,
+          -1
+        ],
+        "pairedPercentReduction": [
+          -0.20946795140343527,
+          -0.04219409282700422
+        ],
+        "medianPairedPercentReduction": -0.12583102211521974
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 133.3000000000029,
+          "min": 133.3000000000029,
+          "max": 133.3000000000029,
+          "values": [
+            133.3000000000029,
+            133.3000000000029
+          ]
+        },
+        "candidate": {
+          "median": 133.3000000000029,
+          "min": 133.3000000000029,
+          "max": 133.3000000000029,
+          "values": [
+            133.3000000000029,
+            133.3000000000029
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 166.70000000000437,
+          "min": 166.6999999999971,
+          "max": 166.70000000001164,
+          "values": [
+            166.6999999999971,
+            166.70000000001164
+          ]
+        },
+        "candidate": {
+          "median": 166.65000000000873,
+          "min": 166.60000000000582,
+          "max": 166.70000000001164,
+          "values": [
+            166.70000000001164,
+            166.60000000000582
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -1.4551915228366852e-11,
+          0.10000000000582077
+        ],
+        "pairedPercentReduction": [
+          -8.72940325636899e-12,
+          0.05998800240300767
+        ],
+        "medianPairedPercentReduction": 0.02999400119713913
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 1.5,
+          "min": 1,
+          "max": 2,
+          "values": [
+            2,
+            1
+          ]
+        },
+        "candidate": {
+          "median": 2,
+          "min": 2,
+          "max": 2,
+          "values": [
+            2,
+            2
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          -1
+        ],
+        "pairedPercentReduction": [
+          0,
+          -100
+        ],
+        "medianPairedPercentReduction": -50
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 79,
+          "min": 50,
+          "max": 108,
+          "values": [
+            108,
+            50
+          ]
+        },
+        "candidate": {
+          "median": 129.5,
+          "min": 116,
+          "max": 143,
+          "values": [
+            116,
+            143
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -8,
+          -93
+        ],
+        "pairedPercentReduction": [
+          -7.407407407407407,
+          -186
+        ],
+        "medianPairedPercentReduction": -96.70370370370371
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [
+            26378,
+            26378
+          ]
+        },
+        "candidate": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [
+            26378,
+            26378
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 61,
+          "min": 61,
+          "max": 61,
+          "values": [
+            61,
+            61
+          ]
+        },
+        "candidate": {
+          "median": 61,
+          "min": 61,
+          "max": 61,
+          "values": [
+            61,
+            61
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13264454.5,
+          "min": 13263379,
+          "max": 13265530,
+          "values": [
+            13265530,
+            13263379
+          ]
+        },
+        "candidate": {
+          "median": 13264906,
+          "min": 13264695,
+          "max": 13265117,
+          "values": [
+            13264695,
+            13265117
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          835,
+          -1738
+        ],
+        "pairedPercentReduction": [
+          0.006294509152668608,
+          -0.013103749806139145
+        ],
+        "medianPairedPercentReduction": -0.0034046203267352683
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 38762998,
+          "min": 38699066,
+          "max": 38826930,
+          "values": [
+            38699066,
+            38826930
+          ]
+        },
+        "candidate": {
+          "median": 38577504,
+          "min": 38462213,
+          "max": 38692795,
+          "values": [
+            38462213,
+            38692795
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          236853,
+          134135
+        ],
+        "pairedPercentReduction": [
+          0.6120380269642683,
+          0.34546898248200414
+        ],
+        "medianPairedPercentReduction": 0.47875350472313627
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-streaming",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 1856.5,
+          "min": 1851,
+          "max": 1862,
+          "values": [
+            1851,
+            1862
+          ]
+        },
+        "candidate": {
+          "median": 1841.5,
+          "min": 1831,
+          "max": 1852,
+          "values": [
+            1831,
+            1852
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          20,
+          10
+        ],
+        "pairedPercentReduction": [
+          1.0804970286331712,
+          0.5370569280343717
+        ],
+        "medianPairedPercentReduction": 0.8087769783337715
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "elapsedMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 60052.21210299998,
+          "min": 60032.69735599999,
+          "max": 60071.72684999998,
+          "values": [
+            60032.69735599999,
+            60071.72684999998
+          ]
+        },
+        "candidate": {
+          "median": 60048.814842500025,
+          "min": 60046.978022000054,
+          "max": 60050.651663,
+          "values": [
+            60050.651663,
+            60046.978022000054
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -17.954307000007248,
+          24.74882799992338
+        ],
+        "pairedPercentReduction": [
+          -0.02990754670498376,
+          0.04119879566925316
+        ],
+        "medianPairedPercentReduction": 0.005645624482134702
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 7705.255499999992,
+          "min": 7465.701999999993,
+          "max": 7944.808999999992,
+          "values": [
+            7465.701999999993,
+            7944.808999999992
+          ]
+        },
+        "candidate": {
+          "median": 7743.472499999996,
+          "min": 7692.9159999999965,
+          "max": 7794.028999999995,
+          "values": [
+            7692.9159999999965,
+            7794.028999999995
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -227.21400000000358,
+          150.77999999999702
+        ],
+        "pairedPercentReduction": [
+          -3.043437844157238,
+          1.8978429814989533
+        ],
+        "medianPairedPercentReduction": -0.5727974313291423
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadMsPerSecond",
+        "pairs": 2,
+        "baseline": {
+          "median": 128.307987296695,
+          "min": 124.36059562220939,
+          "max": 132.25537897118062,
+          "values": [
+            124.36059562220939,
+            132.25537897118062
+          ]
+        },
+        "candidate": {
+          "median": 128.95298723242988,
+          "min": 128.10711935604124,
+          "max": 129.79885510881851,
+          "values": [
+            128.10711935604124,
+            129.79885510881851
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -3.7465237338318502,
+          2.456523862362104
+        ],
+        "pairedPercentReduction": [
+          -3.0126292939391193,
+          1.857409416139814
+        ],
+        "medianPairedPercentReduction": -0.5776099388996526
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mainThreadCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 8011.404999999997,
+          "min": 7765.338999999997,
+          "max": 8257.470999999996,
+          "values": [
+            7765.338999999997,
+            8257.470999999996
+          ]
+        },
+        "candidate": {
+          "median": 8084.956000000013,
+          "min": 8037.487000000013,
+          "max": 8132.425000000012,
+          "values": [
+            8037.487000000013,
+            8132.425000000012
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -272.1480000000156,
+          125.0459999999839
+        ],
+        "pairedPercentReduction": [
+          -3.5046506018605976,
+          1.514337743359728
+        ],
+        "medianPairedPercentReduction": -0.9951564292504348
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "rendererCpuMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 13395.000000000004,
+          "min": 12860.000000000015,
+          "max": 13929.999999999993,
+          "values": [
+            12860.000000000015,
+            13929.999999999993
+          ]
+        },
+        "candidate": {
+          "median": 13170.00000000001,
+          "min": 13080.000000000013,
+          "max": 13260.000000000005,
+          "values": [
+            13080.000000000013,
+            13260.000000000005
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -219.99999999999818,
+          669.9999999999873
+        ],
+        "pairedPercentReduction": [
+          -1.7107309486780555,
+          4.809763101220298
+        ],
+        "medianPairedPercentReduction": 1.5495160762711213
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "scriptMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 2012.3165000000006,
+          "min": 1922.6469999999977,
+          "max": 2101.9860000000035,
+          "values": [
+            1922.6469999999977,
+            2101.9860000000035
+          ]
+        },
+        "candidate": {
+          "median": 2037.8555000000028,
+          "min": 2022.6910000000018,
+          "max": 2053.0200000000036,
+          "values": [
+            2022.6910000000018,
+            2053.0200000000036
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -100.04400000000419,
+          48.965999999999894
+        ],
+        "pairedPercentReduction": [
+          -5.203451283569179,
+          2.329511233661871
+        ],
+        "medianPairedPercentReduction": -1.4369700249536541
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "styleMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 23.07100000000073,
+          "min": 19.034000000001328,
+          "max": 27.108000000000132,
+          "values": [
+            19.034000000001328,
+            27.108000000000132
+          ]
+        },
+        "candidate": {
+          "median": 20.92900000000064,
+          "min": 20.16400000000118,
+          "max": 21.694000000000102,
+          "values": [
+            20.16400000000118,
+            21.694000000000102
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -1.1299999999998533,
+          5.41400000000003
+        ],
+        "pairedPercentReduction": [
+          -5.936744772511162,
+          19.971963995868393
+        ],
+        "medianPairedPercentReduction": 7.0176096116786155
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "layoutMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 170.59499999999994,
+          "min": 170.57199999999995,
+          "max": 170.61799999999994,
+          "values": [
+            170.61799999999994,
+            170.57199999999995
+          ]
+        },
+        "candidate": {
+          "median": 177.168,
+          "min": 169.21299999999982,
+          "max": 185.12300000000016,
+          "values": [
+            185.12300000000016,
+            169.21299999999982
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -14.505000000000223,
+          1.3590000000001226
+        ],
+        "pairedPercentReduction": [
+          -8.501447678439689,
+          0.7967309992262054
+        ],
+        "medianPairedPercentReduction": -3.852358339606742
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "styleRecalculations",
+        "pairs": 2,
+        "baseline": {
+          "median": 3.5,
+          "min": 3,
+          "max": 4,
+          "values": [
+            3,
+            4
+          ]
+        },
+        "candidate": {
+          "median": 4,
+          "min": 4,
+          "max": 4,
+          "values": [
+            4,
+            4
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -1,
+          0
+        ],
+        "pairedPercentReduction": [
+          -33.333333333333336,
+          0
+        ],
+        "medianPairedPercentReduction": -16.666666666666668
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "layouts",
+        "pairs": 2,
+        "baseline": {
+          "median": 359,
+          "min": 359,
+          "max": 359,
+          "values": [
+            359,
+            359
+          ]
+        },
+        "candidate": {
+          "median": 360,
+          "min": 359,
+          "max": 361,
+          "values": [
+            361,
+            359
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -2,
+          0
+        ],
+        "pairedPercentReduction": [
+          -0.5571030640668524,
+          0
+        ],
+        "medianPairedPercentReduction": -0.2785515320334262
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "frameGapP95Ms",
+        "pairs": 2,
+        "baseline": {
+          "median": 16.75,
+          "min": 16.70000000001164,
+          "max": 16.79999999998836,
+          "values": [
+            16.79999999998836,
+            16.70000000001164
+          ]
+        },
+        "candidate": {
+          "median": 16.75,
+          "min": 16.70000000001164,
+          "max": 16.79999999998836,
+          "values": [
+            16.79999999998836,
+            16.70000000001164
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "frameGapMaxMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 41.69999999998254,
+          "min": 33.29999999998836,
+          "max": 50.09999999997672,
+          "values": [
+            33.29999999998836,
+            50.09999999997672
+          ]
+        },
+        "candidate": {
+          "median": 58.30000000000291,
+          "min": 49.90000000002328,
+          "max": 66.69999999998254,
+          "values": [
+            66.69999999998254,
+            49.90000000002328
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          -33.39999999999418,
+          0.19999999995343387
+        ],
+        "pairedPercentReduction": [
+          -100.30030030031789,
+          0.39920159671362637
+        ],
+        "medianPairedPercentReduction": -49.95054935180213
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "longTasks",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "longTaskMs",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "domNodes",
+        "pairs": 2,
+        "baseline": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [
+            26378,
+            26378
+          ]
+        },
+        "candidate": {
+          "median": 26378,
+          "min": 26378,
+          "max": 26378,
+          "values": [
+            26378,
+            26378
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "mountedEditors",
+        "pairs": 2,
+        "baseline": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "candidate": {
+          "median": 6,
+          "min": 6,
+          "max": 6,
+          "values": [
+            6,
+            6
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "runningAnimations",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "historyRequests",
+        "pairs": 2,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "historyDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13535034.5,
+          "min": 13535001,
+          "max": 13535068,
+          "values": [
+            13535068,
+            13535001
+          ]
+        },
+        "candidate": {
+          "median": 13534630.5,
+          "min": 13534599,
+          "max": 13534662,
+          "values": [
+            13534599,
+            13534662
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          469,
+          339
+        ],
+        "pairedPercentReduction": [
+          0.0034650730975271053,
+          0.0025046174728764335
+        ],
+        "medianPairedPercentReduction": 0.002984845285201769
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "websocketDecodedBytes",
+        "pairs": 2,
+        "baseline": {
+          "median": 13563425.5,
+          "min": 13563393,
+          "max": 13563458,
+          "values": [
+            13563458,
+            13563393
+          ]
+        },
+        "candidate": {
+          "median": 13563018.5,
+          "min": 13562986,
+          "max": 13563051,
+          "values": [
+            13562986,
+            13563051
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          472,
+          342
+        ],
+        "pairedPercentReduction": [
+          0.00347993852305216,
+          0.002521492962712206
+        ],
+        "medianPairedPercentReduction": 0.003000715742882183
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "resets",
+        "pairs": 2,
+        "baseline": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "candidate": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "values": [
+            0,
+            0
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          null,
+          null
+        ],
+        "medianPairedPercentReduction": null
+      },
+      {
+        "group": "1x/scripted-scroll-v2-reduced-motion-idle",
+        "metric": "changedNotifications",
+        "pairs": 2,
+        "baseline": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "candidate": {
+          "median": 72,
+          "min": 72,
+          "max": 72,
+          "values": [
+            72,
+            72
+          ]
+        },
+        "pairedAbsoluteReduction": [
+          0,
+          0
+        ],
+        "pairedPercentReduction": [
+          0,
+          0
+        ],
+        "medianPairedPercentReduction": 0
+      }
+    ],
+    "normalizedWindows": [
+      {
+        "pair": 0,
+        "scenario": "idle",
+        "elapsedMs": {
+          "baseline": 60033.218419000004,
+          "candidate": 60045.426377000054
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 418.18677494149557,
+            "candidate": 410.2490478681271,
+            "reductionPercent": 1.8981296274802013
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 197.73019525874903,
+            "candidate": 205.04382669711535,
+            "reductionPercent": -3.6987934133154132
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 419.7622693509384,
+            "candidate": 411.37336330850945,
+            "reductionPercent": 1.9984897774162504
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 604.8318073932913,
+            "candidate": 585.2235902093637,
+            "reductionPercent": 3.2419289039105417
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 47.98211849805373,
+            "candidate": 46.3853147201043,
+            "reductionPercent": 3.327914289599786
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.531964868834896,
+            "candidate": 2.2848034942516513,
+            "reductionPercent": 9.76164312646952
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.130492885627478,
+            "candidate": 5.062833563564217,
+            "reductionPercent": 1.3187684608783221
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 51.3715586340102,
+            "candidate": 50.928108675590046,
+            "reductionPercent": 0.8632207591353285
+          }
+        }
+      },
+      {
+        "pair": 0,
+        "scenario": "streaming",
+        "elapsedMs": {
+          "baseline": 60559.140598,
+          "candidate": 60503.328168999986
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 985.9748076076883,
+            "candidate": 985.6901563070775,
+            "reductionPercent": 0.028870037896957135
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 678.6909060158853,
+            "candidate": 669.9347990705741,
+            "reductionPercent": 1.2901464963943798
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 987.7126294948682,
+            "candidate": 987.5283031225609,
+            "reductionPercent": 0.018661943444172595
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 1219.6342165800036,
+            "candidate": 1219.9328902012028,
+            "reductionPercent": -0.02448878664922418
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 86.07315012280982,
+            "candidate": 89.31622711573087,
+            "reductionPercent": -3.7678149205574565
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 17.511609139892965,
+            "candidate": 17.47295614957033,
+            "reductionPercent": 0.22072780413183443
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 39.41601509580921,
+            "candidate": 39.53501521963524,
+            "reductionPercent": -0.3019080532031915
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 50.529118639788926,
+            "candidate": 50.74101033623754,
+            "reductionPercent": -0.4193457201562135
+          }
+        }
+      },
+      {
+        "pair": 0,
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": {
+          "baseline": 60032.69735599999,
+          "candidate": 60050.651663
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 124.36059562220939,
+            "candidate": 128.10711935604124,
+            "reductionPercent": -3.0126292939391193
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 32.026663546342185,
+            "candidate": 33.683081598368,
+            "reductionPercent": -5.171996919469919
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 129.35182562180654,
+            "candidate": 133.84512536359838,
+            "reductionPercent": -3.4737041554629204
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 214.21659472901754,
+            "candidate": 217.81612085417567,
+            "reductionPercent": -1.6803208592273142
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 0.3170605493057854,
+            "candidate": 0.3357832003749122,
+            "reductionPercent": -5.905071163889882
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.842084522509756,
+            "candidate": 3.082780867040333,
+            "reductionPercent": -8.469007259433132
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.980074456276611,
+            "candidate": 6.011591714706219,
+            "reductionPercent": -0.5270378932577903
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 0.04997276704409424,
+            "candidate": 0.06661043451198026,
+            "reductionPercent": -33.293468526978934
+          }
+        }
+      },
+      {
+        "pair": 1,
+        "scenario": "idle",
+        "elapsedMs": {
+          "candidate": 60049.84226399992,
+          "baseline": 60051.54367699998
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 410.37143245725673,
+            "candidate": 410.89698273516234,
+            "reductionPercent": -0.12806697453540428
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 195.55190892615968,
+            "candidate": 197.276071899059,
+            "reductionPercent": -0.8816906888647917
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 412.8179973747256,
+            "candidate": 412.97322465852784,
+            "reductionPercent": -0.03760186929576019
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 585.1639749513847,
+            "candidate": 583.1822146349683,
+            "reductionPercent": 0.33866751906267684
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 47.37390291416607,
+            "candidate": 46.916343054059816,
+            "reductionPercent": 0.965847928838112
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.217711516565184,
+            "candidate": 2.4808391559974243,
+            "reductionPercent": -11.864827208895743
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.212189076829351,
+            "candidate": 5.195683922504573,
+            "reductionPercent": 0.31666453540896106
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 51.605667568990924,
+            "candidate": 51.47390706558217,
+            "reductionPercent": 0.2553217691305078
+          }
+        }
+      },
+      {
+        "pair": 1,
+        "scenario": "streaming",
+        "elapsedMs": {
+          "candidate": 60491.66953099996,
+          "baseline": 60470.87820100004
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 985.5290971946629,
+            "candidate": 985.9300538801662,
+            "reductionPercent": -0.04068440867394066
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 678.2229929533544,
+            "candidate": 674.7327742224624,
+            "reductionPercent": 0.5146122687014342
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 987.5407101167651,
+            "candidate": 987.3596391548078,
+            "reductionPercent": 0.018335544054267846
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 1217.280155173646,
+            "candidate": 1221.1598815626023,
+            "reductionPercent": -0.31872091009343434
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 86.18159939198326,
+            "candidate": 87.77772280328442,
+            "reductionPercent": -1.8520466347363218
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 17.42035226441575,
+            "candidate": 17.48376277593072,
+            "reductionPercent": -0.364002464201012
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 39.192419070255966,
+            "candidate": 39.195479615336815,
+            "reductionPercent": -0.007809023156654616
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 49.991005421680924,
+            "candidate": 50.53588409282355,
+            "reductionPercent": -1.0899534157124886
+          }
+        }
+      },
+      {
+        "pair": 1,
+        "scenario": "reduced-motion-idle",
+        "elapsedMs": {
+          "candidate": 60046.978022000054,
+          "baseline": 60071.72684999998
+        },
+        "metrics": {
+          "TaskDuration": {
+            "units": "ms per second",
+            "baseline": 132.25537897118062,
+            "candidate": 129.79885510881851,
+            "reductionPercent": 1.857409416139814
+          },
+          "ScriptDuration": {
+            "units": "ms per second",
+            "baseline": 34.99126977402689,
+            "candidate": 34.19023017690943,
+            "reductionPercent": 2.2892555837229143
+          },
+          "ThreadTime": {
+            "units": "ms per second",
+            "baseline": 137.46019022591156,
+            "candidate": 135.43437601506687,
+            "reductionPercent": 1.4737461133403957
+          },
+          "ProcessTime": {
+            "units": "ms per second",
+            "baseline": 231.88945499741362,
+            "candidate": 220.8270996608988,
+            "reductionPercent": 4.770529706337104
+          },
+          "RecalcStyleDuration": {
+            "units": "ms per second",
+            "baseline": 0.4512605417135622,
+            "candidate": 0.36128379336678423,
+            "reductionPercent": 19.93897981975361
+          },
+          "LayoutDuration": {
+            "units": "ms per second",
+            "baseline": 2.8394722266919485,
+            "candidate": 2.818010257535416,
+            "reductionPercent": 0.7558436020181276
+          },
+          "LayoutCount": {
+            "units": "count per second",
+            "baseline": 5.976189112998674,
+            "candidate": 5.978652245721164,
+            "reductionPercent": -0.041215776072615284
+          },
+          "RecalcStyleCount": {
+            "units": "count per second",
+            "baseline": 0.06658706532589052,
+            "candidate": 0.06661450970162856,
+            "reductionPercent": -0.04121577607260669
+          }
+        }
+      }
+    ],
+    "streamingTaskTimeReductionPercentByPair": [
+      0.028870037896957135,
+      -0.04068440867394066
+    ],
+    "twentyPercentTaskTimeTargetMetInEveryPair": false,
+    "samplerActualExitConfirmedBeforeAudit": true,
+    "host": {
+      "path": "lazy-pr-menu-two-pair-host-load.jsonl",
+      "sha256": "072a76c05dbc3435a319b2c60214a06b3bb1162198d5f3ba33e93b9ed44dc540",
+      "samples": 30,
+      "startOffsetSeconds": -3.528080940246582,
+      "durationSeconds": 870.0139813423157,
+      "oneMinuteLoadMin": 1.0927734375,
+      "oneMinuteLoadMax": 3.57958984375,
+      "availableMemoryKiBMin": 26253156
+    },
+    "sixPairConfirmation": "not run after failed useful-gain screen",
+    "navigationTiming": "not run for the rejected candidate"
+  },
+  "decision": {
+    "accepted": false,
+    "reason": "Streaming task-time rate and p95 are flat. Script rate is only 1.29% and 0.51% lower, while streaming style rate is worse in both pairs. Cold readiness is 25.48% and 4.57% slower. Normal and reduced-motion idle work are mixed. Removed subscriber checks do not establish a useful full-view gain.",
+    "regressionCause": "unconfirmed",
+    "restoration": {
+      "recordedAt": "2026-10-27T13:44:37.037192+00:00",
+      "sourceRevision": "20fa4f687e4a57a5193b90edb6cd2cd806978044",
+      "productionRevision": "4f078c1303434fa9cee5ee5a83280b5764fd3917",
+      "restoredAppFiles": [
+        "apps/web/components/task/task-switcher-context-menu-pr-unlink.test.tsx",
+        "apps/web/components/task/task-switcher-context-menu.tsx",
+        "apps/web/hooks/domains/github/use-task-pr-tooltip-hydration.test.tsx",
+        "apps/web/hooks/domains/github/use-task-pr-unlink.test.tsx"
+      ],
+      "removedExperimentalTests": [],
+      "restoredTrackedTestFiles": [
+        "apps/web/components/task/task-switcher-context-menu-pr-unlink.test.tsx",
+        "apps/web/hooks/domains/github/use-task-pr-tooltip-hydration.test.tsx",
+        "apps/web/hooks/domains/github/use-task-pr-unlink.test.tsx"
+      ],
+      "retainedTestedSourceFilesVerified": 8,
+      "retainedDeletedSourceFilesVerified": 2,
+      "rejectedRoot": "/tmp/kandev-rejected-lazy-pr-menu-5936a872",
+      "rejectedAssetsSha256": "deb30ccdac941176ac1e58d0bd627b27dedacac16a0c7ae3cdc7f232dda37e91",
+      "restoredAssetsSha256": "9e20f26bcc69f78d90ee9cdd27599f0830ced6f447160391b73d2bdc58d972fa",
+      "assetFiles": 1253,
+      "sourceAndAssetRestorationVerified": true,
+      "helpersAndLockfilesVerified": true,
+      "candidateAppEqualsFrozenControlSource": true,
+      "remainingAppDiffs": [],
+      "remainingUntrackedFiles": []
+    },
+    "restorationHandle": 15646,
+    "restorationExitCode": 0,
+    "preservation": {
+      "recordedAt": "2026-10-27T13:44:34.745799+00:00",
+      "status": "Rejected app candidate preserved before restoration.",
+      "root": "/tmp/kandev-rejected-lazy-pr-menu-5936a872",
+      "sourceParent": "20fa4f687e4a57a5193b90edb6cd2cd806978044",
+      "trackedPatch": "lazy-pr-menu-rejected-tracked.patch",
+      "trackedPatchSha256": "7a339217f97bd4ebf99b01359b92dde05723aedaf5fd8d4e36ae16ec431de9eb",
+      "sourceFiles": [
+        {
+          "path": "apps/web/components/task/chat/message-list-native-scroll.ts",
+          "sha256": "6ce2652db1e4bd74f2a6dc4473e0239155af8816cce3436f6073fbaeb5650b3c"
+        },
+        {
+          "path": "apps/web/components/task/chat/message-list-native.test.tsx",
+          "sha256": "47c9921c4772617fc3fff728a97086c8ee53d8ffd811c40daea4c9b70fe968b0"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.test.ts",
+          "sha256": "d18febf8956896b53e90405723ad968ec72e081b3ebf05c86608f85e6f2023ef"
+        },
+        {
+          "path": "apps/web/components/task/chat/transcript-auto-scroll.ts",
+          "sha256": "3f1284f97ebd49dbe0c9a9edf203d7300131f4c83b4877b4341908d3aa8a4276"
+        },
+        {
+          "path": "apps/web/components/task/task-switcher-context-menu-pr-unlink.test.tsx",
+          "sha256": "ac106a1e612ebb7c4f1c1d9aaff7c53969d865be6b99de3ecb5bd7f3fde820b6"
+        },
+        {
+          "path": "apps/web/components/task/task-switcher-context-menu.tsx",
+          "sha256": "dc73ef93c0a773e1095e1734ad7d53d488ae2467ee3ae820502d686e35184d42"
+        },
+        {
+          "path": "apps/web/hooks/domains/github/use-task-pr-tooltip-hydration.test.tsx",
+          "sha256": "65eb0039f5e8c829a8e185e102cf8d53ce322a5a454acc0352372e240f857740"
+        },
+        {
+          "path": "apps/web/hooks/domains/github/use-task-pr-unlink.test.tsx",
+          "sha256": "a7a1651e150d8ff965ba3a1f218a568a06c86da9511226e44ab84d325ef8d36b"
+        },
+        {
+          "path": "apps/web/lib/state/app-state-types.ts",
+          "sha256": "c94ee9eb5c56d124f92572f63fbda8721b2a5d259acca2feb92b9ad4b8d217b7"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/transcript-auto-scroll-actions.test.ts",
+          "sha256": "84509354b0c27ad98891e4923b65e2cecacb6e42b719496617203c49cf91d603"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/types.ts",
+          "sha256": "fe5d2232522043bfc8687a4407902fba631fd5b593dc0ac3d9c7fe73a26cb998"
+        },
+        {
+          "path": "apps/web/lib/state/slices/ui/ui-slice.ts",
+          "sha256": "53adb246ec5c3147e7f5a1416f5319407d03b94a25d53b3392c8132594633df2"
+        }
+      ],
+      "deletedSourceFiles": [
+        "apps/web/components/task/chat/transcript-scroll-persistence.test.ts",
+        "apps/web/components/task/chat/transcript-scroll-persistence.ts"
+      ],
+      "assetsSha256": "deb30ccdac941176ac1e58d0bd627b27dedacac16a0c7ae3cdc7f232dda37e91",
+      "assetFiles": 1253,
+      "helpers": {
+        "kandev": "b6a65c8046a00cd45f3d9dcb9beb11ee1783c85633cc13f1f18b9594bae4aed9",
+        "agentctl": "6e768aef1a1692630fe109c25e23ac31ab461b691800c2059e6dfdd5cf0b4d0a",
+        "mock-agent": "c69f05ee9f5622cc5bce83405c2e9240b537f3e79a21da65765d9867592288c1"
+      },
+      "lockfileSha256": "9d5a03a9086f28c93752fce491f896047fbcdbc64abfafe3b3aa53261199c554",
+      "baselineSourceArchive": {
+        "path": "message-selector-control-source.tar",
+        "sha256": "e9cc329e3ae853b64e2eaa77087c7129f1ce4481a203b05e2b00adae1c0c230e"
+      },
+      "decision": "Closed-menu app-store checks were removed, but streaming task-time rate and p95 are flat. Script rate is only 1.29% and 0.51% lower. Streaming style rate and cold readiness are worse in both pairs. No useful overall gain. Causes unconfirmed. No six-pair confirmation or navigation timing."
+    },
+    "normalStreamingTarget": "20% task-time reduction remains unmet",
+    "originalBaselineFinalMatrix": "open",
+    "nextAction": "Audit where saturated main-thread time is spent, including measurement cost and renderer configuration. Select another change only after new cost evidence."
+  },
+  "archivedAuditSourcesAndLogs": [
+    {
+      "path": "lazy-pr-menu-artifact-kandev-exec-snapshot-check-5936a872.py",
+      "sha256": "d6c9fbe42f4f67237e3ea5fd8d702702ed86d84b7f4348d9b18e8bffe7541bb3",
+      "bytes": 7287
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-capture-snapshot-check-5936a872.py",
+      "sha256": "73bc7a35a1d401fcd3d219a3e44183c226e38b5e2eb1288f468a017a68f041bf",
+      "bytes": 8962
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-prepare-snapshot-check-spec-5936a872.py",
+      "sha256": "2782d6a65ce57fa5befa96ce0cdc2f929a9f9a4144c839562df6a856fedc3586",
+      "bytes": 5765
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-exec-lazy-pr-menu-snapshot-check-5936a872.py",
+      "sha256": "bb32511458e3c63b37fb16a433acef7ec5900b4d0a856b083bbae0ec8ab7c744",
+      "bytes": 7537
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-capture-lazy-pr-menu-snapshot-check-5936a872.py",
+      "sha256": "7f69060505fa51f8e419894c9d976a46f7582d0ad0412a887080623975cb9b55",
+      "bytes": 9361
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-audit-lazy-pr-menu-build-5936a872.cjs",
+      "sha256": "34127635586e128a5f6354a8b7de94563813ccd135e93353f0054ff4a47b6283",
+      "bytes": 2284
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-audit-lazy-pr-menu-final-build-5936a872.cjs",
+      "sha256": "77f423d44088f5a37ab318569fb41624bfb75ea3d72acaca24073377fd509926",
+      "bytes": 2393
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-exec-lazy-pr-menu-qa-5936a872.py",
+      "sha256": "469c194991a27ce58756b6a262777ebdb12511a7f6eb45a5a3a60451d36d5a3d",
+      "bytes": 3341
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-capture-lazy-pr-menu-qa-5936a872.py",
+      "sha256": "c76494940c95926347eae8523c5ba5dd8c4c4ab28fa4aab1a6fc9d6938339998",
+      "bytes": 4580
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-exec-lazy-pr-menu-inventory-5936a872.py",
+      "sha256": "6213c1e6cf436efa6311ec0cb202613b0953e53f5df621f906f5b47d70d23c9f",
+      "bytes": 2412
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-record-lazy-pr-menu-inventory-5936a872.py",
+      "sha256": "1bf24075e1f5942867970d15787b0f13c0c9ff3d2e6fbc5deb2bf3f1336c96a9",
+      "bytes": 3450
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-exec-lazy-pr-menu-comparison-5936a872.py",
+      "sha256": "69be59410a2fe01f5c09640454c416bf3954167cf9ed5f7dcda2bd4254f706af",
+      "bytes": 9116
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-audit-lazy-pr-menu-comparison-5936a872.py",
+      "sha256": "1d6b0521042ec1af8bcea87d43223cc41318afedabfa7ea216c9183bfb333a22",
+      "bytes": 8194
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-analyze-lazy-pr-menu-comparison-5936a872.py",
+      "sha256": "ac14a18b3cfc9ae8319369868d249e3feb34a2df2420fa3db97768ebab4b8cf4",
+      "bytes": 3571
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-preserve-restore-lazy-pr-menu-5936a872.py",
+      "sha256": "88b4f51ff5f5a7ea59d5235339011f1f65f02710d0f556d3a3ab4dedfdab2dbf",
+      "bytes": 7530
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-lazy-pr-menu-two-pair-summary-5936a872.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-lazy-pr-menu-two-pair-analysis-5936a872.log",
+      "sha256": "687e2882b71ccc026561b2647e32a2bdb90781ca88056eabbccab3cf5d91b5f1",
+      "bytes": 52682
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-snapshot-check-initial-lint-5936a872.log",
+      "sha256": "f4ebd2df4485b85b7340478eda48eb21516536857be685637971fc15feaa0a1d",
+      "bytes": 112
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-snapshot-check-final-lint-5936a872.log",
+      "sha256": "c57fcd337c51f0d69a49807b764a0cd50853aaf6df9f646dfb6ef9ec51980fca",
+      "bytes": 74
+    },
+    {
+      "path": "lazy-pr-menu-artifact-kandev-lazy-pr-menu-snapshot-lint-5936a872.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "bytes": 66
+    }
+  ],
+  "limits": [
+    "Linux Chromium reference workload only. No M2 Air, field INP, battery or heap-leak claim.",
+    "Rate normalization uses each recorded window duration. Overlapping CDP metrics are separate measures and must not be added.",
+    "No results are pooled with intrusive render-count probes or other experiments.",
+    "Every attempt must pass before this comparison can support acceptance."
+  ]
+}

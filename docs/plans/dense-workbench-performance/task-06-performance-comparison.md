@@ -32,6 +32,35 @@ system_design:
 
 # Task 06: Matched comparison and regression evidence
 
+## External-store attribution and rejected lazy PR menu
+
+Independent fixture counters calibrate twenty unchanged and twenty changing
+external-store queue checks. A dense control probe verifies 300 ordered updates
+and records 966,421 app-store checks, with 966,139 unchanged selected values.
+Closed task context menus account for 125,300 unchanged checks. A private
+candidate probe records zero closed-row checks after moving PR hooks into
+mounted content. Both probes restore their wrappers and pass the integrity
+audit. Their event volumes differ, so no speed gain follows from total counts.
+
+The candidate passes 183 related units, strict lint, web types, production build,
+26 desktop cases and nine phone cases. Tests preserve first-open loading,
+unlink actions, shared-cache hydration after unmount and workspace guards.
+The initial desktop expected count is 24. Its count-guard failure remains
+preserved with a source inventory that matches all 26 actual passes.
+
+All four unchanged native-v2 reference attempts pass and verify 7,200 ordered
+updates. Streaming task-time rate and p95 stay flat. Script time per second
+falls only 1.29% and 0.51%; style rate increases in both pairs. Cold readiness
+is 25.48% and 4.57% slower. Idle work is mixed. Causes remain unconfirmed.
+
+Reject the candidate without six-pair confirmation or navigation timing.
+Preserve all seventy comparison rows, the exact source, tests, patch and build.
+Verified app source and `9e20f26b` assets are restored. Next: audit rendering
+and measurement cost before another production change. The 20% streaming
+target and original-baseline final matrix remain open. See
+[the attribution](evidence/external-store-snapshot-attribution.json) and
+[the full comparison](evidence/rejected-lazy-pr-menu-two-pair-1x.json).
+
 ## Calibrated row rendering and rejected memoization
 
 Independent fixture counters calibrate the private React observer before

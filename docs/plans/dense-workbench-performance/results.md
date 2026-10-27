@@ -9,6 +9,44 @@ Final matrix, stress, owner retention and streaming task-time gates remain open.
 The branch is `feature/evaluate-live-thread-bc0`; the frozen baseline is
 `595df36ed5c1cf02fd90cb972b623ad6edc53df8`.
 
+## External-store checks and rejected lazy PR menu
+
+A private observer wraps React external-store queue checks and preserves their
+selected values. Independent fixture counters calibrate twenty unchanged and
+twenty changing notification-time checks. A dense control probe verifies 300
+ordered updates and records 966,421 app-store checks. Of these, 966,139 return
+an unchanged value. Direct render-time calls that bypass the queues are not
+counted. These are intrusive operation counts, not speed measurements.
+
+Closed task context menus account for 125,300 unchanged-value checks. Their
+PR hooks own seven app-store subscriptions per observed row. Moving those hooks
+into mounted menu content removes the closed-row checks in the candidate probe.
+Both probes verify 300 ordered updates, restore their wrappers and pass the
+source/runtime/fixture audits. Total event volume differs, so no total-count
+percentage represents time saved. See
+[the attribution](evidence/external-store-snapshot-attribution.json).
+
+All 183 related unit tests, strict lint, web types, the production build,
+26 desktop checks and nine phone checks pass. New lifetime tests preserve
+pending unlink completion, shared-cache hydration after unmount and one open
+announcement per content mount. The initial desktop expected count is 24.
+An unchanged source inventory lists 26 cases and matches every actual pass.
+The original count-guard failure and its correction remain preserved.
+
+All four native-v2 reference attempts pass and verify 7,200 ordered updates.
+Streaming task-time rate stays flat. Streaming p95 remains 133.3 ms in both
+pairs. Normalized script time falls only 1.29% and 0.51%; style time increases
+3.77% and 1.85%. Cold readiness is 25.48% and 4.57% slower. Normal and
+reduced-motion idle work are mixed. The regression causes remain unconfirmed.
+
+Reject the candidate without six-pair confirmation or navigation timing.
+All seventy comparison rows, source, tests, build and diagnostic failures remain
+preserved. Exact verified app source and `9e20f26b` assets are restored. Next:
+audit main-thread cost, measurement overhead and renderer configuration before
+another production change. The 20% streaming target and original-baseline
+final matrix remain open. See
+[the full comparison](evidence/rejected-lazy-pr-menu-two-pair-1x.json).
+
 ## Transcript row memoization: rejected after full-view testing
 
 A private React observer first matches independent render counters for changed
