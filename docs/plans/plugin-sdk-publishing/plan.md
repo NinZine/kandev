@@ -1545,3 +1545,36 @@ title/body assertions. Standard release producers include the version, and
 main's unversioned legacy fallback remains intact. SDK and protected release
 files are unchanged from the prior 93-check green head. The next commit and
 leased push still require fresh exact-head CI; prior results are historical.
+
+### 2026-10-28 main integration
+
+Published head 4956948f78a4 retained 93 green checks, but main advanced to
+`d179ce206fd46c7793bda916b025d753036c7f3b` and introduced three conflicts.
+Integrate that main revision into the PR without changing SDK release identity,
+wire compatibility, independent versioning or the recovered-retry policy.
+
+The locale fixture retains main's cookie header assertion plus this branch's
+navigation diagnostics and version-scoped two-release check. The session-resume
+fixture adopts main's drain-before-hold detail-read sequencing, preserving its
+list-reconciliation assertions and first-failure traces. The phone marketplace
+keeps the finite detail-animation boundary and main's labelled sizing check.
+A new plugin-executor identity test imports the extracted SDK; the intentional
+legacy binary fixture remains unchanged. Same-task optional enrichment still
+preserves admitted sessions and permits authoritative unavailable-list recovery.
+One incoming work order's trailing blank line is removed for whitespace checks.
+
+Focused verification passes 81 frontend tests across nine files; backend
+plugin-executor and WebApp race checks; full typecheck; scoped Go/web lint;
+23 rebuilt pseudo-locale cases; all three ACP restart cases; and the phone
+marketplace case. Browser retries are disabled. Localization and docs/spec
+checks pass (412 decisions and 1,777 specifications). Direct documentation
+coverage passes 534 changed paths, 36 work orders and 118 linked documents.
+Normal merge hooks, push and fresh current-head CI follow. Historical-head
+CI cannot certify this combined head.
+
+The uncommitted notification guide now includes the maintainer walkthrough.
+A fresh anonymous npm lookup is 404; saved authenticated npm commands return
+401, so the operator must log in again before confirming scope ownership.
+Both SDK environment confirmations remain absent. Existing signing and channel
+secret names are present, but secret values were not read or tested. No package,
+release, environment setting, migration or external notification was changed.
