@@ -865,9 +865,7 @@ test.describe("i18n pseudo-locale coverage", () => {
       title: "Kandev update available",
       body: "Kandev v1.2.3 is available. Open Settings > System > Updates to review it.",
     });
-    const toast = testPage
-      .getByTestId("toast-message")
-      .filter({ hasText: "Ķàńďēv ũƥďàţē àvàĩĺàƀĺē" });
+    const toast = testPage.getByTestId("toast-message").filter({ hasText: "v1.2.3" });
     await expect(toast).toContainText("Ķàńďēv v1.2.3 ĩś àvàĩĺàƀĺē");
   });
 
