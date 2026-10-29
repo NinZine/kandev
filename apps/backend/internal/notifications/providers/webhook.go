@@ -165,13 +165,30 @@ func checkWebhookRedirect(request *http.Request, via []*http.Request) error {
 	return nil
 }
 
-// sameWebhookOrigin reports whether two URLs share a scheme and authority.
+// sameWebhookOrigin reports whether two URLs share a scheme, host, and
+// effective port. Explicit default ports match their implicit form.
 func sameWebhookOrigin(first, next *url.URL) bool {
 	if first == nil || next == nil {
 		return false
 	}
 	return strings.EqualFold(first.Scheme, next.Scheme) &&
-		strings.EqualFold(first.Host, next.Host)
+		strings.EqualFold(first.Hostname(), next.Hostname()) &&
+		webhookEffectivePort(first) == webhookEffectivePort(next)
+}
+
+// webhookEffectivePort returns the explicit port or the scheme default.
+func webhookEffectivePort(value *url.URL) string {
+	if port := value.Port(); port != "" {
+		return port
+	}
+	switch strings.ToLower(value.Scheme) {
+	case "http":
+		return "80"
+	case "https":
+		return "443"
+	default:
+		return ""
+	}
 }
 
 // webhookDialContext resolves and validates every connection at dial time so a

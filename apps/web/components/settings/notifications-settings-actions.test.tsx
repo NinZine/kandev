@@ -455,6 +455,8 @@ describe("notification permission transport behavior", () => {
   });
 });
 
+const INVALID_WEBHOOK_HEADERS = "settings:webhookHeadersInvalid";
+
 const webhookProvider: NotificationProvider = {
   id: "provider-webhook",
   name: "GoClaw",
@@ -483,10 +485,19 @@ describe("webhook provider drafts", () => {
       "X-Tenant: acme\nAuthorization: Bearer abc",
     );
     expect(webhookHeadersError("X-Tenant: acme\nAuthorization: Bearer abc")).toBeNull();
-    expect(webhookHeadersError("X Tenant: acme")).toBe("settings:webhookHeadersInvalid");
+    expect(webhookHeadersError("\n  \nX-Tenant: acme\n")).toBeNull();
+    expect(webhookHeadersError("X-Trace: a:b:c")).toBeNull();
+    expect(webhookHeadersError("X-Trace: a\tb")).toBeNull();
+    expect(webhookHeadersError("X Tenant: acme")).toBe(INVALID_WEBHOOK_HEADERS);
+    expect(webhookHeadersError("X@Tenant: acme")).toBe(INVALID_WEBHOOK_HEADERS);
+    expect(webhookHeadersError("X-Tenant acme")).toBe(INVALID_WEBHOOK_HEADERS);
     expect(webhookHeadersError("X-Tenant: acme\nx-tenant: other")).toBe(
-      "settings:webhookHeadersInvalid",
+      INVALID_WEBHOOK_HEADERS,
     );
+    expect(webhookHeadersError(" X-Tenant : acme\nx-tenant: other")).toBe(
+      INVALID_WEBHOOK_HEADERS,
+    );
+    expect(webhookHeadersError("X-Tenant: ac\rme")).toBe(INVALID_WEBHOOK_HEADERS);
   });
 
   it("stages a new webhook provider with url, headers, and secret", async () => {

@@ -3,8 +3,10 @@ package providers
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 	"time"
@@ -34,17 +36,24 @@ func TestWebhookValidate(t *testing.T) {
 		{name: "non string url", config: map[string]interface{}{"url": 42}, wantErr: true},
 		{name: "loopback ipv4", config: map[string]interface{}{"url": "http://127.0.0.1/hook"}, wantErr: true},
 		{name: "loopback ipv6", config: map[string]interface{}{"url": "http://[::1]/hook"}, wantErr: true},
+		{name: "loopback ipv4 mapped ipv6", config: map[string]interface{}{"url": "http://[::ffff:127.0.0.1]/hook"}, wantErr: true},
+		{name: "loopback trailing dot", config: map[string]interface{}{"url": "http://127.0.0.1./hook"}, wantErr: true},
 		{name: "private ipv4", config: map[string]interface{}{"url": "http://10.1.2.3/hook"}, wantErr: true},
+		{name: "private ipv4 mapped ipv6", config: map[string]interface{}{"url": "http://[::ffff:10.1.2.3]/hook"}, wantErr: true},
 		{name: "private ipv6", config: map[string]interface{}{"url": "http://[fd00::1]/hook"}, wantErr: true},
 		{name: "link local metadata", config: map[string]interface{}{"url": "http://169.254.169.254/latest/meta-data"}, wantErr: true},
 		{name: "link local ipv6", config: map[string]interface{}{"url": "http://[fe80::1]/hook"}, wantErr: true},
 		{name: "unspecified ipv4", config: map[string]interface{}{"url": "http://0.0.0.0/hook"}, wantErr: true},
+		{name: "unspecified ipv6", config: map[string]interface{}{"url": "http://[::]/hook"}, wantErr: true},
+		{name: "reserved documentation address", config: map[string]interface{}{"url": "http://192.0.2.10/hook"}, wantErr: true},
 		{name: "localhost hostname", config: map[string]interface{}{"url": "http://localhost:8080/hook"}, wantErr: true},
+		{name: "localhost trailing dot", config: map[string]interface{}{"url": "http://localhost./hook"}, wantErr: true},
 		{name: "non object headers", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": "X-Test: value"}, wantErr: true},
 		{name: "non string header value", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{"X-Test": 1}}, wantErr: true},
 		{name: "invalid header name", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{"X Tenant": "acme"}}, wantErr: true},
 		{name: "invalid header value", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{"X-Tenant": "bad\nvalue"}}, wantErr: true},
 		{name: "duplicate header names", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{"X-Tenant": "acme", "x-tenant": "other"}}, wantErr: true},
+		{name: "duplicate header names with whitespace", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{" X-Tenant ": "acme", "x-tenant": "other"}}, wantErr: true},
 		{name: "non string secret", config: map[string]interface{}{"url": "https://93.184.216.34", "secret": 1}, wantErr: true},
 	}
 	for _, testCase := range cases {
@@ -332,5 +341,88 @@ func TestWebhookSendRejectsInvalidConfig(t *testing.T) {
 	provider := NewWebhookProvider()
 	if err := provider.Send(context.Background(), Message{}); err == nil {
 		t.Fatal("expected invalid config error")
+	}
+}
+
+func TestWebhookValidateAcceptsStringMapHeaders(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "false")
+	provider := NewWebhookProvider()
+	if err := provider.Validate(map[string]interface{}{
+		"url":     "https://93.184.216.34",
+		"headers": map[string]string{"X-Tenant": "acme"},
+	}); err != nil {
+		t.Fatalf("valid string map headers: %v", err)
+	}
+	if err := provider.Validate(map[string]interface{}{
+		"url":     "https://93.184.216.34",
+		"headers": map[string]string{"X-Tenant": "acme", "x-tenant": "other"},
+	}); err == nil {
+		t.Fatal("expected case-insensitive duplicate rejection")
+	}
+}
+
+func TestWebhookDialContextRejectsLoopbackHostname(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "false")
+	_, err := webhookDialContext(context.Background(), "tcp", "localhost:80")
+	if !errors.Is(err, errWebhookDestinationBlocked) {
+		t.Fatalf("err = %v, want destination blocked", err)
+	}
+}
+
+func TestWebhookSendRejectsCrossPortRedirect(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
+	targetHits := 0
+	target := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		targetHits++
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer target.Close()
+	redirect := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, target.URL, http.StatusTemporaryRedirect)
+	}))
+	defer redirect.Close()
+
+	provider := NewWebhookProvider()
+	err := provider.Send(context.Background(), Message{
+		EventType: "session.turn_finished",
+		Config:    map[string]interface{}{"url": redirect.URL},
+	})
+	if err == nil {
+		t.Fatal("expected cross-port redirect rejection")
+	}
+	if targetHits != 0 {
+		t.Fatalf("redirect target received %d requests, want 0", targetHits)
+	}
+}
+
+func TestSameWebhookOrigin(t *testing.T) {
+	cases := []struct {
+		name  string
+		first string
+		next  string
+		want  bool
+	}{
+		{name: "same implicit origin", first: "https://example.com/a", next: "https://example.com/b", want: true},
+		{name: "explicit default https port", first: "https://example.com/a", next: "https://example.com:443/b", want: true},
+		{name: "explicit default http port", first: "http://example.com/a", next: "http://example.com:80/b", want: true},
+		{name: "different port", first: "https://example.com/a", next: "https://example.com:8443/b"},
+		{name: "different scheme", first: "http://example.com/a", next: "https://example.com/b"},
+		{name: "different host", first: "https://example.com/a", next: "https://other.example.com/b"},
+		{name: "host case", first: "https://Example.com/a", next: "https://example.COM/b", want: true},
+	}
+	for _, testCase := range cases {
+		t.Run(testCase.name, func(t *testing.T) {
+			first, err := url.Parse(testCase.first)
+			if err != nil {
+				t.Fatal(err)
+			}
+			next, err := url.Parse(testCase.next)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if got := sameWebhookOrigin(first, next); got != testCase.want {
+				t.Fatalf("sameWebhookOrigin(%q, %q) = %v, want %v", testCase.first, testCase.next, got, testCase.want)
+			}
+		})
 	}
 }
