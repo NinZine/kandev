@@ -40,7 +40,7 @@ func TestWebhookProviderCreateListAndUpdate(t *testing.T) {
 	userID := "user-1"
 
 	config := map[string]interface{}{
-		"url":     "https://goclaw.example/hooks/kandev/turn-finished",
+		"url":     "https://93.184.216.34/hooks/kandev/turn-finished",
 		"headers": map[string]interface{}{"X-Tenant": "acme"},
 		"secret":  "gateway-token",
 	}
@@ -69,7 +69,7 @@ func TestWebhookProviderCreateListAndUpdate(t *testing.T) {
 		t.Fatalf("subscriptions = %#v", events)
 	}
 
-	nextURL := "https://goclaw.example/hooks/kandev/clarification"
+	nextURL := "https://93.184.216.34/hooks/kandev/clarification"
 	updated, err := svc.UpdateProvider(ctx, userID, provider.ID, ProviderUpdate{
 		Config: map[string]interface{}{"url": nextURL},
 	})
@@ -89,7 +89,17 @@ func TestWebhookProviderRejectsInvalidURL(t *testing.T) {
 	}
 }
 
+func TestWebhookProviderRejectsPrivateDestination(t *testing.T) {
+	t.Setenv("KANDEV_WEBHOOK_ALLOW_PRIVATE_NETWORKS", "false")
+	repo := &notificationTestRepository{subscriptions: map[string][]*models.Subscription{}}
+	svc := newWebhookTestService(t, repo)
+	if _, err := svc.CreateProvider(context.Background(), "user-1", "Metadata", models.ProviderTypeWebhook, map[string]interface{}{"url": "http://169.254.169.254/latest/meta-data"}, true, nil); err == nil {
+		t.Fatal("expected private destination error")
+	}
+}
+
 func TestWebhookProviderTestButtonSendsGenericSchema(t *testing.T) {
+	t.Setenv("KANDEV_WEBHOOK_ALLOW_PRIVATE_NETWORKS", "true")
 	type captured struct {
 		event   string
 		title   string

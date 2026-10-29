@@ -1111,6 +1111,7 @@
   "webhookProvider": "Fornecedor Webhook",
   "webhookUrl": "URL do Webhook",
   "webhookHeadersPlaceholder": "Cabeçalhos, um por linha (Nome: valor)",
+  "webhookHeadersInvalid": "Os cabeçalhos do webhook devem usar nomes de cabeçalho HTTP válidos e não podem ser repetidos.",
   "webhookSecret": "Segredo (opcional)",
   "webhookUrlRequired": "É obrigatório um URL de Webhook.",
   "webhooks": "Notificações Webhook",

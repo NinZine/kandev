@@ -1111,6 +1111,7 @@
   "webhookProvider": "Ŵēƀĥōōķ ƥŕōvĩďēŕ",
   "webhookUrl": "Ŵēƀĥōōķ ŨŔĹ",
   "webhookHeadersPlaceholder": "Ĥēàďēŕś, ōńē ƥēŕ ĺĩńē (Ńàḿē: vàĺũē)",
+  "webhookHeadersInvalid": "Ŵēƀĥōōķ ĥēàďēŕś ḿũśţ ũśē vàĺĩď ĤŢŢƤ ĥēàďēŕ ńàḿēś àńď ḿũśţ ńōţ ŕēƥēàţ.",
   "webhookSecret": "Śēćŕēţ (ōƥţĩōńàĺ)",
   "webhookUrlRequired": "À ŵēƀĥōōķ ŨŔĹ ĩś ŕēqũĩŕēď.",
   "webhooks": "Ŵēƀĥōōķś",

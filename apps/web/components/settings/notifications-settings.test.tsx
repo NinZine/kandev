@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { NotificationProvider } from "@/lib/types/http";
 import { NotificationsSettings } from "./notifications-settings";
@@ -226,5 +226,32 @@ describe("NotificationsSettings webhook providers", () => {
     expect(
       screen.getByDisplayValue("http://goclaw.local:18789/hooks/kandev/turn-finished"),
     ).toBeTruthy();
+  });
+
+  it("blocks duplicate webhook headers with an actionable message", () => {
+    render(
+      <SettingsSaveProvider>
+        <NotificationsSettings />
+      </SettingsSaveProvider>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Add Webhook Provider" }));
+    fireEvent.change(screen.getByPlaceholderText("Webhook URL"), {
+      target: { value: "https://hooks.example.com/kandev" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Headers, one per line (Name: value)"), {
+      target: { value: "X-Tenant: acme\nx-tenant: other" },
+    });
+
+    expect(
+      screen.getByText("Webhook headers must use valid HTTP header names and must not repeat."),
+    ).toBeTruthy();
+    expect(
+      (
+        within(screen.getByTestId("settings-floating-save")).getByRole("button", {
+          name: "Save changes",
+        }) as HTMLButtonElement
+      ).disabled,
+    ).toBe(true);
   });
 });

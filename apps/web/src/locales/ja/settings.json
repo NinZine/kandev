@@ -1111,6 +1111,7 @@
   "webhookProvider": "Webhook プロバイダー",
   "webhookUrl": "Webhook の URL",
   "webhookHeadersPlaceholder": "ヘッダー（1 行に 1 つ、名前: 値）",
+  "webhookHeadersInvalid": "Webhook ヘッダーには有効な HTTP ヘッダー名を使用し、重複させないでください。",
   "webhookSecret": "シークレット（任意）",
   "webhookUrlRequired": "Webhook の URL は必須です。",
   "webhooks": "Webhook 通知",

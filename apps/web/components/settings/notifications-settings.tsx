@@ -19,6 +19,7 @@ import {
 } from "@/components/settings/notifications-settings-actions";
 import { ExternalProvidersSection } from "@/components/settings/notifications-settings-external-providers";
 import { WebhookProvidersSection } from "@/components/settings/notifications-settings-webhook-providers";
+import { webhookHeadersError } from "@/components/settings/notifications-settings-webhook-helpers";
 import { SettingsGroup } from "@/components/settings/settings-group";
 import { GENERAL_SETTINGS_TARGETS } from "@/lib/settings-discovery/catalog/preferences";
 
@@ -50,9 +51,12 @@ function useNotificationPageSaveState(state: NotificationsState, soundIsDirty: b
   const providerIsDirty = useIsDirty(state);
   const creatingApprise = state.showAppriseForm && state.appriseFormMode === "create";
   const creatingWebhook = state.showWebhookForm && state.webhookFormMode === "create";
-  const canSave =
-    (!creatingApprise || state.appriseUrls.trim().length > 0) &&
-    (!creatingWebhook || state.webhookUrl.trim().length > 0);
+  const missingAppriseUrl = creatingApprise && state.appriseUrls.trim().length === 0;
+  const missingWebhookUrl = creatingWebhook && state.webhookUrl.trim().length === 0;
+  const headersError = state.showWebhookForm
+    ? webhookHeadersError(state.webhookHeaders)
+    : null;
+  const canSave = !missingAppriseUrl && !missingWebhookUrl && !headersError;
   const revision = useMemo(
     () =>
       JSON.stringify({
@@ -86,11 +90,9 @@ function useNotificationPageSaveState(state: NotificationsState, soundIsDirty: b
     ],
   );
   let invalidReason: string | undefined;
-  if (!canSave) {
-    invalidReason = creatingWebhook
-      ? t("settings:webhookUrlRequired")
-      : t("settings:appriseUrlRequired");
-  }
+  if (missingWebhookUrl) invalidReason = t("settings:webhookUrlRequired");
+  else if (missingAppriseUrl) invalidReason = t("settings:appriseUrlRequired");
+  else if (headersError) invalidReason = t(headersError);
   return {
     providerIsDirty,
     cardIsDirty: providerIsDirty || soundIsDirty,
@@ -118,6 +120,7 @@ function WebhookSettingsSection({
       headers={state.webhookHeaders}
       secret={state.webhookSecret}
       showForm={state.showWebhookForm}
+      appriseCreateFormOpen={state.showAppriseForm && state.appriseFormMode === "create"}
       setName={state.setWebhookName}
       setUrl={state.setWebhookUrl}
       setHeaders={state.setWebhookHeaders}
@@ -206,6 +209,7 @@ export function NotificationsSettings() {
           appriseName={appriseName}
           appriseUrls={appriseUrls}
           showAppriseForm={showAppriseForm}
+          webhookCreateFormOpen={state.showWebhookForm && state.webhookFormMode === "create"}
           notificationProvidersLoaded={notificationProvidersLoaded}
           notificationProvidersLoading={notificationProvidersLoading}
           appriseRescanPending={appriseRescanPending}

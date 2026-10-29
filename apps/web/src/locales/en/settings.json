@@ -1111,6 +1111,7 @@
   "webhookProvider": "Webhook provider",
   "webhookUrl": "Webhook URL",
   "webhookHeadersPlaceholder": "Headers, one per line (Name: value)",
+  "webhookHeadersInvalid": "Webhook headers must use valid HTTP header names and must not repeat.",
   "webhookSecret": "Secret (optional)",
   "webhookUrlRequired": "A webhook URL is required.",
   "webhooks": "Webhooks",

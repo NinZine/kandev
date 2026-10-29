@@ -10,6 +10,7 @@ import {
 import {
   formatWebhookHeaders,
   parseWebhookHeaders,
+  webhookHeadersError,
 } from "./notifications-settings-webhook-helpers";
 import { DEFAULT_NOTIFICATION_EVENTS } from "@/lib/notifications/events";
 import {
@@ -470,9 +471,10 @@ const webhookProvider: NotificationProvider = {
 };
 
 const GOCLAW_CLARIFICATION_URL = "https://goclaw.example/hooks/kandev/clarification";
+const WEBHOOK_TEST_NAME = "Inbound hooks";
 
 describe("webhook provider drafts", () => {
-  it("parses and formats webhook headers", () => {
+  it("parses, formats, and validates webhook headers", () => {
     expect(parseWebhookHeaders("X-Tenant: acme\nAuthorization: Bearer abc\n\ninvalid")).toEqual({
       "X-Tenant": "acme",
       Authorization: "Bearer abc",
@@ -480,13 +482,18 @@ describe("webhook provider drafts", () => {
     expect(formatWebhookHeaders({ "X-Tenant": "acme", Authorization: "Bearer abc" })).toBe(
       "X-Tenant: acme\nAuthorization: Bearer abc",
     );
+    expect(webhookHeadersError("X-Tenant: acme\nAuthorization: Bearer abc")).toBeNull();
+    expect(webhookHeadersError("X Tenant: acme")).toBe("settings:webhookHeadersInvalid");
+    expect(webhookHeadersError("X-Tenant: acme\nx-tenant: other")).toBe(
+      "settings:webhookHeadersInvalid",
+    );
   });
 
   it("stages a new webhook provider with url, headers, and secret", async () => {
     const createdWebhook: NotificationProvider = {
       ...webhookProvider,
       id: "provider-webhook-new",
-      name: "Inbound hooks",
+      name: WEBHOOK_TEST_NAME,
     };
     mocks.createNotificationProvider.mockResolvedValueOnce(createdWebhook);
     const { result } = renderHook(useHarness);
@@ -495,7 +502,7 @@ describe("webhook provider drafts", () => {
     expect(result.current.isDirty).toBe(true);
 
     act(() => {
-      result.current.state.setWebhookName("Inbound hooks");
+      result.current.state.setWebhookName(WEBHOOK_TEST_NAME);
       result.current.state.setWebhookUrl("http://goclaw.local:18789/hooks/kandev/turn-finished");
       result.current.state.setWebhookHeaders("X-Tenant: acme");
       result.current.state.setWebhookSecret("gateway-token");
@@ -503,7 +510,7 @@ describe("webhook provider drafts", () => {
     await act(() => result.current.saveRequest.run());
 
     expect(mocks.createNotificationProvider).toHaveBeenCalledWith({
-      name: "Inbound hooks",
+      name: WEBHOOK_TEST_NAME,
       type: "webhook",
       config: {
         url: "http://goclaw.local:18789/hooks/kandev/turn-finished",

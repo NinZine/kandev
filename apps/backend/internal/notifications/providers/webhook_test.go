@@ -11,15 +11,17 @@ import (
 )
 
 func TestWebhookValidate(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "false")
 	provider := NewWebhookProvider()
 	cases := []struct {
 		name    string
 		config  map[string]interface{}
 		wantErr bool
 	}{
-		{name: "valid", config: map[string]interface{}{"url": "https://example.test/hooks/kandev"}},
+		{name: "valid public ip", config: map[string]interface{}{"url": "https://93.184.216.34/hooks/kandev"}},
+		{name: "valid public hostname", config: map[string]interface{}{"url": "https://hooks.example.com/kandev"}},
 		{name: "valid with headers and secret", config: map[string]interface{}{
-			"url":     "http://example.test/hooks/kandev",
+			"url":     "http://93.184.216.34/hooks/kandev",
 			"headers": map[string]interface{}{"X-Tenant": "acme"},
 			"secret":  "token",
 		}},
@@ -27,12 +29,23 @@ func TestWebhookValidate(t *testing.T) {
 		{name: "missing url", config: map[string]interface{}{}, wantErr: true},
 		{name: "blank url", config: map[string]interface{}{"url": "  "}, wantErr: true},
 		{name: "invalid url", config: map[string]interface{}{"url": "://not-a-url"}, wantErr: true},
-		{name: "unsupported scheme", config: map[string]interface{}{"url": "ftp://example.test"}, wantErr: true},
+		{name: "unsupported scheme", config: map[string]interface{}{"url": "ftp://example.com"}, wantErr: true},
 		{name: "missing host", config: map[string]interface{}{"url": "http://"}, wantErr: true},
 		{name: "non string url", config: map[string]interface{}{"url": 42}, wantErr: true},
-		{name: "non object headers", config: map[string]interface{}{"url": "https://example.test", "headers": "X-Test: value"}, wantErr: true},
-		{name: "non string header value", config: map[string]interface{}{"url": "https://example.test", "headers": map[string]interface{}{"X-Test": 1}}, wantErr: true},
-		{name: "non string secret", config: map[string]interface{}{"url": "https://example.test", "secret": 1}, wantErr: true},
+		{name: "loopback ipv4", config: map[string]interface{}{"url": "http://127.0.0.1/hook"}, wantErr: true},
+		{name: "loopback ipv6", config: map[string]interface{}{"url": "http://[::1]/hook"}, wantErr: true},
+		{name: "private ipv4", config: map[string]interface{}{"url": "http://10.1.2.3/hook"}, wantErr: true},
+		{name: "private ipv6", config: map[string]interface{}{"url": "http://[fd00::1]/hook"}, wantErr: true},
+		{name: "link local metadata", config: map[string]interface{}{"url": "http://169.254.169.254/latest/meta-data"}, wantErr: true},
+		{name: "link local ipv6", config: map[string]interface{}{"url": "http://[fe80::1]/hook"}, wantErr: true},
+		{name: "unspecified ipv4", config: map[string]interface{}{"url": "http://0.0.0.0/hook"}, wantErr: true},
+		{name: "localhost hostname", config: map[string]interface{}{"url": "http://localhost:8080/hook"}, wantErr: true},
+		{name: "non object headers", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": "X-Test: value"}, wantErr: true},
+		{name: "non string header value", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{"X-Test": 1}}, wantErr: true},
+		{name: "invalid header name", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{"X Tenant": "acme"}}, wantErr: true},
+		{name: "invalid header value", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{"X-Tenant": "bad\nvalue"}}, wantErr: true},
+		{name: "duplicate header names", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{"X-Tenant": "acme", "x-tenant": "other"}}, wantErr: true},
+		{name: "non string secret", config: map[string]interface{}{"url": "https://93.184.216.34", "secret": 1}, wantErr: true},
 	}
 	for _, testCase := range cases {
 		t.Run(testCase.name, func(t *testing.T) {
@@ -47,7 +60,48 @@ func TestWebhookValidate(t *testing.T) {
 	}
 }
 
+func TestWebhookValidateAllowsPrivateDestinationWhenOptedIn(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
+	provider := NewWebhookProvider()
+	for _, rawURL := range []string{
+		"http://127.0.0.1/hook",
+		"http://10.1.2.3/hook",
+		"http://169.254.169.254/latest/meta-data",
+		"http://[fd00::1]/hook",
+	} {
+		if err := provider.Validate(map[string]interface{}{"url": rawURL}); err != nil {
+			t.Fatalf("validate %s: %v", rawURL, err)
+		}
+	}
+}
+
+func TestWebhookSendRejectsPrivateDestinationAtDialTime(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "false")
+	hits := 0
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		hits++
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer server.Close()
+
+	provider := NewWebhookProvider()
+	err := provider.Send(context.Background(), Message{
+		EventType: "session.turn_finished",
+		Config:    map[string]interface{}{"url": server.URL},
+	})
+	if err == nil {
+		t.Fatal("expected private destination rejection")
+	}
+	if !strings.Contains(err.Error(), "globally routable") {
+		t.Fatalf("error = %q", err)
+	}
+	if hits != 0 {
+		t.Fatalf("server received %d requests, want 0", hits)
+	}
+}
+
 func TestWebhookSendPayloadHeadersAndSecret(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
 	type captured struct {
 		headers http.Header
 		body    webhookPayload
@@ -115,6 +169,7 @@ func TestWebhookSendPayloadHeadersAndSecret(t *testing.T) {
 }
 
 func TestWebhookSendOmitsEmptyFields(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
 	received := make(chan webhookPayload, 1)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var payload webhookPayload
@@ -142,6 +197,7 @@ func TestWebhookSendOmitsEmptyFields(t *testing.T) {
 }
 
 func TestWebhookSendHonorsConfiguredAuthorizationHeader(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
 	received := make(chan http.Header, 1)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		received <- r.Header.Clone()
@@ -166,6 +222,7 @@ func TestWebhookSendHonorsConfiguredAuthorizationHeader(t *testing.T) {
 }
 
 func TestWebhookSendNon2xxReturnsBoundedBody(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
 	longBody := strings.Repeat("x", webhookMaxResponseBody*2)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadGateway)
@@ -191,6 +248,7 @@ func TestWebhookSendNon2xxReturnsBoundedBody(t *testing.T) {
 }
 
 func TestWebhookSendTimesOut(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(500 * time.Millisecond)
 		w.WriteHeader(http.StatusOK)
@@ -204,6 +262,69 @@ func TestWebhookSendTimesOut(t *testing.T) {
 		Config:    map[string]interface{}{"url": server.URL},
 	}); err == nil {
 		t.Fatal("expected timeout error")
+	}
+}
+
+func TestWebhookSendRejectsCrossOriginRedirect(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
+	targetHits := 0
+	target := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		targetHits++
+		if r.Header.Get("X-API-Key") != "" {
+			t.Errorf("credential header reached the redirect target")
+		}
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer target.Close()
+	redirect := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, target.URL, http.StatusTemporaryRedirect)
+	}))
+	defer redirect.Close()
+
+	provider := NewWebhookProvider()
+	err := provider.Send(context.Background(), Message{
+		EventType: "session.turn_finished",
+		Config: map[string]interface{}{
+			"url":     redirect.URL,
+			"headers": map[string]interface{}{"X-API-Key": "secret-value"},
+		},
+	})
+	if err == nil {
+		t.Fatal("expected cross-origin redirect rejection")
+	}
+	if !strings.Contains(err.Error(), "different origin") {
+		t.Fatalf("error = %q", err)
+	}
+	if targetHits != 0 {
+		t.Fatalf("redirect target received %d requests, want 0", targetHits)
+	}
+}
+
+func TestWebhookSendFollowsSameOriginRedirect(t *testing.T) {
+	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
+	received := make(chan http.Header, 1)
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/redirect" {
+			http.Redirect(w, r, "/final", http.StatusTemporaryRedirect)
+			return
+		}
+		received <- r.Header.Clone()
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer server.Close()
+
+	provider := NewWebhookProvider()
+	if err := provider.Send(context.Background(), Message{
+		EventType: "session.turn_finished",
+		Config: map[string]interface{}{
+			"url":     server.URL + "/redirect",
+			"headers": map[string]interface{}{"X-API-Key": "secret-value"},
+		},
+	}); err != nil {
+		t.Fatalf("send: %v", err)
+	}
+	if got := (<-received).Get("X-API-Key"); got != "secret-value" {
+		t.Fatalf("api key = %q", got)
 	}
 }
 

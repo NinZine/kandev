@@ -30,6 +30,16 @@ An aborted creation leaves no partially configured provider. If the connection f
 reload the settings to confirm the saved state before retrying, especially when adding a provider.
 Saves for separate providers are independent.
 
+## Configure webhook notifications
+
+Webhook providers post notification events to an HTTP endpoint. By default Kandev
+rejects destinations that resolve to loopback, private, link-local, multicast, or
+otherwise reserved addresses, and it refuses cross-origin redirects so configured
+credential headers never reach another origin. Set
+`KANDEV_WEBHOOK_ALLOW_PRIVATE_NETWORKS=true` in the backend environment only when
+you intentionally deliver to a service on a private or local network. The opt-in
+applies to the whole backend process.
+
 ## Use CLI passthrough on a phone
 
 Open a task running in CLI passthrough mode. Its connected terminal shows the

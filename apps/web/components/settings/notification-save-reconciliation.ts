@@ -1,5 +1,6 @@
 import type { NotificationProvider } from "@/lib/types/http";
 import type { NotificationsState } from "./notifications-settings-actions";
+import { webhookHeadersSignature } from "./notifications-settings-webhook-helpers";
 
 function reconcileEvents(
   current: string[] | null = [],
@@ -61,7 +62,7 @@ type Acknowledgement = {
   accepted: NotificationProvider[];
   edits: { urls: Record<string, string>; names: Record<string, string> };
   created: NotificationProvider | null;
-  formIdentity: object;
+  formIdentity: { apprise: object; webhook: object };
 };
 
 export function acknowledgeNotificationSave({
@@ -96,34 +97,67 @@ export function acknowledgeNotificationSave({
   );
 
   // Form identity distinguishes a replacement with identical text from the submitted form.
-  if (current.appriseFormIdentity.current !== formIdentity) return;
   if (created?.type === "webhook") {
-    if (
-      current.webhookUrl !== submitted.webhookUrl ||
-      current.webhookName !== submitted.webhookName
-    )
-      return;
-    submitted.setWebhookName("");
-    submitted.setWebhookUrl("");
-    submitted.setWebhookHeaders("");
-    submitted.setWebhookSecret("");
-    submitted.setShowWebhookForm(false);
-    submitted.setActiveWebhookId(null);
+    acknowledgeCreatedWebhook(submitted, current, formIdentity);
   } else if (created) {
-    if (
-      current.appriseName !== submitted.appriseName ||
-      current.appriseUrls !== submitted.appriseUrls
-    )
-      return;
-    submitted.setAppriseName("");
-    submitted.setAppriseUrls("");
-    submitted.setShowAppriseForm(false);
-    submitted.setActiveAppriseId(null);
+    acknowledgeCreatedApprise(submitted, current, formIdentity);
   } else if (current.appriseFormMode === "edit" && current.activeAppriseId) {
-    const id = current.activeAppriseId;
-    if (current.appriseName === submitted.appriseName)
-      submitted.setAppriseName(edits.names[id] ?? current.appriseName);
-    if (current.appriseUrls === submitted.appriseUrls)
-      submitted.setAppriseUrls(edits.urls[id] ?? current.appriseUrls);
+    acknowledgeAppriseEdit(submitted, current, edits, formIdentity);
   }
+}
+
+function acknowledgeCreatedWebhook(
+  submitted: NotificationsState,
+  current: NotificationsState,
+  formIdentity: Acknowledgement["formIdentity"],
+) {
+  if (current.webhookFormIdentity.current !== formIdentity.webhook) return;
+  if (
+    current.webhookUrl !== submitted.webhookUrl ||
+    current.webhookName !== submitted.webhookName ||
+    current.webhookSecret !== submitted.webhookSecret ||
+    webhookHeadersSignature(current.webhookHeaders) !==
+      webhookHeadersSignature(submitted.webhookHeaders)
+  )
+    return;
+  submitted.setWebhookName("");
+  submitted.setWebhookUrl("");
+  submitted.setWebhookHeaders("");
+  submitted.setWebhookSecret("");
+  submitted.setShowWebhookForm(false);
+  submitted.setActiveWebhookId(null);
+  submitted.webhookFormRef.current = { open: false, mode: "create" };
+}
+
+function acknowledgeCreatedApprise(
+  submitted: NotificationsState,
+  current: NotificationsState,
+  formIdentity: Acknowledgement["formIdentity"],
+) {
+  if (current.appriseFormIdentity.current !== formIdentity.apprise) return;
+  if (
+    current.appriseName !== submitted.appriseName ||
+    current.appriseUrls !== submitted.appriseUrls
+  )
+    return;
+  submitted.setAppriseName("");
+  submitted.setAppriseUrls("");
+  submitted.setShowAppriseForm(false);
+  submitted.setActiveAppriseId(null);
+  submitted.appriseFormRef.current = { open: false, mode: "create" };
+}
+
+function acknowledgeAppriseEdit(
+  submitted: NotificationsState,
+  current: NotificationsState,
+  edits: Acknowledgement["edits"],
+  formIdentity: Acknowledgement["formIdentity"],
+) {
+  if (current.appriseFormIdentity.current !== formIdentity.apprise) return;
+  const id = current.activeAppriseId;
+  if (!id) return;
+  if (current.appriseName === submitted.appriseName)
+    submitted.setAppriseName(edits.names[id] ?? current.appriseName);
+  if (current.appriseUrls === submitted.appriseUrls)
+    submitted.setAppriseUrls(edits.urls[id] ?? current.appriseUrls);
 }

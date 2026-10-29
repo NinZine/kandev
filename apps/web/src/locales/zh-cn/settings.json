@@ -1111,6 +1111,7 @@
   "webhookProvider": "Webhook 提供商",
   "webhookUrl": "Webhook 地址",
   "webhookHeadersPlaceholder": "请求头，每行一个（名称：值）",
+  "webhookHeadersInvalid": "Webhook 请求头必须使用有效的 HTTP 请求头名称，且不能重复。",
   "webhookSecret": "密钥（可选）",
   "webhookUrlRequired": "需要 Webhook 地址。",
   "webhooks": "Webhook 通知",

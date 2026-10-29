@@ -1,8 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { AppriseFormMode, NotificationsState } from "./notifications-settings-actions";
 import type { NotificationProvider } from "@/lib/types/http";
+
+const WEBHOOK_HEADERS_INVALID = "settings:webhookHeadersInvalid";
+const WEBHOOK_HEADER_NAME = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/;
+const INVALID_WEBHOOK_HEADER_VALUE = /[\u0000-\u0008\u000a-\u001f\u007f]/;
+
+export function webhookHeadersError(value: string): string | null {
+  const seen = new Set<string>();
+  for (const line of value.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    const separator = trimmed.indexOf(":");
+    if (separator <= 0) return WEBHOOK_HEADERS_INVALID;
+    const name = trimmed.slice(0, separator).trim();
+    if (!name || !WEBHOOK_HEADER_NAME.test(name)) return WEBHOOK_HEADERS_INVALID;
+    const key = name.toLowerCase();
+    if (seen.has(key)) return WEBHOOK_HEADERS_INVALID;
+    seen.add(key);
+    const headerValue = trimmed.slice(separator + 1).trim();
+    if (INVALID_WEBHOOK_HEADER_VALUE.test(headerValue)) {
+      return WEBHOOK_HEADERS_INVALID;
+    }
+  }
+  return null;
+}
 
 export function formatWebhookHeaders(value: unknown): string {
   if (!value || typeof value !== "object" || Array.isArray(value)) return "";
@@ -48,6 +72,11 @@ export function useWebhookFormState() {
   const [webhookUrl, setWebhookUrl] = useState("");
   const [webhookHeaders, setWebhookHeaders] = useState("");
   const [webhookSecret, setWebhookSecret] = useState("");
+  const webhookFormIdentity = useRef<object>({});
+  const webhookFormRef = useRef<{ open: boolean; mode: AppriseFormMode }>({
+    open: false,
+    mode: "create",
+  });
   return {
     showWebhookForm,
     setShowWebhookForm,
@@ -63,13 +92,19 @@ export function useWebhookFormState() {
     setWebhookHeaders,
     webhookSecret,
     setWebhookSecret,
+    webhookFormIdentity,
+    webhookFormRef,
   };
 }
 
 export function useWebhookProviderActions(state: NotificationsState) {
   const {
     baselineProviders,
+    appriseFormRef,
+    appriseFormIdentity,
     webhookFormMode,
+    webhookFormIdentity,
+    webhookFormRef,
     activeWebhookId,
     setProviders,
     setShowWebhookForm,
@@ -79,6 +114,10 @@ export function useWebhookProviderActions(state: NotificationsState) {
     setWebhookUrl,
     setWebhookHeaders,
     setWebhookSecret,
+    setShowAppriseForm,
+    setActiveAppriseId,
+    setAppriseName,
+    setAppriseUrls,
   } = state;
 
   const updateProvider = (
@@ -111,6 +150,17 @@ export function useWebhookProviderActions(state: NotificationsState) {
   };
 
   const openWebhookForm = (mode: AppriseFormMode, provider?: NotificationProvider) => {
+    const appriseForm = appriseFormRef.current;
+    if (mode === "create" && appriseForm.open && appriseForm.mode === "create") {
+      appriseFormRef.current = { open: false, mode: "create" };
+      appriseFormIdentity.current = {};
+      setShowAppriseForm(false);
+      setActiveAppriseId(null);
+      setAppriseName("");
+      setAppriseUrls("");
+    }
+    webhookFormIdentity.current = {};
+    webhookFormRef.current = { open: true, mode };
     setWebhookFormMode(mode);
     setActiveWebhookId(provider?.id ?? null);
     const config = webhookConfig(provider?.config);
@@ -122,6 +172,8 @@ export function useWebhookProviderActions(state: NotificationsState) {
   };
 
   const closeWebhookForm = () => {
+    webhookFormIdentity.current = {};
+    webhookFormRef.current = { open: false, mode: "create" };
     setShowWebhookForm(false);
     setActiveWebhookId(null);
     setWebhookName("");

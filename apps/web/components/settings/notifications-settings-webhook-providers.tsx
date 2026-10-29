@@ -274,6 +274,7 @@ export type WebhookProvidersSectionProps = {
   headers: string;
   secret: string;
   showForm: boolean;
+  appriseCreateFormOpen: boolean;
   setName: (value: string) => void;
   setUrl: (value: string) => void;
   setHeaders: (value: string) => void;
@@ -301,6 +302,7 @@ export function WebhookProvidersSection(props: WebhookProvidersSectionProps) {
     headers,
     secret,
     showForm,
+    appriseCreateFormOpen,
     onOpenForm,
     onCloseForm,
     onCancelForm,
@@ -341,7 +343,7 @@ export function WebhookProvidersSection(props: WebhookProvidersSectionProps) {
           variant="outline"
           className="cursor-pointer"
           onClick={() => onOpenForm("create")}
-          disabled={showForm}
+          disabled={showForm || appriseCreateFormOpen}
         >
           {t("settings:addWebhookProvider")}
         </Button>

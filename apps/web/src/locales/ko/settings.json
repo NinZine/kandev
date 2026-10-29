@@ -1111,6 +1111,7 @@
   "webhookProvider": "Webhook 제공자",
   "webhookUrl": "Webhook 주소",
   "webhookHeadersPlaceholder": "헤더, 줄당 하나 (이름: 값)",
+  "webhookHeadersInvalid": "Webhook 헤더에는 유효한 HTTP 헤더 이름을 사용해야 하며 중복될 수 없습니다.",
   "webhookSecret": "시크릿(선택 사항)",
   "webhookUrlRequired": "Webhook 주소가 필요합니다.",
   "webhooks": "Webhook 알림",

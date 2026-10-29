@@ -19,6 +19,8 @@ import {
   parseWebhookHeaders,
   useWebhookFormState,
   useWebhookProviderActions,
+  webhookConfig,
+  webhookHeadersError,
 } from "./notifications-settings-webhook-helpers";
 import {
   buildProviderUpdate,
@@ -184,6 +186,10 @@ export function useNotificationsState() {
   const [showAppriseForm, setShowAppriseForm] = useState(false);
   const [appriseFormMode, setAppriseFormMode] = useState<AppriseFormMode>("create");
   const appriseFormIdentity = useRef<object>({});
+  const appriseFormRef = useRef<{ open: boolean; mode: AppriseFormMode }>({
+    open: false,
+    mode: "create",
+  });
   const [activeAppriseId, setActiveAppriseId] = useState<string | null>(null);
   const webhookForm = useWebhookFormState();
   const { showWebhookForm, webhookFormMode } = webhookForm;
@@ -241,6 +247,7 @@ export function useNotificationsState() {
     activeAppriseId,
     setActiveAppriseId,
     appriseFormIdentity,
+    appriseFormRef,
     ...webhookForm,
     pendingDeletes,
     setPendingDeletes,
@@ -304,12 +311,30 @@ async function createProviderFromDrafts(
   return null;
 }
 
+function assertWebhookHeadersValid(
+  state: NotificationsState,
+  providers: NotificationProvider[],
+) {
+  if (state.showWebhookForm) {
+    const headersError = webhookHeadersError(state.webhookHeaders);
+    if (headersError) throw new Error(t(headersError));
+  }
+  for (const provider of providers) {
+    if (provider.type !== "webhook") continue;
+    const headersError = webhookHeadersError(webhookConfig(provider.config).headers);
+    if (headersError) throw new Error(t(headersError));
+  }
+}
+
 export function useSaveRequest(state: NotificationsState) {
   const currentState = useRef(state);
   currentState.current = state;
   const { providers, baselineProviders, pendingDeletes, setNotificationProviders } = state;
   return useRequest(async () => {
-    const formIdentity = state.appriseFormIdentity.current;
+    const formIdentity = {
+      apprise: state.appriseFormIdentity.current,
+      webhook: state.webhookFormIdentity.current,
+    };
     const appriseDraft = buildAppriseCreateDraft(state);
     if (appriseDraft && appriseDraft.urls.length === 0) {
       throw new Error(t("settings:appriseUrlRequired"));
@@ -318,6 +343,7 @@ export function useSaveRequest(state: NotificationsState) {
     if (webhookDraft && !webhookDraft.url) {
       throw new Error(t("settings:webhookUrlRequired"));
     }
+    assertWebhookHeadersValid(state, providers);
     const updates: Array<Promise<NotificationProvider>> = [];
     for (const provider of providers) {
       const baseline = baselineProviders.find((item) => item.id === provider.id);
@@ -378,12 +404,24 @@ export function useIsDirty(state: NotificationsState) {
   });
 }
 
+function closeWebhookCreateDraft(state: NotificationsState) {
+  state.webhookFormRef.current = { open: false, mode: "create" };
+  state.webhookFormIdentity.current = {};
+  state.setShowWebhookForm(false);
+  state.setActiveWebhookId(null);
+  state.setWebhookName("");
+  state.setWebhookUrl("");
+  state.setWebhookHeaders("");
+  state.setWebhookSecret("");
+}
+
 function useAppriseProviderActions(state: NotificationsState) {
   const {
     baselineProviders,
     appriseEdits,
     appriseNameEdits,
     appriseFormMode,
+    appriseFormRef,
     activeAppriseId,
     setProviders,
     setAppriseEdits,
@@ -394,6 +432,7 @@ function useAppriseProviderActions(state: NotificationsState) {
     setAppriseFormMode,
     setActiveAppriseId,
     setPendingDeletes,
+    webhookFormRef,
   } = state;
 
   const updateProviderState = (
@@ -417,7 +456,12 @@ function useAppriseProviderActions(state: NotificationsState) {
   };
 
   const openAppriseForm = (mode: AppriseFormMode, provider?: NotificationProvider) => {
+    const webhookForm = webhookFormRef.current;
+    if (mode === "create" && webhookForm.open && webhookForm.mode === "create") {
+      closeWebhookCreateDraft(state);
+    }
     state.appriseFormIdentity.current = {};
+    appriseFormRef.current = { open: true, mode };
     setAppriseFormMode(mode);
     setActiveAppriseId(provider?.id ?? null);
     if (provider) {
@@ -437,6 +481,7 @@ function useAppriseProviderActions(state: NotificationsState) {
 
   const closeAppriseForm = () => {
     state.appriseFormIdentity.current = {};
+    appriseFormRef.current = { open: false, mode: "create" };
     setShowAppriseForm(false);
     setActiveAppriseId(null);
     setAppriseName("");
@@ -541,6 +586,9 @@ export function useNotificationsActions(
 
   const discard = () => {
     state.appriseFormIdentity.current = {};
+    state.webhookFormIdentity.current = {};
+    state.appriseFormRef.current = { open: false, mode: "create" };
+    state.webhookFormRef.current = { open: false, mode: "create" };
     const edits = buildAppriseEdits(state.baselineProviders);
     state.setProviders(state.baselineProviders);
     state.setAppriseEdits(edits.urls);

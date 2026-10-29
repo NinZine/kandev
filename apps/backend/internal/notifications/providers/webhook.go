@@ -4,20 +4,63 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
+	"net/netip"
 	"net/url"
+	"os"
 	"strings"
 	"time"
+
+	"golang.org/x/net/http/httpguts"
 )
 
 const (
 	webhookTimeout         = 10 * time.Second
 	webhookMaxResponseBody = 4 * 1024
 	webhookPayloadVersion  = "1.0"
+	// webhookAllowPrivateNetworksEnv lets an operator opt in to webhook
+	// destinations on private, loopback, or link-local networks. It is off by
+	// default so a provider owner cannot turn the backend into an SSRF proxy.
+	webhookAllowPrivateNetworksEnv = "KANDEV_WEBHOOK_ALLOW_PRIVATE_NETWORKS"
 )
 
+var (
+	errWebhookDestinationBlocked = errors.New(
+		"webhook destination must be a globally routable address",
+	)
+	webhookBlockedAddressRanges = mustParseWebhookPrefixes(
+		"0.0.0.0/8",
+		"10.0.0.0/8",
+		"100.64.0.0/10",
+		"127.0.0.0/8",
+		"169.254.0.0/16",
+		"172.16.0.0/12",
+		"192.0.0.0/24",
+		"192.0.2.0/24",
+		"192.88.99.0/24",
+		"192.168.0.0/16",
+		"198.18.0.0/15",
+		"198.51.100.0/24",
+		"203.0.113.0/24",
+		"224.0.0.0/4",
+		"240.0.0.0/4",
+		"::/128",
+		"::1/128",
+		"64:ff9b:1::/48",
+		"100::/64",
+		"2001::/23",
+		"2001:db8::/32",
+		"fc00::/7",
+		"fe80::/10",
+		"ff00::/8",
+	)
+)
+
+// WebhookProvider delivers notification events to a configured HTTP endpoint.
 type WebhookProvider struct {
 	client *http.Client
 }
@@ -37,19 +80,25 @@ type webhookPayload struct {
 	Fields  map[string]string `json:"fields"`
 }
 
+// NewWebhookProvider builds a webhook provider whose client rejects
+// non-public destinations and cross-origin redirects by default.
 func NewWebhookProvider() *WebhookProvider {
-	return &WebhookProvider{client: &http.Client{Timeout: webhookTimeout}}
+	return &WebhookProvider{client: newWebhookHTTPClient()}
 }
 
+// Available reports that webhook delivery needs no host-side dependency.
 func (p *WebhookProvider) Available() bool {
 	return true
 }
 
+// Validate checks that config contains a usable URL, valid headers, and an
+// optional secret without contacting the destination.
 func (p *WebhookProvider) Validate(config map[string]interface{}) error {
 	_, err := parseWebhookConfig(config)
 	return err
 }
 
+// Send posts a notification payload to the configured webhook endpoint.
 func (p *WebhookProvider) Send(ctx context.Context, message Message) error {
 	config, err := parseWebhookConfig(message.Config)
 	if err != nil {
@@ -88,6 +137,132 @@ func (p *WebhookProvider) Send(ctx context.Context, message Message) error {
 	return nil
 }
 
+// newWebhookHTTPClient builds the outbound client with SSRF and redirect guards.
+func newWebhookHTTPClient() *http.Client {
+	transport := http.DefaultTransport.(*http.Transport).Clone()
+	// A proxy would hide the real destination from the dial-time address check.
+	transport.Proxy = nil
+	transport.DialContext = webhookDialContext
+	return &http.Client{
+		Timeout:       webhookTimeout,
+		Transport:     transport,
+		CheckRedirect: checkWebhookRedirect,
+	}
+}
+
+// checkWebhookRedirect permits same-origin redirects only so configured
+// credential headers never reach another origin.
+func checkWebhookRedirect(request *http.Request, via []*http.Request) error {
+	if len(via) >= 10 {
+		return errors.New("webhook redirect limit exceeded")
+	}
+	if len(via) == 0 {
+		return nil
+	}
+	if !sameWebhookOrigin(via[0].URL, request.URL) {
+		return errors.New("webhook redirect to a different origin is not allowed")
+	}
+	return nil
+}
+
+// sameWebhookOrigin reports whether two URLs share a scheme and authority.
+func sameWebhookOrigin(first, next *url.URL) bool {
+	if first == nil || next == nil {
+		return false
+	}
+	return strings.EqualFold(first.Scheme, next.Scheme) &&
+		strings.EqualFold(first.Host, next.Host)
+}
+
+// webhookDialContext resolves and validates every connection at dial time so a
+// DNS answer cannot change between validation and delivery.
+func webhookDialContext(ctx context.Context, network, address string) (net.Conn, error) {
+	dialer := &net.Dialer{}
+	if webhookPrivateNetworksAllowed() {
+		return dialer.DialContext(ctx, network, address)
+	}
+	host, port, err := net.SplitHostPort(address)
+	if err != nil {
+		return nil, fmt.Errorf("webhook destination invalid: %w", err)
+	}
+	if ip := net.ParseIP(host); ip != nil {
+		address, ok := netip.AddrFromSlice(ip)
+		if !ok || !isGlobalWebhookAddress(address) {
+			return nil, errWebhookDestinationBlocked
+		}
+		return dialer.DialContext(ctx, network, net.JoinHostPort(address.Unmap().String(), port))
+	}
+	resolved, err := net.DefaultResolver.LookupIPAddr(ctx, host)
+	if err != nil {
+		return nil, fmt.Errorf("webhook destination could not be resolved: %w", err)
+	}
+	if len(resolved) == 0 {
+		return nil, errors.New("webhook destination could not be resolved")
+	}
+	var lastErr error
+	for _, candidate := range resolved {
+		address, ok := netip.AddrFromSlice(candidate.IP)
+		if !ok || !isGlobalWebhookAddress(address) {
+			continue
+		}
+		connection, dialErr := dialer.DialContext(
+			ctx,
+			network,
+			net.JoinHostPort(address.Unmap().String(), port),
+		)
+		if dialErr == nil {
+			return connection, nil
+		}
+		lastErr = dialErr
+	}
+	if lastErr != nil {
+		return nil, lastErr
+	}
+	return nil, errWebhookDestinationBlocked
+}
+
+// webhookPrivateNetworksAllowed reports the operator SSRF opt-in.
+func webhookPrivateNetworksAllowed() bool {
+	return strings.EqualFold(
+		strings.TrimSpace(os.Getenv(webhookAllowPrivateNetworksEnv)),
+		"true",
+	)
+}
+
+// isGlobalWebhookAddress rejects loopback, private, link-local, multicast,
+// unspecified, and reserved destination addresses.
+func isGlobalWebhookAddress(address netip.Addr) bool {
+	if !address.IsValid() || address.Zone() != "" {
+		return false
+	}
+	address = address.Unmap()
+	if !address.IsGlobalUnicast() ||
+		address.IsPrivate() ||
+		address.IsLoopback() ||
+		address.IsLinkLocalUnicast() ||
+		address.IsLinkLocalMulticast() ||
+		address.IsMulticast() ||
+		address.IsUnspecified() {
+		return false
+	}
+	for _, addressRange := range webhookBlockedAddressRanges {
+		if addressRange.Contains(address) {
+			return false
+		}
+	}
+	return true
+}
+
+// mustParseWebhookPrefixes parses the blocked destination ranges at startup.
+func mustParseWebhookPrefixes(values ...string) []netip.Prefix {
+	prefixes := make([]netip.Prefix, 0, len(values))
+	for _, value := range values {
+		prefixes = append(prefixes, netip.MustParsePrefix(value))
+	}
+	return prefixes
+}
+
+// newWebhookPayload builds the versioned payload sent to the endpoint.
 func newWebhookPayload(message Message) webhookPayload {
 	fields := map[string]string{}
 	for name, value := range map[string]string{
@@ -109,6 +284,7 @@ func newWebhookPayload(message Message) webhookPayload {
 	}
 }
 
+// parseWebhookConfig validates and normalizes a stored webhook configuration.
 func parseWebhookConfig(config map[string]interface{}) (webhookConfig, error) {
 	if config == nil {
 		return webhookConfig{}, fmt.Errorf("webhook config missing")
@@ -127,6 +303,11 @@ func parseWebhookConfig(config map[string]interface{}) (webhookConfig, error) {
 	if parsed.Host == "" {
 		return webhookConfig{}, fmt.Errorf("webhook url invalid: missing host")
 	}
+	if !webhookPrivateNetworksAllowed() {
+		if err := validateWebhookDestination(parsed); err != nil {
+			return webhookConfig{}, err
+		}
+	}
 	headers, err := parseWebhookHeaders(config["headers"])
 	if err != nil {
 		return webhookConfig{}, err
@@ -138,18 +319,59 @@ func parseWebhookConfig(config map[string]interface{}) (webhookConfig, error) {
 	return webhookConfig{url: parsed.String(), headers: headers, secret: secret}, nil
 }
 
+// validateWebhookDestination rejects literal private addresses and localhost
+// hostnames up front. Named hosts are resolved again at dial time.
+func validateWebhookDestination(parsed *url.URL) error {
+	hostname := strings.ToLower(strings.TrimSuffix(parsed.Hostname(), "."))
+	if hostname == "" {
+		return fmt.Errorf("webhook url invalid: missing host")
+	}
+	if address, err := netip.ParseAddr(hostname); err == nil {
+		if !isGlobalWebhookAddress(address) {
+			return errWebhookDestinationBlocked
+		}
+		return nil
+	}
+	if hostname == "localhost" || strings.HasSuffix(hostname, ".localhost") {
+		return errWebhookDestinationBlocked
+	}
+	return nil
+}
+
+// parseWebhookHeaders validates names and values and rejects case-insensitive
+// duplicates so delivery never depends on map iteration order.
 func parseWebhookHeaders(raw interface{}) (map[string]string, error) {
 	if raw == nil {
 		return nil, nil
 	}
 	headers := map[string]string{}
+	seen := map[string]string{}
+	add := func(name, value string) error {
+		name = strings.TrimSpace(name)
+		if name == "" {
+			return nil
+		}
+		value = strings.TrimSpace(value)
+		if !httpguts.ValidHeaderFieldName(name) {
+			return fmt.Errorf("webhook header name %q is invalid", name)
+		}
+		if !httpguts.ValidHeaderFieldValue(value) {
+			return fmt.Errorf("webhook header %q has an invalid value", name)
+		}
+		key := strings.ToLower(name)
+		if previous, ok := seen[key]; ok {
+			return fmt.Errorf("webhook header %q duplicates %q", name, previous)
+		}
+		seen[key] = name
+		headers[name] = value
+		return nil
+	}
 	switch value := raw.(type) {
 	case map[string]string:
 		for name, item := range value {
-			if strings.TrimSpace(name) == "" {
-				continue
+			if err := add(name, item); err != nil {
+				return nil, err
 			}
-			headers[strings.TrimSpace(name)] = strings.TrimSpace(item)
 		}
 	case map[string]interface{}:
 		for name, item := range value {
@@ -157,10 +379,9 @@ func parseWebhookHeaders(raw interface{}) (map[string]string, error) {
 			if !ok {
 				return nil, fmt.Errorf("webhook headers must map strings to strings")
 			}
-			if strings.TrimSpace(name) == "" {
-				continue
+			if err := add(name, text); err != nil {
+				return nil, err
 			}
-			headers[strings.TrimSpace(name)] = strings.TrimSpace(text)
 		}
 	default:
 		return nil, fmt.Errorf("webhook headers must be an object")
@@ -168,6 +389,7 @@ func parseWebhookHeaders(raw interface{}) (map[string]string, error) {
 	return headers, nil
 }
 
+// optionalString reads and trims an optional string configuration value.
 func optionalString(raw interface{}, label string) (string, error) {
 	if raw == nil {
 		return "", nil
@@ -179,6 +401,7 @@ func optionalString(raw interface{}, label string) (string, error) {
 	return strings.TrimSpace(text), nil
 }
 
+// hasHeader reports whether headers contains target case-insensitively.
 func hasHeader(headers map[string]string, target string) bool {
 	for name := range headers {
 		if strings.EqualFold(name, target) {
@@ -188,6 +411,7 @@ func hasHeader(headers map[string]string, target string) bool {
 	return false
 }
 
+// readBoundedBody reads at most webhookMaxResponseBody bytes for error text.
 func readBoundedBody(body io.Reader) string {
 	data, err := io.ReadAll(io.LimitReader(body, webhookMaxResponseBody))
 	if err != nil {
