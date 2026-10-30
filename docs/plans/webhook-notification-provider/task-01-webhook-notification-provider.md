@@ -37,9 +37,12 @@ Backend:
   payload, delivery, SSRF dial policy, private-network opt-in, and redirect
   policy.
 - `apps/backend/internal/notifications/providers/webhook_test.go`: payload,
-  header, redirect, SSRF, opt-in, and timeout coverage.
+  header, redirect, SSRF, opt-in, timeout, sanitized errors, and IPv6
+  transition range coverage.
 - `apps/backend/internal/notifications/service/service.go` and
   `webhook_provider_test.go`: register the provider and cover provider CRUD.
+- `apps/backend/internal/common/config`: define the typed private-network
+  setting, source precedence, catalog entry, and tests.
 - `apps/backend/internal/notifications/controller/controller.go`: default name.
 - `apps/backend/internal/notifications/dto/dto.go` and `dto_test.go`: serialize
   empty subscriptions as an empty list.
@@ -56,31 +59,40 @@ Frontend:
   and per-form identity before clearing a create form.
 - `notifications-settings-webhook-save.test.tsx`,
   `notifications-settings-actions.test.tsx`, and
-  `notifications-settings.test.tsx`: save, validation, and form behavior.
+  `notifications-settings.test.tsx`: save, validation, raw header draft, and
+  form behavior.
 - `apps/web/lib/types/http.ts` and `apps/web/src/locales/*/settings.json`:
   provider type and localized copy.
 - `apps/web/e2e/tests/settings/webhook-provider-save-reload.spec.ts`: desktop
   create, save, reload, and edit journey.
-- `docs/public/developer-tools.md`: operator guidance for private destinations.
+- `apps/web/e2e/tests/settings/mobile-webhook-provider.spec.ts`: phone
+  create, edit, remove, and touch target coverage.
+- `docs/public/developer-tools.md` and `docs/public/configuration.md`: webhook
+  setup, payload, credentials, testing, and operator configuration.
 
 ## Acceptance
 
 1. Notification settings creates, edits, tests, and removes a webhook provider
    with name, URL, headers, and secret on desktop and phone.
 2. Delivery posts the versioned JSON payload with configured headers and the
-   optional bearer secret, times out after 10 seconds, and reports bounded
-   non-2xx failures.
+   optional bearer secret, times out after 10 seconds, and reports a sanitized
+   status for non-2xx responses. Transport errors do not include the URL or
+   response text.
 3. Invalid header names or values are rejected by the backend and the settings
    form; header names that differ only by case are rejected instead of
    overwriting nondeterministically.
-4. Private, loopback, link-local, and reserved destinations are rejected by
-   default at validation and dial time. The documented backend environment
-   opt-in permits intentional private destinations.
+4. Private, loopback, link-local, IPv6 NAT64, IPv6 6to4, and reserved
+   destinations are rejected by default at validation and dial time. The
+   typed `notifications.webhookAllowPrivateNetworks` setting permits
+   intentional private destinations. Its default is false; YAML and the
+   `KANDEV_WEBHOOK_ALLOW_PRIVATE_NETWORKS` environment variable configure it.
 5. Cross-origin redirects fail; same-origin redirects are allowed up to the
    configured limit, so credential headers never reach another origin.
 6. A saved webhook provider reloads with its configuration and `events: []`
    when it has no subscriptions. Edits made during an in-flight create remain
-   in the form, and Apprise and webhook create forms cannot be open together.
+   in the form, invalid raw header drafts survive provider switches and block
+   Done and Save, and Apprise and webhook create forms cannot be open together.
+   Edit and Remove actions have phone-sized touch targets.
 
 ## Regression sequence
 
@@ -90,10 +102,10 @@ and timeout behavior before changing the provider. Add service tests for
 registration and CRUD, and DTO tests for nil subscriptions.
 
 Add frontend tests for invalid headers, mutual exclusion, submitted-field
-reconciliation, and replacement form identity. Extend the settings tests for
-create/edit/remove rendering. Add the desktop Playwright journey that creates a
-provider through the UI, saves, reloads, opens Edit, and checks the restored
-name, URL, headers, and secret.
+reconciliation, replacement form identity, and raw header drafts during
+provider switches. Extend the settings tests for create/edit/remove rendering.
+Add desktop and phone Playwright journeys. The phone journey checks the touch
+targets while creating, editing, and removing a provider.
 
 ## Exact verification commands
 
@@ -111,6 +123,7 @@ pnpm run typecheck
 pnpm exec eslint --max-warnings 0 components/settings/notification-save-reconciliation.ts components/settings/notifications-settings-actions.ts components/settings/notifications-settings-provider-updates.ts components/settings/notifications-settings-webhook-helpers.ts components/settings/notifications-settings-webhook-providers.tsx components/settings/notifications-settings.tsx components/settings/notifications-settings-actions.test.tsx components/settings/notifications-settings.test.tsx components/settings/notifications-settings-webhook-save.test.tsx lib/types/http.ts eslint.i18n.options.mjs e2e/tests/settings/webhook-provider-save-reload.spec.ts
 pnpm run i18n:check
 pnpm e2e:run --host --shards 1 --project chromium tests/settings/webhook-provider-save-reload.spec.ts
+pnpm e2e:run --host --shards 1 --project mobile-chrome tests/settings/mobile-webhook-provider.spec.ts
 ```
 
 From the repository root:

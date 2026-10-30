@@ -243,9 +243,9 @@ describe("NotificationsSettings webhook providers", () => {
       target: { value: "X-Tenant: acme\nx-tenant: other" },
     });
 
-    expect(
-      screen.getByText("Webhook headers must use valid HTTP header names and must not repeat."),
-    ).toBeTruthy();
+    expect(screen.getByRole("alert").textContent).toContain(
+      "Webhook headers must use valid HTTP header names and must not repeat.",
+    );
     expect(
       (
         within(screen.getByTestId("settings-floating-save")).getByRole("button", {

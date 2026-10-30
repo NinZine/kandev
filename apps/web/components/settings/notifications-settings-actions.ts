@@ -41,6 +41,7 @@ type NotificationDraft = {
   appriseFormMode: AppriseFormMode;
   showWebhookForm: boolean;
   webhookFormMode: AppriseFormMode;
+  webhookHeaderDrafts: Record<string, string>;
 };
 
 type NotificationHydrationSource = {
@@ -70,11 +71,13 @@ function hasDraftChanges({
   appriseFormMode,
   showWebhookForm,
   webhookFormMode,
+  webhookHeaderDrafts,
 }: NotificationDraft) {
   return (
     (showAppriseForm && appriseFormMode === "create") ||
     (showWebhookForm && webhookFormMode === "create") ||
     pendingDeletes.size > 0 ||
+    Object.keys(webhookHeaderDrafts).some((providerId) => !pendingDeletes.has(providerId)) ||
     providers.some((provider) => {
       const baseline = baselineProviders.find((item) => item.id === provider.id);
       if (!baseline) return false;
@@ -144,6 +147,7 @@ function useHydrateNotificationDraft({
     draft.showAppriseForm,
     draft.showWebhookForm,
     draft.webhookFormMode,
+    draft.webhookHeaderDrafts,
     loaded,
     setAppriseEdits,
     setAppriseNameEdits,
@@ -211,6 +215,7 @@ export function useNotificationsState() {
       appriseFormMode,
       showWebhookForm,
       webhookFormMode,
+      webhookHeaderDrafts: webhookForm.webhookHeaderDrafts,
     },
     setProviders,
     setBaselineProviders,
@@ -311,12 +316,14 @@ async function createProviderFromDrafts(
   return null;
 }
 
-function assertWebhookHeadersValid(
-  state: NotificationsState,
-  providers: NotificationProvider[],
-) {
-  if (state.showWebhookForm) {
+function assertWebhookHeadersValid(state: NotificationsState, providers: NotificationProvider[]) {
+  if (state.showWebhookForm && state.webhookFormMode === "create") {
     const headersError = webhookHeadersError(state.webhookHeaders);
+    if (headersError) throw new Error(t(headersError));
+  }
+  for (const [providerId, rawHeaders] of Object.entries(state.webhookHeaderDrafts)) {
+    if (state.pendingDeletes.has(providerId)) continue;
+    const headersError = webhookHeadersError(rawHeaders);
     if (headersError) throw new Error(t(headersError));
   }
   for (const provider of providers) {
@@ -390,6 +397,7 @@ export function useIsDirty(state: NotificationsState) {
     appriseFormMode,
     showWebhookForm,
     webhookFormMode,
+    webhookHeaderDrafts,
   } = state;
   return hasDraftChanges({
     providers,
@@ -401,6 +409,7 @@ export function useIsDirty(state: NotificationsState) {
     appriseFormMode,
     showWebhookForm,
     webhookFormMode,
+    webhookHeaderDrafts,
   });
 }
 
@@ -604,6 +613,7 @@ export function useNotificationsActions(
     state.setWebhookUrl("");
     state.setWebhookHeaders("");
     state.setWebhookSecret("");
+    state.setWebhookHeaderDrafts({});
   };
 
   return {

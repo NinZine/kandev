@@ -14,9 +14,7 @@ function reconcileEvents(
   const acceptedEvents = accepted ?? [];
   const removed = new Set(submittedEvents.filter((event) => !currentEvents.includes(event)));
   const added = currentEvents.filter((event) => !submittedEvents.includes(event));
-  return [
-    ...new Set([...acceptedEvents.filter((event) => !removed.has(event)), ...added]),
-  ];
+  return [...new Set([...acceptedEvents.filter((event) => !removed.has(event)), ...added])];
 }
 
 function reconcileProvider(
@@ -92,6 +90,14 @@ export function acknowledgeNotificationSave({
   submitted.setAppriseNameEdits((buffers) =>
     reconcileBuffers(buffers, submitted.appriseNameEdits, edits.names),
   );
+  submitted.setWebhookHeaderDrafts((drafts) => {
+    const next = { ...drafts };
+    for (const providerId of submitted.pendingDeletes) delete next[providerId];
+    for (const [providerId, submittedHeaders] of Object.entries(submitted.webhookHeaderDrafts)) {
+      if (drafts[providerId] === submittedHeaders) delete next[providerId];
+    }
+    return next;
+  });
   submitted.setPendingDeletes(
     (ids) => new Set([...ids].filter((id) => !submitted.pendingDeletes.has(id))),
   );

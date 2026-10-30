@@ -27,6 +27,11 @@ const SAVED_EVENT = "task.completed";
 const NOTIFICATION_EVENTS = [SAVED_EVENT];
 const WEBHOOK_TEST_URL = "https://hooks.example.com/kandev";
 const WEBHOOK_TEST_NAME = "Inbound hooks";
+const WEBHOOK_HEADER_DRAFT = "X-Tenant: beta";
+const WEBHOOK_SUBMITTED_HEADER_DRAFT = "X-Tenant: submitted";
+const WEBHOOK_NEWER_HEADER_DRAFT = "X-Tenant: latest";
+const WEBHOOK_HEADERS_INVALID_MESSAGE =
+  "Webhook headers must use valid HTTP header names and must not repeat.";
 
 const savedProvider: NotificationProvider = {
   id: "provider-1",
@@ -52,6 +57,13 @@ const webhookProvider: NotificationProvider = {
   events: [SAVED_EVENT],
   created_at: "",
   updated_at: "",
+};
+
+const anotherWebhookProvider: NotificationProvider = {
+  ...webhookProvider,
+  id: "provider-webhook-2",
+  name: "Regional hooks",
+  config: { url: "https://region.example/hooks", headers: { "X-Region": "eu" } },
 };
 
 let notificationProviders = [savedProvider];
@@ -105,7 +117,7 @@ describe("webhook provider save safeguards", () => {
 
     await act(async () => {
       await expect(result.current.saveRequest.run()).rejects.toThrow(
-        "Webhook headers must use valid HTTP header names and must not repeat.",
+        WEBHOOK_HEADERS_INVALID_MESSAGE,
       );
     });
 
@@ -145,6 +157,111 @@ describe("webhook provider save safeguards", () => {
     expect(mocks.createNotificationProvider).toHaveBeenCalledWith(
       expect.objectContaining({ type: "webhook" }),
     );
+  });
+});
+
+describe("webhook provider edit safeguards", () => {
+  it("keeps an invalid edit open when Done is selected", () => {
+    notificationProviders = [webhookProvider];
+    const { result } = renderHook(useHarness);
+    const invalidHeaders = "Authorization Bearer malformed";
+
+    act(() => result.current.actions.openWebhookForm("edit", webhookProvider));
+    act(() => {
+      result.current.actions.handleWebhookEdit(webhookProvider.id, { headers: invalidHeaders });
+      result.current.state.setWebhookHeaders(invalidHeaders);
+    });
+    act(() => result.current.actions.closeWebhookForm());
+
+    expect(result.current.state.showWebhookForm).toBe(true);
+    expect(result.current.state.activeWebhookId).toBe(webhookProvider.id);
+    expect(result.current.state.webhookHeaders).toBe(invalidHeaders);
+  });
+
+  it("restores each provider's raw header draft when edit forms switch", () => {
+    notificationProviders = [webhookProvider, anotherWebhookProvider];
+    const { result } = renderHook(useHarness);
+
+    act(() => result.current.actions.openWebhookForm("edit", webhookProvider));
+    act(() => {
+      result.current.actions.handleWebhookEdit(webhookProvider.id, {
+        headers: WEBHOOK_HEADER_DRAFT,
+      });
+      result.current.state.setWebhookHeaders(WEBHOOK_HEADER_DRAFT);
+    });
+    act(() => result.current.actions.openWebhookForm("edit", anotherWebhookProvider));
+
+    expect(result.current.state.activeWebhookId).toBe(anotherWebhookProvider.id);
+    expect(result.current.state.webhookHeaders).toBe("X-Region: eu");
+
+    act(() => result.current.actions.openWebhookForm("edit", webhookProvider));
+    expect(result.current.state.webhookHeaders).toBe(WEBHOOK_HEADER_DRAFT);
+  });
+
+  it("blocks Save when a switched-away edit has invalid headers", async () => {
+    notificationProviders = [webhookProvider, anotherWebhookProvider];
+    const { result } = renderHook(useHarness);
+    const invalidHeaders = "Authorization Bearer malformed";
+
+    act(() => result.current.actions.openWebhookForm("edit", webhookProvider));
+    act(() => {
+      result.current.actions.handleWebhookEdit(webhookProvider.id, { headers: invalidHeaders });
+      result.current.state.setWebhookHeaders(invalidHeaders);
+    });
+    act(() => result.current.actions.openWebhookForm("edit", anotherWebhookProvider));
+
+    await act(async () => {
+      await expect(result.current.saveRequest.run()).rejects.toThrow(
+        WEBHOOK_HEADERS_INVALID_MESSAGE,
+      );
+    });
+    expect(mocks.updateNotificationProvider).not.toHaveBeenCalled();
+  });
+});
+
+describe("webhook provider edit save reconciliation", () => {
+  it("keeps a newer raw header draft when an edit save finishes", async () => {
+    let resolveUpdate: (provider: NotificationProvider) => void = () => undefined;
+    const updatePromise = new Promise<NotificationProvider>((resolve) => {
+      resolveUpdate = resolve;
+    });
+    mocks.updateNotificationProvider.mockReturnValueOnce(updatePromise);
+    notificationProviders = [webhookProvider];
+    const { result } = renderHook(useHarness);
+
+    act(() => result.current.actions.openWebhookForm("edit", webhookProvider));
+    act(() => {
+      result.current.actions.handleWebhookEdit(webhookProvider.id, {
+        headers: WEBHOOK_SUBMITTED_HEADER_DRAFT,
+      });
+      result.current.state.setWebhookHeaders(WEBHOOK_SUBMITTED_HEADER_DRAFT);
+    });
+
+    let savePromise: Promise<unknown>;
+    act(() => {
+      savePromise = result.current.saveRequest.run();
+    });
+    await waitFor(() => expect(mocks.updateNotificationProvider).toHaveBeenCalledOnce());
+
+    act(() => {
+      result.current.actions.handleWebhookEdit(webhookProvider.id, {
+        headers: WEBHOOK_NEWER_HEADER_DRAFT,
+      });
+      result.current.state.setWebhookHeaders(WEBHOOK_NEWER_HEADER_DRAFT);
+    });
+
+    await act(async () => {
+      resolveUpdate({
+        ...webhookProvider,
+        config: { ...webhookProvider.config, headers: { "X-Tenant": "submitted" } },
+      });
+      await savePromise;
+    });
+
+    expect(result.current.state.webhookHeaderDrafts[webhookProvider.id]).toBe(
+      WEBHOOK_NEWER_HEADER_DRAFT,
+    );
+    expect(result.current.state.providers[0].config.headers).toEqual({ "X-Tenant": "latest" });
   });
 });
 
@@ -212,7 +329,7 @@ describe("webhook provider save reconciliation", () => {
     await waitFor(() => expect(mocks.createNotificationProvider).toHaveBeenCalledOnce());
 
     act(() => {
-      result.current.state.setWebhookHeaders("X-Tenant: beta");
+      result.current.state.setWebhookHeaders(WEBHOOK_HEADER_DRAFT);
       result.current.state.setWebhookSecret("second-token");
     });
 
@@ -226,7 +343,7 @@ describe("webhook provider save reconciliation", () => {
     });
 
     expect(result.current.state.showWebhookForm).toBe(true);
-    expect(result.current.state.webhookHeaders).toBe("X-Tenant: beta");
+    expect(result.current.state.webhookHeaders).toBe(WEBHOOK_HEADER_DRAFT);
     expect(result.current.state.webhookSecret).toBe("second-token");
   });
 });

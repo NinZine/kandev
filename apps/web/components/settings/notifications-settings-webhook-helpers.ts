@@ -71,6 +71,7 @@ export function useWebhookFormState() {
   const [webhookName, setWebhookName] = useState("");
   const [webhookUrl, setWebhookUrl] = useState("");
   const [webhookHeaders, setWebhookHeaders] = useState("");
+  const [webhookHeaderDrafts, setWebhookHeaderDrafts] = useState<Record<string, string>>({});
   const [webhookSecret, setWebhookSecret] = useState("");
   const webhookFormIdentity = useRef<object>({});
   const webhookFormRef = useRef<{ open: boolean; mode: AppriseFormMode }>({
@@ -90,11 +91,60 @@ export function useWebhookFormState() {
     setWebhookUrl,
     webhookHeaders,
     setWebhookHeaders,
+    webhookHeaderDrafts,
+    setWebhookHeaderDrafts,
     webhookSecret,
     setWebhookSecret,
     webhookFormIdentity,
     webhookFormRef,
   };
+}
+
+type WebhookProviderPatch = { url?: string; headers?: string; secret?: string };
+
+function updateProvider(
+  state: NotificationsState,
+  providerId: string,
+  updater: (provider: NotificationProvider) => NotificationProvider,
+) {
+  state.setProviders((prev) =>
+    prev.map((provider) => (provider.id === providerId ? updater(provider) : provider)),
+  );
+}
+
+function applyWebhookProviderEdit(
+  state: NotificationsState,
+  providerId: string,
+  patch: WebhookProviderPatch,
+) {
+  if (patch.headers !== undefined) {
+    const baseline = state.baselineProviders.find((provider) => provider.id === providerId);
+    const baselineHeaders = webhookConfig(baseline?.config).headers;
+    state.setWebhookHeaderDrafts((drafts) => {
+      const next = { ...drafts };
+      if (
+        !webhookHeadersError(patch.headers!) &&
+        webhookHeadersSignature(patch.headers!) === webhookHeadersSignature(baselineHeaders)
+      ) {
+        delete next[providerId];
+      } else {
+        next[providerId] = patch.headers!;
+      }
+      return next;
+    });
+  }
+  updateProvider(state, providerId, (provider) => {
+    const current = webhookConfig(provider.config);
+    const url = patch.url ?? current.url;
+    const rawHeaders = patch.headers ?? state.webhookHeaderDrafts[providerId] ?? current.headers;
+    const headersError = webhookHeadersError(rawHeaders);
+    const secret = patch.secret ?? current.secret;
+    const config: NotificationProvider["config"] = { ...provider.config, url };
+    if (!headersError) config.headers = parseWebhookHeaders(rawHeaders);
+    if (secret) config.secret = secret;
+    else delete config.secret;
+    return { ...provider, config };
+  });
 }
 
 export function useWebhookProviderActions(state: NotificationsState) {
@@ -106,13 +156,15 @@ export function useWebhookProviderActions(state: NotificationsState) {
     webhookFormIdentity,
     webhookFormRef,
     activeWebhookId,
-    setProviders,
     setShowWebhookForm,
     setWebhookFormMode,
     setActiveWebhookId,
     setWebhookName,
     setWebhookUrl,
+    webhookHeaders,
     setWebhookHeaders,
+    webhookHeaderDrafts,
+    setWebhookHeaderDrafts,
     setWebhookSecret,
     setShowAppriseForm,
     setActiveAppriseId,
@@ -120,33 +172,11 @@ export function useWebhookProviderActions(state: NotificationsState) {
     setAppriseUrls,
   } = state;
 
-  const updateProvider = (
-    providerId: string,
-    updater: (provider: NotificationProvider) => NotificationProvider,
-  ) => {
-    setProviders((prev) =>
-      prev.map((provider) => (provider.id === providerId ? updater(provider) : provider)),
-    );
-  };
-
-  const handleWebhookEdit = (
-    providerId: string,
-    patch: { url?: string; headers?: string; secret?: string },
-  ) => {
-    updateProvider(providerId, (provider) => {
-      const current = webhookConfig(provider.config);
-      const url = patch.url ?? current.url;
-      const headers = parseWebhookHeaders(patch.headers ?? current.headers);
-      const secret = patch.secret ?? current.secret;
-      return {
-        ...provider,
-        config: { url, headers, ...(secret ? { secret } : {}) },
-      };
-    });
-  };
+  const handleWebhookEdit = (providerId: string, patch: WebhookProviderPatch) =>
+    applyWebhookProviderEdit(state, providerId, patch);
 
   const handleWebhookNameEdit = (providerId: string, value: string) => {
-    updateProvider(providerId, (provider) => ({ ...provider, name: value }));
+    updateProvider(state, providerId, (provider) => ({ ...provider, name: value }));
   };
 
   const openWebhookForm = (mode: AppriseFormMode, provider?: NotificationProvider) => {
@@ -166,12 +196,12 @@ export function useWebhookProviderActions(state: NotificationsState) {
     const config = webhookConfig(provider?.config);
     setWebhookName(provider?.name ?? "");
     setWebhookUrl(config.url);
-    setWebhookHeaders(config.headers);
+    setWebhookHeaders(provider ? (webhookHeaderDrafts[provider.id] ?? config.headers) : "");
     setWebhookSecret(config.secret);
     setShowWebhookForm(true);
   };
 
-  const closeWebhookForm = () => {
+  const clearWebhookForm = () => {
     webhookFormIdentity.current = {};
     webhookFormRef.current = { open: false, mode: "create" };
     setShowWebhookForm(false);
@@ -182,18 +212,28 @@ export function useWebhookProviderActions(state: NotificationsState) {
     setWebhookSecret("");
   };
 
+  const closeWebhookForm = () => {
+    if (webhookHeadersError(webhookHeaders)) return;
+    clearWebhookForm();
+  };
+
   const cancelWebhookForm = () => {
     if (webhookFormMode === "edit" && activeWebhookId) {
       const baseline = baselineProviders.find((provider) => provider.id === activeWebhookId);
       if (baseline) {
-        updateProvider(baseline.id, (provider) => ({
+        updateProvider(state, baseline.id, (provider) => ({
           ...provider,
           name: baseline.name,
           config: baseline.config,
         }));
       }
+      setWebhookHeaderDrafts((drafts) => {
+        const next = { ...drafts };
+        delete next[activeWebhookId];
+        return next;
+      });
     }
-    closeWebhookForm();
+    clearWebhookForm();
   };
 
   return {

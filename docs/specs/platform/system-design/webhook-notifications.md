@@ -20,6 +20,8 @@ Backend ownership:
 - `providers/webhook.go` validates configuration, builds the payload, and
   performs the outbound request.
 - `models` adds the provider type; `service.NewService` registers the provider.
+- `common/config` owns the private-network policy. `backendapp` passes the
+  typed startup value through the notification service to the webhook provider.
 - `controller` supplies the default provider name.
 - `dto.FromProvider` normalizes nil subscriptions to an empty list.
 
@@ -58,6 +60,11 @@ prevents one Save from carrying two independent create drafts. Draft identity
 and a snapshot of every submitted field let acknowledgement distinguish the
 submitted form from a replacement or a newer edit.
 
+Edit headers keep their raw text in a map keyed by provider ID. Invalid text
+stays visible when the user switches providers. **Done** keeps the edit form
+open while its headers are invalid, and Save rejects every invalid header draft.
+Cancel removes that provider's raw draft and restores its saved configuration.
+
 ## Payload and delivery
 
 Delivery uses `POST` with `Content-Type: application/json` and this versioned
@@ -75,8 +82,10 @@ payload:
 Configured headers are applied before sending. When a non-empty secret exists
 and no configured header already supplies `Authorization` (case-insensitive),
 the secret becomes `Authorization: Bearer <secret>`. The request has a 10-second
-timeout. Non-2xx responses fail with the status and a response body bounded to
-4 KiB; successful response bodies are drained through the same bound.
+timeout. A non-2xx response reports its status without its body. Transport
+errors use a generic message. This prevents URL path or query values and
+response text from entering service error logs. Response bodies are discarded
+up to 4 KiB before the connection closes.
 
 ## Configuration validation
 
@@ -103,10 +112,13 @@ The provider must not become an SSRF proxy for a provider owner.
 - The custom transport disables proxy use so the dial-time check sees the real
   destination.
 - Loopback, RFC1918, shared address space, link-local, multicast, unspecified,
-  documentation, benchmarking, and reserved ranges are rejected.
-- `KANDEV_WEBHOOK_ALLOW_PRIVATE_NETWORKS=true` is the explicit operator opt-in
-  for intentional private or local integrations. It applies to the whole
-  backend process and is documented in `docs/public/developer-tools.md`.
+  documentation, benchmarking, and reserved ranges are rejected. IPv6 NAT64
+  (`64:ff9b::/96`) and 6to4 (`2002::/16`) ranges are also rejected because they
+  can carry private IPv4 destinations.
+- The typed startup setting `notifications.webhookAllowPrivateNetworks` allows
+  intentional private or local integrations. Its default is `false`; YAML and
+  `KANDEV_WEBHOOK_ALLOW_PRIVATE_NETWORKS` use the standard startup source
+  precedence. The setting applies to the whole backend process.
 
 Redirects are handled by the HTTP client policy. Only same-origin redirects
 (same scheme and authority) are followed, up to ten hops. A cross-origin
@@ -121,8 +133,9 @@ provider with no subscriptions is serialized with `events: []`.
 Save acknowledgement compares the current draft against the submitted snapshot:
 URL, name, secret, and the normalized header signature. If any submitted field
 changed while the request was in flight, the form stays open and dirty. Only an
-unchanged draft is cleared. A per-form identity separates a replacement form
-with identical text from the submitted form.
+unchanged draft is cleared. Raw per-provider header drafts are acknowledged
+only when they still match the submitted text. A per-form identity separates a
+replacement form with identical text from the submitted form.
 
 ## Validation and documentation
 
@@ -133,9 +146,11 @@ Automated coverage lives in:
 - `service/webhook_provider_test.go` for registration and provider CRUD.
 - `notifications-settings-webhook-save.test.tsx` and
   `notifications-settings-actions.test.tsx` for save reconciliation and
-  mutual exclusion.
+  mutual exclusion, invalid raw header drafts, and provider switching.
 - `apps/web/e2e/tests/settings/webhook-provider-save-reload.spec.ts` for the
   desktop create, save, reload, and edit journey.
+- `apps/web/e2e/tests/settings/mobile-webhook-provider.spec.ts` for phone
+  creation, editing, removal, and touch target sizes.
 
 Operator-facing behavior is documented in `docs/public/developer-tools.md`.
 No ADR is required: the provider follows the existing provider boundary, and

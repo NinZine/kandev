@@ -53,9 +53,12 @@ function useNotificationPageSaveState(state: NotificationsState, soundIsDirty: b
   const creatingWebhook = state.showWebhookForm && state.webhookFormMode === "create";
   const missingAppriseUrl = creatingApprise && state.appriseUrls.trim().length === 0;
   const missingWebhookUrl = creatingWebhook && state.webhookUrl.trim().length === 0;
-  const headersError = state.showWebhookForm
-    ? webhookHeadersError(state.webhookHeaders)
-    : null;
+  const createHeadersError = creatingWebhook ? webhookHeadersError(state.webhookHeaders) : null;
+  const editHeadersError = Object.entries(state.webhookHeaderDrafts)
+    .filter(([providerId]) => !state.pendingDeletes.has(providerId))
+    .map(([, headers]) => webhookHeadersError(headers))
+    .find(Boolean);
+  const headersError = createHeadersError ?? editHeadersError ?? null;
   const canSave = !missingAppriseUrl && !missingWebhookUrl && !headersError;
   const revision = useMemo(
     () =>
@@ -63,6 +66,7 @@ function useNotificationPageSaveState(state: NotificationsState, soundIsDirty: b
         providers: state.providers,
         appriseEdits: state.appriseEdits,
         appriseNameEdits: state.appriseNameEdits,
+        webhookHeaderDrafts: state.webhookHeaderDrafts,
         pendingDeletes: [...state.pendingDeletes].sort(),
         createDraft: creatingApprise ? { name: state.appriseName, urls: state.appriseUrls } : null,
         webhookDraft: creatingWebhook
@@ -80,6 +84,7 @@ function useNotificationPageSaveState(state: NotificationsState, soundIsDirty: b
       state.providers,
       state.appriseEdits,
       state.appriseNameEdits,
+      state.webhookHeaderDrafts,
       state.pendingDeletes,
       state.appriseName,
       state.appriseUrls,
@@ -118,6 +123,7 @@ function WebhookSettingsSection({
       name={state.webhookName}
       url={state.webhookUrl}
       headers={state.webhookHeaders}
+      headerDrafts={state.webhookHeaderDrafts}
       secret={state.webhookSecret}
       showForm={state.showWebhookForm}
       appriseCreateFormOpen={state.showAppriseForm && state.appriseFormMode === "create"}

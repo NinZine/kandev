@@ -7,6 +7,7 @@ import { Input } from "@kandev/ui/input";
 import { Textarea } from "@kandev/ui/textarea";
 import { SettingsGroup } from "@/components/settings/settings-group";
 import { type AppriseFormMode } from "@/components/settings/notifications-settings-actions";
+import { webhookHeadersError } from "@/components/settings/notifications-settings-webhook-helpers";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@kandev/ui/tooltip";
 import type { NotificationProvider } from "@/lib/types/http";
 import { GENERAL_SETTINGS_TARGETS } from "@/lib/settings-discovery/catalog/preferences";
@@ -51,6 +52,7 @@ function WebhookProviderForm({
   showSubmit = true,
 }: WebhookProviderFormProps) {
   const { t } = useTranslation();
+  const headersInvalid = webhookHeadersError(headers) !== null;
   return (
     <div
       className="rounded-lg border border-dashed border-muted p-4 space-y-3"
@@ -76,7 +78,14 @@ function WebhookProviderForm({
         placeholder={t("settings:webhookHeadersPlaceholder")}
         rows={2}
         data-settings-dirty={headersIsDirty}
+        aria-invalid={headersInvalid}
+        aria-describedby={headersInvalid ? "webhook-headers-error" : undefined}
       />
+      {headersInvalid && (
+        <p id="webhook-headers-error" className="text-sm text-destructive" role="alert">
+          {t("settings:webhookHeadersInvalid")}
+        </p>
+      )}
       <Input
         type="password"
         value={secret}
@@ -136,7 +145,6 @@ function WebhookProviderActions({
       </TooltipProvider>
       <Button
         variant="outline"
-        size="sm"
         className="cursor-pointer"
         onClick={() => onOpenForm("edit", provider)}
       >
@@ -144,7 +152,6 @@ function WebhookProviderActions({
       </Button>
       <Button
         variant="outline"
-        size="sm"
         className="cursor-pointer"
         onClick={() => onDeleteProvider(provider.id)}
       >
@@ -190,6 +197,7 @@ function WebhookProviderCard({
   name,
   url,
   headers,
+  headerDrafts,
   secret,
   onNameChange,
   onUrlChange,
@@ -208,6 +216,7 @@ function WebhookProviderCard({
   name: string;
   url: string;
   headers: string;
+  headerDrafts: Record<string, string>;
   secret: string;
   onNameChange: (value: string) => void;
   onUrlChange: (value: string) => void;
@@ -231,7 +240,7 @@ function WebhookProviderCard({
   return (
     <div
       className="rounded-lg border border-muted p-4 space-y-3"
-      data-settings-dirty={nameIsDirty || configIsDirty}
+      data-settings-dirty={nameIsDirty || configIsDirty || headerDrafts[provider.id] !== undefined}
       data-settings-dirty-level="container"
     >
       {isEditing ? (
@@ -249,7 +258,7 @@ function WebhookProviderCard({
           onCancel={onCancelForm}
           nameIsDirty={nameIsDirty}
           urlIsDirty={currentValues.url !== baselineValues.url}
-          headersIsDirty={configIsDirty}
+          headersIsDirty={configIsDirty || headerDrafts[provider.id] !== undefined}
           secretIsDirty={currentValues.secret !== baselineValues.secret}
         />
       ) : (
@@ -272,6 +281,7 @@ export type WebhookProvidersSectionProps = {
   name: string;
   url: string;
   headers: string;
+  headerDrafts: Record<string, string>;
   secret: string;
   showForm: boolean;
   appriseCreateFormOpen: boolean;
@@ -300,6 +310,7 @@ export function WebhookProvidersSection(props: WebhookProvidersSectionProps) {
     name,
     url,
     headers,
+    headerDrafts,
     secret,
     showForm,
     appriseCreateFormOpen,
@@ -326,6 +337,7 @@ export function WebhookProvidersSection(props: WebhookProvidersSectionProps) {
           name={name}
           url={url}
           headers={headers}
+          headerDrafts={headerDrafts}
           secret={secret}
           onNameChange={(value) => props.onNameEdit(provider.id, value)}
           onUrlChange={(value) => props.onUrlEdit(provider.id, value)}

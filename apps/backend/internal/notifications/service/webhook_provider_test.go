@@ -12,14 +12,15 @@ import (
 	"go.uber.org/zap"
 )
 
-func newWebhookTestService(t *testing.T, repo *notificationTestRepository) *Service {
+func newWebhookTestService(t *testing.T, repo *notificationTestRepository, allowPrivateNetworks ...bool) *Service {
 	t.Helper()
 	t.Setenv(desktopNativeNotificationsEnv, "true")
 	log, err := logger.NewFromZap(zap.NewNop())
 	if err != nil {
 		t.Fatalf("create logger: %v", err)
 	}
-	return NewService(repo, nil, nil, log, nil)
+	allowPrivate := len(allowPrivateNetworks) > 0 && allowPrivateNetworks[0]
+	return NewService(repo, nil, nil, log, nil, allowPrivate)
 }
 
 func TestNewServiceRegistersWebhookProvider(t *testing.T) {
@@ -30,6 +31,23 @@ func TestNewServiceRegistersWebhookProvider(t *testing.T) {
 	}
 	if !svc.providers[models.ProviderTypeWebhook].Available() {
 		t.Fatal("webhook provider must be available without detection")
+	}
+}
+
+func TestNewServicePassesWebhookNetworkPolicy(t *testing.T) {
+	repo := &notificationTestRepository{subscriptions: map[string][]*models.Subscription{}}
+	service := newWebhookTestService(t, repo, true)
+	if err := service.providers[models.ProviderTypeWebhook].Validate(map[string]interface{}{
+		"url": "http://127.0.0.1/hook",
+	}); err != nil {
+		t.Fatalf("private destination with the configured opt-in: %v", err)
+	}
+
+	service = newWebhookTestService(t, repo)
+	if err := service.providers[models.ProviderTypeWebhook].Validate(map[string]interface{}{
+		"url": "http://127.0.0.1/hook",
+	}); err == nil {
+		t.Fatal("private destination must remain blocked without the configured opt-in")
 	}
 }
 
@@ -90,7 +108,6 @@ func TestWebhookProviderRejectsInvalidURL(t *testing.T) {
 }
 
 func TestWebhookProviderRejectsPrivateDestination(t *testing.T) {
-	t.Setenv("KANDEV_WEBHOOK_ALLOW_PRIVATE_NETWORKS", "false")
 	repo := &notificationTestRepository{subscriptions: map[string][]*models.Subscription{}}
 	svc := newWebhookTestService(t, repo)
 	if _, err := svc.CreateProvider(context.Background(), "user-1", "Metadata", models.ProviderTypeWebhook, map[string]interface{}{"url": "http://169.254.169.254/latest/meta-data"}, true, nil); err == nil {
@@ -99,7 +116,6 @@ func TestWebhookProviderRejectsPrivateDestination(t *testing.T) {
 }
 
 func TestWebhookProviderTestButtonSendsGenericSchema(t *testing.T) {
-	t.Setenv("KANDEV_WEBHOOK_ALLOW_PRIVATE_NETWORKS", "true")
 	type captured struct {
 		event   string
 		title   string
@@ -123,7 +139,7 @@ func TestWebhookProviderTestButtonSendsGenericSchema(t *testing.T) {
 	defer server.Close()
 
 	repo := &notificationTestRepository{subscriptions: map[string][]*models.Subscription{}}
-	svc := newWebhookTestService(t, repo)
+	svc := newWebhookTestService(t, repo, true)
 	ctx := context.Background()
 	provider, err := svc.CreateProvider(ctx, "user-1", "GoClaw", models.ProviderTypeWebhook, map[string]interface{}{"url": server.URL}, true, nil)
 	if err != nil {

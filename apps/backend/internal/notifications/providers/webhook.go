@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"net/netip"
 	"net/url"
-	"os"
 	"strings"
 	"time"
 
@@ -22,10 +21,6 @@ const (
 	webhookTimeout         = 10 * time.Second
 	webhookMaxResponseBody = 4 * 1024
 	webhookPayloadVersion  = "1.0"
-	// webhookAllowPrivateNetworksEnv lets an operator opt in to webhook
-	// destinations on private, loopback, or link-local networks. It is off by
-	// default so a provider owner cannot turn the backend into an SSRF proxy.
-	webhookAllowPrivateNetworksEnv = "KANDEV_WEBHOOK_ALLOW_PRIVATE_NETWORKS"
 )
 
 var (
@@ -50,10 +45,12 @@ var (
 		"240.0.0.0/4",
 		"::/128",
 		"::1/128",
+		"64:ff9b::/96",
 		"64:ff9b:1::/48",
 		"100::/64",
 		"2001::/23",
 		"2001:db8::/32",
+		"2002::/16",
 		"fc00::/7",
 		"fe80::/10",
 		"ff00::/8",
@@ -62,7 +59,8 @@ var (
 
 // WebhookProvider delivers notification events to a configured HTTP endpoint.
 type WebhookProvider struct {
-	client *http.Client
+	client               *http.Client
+	allowPrivateNetworks bool
 }
 
 type webhookConfig struct {
@@ -80,10 +78,13 @@ type webhookPayload struct {
 	Fields  map[string]string `json:"fields"`
 }
 
-// NewWebhookProvider builds a webhook provider whose client rejects
-// non-public destinations and cross-origin redirects by default.
-func NewWebhookProvider() *WebhookProvider {
-	return &WebhookProvider{client: newWebhookHTTPClient()}
+// NewWebhookProvider builds a webhook provider with an explicit destination
+// policy and a client that rejects cross-origin redirects.
+func NewWebhookProvider(allowPrivateNetworks bool) *WebhookProvider {
+	return &WebhookProvider{
+		client:               newWebhookHTTPClient(allowPrivateNetworks),
+		allowPrivateNetworks: allowPrivateNetworks,
+	}
 }
 
 // Available reports that webhook delivery needs no host-side dependency.
@@ -94,13 +95,13 @@ func (p *WebhookProvider) Available() bool {
 // Validate checks that config contains a usable URL, valid headers, and an
 // optional secret without contacting the destination.
 func (p *WebhookProvider) Validate(config map[string]interface{}) error {
-	_, err := parseWebhookConfig(config)
+	_, err := parseWebhookConfig(config, p.allowPrivateNetworks)
 	return err
 }
 
 // Send posts a notification payload to the configured webhook endpoint.
 func (p *WebhookProvider) Send(ctx context.Context, message Message) error {
-	config, err := parseWebhookConfig(message.Config)
+	config, err := parseWebhookConfig(message.Config, p.allowPrivateNetworks)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (p *WebhookProvider) Send(ctx context.Context, message Message) error {
 	defer cancel()
 	request, err := http.NewRequestWithContext(timeoutCtx, http.MethodPost, config.url, bytes.NewReader(body))
 	if err != nil {
-		return fmt.Errorf("webhook request: %w", err)
+		return errors.New("webhook request could not be created")
 	}
 	request.Header.Set("Content-Type", "application/json")
 	for name, value := range config.headers {
@@ -123,26 +124,27 @@ func (p *WebhookProvider) Send(ctx context.Context, message Message) error {
 	}
 	response, err := p.client.Do(request)
 	if err != nil {
-		return fmt.Errorf("webhook request failed: %w", err)
+		return errors.New("webhook request failed")
 	}
-	defer response.Body.Close()
+	defer func() {
+		_ = response.Body.Close()
+	}()
 	if response.StatusCode < http.StatusOK || response.StatusCode >= http.StatusMultipleChoices {
-		detail := readBoundedBody(response.Body)
-		if detail == "" {
-			return fmt.Errorf("webhook returned status %d", response.StatusCode)
-		}
-		return fmt.Errorf("webhook returned status %d: %s", response.StatusCode, detail)
+		_, _ = io.Copy(io.Discard, io.LimitReader(response.Body, webhookMaxResponseBody))
+		return fmt.Errorf("webhook returned status %d", response.StatusCode)
 	}
 	_, _ = io.Copy(io.Discard, io.LimitReader(response.Body, webhookMaxResponseBody))
 	return nil
 }
 
 // newWebhookHTTPClient builds the outbound client with SSRF and redirect guards.
-func newWebhookHTTPClient() *http.Client {
+func newWebhookHTTPClient(allowPrivateNetworks bool) *http.Client {
 	transport := http.DefaultTransport.(*http.Transport).Clone()
 	// A proxy would hide the real destination from the dial-time address check.
 	transport.Proxy = nil
-	transport.DialContext = webhookDialContext
+	transport.DialContext = func(ctx context.Context, network, address string) (net.Conn, error) {
+		return webhookDialContext(ctx, network, address, allowPrivateNetworks)
+	}
 	return &http.Client{
 		Timeout:       webhookTimeout,
 		Transport:     transport,
@@ -193,14 +195,14 @@ func webhookEffectivePort(value *url.URL) string {
 
 // webhookDialContext resolves and validates every connection at dial time so a
 // DNS answer cannot change between validation and delivery.
-func webhookDialContext(ctx context.Context, network, address string) (net.Conn, error) {
+func webhookDialContext(ctx context.Context, network, address string, allowPrivateNetworks bool) (net.Conn, error) {
 	dialer := &net.Dialer{}
-	if webhookPrivateNetworksAllowed() {
+	if allowPrivateNetworks {
 		return dialer.DialContext(ctx, network, address)
 	}
 	host, port, err := net.SplitHostPort(address)
 	if err != nil {
-		return nil, fmt.Errorf("webhook destination invalid: %w", err)
+		return nil, errors.New("webhook destination invalid")
 	}
 	if ip := net.ParseIP(host); ip != nil {
 		address, ok := netip.AddrFromSlice(ip)
@@ -211,7 +213,7 @@ func webhookDialContext(ctx context.Context, network, address string) (net.Conn,
 	}
 	resolved, err := net.DefaultResolver.LookupIPAddr(ctx, host)
 	if err != nil {
-		return nil, fmt.Errorf("webhook destination could not be resolved: %w", err)
+		return nil, errors.New("webhook destination could not be resolved")
 	}
 	if len(resolved) == 0 {
 		return nil, errors.New("webhook destination could not be resolved")
@@ -236,14 +238,6 @@ func webhookDialContext(ctx context.Context, network, address string) (net.Conn,
 		return nil, lastErr
 	}
 	return nil, errWebhookDestinationBlocked
-}
-
-// webhookPrivateNetworksAllowed reports the operator SSRF opt-in.
-func webhookPrivateNetworksAllowed() bool {
-	return strings.EqualFold(
-		strings.TrimSpace(os.Getenv(webhookAllowPrivateNetworksEnv)),
-		"true",
-	)
 }
 
 // isGlobalWebhookAddress rejects loopback, private, link-local, multicast,
@@ -302,7 +296,7 @@ func newWebhookPayload(message Message) webhookPayload {
 }
 
 // parseWebhookConfig validates and normalizes a stored webhook configuration.
-func parseWebhookConfig(config map[string]interface{}) (webhookConfig, error) {
+func parseWebhookConfig(config map[string]interface{}, allowPrivateNetworks bool) (webhookConfig, error) {
 	if config == nil {
 		return webhookConfig{}, fmt.Errorf("webhook config missing")
 	}
@@ -312,7 +306,7 @@ func parseWebhookConfig(config map[string]interface{}) (webhookConfig, error) {
 	}
 	parsed, err := url.Parse(strings.TrimSpace(rawURL))
 	if err != nil {
-		return webhookConfig{}, fmt.Errorf("webhook url invalid: %w", err)
+		return webhookConfig{}, errors.New("webhook url invalid")
 	}
 	if parsed.Scheme != "http" && parsed.Scheme != "https" {
 		return webhookConfig{}, fmt.Errorf("webhook url must use http or https")
@@ -320,7 +314,7 @@ func parseWebhookConfig(config map[string]interface{}) (webhookConfig, error) {
 	if parsed.Host == "" {
 		return webhookConfig{}, fmt.Errorf("webhook url invalid: missing host")
 	}
-	if !webhookPrivateNetworksAllowed() {
+	if !allowPrivateNetworks {
 		if err := validateWebhookDestination(parsed); err != nil {
 			return webhookConfig{}, err
 		}
@@ -426,13 +420,4 @@ func hasHeader(headers map[string]string, target string) bool {
 		}
 	}
 	return false
-}
-
-// readBoundedBody reads at most webhookMaxResponseBody bytes for error text.
-func readBoundedBody(body io.Reader) string {
-	data, err := io.ReadAll(io.LimitReader(body, webhookMaxResponseBody))
-	if err != nil {
-		return ""
-	}
-	return strings.TrimSpace(string(data))
 }

@@ -13,8 +13,8 @@ import (
 )
 
 func TestWebhookValidate(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "false")
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(false)
+	const whitespacePaddedHeaderName = " X-Tenant "
 	cases := []struct {
 		name    string
 		config  map[string]interface{}
@@ -53,7 +53,7 @@ func TestWebhookValidate(t *testing.T) {
 		{name: "invalid header name", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{"X Tenant": "acme"}}, wantErr: true},
 		{name: "invalid header value", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{"X-Tenant": "bad\nvalue"}}, wantErr: true},
 		{name: "duplicate header names", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{"X-Tenant": "acme", "x-tenant": "other"}}, wantErr: true},
-		{name: "duplicate header names with whitespace", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{" X-Tenant ": "acme", "x-tenant": "other"}}, wantErr: true},
+		{name: "duplicate header names with whitespace", config: map[string]interface{}{"url": "https://93.184.216.34", "headers": map[string]interface{}{whitespacePaddedHeaderName: "acme", "x-tenant": "other"}}, wantErr: true},
 		{name: "non string secret", config: map[string]interface{}{"url": "https://93.184.216.34", "secret": 1}, wantErr: true},
 	}
 	for _, testCase := range cases {
@@ -70,8 +70,7 @@ func TestWebhookValidate(t *testing.T) {
 }
 
 func TestWebhookValidateAllowsPrivateDestinationWhenOptedIn(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(true)
 	for _, rawURL := range []string{
 		"http://127.0.0.1/hook",
 		"http://10.1.2.3/hook",
@@ -84,8 +83,19 @@ func TestWebhookValidateAllowsPrivateDestinationWhenOptedIn(t *testing.T) {
 	}
 }
 
+func TestWebhookValidateRejectsIPv6TransitionDestinations(t *testing.T) {
+	provider := NewWebhookProvider(false)
+	for _, rawURL := range []string{
+		"http://[64:ff9b::a00:1]/hook",
+		"http://[2002:a00:1::1]/hook",
+	} {
+		if err := provider.Validate(map[string]interface{}{"url": rawURL}); err == nil {
+			t.Errorf("validate %s: expected embedded private IPv4 destination to be blocked", rawURL)
+		}
+	}
+}
+
 func TestWebhookSendRejectsPrivateDestinationAtDialTime(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "false")
 	hits := 0
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		hits++
@@ -93,7 +103,7 @@ func TestWebhookSendRejectsPrivateDestinationAtDialTime(t *testing.T) {
 	}))
 	defer server.Close()
 
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(false)
 	err := provider.Send(context.Background(), Message{
 		EventType: "session.turn_finished",
 		Config:    map[string]interface{}{"url": server.URL},
@@ -110,7 +120,6 @@ func TestWebhookSendRejectsPrivateDestinationAtDialTime(t *testing.T) {
 }
 
 func TestWebhookSendPayloadHeadersAndSecret(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
 	type captured struct {
 		headers http.Header
 		body    webhookPayload
@@ -126,7 +135,7 @@ func TestWebhookSendPayloadHeadersAndSecret(t *testing.T) {
 	}))
 	defer server.Close()
 
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(true)
 	err := provider.Send(context.Background(), Message{
 		EventType:     "session.turn_finished",
 		Title:         "Agent turn finished",
@@ -178,7 +187,6 @@ func TestWebhookSendPayloadHeadersAndSecret(t *testing.T) {
 }
 
 func TestWebhookSendOmitsEmptyFields(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
 	received := make(chan webhookPayload, 1)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var payload webhookPayload
@@ -190,7 +198,7 @@ func TestWebhookSendOmitsEmptyFields(t *testing.T) {
 	}))
 	defer server.Close()
 
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(true)
 	if err := provider.Send(context.Background(), Message{
 		EventType: "session.clarification_requested",
 		Title:     "Test notification",
@@ -206,7 +214,6 @@ func TestWebhookSendOmitsEmptyFields(t *testing.T) {
 }
 
 func TestWebhookSendHonorsConfiguredAuthorizationHeader(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
 	received := make(chan http.Header, 1)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		received <- r.Header.Clone()
@@ -214,7 +221,7 @@ func TestWebhookSendHonorsConfiguredAuthorizationHeader(t *testing.T) {
 	}))
 	defer server.Close()
 
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(true)
 	if err := provider.Send(context.Background(), Message{
 		EventType: "session.turn_finished",
 		Config: map[string]interface{}{
@@ -230,8 +237,7 @@ func TestWebhookSendHonorsConfiguredAuthorizationHeader(t *testing.T) {
 	}
 }
 
-func TestWebhookSendNon2xxReturnsBoundedBody(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
+func TestWebhookSendNon2xxReturnsStatusWithoutBody(t *testing.T) {
 	longBody := strings.Repeat("x", webhookMaxResponseBody*2)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadGateway)
@@ -239,7 +245,7 @@ func TestWebhookSendNon2xxReturnsBoundedBody(t *testing.T) {
 	}))
 	defer server.Close()
 
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(true)
 	err := provider.Send(context.Background(), Message{
 		EventType: "session.turn_finished",
 		Config:    map[string]interface{}{"url": server.URL},
@@ -251,20 +257,64 @@ func TestWebhookSendNon2xxReturnsBoundedBody(t *testing.T) {
 	if !strings.Contains(message, "502") {
 		t.Fatalf("error = %q", message)
 	}
-	if len(message) > webhookMaxResponseBody+128 {
-		t.Fatalf("error body not bounded: %d bytes", len(message))
+	if message != "webhook returned status 502" {
+		t.Fatalf("error = %q, want only the status code", message)
+	}
+}
+
+func TestWebhookSendDoesNotLeakCredentialsInTransportErrors(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(http.ResponseWriter, *http.Request) {}))
+	requestURL := server.URL + "/hook/path-credential?token=query-credential"
+	server.Close()
+
+	err := NewWebhookProvider(true).Send(context.Background(), Message{
+		EventType: "session.turn_finished",
+		Config:    map[string]interface{}{"url": requestURL},
+	})
+	if err == nil {
+		t.Fatal("expected transport error")
+	}
+	for _, credential := range []string{"path-credential", "query-credential", requestURL} {
+		if strings.Contains(err.Error(), credential) {
+			t.Fatalf("transport error %q contains credential-bearing URL part %q", err, credential)
+		}
+	}
+}
+
+func TestWebhookSendDoesNotLeakResponseBodies(t *testing.T) {
+	const echoedCredential = "echoed-webhook-credential"
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusBadGateway)
+		_, _ = w.Write([]byte(r.Header.Get("Authorization")))
+	}))
+	defer server.Close()
+
+	err := NewWebhookProvider(true).Send(context.Background(), Message{
+		EventType: "session.turn_finished",
+		Config: map[string]interface{}{
+			"url":    server.URL,
+			"secret": echoedCredential,
+		},
+	})
+	if err == nil {
+		t.Fatal("expected non-2xx error")
+	}
+	if strings.Contains(err.Error(), echoedCredential) {
+		t.Fatalf("webhook error %q contains response body", err)
+	}
+	if !strings.Contains(err.Error(), "502") {
+		t.Fatalf("webhook error = %q, want response status", err)
 	}
 }
 
 func TestWebhookSendTimesOut(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(500 * time.Millisecond)
 		w.WriteHeader(http.StatusOK)
 	}))
 	defer server.Close()
 
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(true)
 	provider.client = &http.Client{Timeout: 20 * time.Millisecond}
 	if err := provider.Send(context.Background(), Message{
 		EventType: "session.turn_finished",
@@ -275,7 +325,6 @@ func TestWebhookSendTimesOut(t *testing.T) {
 }
 
 func TestWebhookSendRejectsCrossOriginRedirect(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
 	targetHits := 0
 	target := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		targetHits++
@@ -290,7 +339,7 @@ func TestWebhookSendRejectsCrossOriginRedirect(t *testing.T) {
 	}))
 	defer redirect.Close()
 
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(true)
 	err := provider.Send(context.Background(), Message{
 		EventType: "session.turn_finished",
 		Config: map[string]interface{}{
@@ -301,8 +350,8 @@ func TestWebhookSendRejectsCrossOriginRedirect(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected cross-origin redirect rejection")
 	}
-	if !strings.Contains(err.Error(), "different origin") {
-		t.Fatalf("error = %q", err)
+	if err.Error() != "webhook request failed" {
+		t.Fatalf("error = %q, want a sanitized request error", err)
 	}
 	if targetHits != 0 {
 		t.Fatalf("redirect target received %d requests, want 0", targetHits)
@@ -310,7 +359,6 @@ func TestWebhookSendRejectsCrossOriginRedirect(t *testing.T) {
 }
 
 func TestWebhookSendFollowsSameOriginRedirect(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
 	received := make(chan http.Header, 1)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/redirect" {
@@ -322,7 +370,7 @@ func TestWebhookSendFollowsSameOriginRedirect(t *testing.T) {
 	}))
 	defer server.Close()
 
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(true)
 	if err := provider.Send(context.Background(), Message{
 		EventType: "session.turn_finished",
 		Config: map[string]interface{}{
@@ -338,15 +386,14 @@ func TestWebhookSendFollowsSameOriginRedirect(t *testing.T) {
 }
 
 func TestWebhookSendRejectsInvalidConfig(t *testing.T) {
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(false)
 	if err := provider.Send(context.Background(), Message{}); err == nil {
 		t.Fatal("expected invalid config error")
 	}
 }
 
 func TestWebhookValidateAcceptsStringMapHeaders(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "false")
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(false)
 	if err := provider.Validate(map[string]interface{}{
 		"url":     "https://93.184.216.34",
 		"headers": map[string]string{"X-Tenant": "acme"},
@@ -362,15 +409,13 @@ func TestWebhookValidateAcceptsStringMapHeaders(t *testing.T) {
 }
 
 func TestWebhookDialContextRejectsLoopbackHostname(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "false")
-	_, err := webhookDialContext(context.Background(), "tcp", "localhost:80")
+	_, err := webhookDialContext(context.Background(), "tcp", "localhost:80", false)
 	if !errors.Is(err, errWebhookDestinationBlocked) {
 		t.Fatalf("err = %v, want destination blocked", err)
 	}
 }
 
 func TestWebhookSendRejectsCrossPortRedirect(t *testing.T) {
-	t.Setenv(webhookAllowPrivateNetworksEnv, "true")
 	targetHits := 0
 	target := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		targetHits++
@@ -382,7 +427,7 @@ func TestWebhookSendRejectsCrossPortRedirect(t *testing.T) {
 	}))
 	defer redirect.Close()
 
-	provider := NewWebhookProvider()
+	provider := NewWebhookProvider(true)
 	err := provider.Send(context.Background(), Message{
 		EventType: "session.turn_finished",
 		Config:    map[string]interface{}{"url": redirect.URL},
