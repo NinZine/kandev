@@ -491,12 +491,8 @@ describe("webhook provider drafts", () => {
     expect(webhookHeadersError("X Tenant: acme")).toBe(INVALID_WEBHOOK_HEADERS);
     expect(webhookHeadersError("X@Tenant: acme")).toBe(INVALID_WEBHOOK_HEADERS);
     expect(webhookHeadersError("X-Tenant acme")).toBe(INVALID_WEBHOOK_HEADERS);
-    expect(webhookHeadersError("X-Tenant: acme\nx-tenant: other")).toBe(
-      INVALID_WEBHOOK_HEADERS,
-    );
-    expect(webhookHeadersError(" X-Tenant : acme\nx-tenant: other")).toBe(
-      INVALID_WEBHOOK_HEADERS,
-    );
+    expect(webhookHeadersError("X-Tenant: acme\nx-tenant: other")).toBe(INVALID_WEBHOOK_HEADERS);
+    expect(webhookHeadersError(" X-Tenant : acme\nx-tenant: other")).toBe(INVALID_WEBHOOK_HEADERS);
     expect(webhookHeadersError("X-Tenant: ac\rme")).toBe(INVALID_WEBHOOK_HEADERS);
   });
 
